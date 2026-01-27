@@ -72,36 +72,36 @@ def linear_growth(start_year, start_value, end_year, end_value, target_years):
 #         values.append(round(val, 3))
 #     return values
 
-# # General LINEAR Function with CONTROL POINT:
-# def linear_with_middle_point(start_year, start_value, control_year, control_value, end_year, end_value, target_years):
-#     """
-#     Piecewise linear interpolation with one control point:
-#     - start_year → control_year
-#     - control_year → end_year
+# General LINEAR Function with CONTROL POINT:
+def linear_with_middle_point(start_year, start_value, control_year, control_value, end_year, end_value, target_years):
+    """
+    Piecewise linear interpolation with one control point:
+    - start_year → control_year
+    - control_year → end_year
 
-#     Useful to model changes with an intermediate value at a specific year.
+    Useful to model changes with an intermediate value at a specific year.
 
-#     Notes / edge cases:
-#     - If control_year == start_year and control_value != start_value, the first segment is undefined (division by zero).
-#       In that case, the function keeps start_value up to control_year.
-#     - If end_year == control_year and end_value != control_value, the second segment is undefined.
-#       In that case, the function keeps control_value from control_year onward.
-#     - For flat segments (same values), the function returns the constant value.
-#     """
-#     values = []
-#     for y in target_years:
-#         if y <= control_year:
-#             if control_value == start_value:
-#                 val = start_value
-#             else:
-#                 val = start_value + (control_value - start_value) * (y - start_year) / (control_year - start_year)
-#         else:
-#             if control_value == end_value:
-#                 val = end_value
-#             else:
-#                 val = control_value + (end_value - control_value) * (y - control_year) / (end_year - control_year)
-#         values.append(round(val, 3))
-#     return values
+    Notes / edge cases:
+    - If control_year == start_year and control_value != start_value, the first segment is undefined (division by zero).
+      In that case, the function keeps start_value up to control_year.
+    - If end_year == control_year and end_value != control_value, the second segment is undefined.
+      In that case, the function keeps control_value from control_year onward.
+    - For flat segments (same values), the function returns the constant value.
+    """
+    values = []
+    for y in target_years:
+        if y <= control_year:
+            if control_value == start_value:
+                val = start_value
+            else:
+                val = start_value + (control_value - start_value) * (y - start_year) / (control_year - start_year)
+        else:
+            if control_value == end_value:
+                val = end_value
+            else:
+                val = control_value + (end_value - control_value) * (y - control_year) / (end_year - control_year)
+        values.append(round(val, 3))
+    return values
 
 # def curved_with_middle(start_year, start_value, control_year, control_value, end_year, end_value, target_years, shape_start=1.0, shape_end=1.0, smooth_power=5):
 #     """
