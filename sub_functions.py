@@ -103,120 +103,166 @@ def linear_with_middle_point(start_year, start_value, control_year, control_valu
         values.append(round(val, 3))
     return values
 
-# def curved_with_middle(start_year, start_value, control_year, control_value, end_year, end_value, target_years, shape_start=1.0, shape_end=1.0, smooth_power=5):
-#     """
-#     Returns a smooth curve between three points: start, control, and end.
+def curved_with_middle(start_year, start_value, control_year, control_value, end_year, end_value, target_years, shape_start=1.0, shape_end=1.0, smooth_power=5):
+    """
+    Returns a smooth curve between three points: start, control, and end.
 
-#     The curve is made of two segments (start→control and control→end), each shaped 
-#     by a curvature factor:
-#     - shape_start and shape_end ∈ [0, 1], where 0 = linear and 1 = fully curved.
+    The curve is made of two segments (start→control and control→end), each shaped 
+    by a curvature factor:
+    - shape_start and shape_end ∈ [0, 1], where 0 = linear and 1 = fully curved.
 
-#     The 'smooth_power' parameter controls the strength of curvature when shape = 1.
-#     Higher values produce more pronounced acceleration or deceleration near the control point.
+    The 'smooth_power' parameter controls the strength of curvature when shape = 1.
+    Higher values produce more pronounced acceleration or deceleration near the control point.
 
-#     Useful for modeling soft transitions that are not purely linear.
-#     """
-#     def normalize(x, a, b):
-#         return (x - a) / (b - a)
+    Useful for modeling soft transitions that are not purely linear.
+    """
+    def normalize(x, a, b):
+        return (x - a) / (b - a)
 
-#     p1 = 1 + shape_start * (smooth_power - 1)
-#     p2 = 1 + shape_end   * (smooth_power - 1)
+    p1 = 1 + shape_start * (smooth_power - 1)
+    p2 = 1 + shape_end   * (smooth_power - 1)
     
-#     result = []
-#     for y in target_years:
-#         if y <= control_year:
-#             t = normalize(y, start_year, control_year)
-#             v = start_value + (control_value - start_value) * (t ** p1)
-#         else:
-#             u = normalize(y, control_year, end_year)
-#             v = control_value + (end_value - control_value) * (1 - (1 - u) ** p2)
-#         result.append(round(v, 3))
-#     return result
+    result = []
+    for y in target_years:
+        if y <= control_year:
+            t = normalize(y, start_year, control_year)
+            v = start_value + (control_value - start_value) * (t ** p1)
+        else:
+            u = normalize(y, control_year, end_year)
+            v = control_value + (end_value - control_value) * (1 - (1 - u) ** p2)
+        result.append(round(v, 3))
+    return result
     
 
-# # S-CURVE without a CONTROL POINT:
-# def s_curve_growth(start_year, start_value, end_year, end_value, target_years, slope_factor):
-#     """
-#     Returns a smooth S-shaped curve if we give the start and the end value.
+# S-CURVE without a CONTROL POINT:
+def s_curve_growth(start_year, start_value, end_year, end_value, target_years, slope_factor):
+    """
+    Returns a smooth S-shaped curve if we give the start and the end value.
 
-#     The curve uses a logistic function centered between start and end years,
-#     scaled to match the given start and end values.
+    The curve uses a logistic function centered between start and end years,
+    scaled to match the given start and end values.
 
-#     - 'slope_factor' controls how steep the S-curve is (The transition is faster the higher the number.).
+    - 'slope_factor' controls how steep the S-curve is (The transition is faster the higher the number.).
 
-#     Useful for modeling progressive adoption, saturation, or demand evolution.
-#     """
-#     # Normalization of the abscissa
-#     def normalize(y):
-#         return (y - start_year) / (end_year - start_year)
-#     y0, y1 = start_value, end_value
-#     c = 0.5  # always centered in the temporal middle
+    Useful for modeling progressive adoption, saturation, or demand evolution.
+    """
+    # Normalization of the abscissa
+    def normalize(y):
+        return (y - start_year) / (end_year - start_year)
+    y0, y1 = start_value, end_value
+    c = 0.5  # always centered in the temporal middle
     
-#     # Raw logistic
-#     def f_raw(x, k):
-#         return 1 / (1 + np.exp(-k * (x - c)))
+    # Raw logistic
+    def f_raw(x, k):
+        return 1 / (1 + np.exp(-k * (x - c)))
 
-#     # Normalized logistic to exactly match endpoints y0 and y1
-#     def f_norm(x, k):
-#         f0 = f_raw(0, k)
-#         f1 = f_raw(1, k)
-#         return y0 + (y1 - y0) * (f_raw(x, k) - f0) / (f1 - f0)
+    # Normalized logistic to exactly match endpoints y0 and y1
+    def f_norm(x, k):
+        f0 = f_raw(0, k)
+        f1 = f_raw(1, k)
+        return y0 + (y1 - y0) * (f_raw(x, k) - f0) / (f1 - f0)
     
-#     # Determine k
-#     k0 = 10.0 * slope_factor
+    # Determine k
+    k0 = 10.0 * slope_factor
 
-#     # Generates the curve for each target year
-#     x_targets = [normalize(y) for y in target_years]
-#     return [round(float(f_norm(x, k0)), 3) for x in x_targets]
+    # Generates the curve for each target year
+    x_targets = [normalize(y) for y in target_years]
+    return [round(float(f_norm(x, k0)), 3) for x in x_targets]
 
-# # S-CURVE that must pass through the CONTROL POINT:
-# def s_curve_with_control_value(start_year, start_value, control_year, control_value, end_year, end_value, target_years, slope_factor):
-#     """
-#     Returns a smooth S-shaped curve passing through a fixed control point.
+# S-CURVE that must pass through the CONTROL POINT:
+def s_curve_with_control_value(start_year, start_value, control_year, control_value, end_year, end_value, target_years, slope_factor):
+    """
+    Returns a smooth S-shaped curve passing through a fixed control point.
 
-#     The curve uses a logistic function centered between start and end years,
-#     scaled to match the given start and end values.
+    The curve uses a logistic function centered between start and end years,
+    scaled to match the given start and end values.
 
-#     If the control point is not centered, the function automatically adjusts the slope 
-#     (steepness) so that the curve still passes through it.
+    If the control point is not centered, the function automatically adjusts the slope 
+    (steepness) so that the curve still passes through it.
 
-#     - 'slope_factor' controls how steep the S-curve is (The transition is faster the higher the number).
+    - 'slope_factor' controls how steep the S-curve is (The transition is faster the higher the number).
 
-#     Useful for modeling progressive adoption, saturation, or demand evolution.
-#     """
-#     # Normalization of the abscissa
-#     def normalize(y):
-#         return (y - start_year) / (end_year - start_year)
-#     x_ctrl = normalize(control_year)
-#     y0, y1, y2 = start_value, control_value, end_value
-#     c = 0.5  # always centered in the temporal middle
+    Useful for modeling progressive adoption, saturation, or demand evolution.
+    """
+    # Normalization of the abscissa
+    def normalize(y):
+        return (y - start_year) / (end_year - start_year)
+    x_ctrl = normalize(control_year)
+    y0, y1, y2 = start_value, control_value, end_value
+    c = 0.5  # always centered in the temporal middle
     
-#     # Raw logistic
-#     def f_raw(x, k):
-#         return 1 / (1 + np.exp(-k * (x - c)))
+    # Raw logistic
+    def f_raw(x, k):
+        return 1 / (1 + np.exp(-k * (x - c)))
 
-#     # Normalized logistic to exactly match endpoints y0 and y2
-#     def f_norm(x, k):
-#         f0 = f_raw(0, k)
-#         f1 = f_raw(1, k)
-#         return y0 + (y2 - y0) * (f_raw(x, k) - f0) / (f1 - f0)
+    # Normalized logistic to exactly match endpoints y0 and y2
+    def f_norm(x, k):
+        f0 = f_raw(0, k)
+        f1 = f_raw(1, k)
+        return y0 + (y2 - y0) * (f_raw(x, k) - f0) / (f1 - f0)
     
-#     # Determine k
-#     mid_time = (start_year + end_year) / 2
-#     if control_year == mid_time:
-#         # Case 1: the control point is exactly in the middle
-#         k0 = 10.0 * slope_factor
-#     else:
-#         # Case 2: find k to pass through the control point.
-#         def objective(k):
-#             return f_norm(x_ctrl, k) - y1
-#         k_guess = 10.0 * slope_factor * (1 if y1 > (y0 + y2)/2 else -1)
-#         k0 = fsolve(objective, k_guess)[0]
+    # Determine k
+    mid_time = (start_year + end_year) / 2
+    if control_year == mid_time:
+        # Case 1: the control point is exactly in the middle
+        k0 = 10.0 * slope_factor
+    else:
+        # Case 2: find k to pass through the control point.
+        def objective(k):
+            return f_norm(x_ctrl, k) - y1
+        k_guess = 10.0 * slope_factor * (1 if y1 > (y0 + y2)/2 else -1)
+        k0 = fsolve(objective, k_guess)[0]
     
-#     # Generates the curve for each target year
-#     x_targets = [normalize(y) for y in target_years]
-#     return [round(float(f_norm(x, k0)), 3) for x in x_targets]
+    # Generates the curve for each target year
+    x_targets = [normalize(y) for y in target_years]
+    return [round(float(f_norm(x, k0)), 3) for x in x_targets]
 
+# BELL-CURVE that must pass through the CONTROL POINT:
+def b_curve_with_control_value(start_year, start_value, control_year, control_value, end_year, end_value, target_years, slope_factor):
+    """
+    Returns a bell-shaped curve that EXACTLY passes through:
+    (start_year, start_value), (control_year, control_value), and (end_year, end_value).
+    
+    - 'slope_factor': Controls the width. 1.0 is standard, >1.0 is narrow, <1.0 is wide.
+    """
+    x_s, y_s = float(start_year), float(start_value)
+    x_c, y_c = float(control_year), float(control_value)
+    x_e, y_e = float(end_year), float(end_value)
+    
+    total_range = x_e - x_s
+    # k controls the "tightness" of the bell.
+    # We normalize by total_range so slope_factor feels consistent regardless of the year span.
+    k = (slope_factor ** 2) * 8.0 / (total_range ** 2)
+
+    def f_raw_gaussian(x):
+        return np.exp(-k * (x - x_c)**2)
+
+    # 1. Create a linear baseline between start and end values
+    def L(x):
+        return y_s + (y_e - y_s) * (x - x_s) / total_range
+
+    # 2. Create a correction for the Gaussian so it equals 0 at x_s and x_e
+    def S(x):
+        g_x = f_raw_gaussian(x)
+        g_s = f_raw_gaussian(x_s)
+        g_e = f_raw_gaussian(x_e)
+        # Subtract the line connecting the Gaussian's own start/end values
+        gaussian_trend = g_s + (g_e - g_s) * (x - x_s) / total_range
+        return g_x - gaussian_trend
+
+    # 3. Calculate scaling factor to ensure the peak hits control_value
+    s_c = S(x_c)
+    l_c = L(x_c)
+    
+    # If control_year is at the very edge, avoid division by zero
+    if abs(s_c) < 1e-10:
+        return [round(float(L(y)), 3) for y in target_years]
+
+    def get_val(x):
+        # Result = Linear Trend + (Distance needed to hit Peak * Normalized Shape)
+        return L(x) + (y_c - l_c) * (S(x) / s_c)
+
+    return [round(float(get_val(y)), 3) for y in target_years]
 
 # # ACCELERATED GROWTH 
 # def accelerated_growth(start_year, start_value, end_year, end_value, target_years, factor, mode="ease_in"):
