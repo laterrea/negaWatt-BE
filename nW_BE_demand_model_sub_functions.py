@@ -30,12 +30,18 @@ def highlight_lines(row):
     return [''] * len(row)
 
 def highlight_mode_separator(row):
-    if row['Mode'] != '':
-        return ['border-top:2px solid black'] * len(row)
+    if 'Mode' in row:
+        if row['Mode'] != '':
+            return ['border-top:2px solid black'] * len(row)
+    if 'Sector' in row:
+        if row['Sector'] != '':
+            return ['border-top:2px solid black'] * len(row)
     return [''] * len(row)
 
 def bold_mode(cell, mode_cell, col):
     if mode_cell != '' and col == 'Mode':
+        return 'font-weight:bold'
+    elif mode_cell != '' and col == 'Sector':
         return 'font-weight:bold'
     return ''
 
@@ -53,24 +59,24 @@ def linear_growth(start_year, start_value, end_year, end_value, target_years):
     return [round(start_value + (end_value - start_value) * (y - start_year) / (end_year - start_year), 3)
             for y in target_years]
 
-# # General Constant Function with CONTROL POINT:
-# def constant_with_control_point(start_year, start_value, control_year, control_value, target_years):
-#     """
-#     Returns values with piecewise constant growth: 
-#     from start to control point, then from control to end.
+# General Constant Function with CONTROL POINT:
+def constant_with_control_point(start_year, start_value, control_year, control_value, target_years):
+    """
+    Returns values with piecewise constant growth: 
+    from start to control point, then from control to end.
 
-#     Useful to model changes with an intermediate value at a specific year.
+    Useful to model changes with an intermediate value at a specific year.
 
-#     Example: control point at 2030 with a plateau.
-#     """
-#     values = []
-#     for y in target_years:
-#         if y < control_year:
-#             val = start_value 
-#         else:
-#             val = control_value 
-#         values.append(round(val, 3))
-#     return values
+    Example: control point at 2030 with a plateau.
+    """
+    values = []
+    for y in target_years:
+        if y < control_year:
+            val = start_value 
+        else:
+            val = control_value 
+        values.append(round(val, 3))
+    return values
 
 # General LINEAR Function with CONTROL POINT:
 def linear_with_middle_point(start_year, start_value, control_year, control_value, end_year, end_value, target_years):
@@ -264,55 +270,55 @@ def b_curve_with_control_value(start_year, start_value, control_year, control_va
 
     return [round(float(get_val(y)), 3) for y in target_years]
 
-# # ACCELERATED GROWTH 
-# def accelerated_growth(start_year, start_value, end_year, end_value, target_years, factor, mode="ease_in"):
-#     """
-#     Returns a curved growth or decay between start and end values with an accelerating shape.
+# ACCELERATED GROWTH 
+def accelerated_growth(start_year, start_value, end_year, end_value, target_years, factor, mode="ease_in"):
+    """
+    Returns a curved growth or decay between start and end values with an accelerating shape.
 
-#     The curve is based on a power easing function:
-#       - 'factor' controls how strong the acceleration is (The transition is faster the higher the number).
-#       - 'mode' defines the shape:
-#           * "ease_in"     → slow start, faster finish
-#           * "ease_out"    → fast start, slower finish
-#           * "ease_in_out" → slow at start and end, faster in the middle
+    The curve is based on a power easing function:
+      - 'factor' controls how strong the acceleration is (The transition is faster the higher the number).
+      - 'mode' defines the shape:
+          * "ease_in"     → slow start, faster finish
+          * "ease_out"    → fast start, slower finish
+          * "ease_in_out" → slow at start and end, faster in the middle
 
-#     Useful for scenarios such as technology uptake, emissions reduction,
-#     or gradual policy impacts.
-#     """
-#     import numpy as np
+    Useful for scenarios such as technology uptake, emissions reduction,
+    or gradual policy impacts.
+    """
+    import numpy as np
 
-#     t = (np.array(target_years, dtype=float) - float(start_year)) / (float(end_year) - float(start_year))
-#     a = max(1.0, float(factor))  # sécurité minimale
+    t = (np.array(target_years, dtype=float) - float(start_year)) / (float(end_year) - float(start_year))
+    a = max(1.0, float(factor))  # sécurité minimale
 
-#     if mode == "ease_in":
-#         s = t**a
-#     elif mode == "ease_out":
-#         s = 1.0 - (1.0 - t)**a
-#     elif mode == "ease_in_out":
-#         # in/out symétrique (généralisation lisse)
-#         left  = 0.5 * (2.0 * t)**a
-#         right = 1.0 - 0.5 * (2.0 * (1.0 - t))**a
-#         s = np.where(t < 0.5, left, right)
-#     else:
-#         raise ValueError('mode must be "ease_in", "ease_out", or "ease_in_out"')
+    if mode == "ease_in":
+        s = t**a
+    elif mode == "ease_out":
+        s = 1.0 - (1.0 - t)**a
+    elif mode == "ease_in_out":
+        # in/out symétrique (généralisation lisse)
+        left  = 0.5 * (2.0 * t)**a
+        right = 1.0 - 0.5 * (2.0 * (1.0 - t))**a
+        s = np.where(t < 0.5, left, right)
+    else:
+        raise ValueError('mode must be "ease_in", "ease_out", or "ease_in_out"')
 
-#     vals = float(start_value) + s * (float(end_value) - float(start_value))
-#     return [round(float(v), 3) for v in vals]
+    vals = float(start_value) + s * (float(end_value) - float(start_value))
+    return [round(float(v), 3) for v in vals]
 
-# # LINEAR AND THEN ACCELERATED GROWTH 
-# def strong_acceleration_growth(start_year, start_value, end_year, end_value, target_years, power=3):
-#     """
-#     Returns a growth or decay curve with very little change at the start, and most of the change happening near the end.
+# LINEAR AND THEN ACCELERATED GROWTH 
+def strong_acceleration_growth(start_year, start_value, end_year, end_value, target_years, power=3):
+    """
+    Returns a growth or decay curve with very little change at the start, and most of the change happening near the end.
 
-#     - 'power' >= 1 controls how late the acceleration happens (The transition is faster the higher the number) 
+    - 'power' >= 1 controls how late the acceleration happens (The transition is faster the higher the number) 
 
-#     Useful when we want a trajectory almost flat earlu on, 
-#     followed by a strong acceleration close to the horizon year.
-#     """
-#     u = np.array([(y - start_year) / (end_year - start_year) for y in target_years])
+    Useful when we want a trajectory almost flat earlu on, 
+    followed by a strong acceleration close to the horizon year.
+    """
+    u = np.array([(y - start_year) / (end_year - start_year) for y in target_years])
 
-#     vals = float(start_value) + (u**power) * (float(end_value) - float(start_value))
-#     return [round(float(v), 3) for v in vals]
+    vals = float(start_value) + (u**power) * (float(end_value) - float(start_value))
+    return [round(float(v), 3) for v in vals]
 
 
 # # S-CURVE (logistic function centered on midpoint)
