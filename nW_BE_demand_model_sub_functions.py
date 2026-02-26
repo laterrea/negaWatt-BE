@@ -30,6 +30,9 @@ def highlight_lines(row):
     return [''] * len(row)
 
 def highlight_mode_separator(row):
+    if 'Carrier' in row:
+        if row['Carrier'] != '':
+            return ['border-top:2px solid black'] * len(row)
     if 'Mode' in row:
         if row['Mode'] != '':
             return ['border-top:2px solid black'] * len(row)
@@ -39,7 +42,9 @@ def highlight_mode_separator(row):
     return [''] * len(row)
 
 def bold_mode(cell, mode_cell, col):
-    if mode_cell != '' and col == 'Mode':
+    if mode_cell != '' and col == 'Carrier':
+        return 'font-weight:bold'
+    elif mode_cell != '' and col == 'Mode':
         return 'font-weight:bold'
     elif mode_cell != '' and col == 'Sector':
         return 'font-weight:bold'
