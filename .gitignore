@@ -1,2 +1,5 @@
 .ipynb_checkpoints/
 */.ipynb_checkpoints/*
+.virtual_documents/*
+*.pyc
+__pycache__/nW_BE_demand_model_sub_functions.cpython-311.pyc

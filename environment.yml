@@ -1,0 +1,16 @@
+# Conda environment for the negaWatt-BE demand notebooks.
+# Create with:  conda env create -f environment.yml
+# Update with:  conda env update -f environment.yml --prune
+name: data_processing
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - matplotlib
+  - scipy
+  - openpyxl
+  - ipykernel
+  - jupyter
+  - notebook
