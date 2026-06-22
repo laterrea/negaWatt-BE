@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Methodology &mdash; negaWatt Belgium sufficiency hypotheses</title>
+  <meta name="description" content="How to read the negaWatt Belgium sufficiency hypothesis cards: values, charts, feasibility debates and the link to the calculation notebooks.">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-base="" data-page="about">
+
+  <main>
+    <div class="page-head">
+      <div class="container">
+        <div class="eyebrow">Methodology</div>
+        <h1>How to read this site</h1>
+        <p class="lead">
+          Each page breaks a sector of the negaWatt-BE scenario into tangible levers.
+          This page explains what you see on a hypothesis card and how the underlying
+          numbers are produced.
+        </p>
+      </div>
+    </div>
+
+    <section class="block">
+      <div class="container">
+        <h2>How to read a hypothesis card</h2>
+        <p>
+          Every card follows the same layout so you can compare levers at a glance:
+        </p>
+        <ul style="margin-top: 16px; padding-left: 1.2rem; color: var(--ink-soft);">
+          <li style="margin-bottom: 10px;">
+            <strong>Now (2019)</strong> &mdash; the reference value, taken from official
+            statistics or the scenario's baseline year.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>2050 Target</strong> &mdash; where the scenario aims to be at the end
+            of the transition horizon.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Change badge</strong> &mdash; green means a reduction, orange means an
+            increase, grey means roughly stable.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Small chart</strong> &mdash; a simple bar comparison between the two
+            milestone years.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Plain-language discussion</strong> &mdash; what the lever means in
+            everyday terms and why it matters for energy use.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Feasibility debate</strong> &mdash; a callout summarising how realistic
+            the assumed jump is, and what would need to happen in policy or society.
+          </li>
+        </ul>
+        <p style="margin-top: 16px;">
+          A <strong>Calculation details</strong> link at the foot of each card opens the
+          underlying notebook section where the assumption is defined and computed.
+        </p>
+      </div>
+    </section>
+
+    <section class="block alt">
+      <div class="container">
+        <h2>The négaWatt method</h2>
+        <p>
+          The scenario applies levers in a deliberate order:
+          <strong>sufficiency</strong> first (avoid waste, change behaviour),
+          then <strong>efficiency</strong> (same service, less energy),
+          then <strong>renewables</strong> to supply what remains.
+        </p>
+        <p style="margin-top: 16px;">
+          The reference year is <strong>2019</strong>, chosen to avoid the distortions of
+          the COVID period. The horizon is <strong>2050</strong>. Between milestone years,
+          trajectories are assumed to evolve linearly unless the notebook specifies otherwise.
+        </p>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="container">
+        <h2>Keeping the site in sync with the science</h2>
+        <p>
+          The numbers on this site are not maintained separately from the models. Each
+          calculation notebook ends with a <em>Website export</em> cell that writes a
+          JavaScript data file to <code>website/data/&lt;sector&gt;.js</code>. Update an
+          assumption in the notebook, re-run the export, and this site reflects the change
+          automatically.
+        </p>
+        <p style="margin-top: 16px;">
+          Open the flattened calculation notebooks directly:
+        </p>
+        <ul style="margin-top: 12px; padding-left: 1.2rem;">
+          <li><a href="notebooks/nW_BE_demand_model_transports.html">Transport demand model</a></li>
+          <li><a href="notebooks/nW_BE_demand_model_buildings.html">Buildings demand model</a></li>
+          <li><a href="notebooks/nW_BE_demand_model_industry.html">Industry demand model</a></li>
+          <li><a href="notebooks/nW_BE_demand_model_macro.html">Population &amp; macro context</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block alt">
+      <div class="container">
+        <h2>A critical eye</h2>
+        <p>
+          The negaWatt-BE scenario is deliberately ambitious. Several assumptions are
+          actively debated among the authors and in the wider literature &mdash; for example
+          car occupancy rates, the magnitude of modal shift, the pace of district-heating
+          rollout, and the depth of aviation cuts.
+        </p>
+        <p style="margin-top: 16px;">
+          The <strong>Feasibility debate</strong> callouts on each card summarise these
+          discussions. They are not disclaimers tacked on at the end; they are part of how
+          the scenario invites a society-wide conversation about what is realistic and what
+          is worth striving for.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/nav.js"></script>
+</body>
+</html>

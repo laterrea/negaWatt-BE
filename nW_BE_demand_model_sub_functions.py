@@ -1,3 +1,7 @@
+import json
+import os
+from datetime import date
+
 import numpy as np
 import pandas as pd
 from scipy.stats import norm
@@ -324,6 +328,141 @@ def strong_acceleration_growth(start_year, start_value, end_year, end_value, tar
 
     vals = float(start_value) + (u**power) * (float(end_value) - float(start_value))
     return [round(float(v), 3) for v in vals]
+
+
+#%% WEBSITE EXPORT
+#
+# These helpers connect the notebooks to the public website in ``website/``.
+# Each notebook builds a list of "elementary hypotheses" (current value vs.
+# 2050 target) and calls ``write_hypotheses_js`` to (re)write the matching
+# ``website/data/<sector>.js`` file. The static HTML pages read those files, so
+# re-running a notebook automatically refreshes the figures shown online.
+#
+# See the "Public sufficiency website" section of README.md for the full data
+# contract.
+
+def _json_safe(value):
+    """Convert numpy / pandas scalars to plain Python types for json.dumps."""
+    if isinstance(value, (np.integer,)):
+        return int(value)
+    if isinstance(value, (np.floating,)):
+        return round(float(value), 4)
+    if isinstance(value, (np.bool_,)):
+        return bool(value)
+    if isinstance(value, float):
+        return round(value, 4)
+    if isinstance(value, dict):
+        return {k: _json_safe(v) for k, v in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_json_safe(v) for v in value]
+    return value
+
+
+def make_hypothesis(id, name, category, ref_value, target_value,
+                    unit="", ref_year=2019, target_year=2050,
+                    pct_change=None, change_label=None, direction=None,
+                    display_ref=None, display_target=None,
+                    notebook=None, reference=None):
+    """Build one website hypothesis record (a plain dict).
+
+    Only ``id``, ``name``, ``category``, ``ref_value`` and ``target_value`` are
+    required. ``pct_change`` is computed from the two values when both are
+    numeric and it is not supplied (relative change vs. the reference value).
+
+    The optional fields mirror the keys consumed by ``website/assets/js/render.js``:
+    ``change_label`` / ``direction`` override the auto-generated badge,
+    ``display_ref`` / ``display_target`` override number formatting, ``notebook``
+    is the deep-link to the flattened notebook, ``reference`` is the source shown
+    in the card footer.
+    """
+    rec = {
+        "name": name,
+        "category": category,
+        "refYear": ref_year,
+        "refValue": ref_value,
+        "targetYear": target_year,
+        "targetValue": target_value,
+        "unit": unit,
+    }
+    if pct_change is None and change_label is None:
+        try:
+            rv, tv = float(ref_value), float(target_value)
+            if rv != 0:
+                pct_change = (tv - rv) / abs(rv) * 100.0
+        except (TypeError, ValueError):
+            pct_change = None
+    if pct_change is not None:
+        rec["pctChange"] = round(float(pct_change), 1)
+    if change_label is not None:
+        rec["changeLabel"] = change_label
+    if direction is not None:
+        rec["direction"] = direction
+    if display_ref is not None:
+        rec["displayRef"] = display_ref
+    if display_target is not None:
+        rec["displayTarget"] = display_target
+    if notebook is not None:
+        rec["notebook"] = notebook
+    if reference is not None:
+        rec["reference"] = reference
+    return {"id": id, **rec}
+
+
+def write_hypotheses_js(sector_key, hypotheses, plots=None, title=None,
+                        out_path=None):
+    """Write ``website/data/<sector_key>.js`` for the public website.
+
+    Parameters
+    ----------
+    sector_key : str
+        Key under ``window.NW_DATA`` (e.g. ``"transport"``, ``"buildings"``).
+    hypotheses : list[dict]
+        Records, ideally produced by :func:`make_hypothesis`. Each must carry an
+        ``id``; the remaining keys populate the card.
+    plots : dict, optional
+        Named plot specs consumed by ``render.js`` (``data-plot`` figures), e.g.
+        ``{"modalShare": {"type": "stackedBar", "x": [...], "series": [...]}}``.
+    title : str, optional
+        Human-readable sector title stored alongside the data.
+    out_path : str, optional
+        Override the destination file. Defaults to ``website/data/<sector_key>.js``
+        next to this module.
+
+    Returns
+    -------
+    str
+        The path that was written.
+    """
+    hyp_map = {}
+    for h in hypotheses:
+        h = dict(h)
+        hid = h.pop("id")
+        hyp_map[hid] = h
+
+    payload = {
+        "title": title or sector_key.capitalize(),
+        "generated": date.today().isoformat(),
+        "hypotheses": hyp_map,
+    }
+    if plots:
+        payload["plots"] = plots
+    payload = _json_safe(payload)
+
+    if out_path is None:
+        here = os.path.dirname(os.path.abspath(__file__))
+        out_path = os.path.join(here, "website", "data", sector_key + ".js")
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+
+    body = json.dumps(payload, indent=2, ensure_ascii=False)
+    content = (
+        "/* AUTO-GENERATED by the notebook 'Website export' cell. Do not edit by hand. */\n"
+        "window.NW_DATA = window.NW_DATA || {};\n"
+        "window.NW_DATA[\"" + sector_key + "\"] = " + body + ";\n"
+    )
+    with open(out_path, "w", encoding="utf-8") as fh:
+        fh.write(content)
+    print(f"[website] wrote {len(hyp_map)} hypotheses to {out_path}")
+    return out_path
 
 
 # # S-CURVE (logistic function centered on midpoint)

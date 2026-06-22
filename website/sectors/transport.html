@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Transport &mdash; negaWatt Belgium sufficiency hypotheses</title>
+  <meta name="description" content="The mobility and freight sufficiency hypotheses of the negaWatt Belgium scenario: current status, 2050 target and the debates around their feasibility.">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<!-- data-base="../" because this page lives in sectors/ ; data-page highlights the nav -->
+<body data-base="../" data-page="transport">
+
+  <main>
+    <!-- ===================== Page header ===================== -->
+    <div class="page-head">
+      <div class="container">
+        <div class="eyebrow">Sector 1 of 4 &middot; Mobility</div>
+        <h1>How we move: transport &amp; mobility</h1>
+        <p class="lead">
+          Transport is about a quarter of Belgium's final energy use. The negaWatt-BE
+          scenario reaches deep cuts not by electrifying cars alone, but by first
+          <strong>travelling differently</strong> &mdash; shorter distances, fuller vehicles and a
+          large shift towards trains, buses and bikes. Below, every assumption is
+          broken down into a single, tangible lever: where we are in 2019, where the
+          scenario aims for 2050, and how realistic the jump is.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="../notebooks/nW_BE_demand_model_transports.html">
+            <svg class="ico"><use href="#i-gauge"></use></svg> Open the calculation notebook
+          </a>
+          <a class="btn secondary" href="../about.html">How to read these cards</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <nav class="subnav" aria-label="On this page">
+        <a href="#passenger-demand">Passenger demand &amp; modal shift</a>
+        <a href="#passenger-vehicles">Vehicles &amp; energy</a>
+        <a href="#freight">Freight</a>
+      </nav>
+    </div>
+
+    <!-- ============================================================= -->
+    <!-- SECTION A — Passenger demand & modal shift                    -->
+    <!-- ============================================================= -->
+    <section class="block" id="passenger-demand">
+      <div class="container">
+        <div class="section-intro">
+          <h2>Passenger demand &amp; modal shift</h2>
+          <p class="muted">
+            Two levers dominate passenger transport: travelling somewhat less
+            (demand) and travelling by different means (modal split). The chart shows
+            how the share of each mode changes between 2019 and 2050.
+          </p>
+        </div>
+
+        <div class="figure" style="margin: 14px 0 28px;">
+          <h3>Passenger modal split, 2019 vs 2050</h3>
+          <p class="fig-note">Share of total passenger-kilometres by mode (source: transport notebook).</p>
+          <div class="plot" data-plot="transport.modalShare"></div>
+        </div>
+
+        <div class="hyp-grid">
+
+          <article class="hyp-card" id="pm-intensity" data-hyp="transport.pm-intensity">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-people"></use></svg></div>
+              <div class="hyp-card__title"><h3>Passenger mobility intensity</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>The total distance each person travels per year falls by about 10%.
+              The drivers are teleworking, living closer to daily destinations, an
+              ageing population and closer holiday choices &mdash; roughly half of the cut
+              comes from flying less.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                The French négaWatt scenario assumes a deeper &minus;23%. A 10% reduction is
+                more conservative but still reverses decades of growth in distance travelled;
+                it needs concrete policies (urban densification, transport pricing) to be credible.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="mod-car" data-hyp="transport.mod-car">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-car"></use></svg></div>
+              <div class="hyp-card__title"><h3>Car modal share</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>The car loses its dominant position: its share of distance travelled drops
+              by almost a third, with those kilometres reassigned to buses, trains, cycling
+              and walking. This is the centrepiece of the passenger scenario.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                A modal shift of this magnitude has not been achieved by any EU country within
+                30 years without transformative investment in public transport and cycling
+                infrastructure.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="mod-bus" data-hyp="transport.mod-bus">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-bus"></use></svg></div>
+              <div class="hyp-card__title"><h3>Bus &amp; coach modal share</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Buses and coaches roughly double their share as car trips and some
+              short flights move to collective road transport.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Achievable with bus-priority lanes and denser service, but requires
+                sustained operating subsidies and reliable frequencies to attract drivers.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="mod-train-conv" data-hyp="transport.mod-train-conv">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-train"></use></svg></div>
+              <div class="hyp-card__title"><h3>Conventional train modal share</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Conventional rail more than doubles its share, absorbing car trips and
+              short-haul flights that are replaced by ground transport.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Belgian rail was already strained in 2019; capacity, punctuality and fares
+                must all improve markedly for ridership to grow this fast.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="mod-train-hs" data-hyp="transport.mod-train-hs">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-train"></use></svg></div>
+              <div class="hyp-card__title"><h3>High-speed train modal share</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>High-speed rail roughly triples its share, taking over a slice of
+              intra-EU flights to neighbouring capitals.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Depends on competitive international ticket pricing and cross-border
+                capacity, both outside Belgium's sole control.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="mod-tram" data-hyp="transport.mod-tram">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-tram"></use></svg></div>
+              <div class="hyp-card__title"><h3>Tram &amp; metro modal share</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Light rail and metro roughly triple their share, concentrated in dense
+              urban areas where they are most effective.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                The authors themselves flag this tripling as likely too high: it needs
+                entirely new lines, which take 10&ndash;15 years to plan and build.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="mod-bicycle" data-hyp="transport.mod-bicycle">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-bike"></use></svg></div>
+              <div class="hyp-card__title"><h3>Bicycle modal share</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Cycling (boosted by e-bikes) more than doubles its share, taking over
+              many short car trips.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                A national share at this level implies a Dutch/Danish cycling culture.
+                Plausible in Flanders, more optimistic given hilly Walloon geography and
+                dispersed settlement.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="mod-pedestrian" data-hyp="transport.mod-pedestrian">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-walk"></use></svg></div>
+              <div class="hyp-card__title"><h3>Walking modal share</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Walking grows modestly as neighbourhoods become more compact and as
+              walking links trips to public transport.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                A small, low-risk lever; mostly a by-product of denser, car-light urban planning.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="mod-twowheeler" data-hyp="transport.mod-twowheeler">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-moto"></use></svg></div>
+              <div class="hyp-card__title"><h3>Two-wheeler modal share</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Powered two-wheelers (mostly electric scooters) grow slightly for urban
+              commuting.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Minor lever; safety and weather limit how far it can substitute for cars.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="mod-plane-intra" data-hyp="transport.mod-plane-intra">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-plane"></use></svg></div>
+              <div class="hyp-card__title"><h3>Intra-EU aviation</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Half of intra-European flights are replaced by rail and coach, in line
+              with the European push against short-haul aviation.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                A 50% cut exceeds most policy proposals, which target only flights under a
+                ~2.5 h train alternative (around 20&ndash;30% of intra-EU flights).
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="mod-plane-extra" data-hyp="transport.mod-plane-extra">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-plane"></use></svg></div>
+              <div class="hyp-card__title"><h3>Extra-EU aviation</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Long-haul flying &mdash; the single most energy-intensive way to travel &mdash;
+              is reduced by 40% in absolute terms.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                International aviation has grown 3&ndash;5% per year for decades. An absolute
+                40% reduction would require carbon pricing strong enough to make flying
+                much more expensive, or explicit rationing.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+        </div><!-- /hyp-grid -->
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- SECTION B — Vehicles & energy                                 -->
+    <!-- ============================================================= -->
+    <section class="block alt" id="passenger-vehicles">
+      <div class="container">
+        <div class="section-intro">
+          <h2>Vehicles &amp; energy</h2>
+          <p class="muted">
+            Once we travel differently, the remaining trips run on cleaner, fuller and
+            more efficient vehicles. These levers electrify the fleet and raise how many
+            people share each vehicle.
+          </p>
+        </div>
+
+        <div class="hyp-grid">
+
+          <article class="hyp-card" id="car-occupancy" data-hyp="transport.car-occupancy">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-users"></use></svg></div>
+              <div class="hyp-card__title"><h3>Car occupancy (carpooling)</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Each car carries far more people on average, through carpooling and
+              ride-sharing. This single lever cuts car energy use by roughly 40%.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                This is the most ambitious and least-supported assumption in the model.
+                EU occupancy has been flat around 1.2&ndash;1.5 for 30 years. If it only reached
+                1.5, car energy demand would be about a third higher than the scenario assumes.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="car-bev" data-hyp="transport.car-bev">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-bolt"></use></svg></div>
+              <div class="hyp-card__title"><h3>Battery-electric cars</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>The remaining car fleet is almost entirely battery-electric by 2050,
+              with diesel and petrol all but gone.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Aggressive but within the range of mainstream scenarios (the IEA Net-Zero
+                pathway reaches over 85% electric sales by 2050). The EU 2035 ban on new
+                combustion-car sales makes this the most robust assumption on the page.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="car-energy" data-hyp="transport.car-energy">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-gauge"></use></svg></div>
+              <div class="hyp-card__title"><h3>Car energy use per km</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Each kilometre uses about a quarter less energy thanks to lower speed
+              limits, eco-driving, smaller and lighter cars and more efficient powertrains.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Plausible overall, but the individual contributions are not separated; the
+                trend toward heavier SUVs works against it.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="bus-bev" data-hyp="transport.bus-bev">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-bolt"></use></svg></div>
+              <div class="hyp-card__title"><h3>Electric buses &amp; coaches</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>City and regional buses become overwhelmingly electric, with a small
+              share of hydrogen and gas for long coaches.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Reasonable and already underway in several Belgian operators; depot charging
+                and grid connections are the main constraints.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="bike-electric" data-hyp="transport.bike-electric">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-bike"></use></svg></div>
+              <div class="hyp-card__title"><h3>Electric bicycles (e-bikes)</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Most cycling distance is done on e-bikes, which make longer and hillier
+              trips realistic substitutes for the car.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                In line with current sales trends; capped below 100% because short, flat
+                trips and folding bikes stay muscle-powered.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="moto-electric" data-hyp="transport.moto-electric">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-bolt"></use></svg></div>
+              <div class="hyp-card__title"><h3>Electric two-wheelers</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Mopeds and scooters shift overwhelmingly to electric drive.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Low-risk: electric scooters are already cost-competitive and widely available.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="train-cnv-electric" data-hyp="transport.train-cnv-electric">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-bolt"></use></svg></div>
+              <div class="hyp-card__title"><h3>Conventional train electrification</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>The last diesel passenger trains are phased out, leaving a fully
+              electric conventional network.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                A small, well-established step that extends the existing electrification trend.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="train-efficiency" data-hyp="transport.train-efficiency">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-gauge"></use></svg></div>
+              <div class="hyp-card__title"><h3>Train energy use per pkm</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Rolling-stock efficiency and higher load factors cut the energy used per
+              passenger-kilometre.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Modest and realistic; depends partly on filling trains better, which the
+                modal-shift assumptions already require.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="avi-intra-h2" data-hyp="transport.avi-intra-h2">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-plane"></use></svg></div>
+              <div class="hyp-card__title"><h3>Hydrogen on intra-EU flights</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>A small share of short flights uses hydrogen aircraft; the rest still
+              burns kerosene.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Realistic given delays to hydrogen aircraft. Note that sustainable aviation
+                fuels (mandated by ReFuelEU) are handled downstream in the energy-supply model,
+                not here.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+        </div><!-- /hyp-grid -->
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- SECTION C — Freight                                           -->
+    <!-- ============================================================= -->
+    <section class="block" id="freight">
+      <div class="container">
+        <div class="section-intro">
+          <h2>Freight</h2>
+          <p class="muted">
+            Goods transport follows the same logic: move slightly less tonnage, shift it
+            to rail and waterways, fill vehicles better and switch to electricity,
+            hydrogen and alternative marine fuels.
+          </p>
+        </div>
+
+        <div class="figure" style="margin: 14px 0 28px;">
+          <h3>Freight modal split, 2019 vs 2050</h3>
+          <p class="fig-note">Share of total tonne-kilometres by mode (source: transport notebook).</p>
+          <div class="plot" data-plot="transport.freightModalShare"></div>
+        </div>
+
+        <div class="hyp-grid">
+
+          <article class="hyp-card" id="ft-intensity" data-hyp="transport.ft-intensity">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-cube"></use></svg></div>
+              <div class="hyp-card__title"><h3>Freight transport intensity</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Tonne-kilometres per person fall by about 10% through dematerialisation,
+              shorter supply chains and some reshoring.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Freight intensity is driven by GDP structure and trade, largely outside
+                domestic control; the assumption aligns with the post-2016 stabilisation
+                but is hard to steer with policy.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="ft-truck-hvy" data-hyp="transport.ft-truck-hvy">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-truck"></use></svg></div>
+              <div class="hyp-card__title"><h3>Heavy-duty trucks modal share</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>A quarter of heavy-truck tonne-kilometres shift to rail and inland
+              waterways, cutting the trucks' share of freight.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Ambitious: Belgian rail freight has been declining. Reaching these targets
+                requires reversing that trend with reliable, competitive rail and barge services.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="ft-train" data-hyp="transport.ft-train">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-train"></use></svg></div>
+              <div class="hyp-card__title"><h3>Rail freight modal share</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Rail freight grows by half, recapturing tonnage from long-distance trucking.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                The very starting point is uncertain: statistical sources disagree on the
+                rail share (about 18% vs 12%), which strongly affects the result.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="ft-nav-inland" data-hyp="transport.ft-nav-inland">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-ship"></use></svg></div>
+              <div class="hyp-card__title"><h3>Inland navigation modal share</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Barges on rivers and canals take a larger share of heavy freight, using
+              Belgium's dense waterway network.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Realistic where waterways exist, but limited to bulk goods and routes that
+                connect to navigable water.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="ft-truck-lgt" data-hyp="transport.ft-truck-lgt">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-van"></use></svg></div>
+              <div class="hyp-card__title"><h3>Light commercial vehicles modal share</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Vans keep roughly the same share of freight; their tonnage simply
+              follows the overall 10% intensity reduction.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Booming e-commerce could push van traffic up; cargo bikes for last-mile
+                delivery are noted in the notebook but not yet modelled.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="ft-nav-coastal" data-hyp="transport.ft-nav-coastal">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-ship"></use></svg></div>
+              <div class="hyp-card__title"><h3>Coastal navigation modal share</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Short-sea shipping keeps a small, roughly constant share.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                International maritime bunkers (Antwerp-Bruges, Europe's 2nd port) are
+                excluded for now &mdash; a significant gap flagged for future work.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="ft-plane-intra" data-hyp="transport.ft-plane-intra">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-plane"></use></svg></div>
+              <div class="hyp-card__title"><h3>Intra-EU air freight modal share</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Air freight within Europe stays a marginal share, following overall
+              intensity.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                No modal shift is assumed here; the notebook flags possible future reductions
+                as an open item.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="ft-plane-extra" data-hyp="transport.ft-plane-extra">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-plane"></use></svg></div>
+              <div class="hyp-card__title"><h3>Extra-EU air freight modal share</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Long-haul air freight remains a small share of tonne-kilometres, scaling
+              with overall demand.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Energy-intensive per tonne but small in volume; left unchanged pending
+                better data.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="ft-truck-hvy-bev" data-hyp="transport.ft-truck-hvy-bev">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-bolt"></use></svg></div>
+              <div class="hyp-card__title"><h3>Battery-electric heavy trucks</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>The heavy-truck fleet becomes mostly battery-electric, with small shares
+              of hydrogen and gas.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Real-world consumption assumed (~130 kWh/100 km) may be 15&ndash;25% higher with
+                Belgian gradients and cold weather; megawatt charging networks are still nascent.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="ft-truck-lgt-bev" data-hyp="transport.ft-truck-lgt-bev">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-bolt"></use></svg></div>
+              <div class="hyp-card__title"><h3>Electric light commercial vehicles</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Delivery vans electrify almost completely, mirroring the passenger-car
+              transition.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Well-supported for urban duty cycles; depot and on-street charging are the
+                main bottlenecks.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="ft-train-electric" data-hyp="transport.ft-train-electric">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-bolt"></use></svg></div>
+              <div class="hyp-card__title"><h3>Freight rail electrification</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Almost all rail freight runs on electricity, with only a small diesel
+              remainder for non-electrified sidings.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                Low-risk extension of existing electrification; last-mile diesel shunting is
+                the hardest part to remove.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="ft-nav-fossil" data-hyp="transport.ft-nav-fossil">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-drop"></use></svg></div>
+              <div class="hyp-card__title"><h3>Fossil diesel in domestic navigation</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Inland and coastal vessels move away from fossil diesel towards ammonia,
+              methanol and hydrogen, leaving diesel a minority fuel.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                These marine fuels are emerging technologies with high uncertainty, and the
+                model assumes the same energy use per kilometre across all of them.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+          <article class="hyp-card" id="ft-truck-payload" data-hyp="transport.ft-truck-payload">
+            <div class="hyp-card__head">
+              <div class="hyp-card__icon"><svg><use href="#i-cube"></use></svg></div>
+              <div class="hyp-card__title"><h3>Heavy-truck load factor</h3>
+                <div class="hyp-card__cat" data-field="category"></div></div>
+            </div>
+            <div data-role="values"></div>
+            <div class="hyp-chart" data-role="chart"></div>
+            <div class="hyp-card__body">
+              <p>Trucks carry slightly more on each trip through better logistics and
+              fewer empty runs.</p>
+              <div class="debate">
+                <span class="label"><svg class="ico"><use href="#i-gauge"></use></svg> Feasibility debate</span>
+                A modest, realistic gain; digital freight matching and consolidation can
+                deliver it.
+              </div>
+            </div>
+            <div class="hyp-card__foot">
+              <span class="ref" data-field="reference"></span>
+              <a data-role="deeplink" href="../notebooks/nW_BE_demand_model_transports.html">Calculation details &rarr;</a>
+            </div>
+          </article>
+
+        </div><!-- /hyp-grid -->
+
+        <div class="note" style="margin-top: 28px;">
+          <strong>Want the full calculation?</strong> Every number on this page is produced
+          by the transport notebook. Open the
+          <a href="../notebooks/nW_BE_demand_model_transports.html">flattened notebook</a>
+          to see the data sources, formulas and intermediate steps.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Data first (defines window.NW_DATA.transport), then Plotly, then renderer -->
+  <script src="../data/transport.js"></script>
+  <script src="../assets/js/plotly.min.js"></script>
+  <script src="../assets/js/render.js"></script>
+  <script src="../assets/js/nav.js"></script>
+</body>
+</html>
