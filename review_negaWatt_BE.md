@@ -1,6 +1,6 @@
 # Review of the negaWatt-BE Demand-Side Model
 
-**Reviewers' note:** This document provides a critical review of the negaWatt-BE demand-side notebooks as of their current state. It covers the general approach, per-notebook comments, methodological concerns, improvement pathways, and alternative data sources.
+**Reviewers' note:** This document provides a critical review of the negaWatt-BE demand-side notebooks as of 2026-08-17. It covers the general approach, per-notebook comments, methodological concerns, improvement pathways, and alternative data sources.
 
 ---
 
@@ -24,8 +24,8 @@ Despite these strengths, several cross-cutting issues limit the robustness and c
 1. **No uncertainty or sensitivity analysis.** Every parameter is a single deterministic value. There is no exploration of what happens if renovation rates are halved, car occupancy reaches only 1.5 instead of 2.0, or district heating stalls at 5%.
 2. **Uniform "-10%" assumptions.** The same round number (-10%) appears for residential surface per person, tertiary surface per person, passenger mobility intensity, and freight transport intensity. While convenient, this uniformity suggests the assumptions are placeholders rather than evidence-based projections.
 3. **Linear interpolation everywhere.** Almost all trajectories between 2019 and 2050 use `linear_growth()`. Real-world transitions are rarely linear — they exhibit inertia, acceleration, saturation, or policy-induced step changes. The S-curve and bell-curve functions in `sub_functions.py` are used only for carrier shares, not for demand trajectories.
-4. **Incomplete sections.** Both the buildings and transports notebooks end with a "Short List of Sufficiency Assumptions" section marked "To be done!" Maritime bunkers are entirely absent. This makes the total energy balance incomplete.
-5. **No industry sector.** The demand model covers buildings and transport but omits industry, which accounts for roughly 25–30% of Belgian final energy consumption. Even if industry is out of scope for the négaWatt approach, this should be explicit and the boundary clearly stated.
+4. **Incomplete coverage.** Maritime bunkers are entirely absent ("To be done!"). Agriculture still enters PyPSA-Eur from the CLEVER dashboard. There is no climate trajectory for heating and cooling. The "Short List of Sufficiency Assumptions" sections in the buildings and transports notebooks are now populated via the website-export cells.
+5. **Industry is documented, not modelled bottom-up in PyPSA.** `nW_BE_demand_model_industry.ipynb` reconstructs the CLEVER industrial FEC for Belgium (see the Industry notebook section of `README.md`). Remaining demand-side gaps: agriculture still from the CLEVER dashboard, maritime bunkers still "To be done!", no climate trajectory.
 6. **Validation gap.** While `nW_BE_demand_data_aux.ipynb` provides historical series, there is no systematic back-testing or validation of the model against a known year (e.g., checking that 2019 reconstructed demand matches actual Eurostat totals within a tolerance).
 
 ---
@@ -70,7 +70,7 @@ Despite these strengths, several cross-cutting issues limit the robustness and c
 
 **Electrical appliances:** Individual targets per category are generally well-motivated by efficiency standards (EU Ecodesign). However:
 - The ICT projection (+10%) may underestimate the growth of home servers, gaming, and smart home devices.
-- The "other appliances" category (+5%) is a catch-all that deserves decomposition.
+- The "other appliances" category is held constant (not +5%) and remains a catch-all that deserves decomposition.
 
 **District heating at 15%** by 2050 is a policy aspiration. For context:
 - Belgium's current district heating share is ~2.4% (one of the lowest in the EU).
@@ -84,7 +84,7 @@ Despite these strengths, several cross-cutting issues limit the robustness and c
 - The authors themselves flag that "Less effort has been spent on this section" for electrical uses, and that normalisation should be improved. This is an honest assessment.
 - **Normalisation inconsistency:** Residential demands are normalised per household or per person, while some tertiary demands use per m² and others per person. A fully consistent normalisation by m² of heated floor area would be more appropriate for the tertiary sector.
 - **Surface reduction of -10% per person** is marked with "Should further motivate this!" — this is indeed a critical gap. Tertiary surface trends depend heavily on telework adoption, commercial real estate dynamics, and public service rationalisation, none of which are discussed.
-- **Tertiary heating target (~61.5 kWh/m²):** The assumption of 5× the historical improvement rate is extremely aggressive. The historical rate includes the effect of relatively easy early gains; future improvements on already-renovated buildings face diminishing returns. In addition, the slow renovation cycles (20-40 year lifetimes for commercial building components) makes this rate change hard to achieve without forced early retirement of assets.
+- **Tertiary heating target (~66.5 kWh/m²):** The assumption of 5× the historical improvement rate is extremely aggressive. The historical rate includes the effect of relatively easy early gains; future improvements on already-renovated buildings face diminishing returns. In addition, the slow renovation cycles (20-40 year lifetimes for commercial building components) makes this rate change hard to achieve without forced early retirement of assets.
 - **Catering (+20%):** In the tertiary sector, this seems inconsistent with an overall sufficiency narrative. If the goal is demand reduction, increasing catering energy does not align well.
 - **Ventilation held constant:** In well-insulated, airtight buildings, mechanical ventilation actually *increases* in importance (and energy use). Holding it constant may underestimate future demand.
 
@@ -200,7 +200,7 @@ The model conflates policy targets with physical outcomes. For example:
 
 ### 4.1. Short-Term (Low Effort, High Impact)
 
-1. **Complete the TODO sections:** Maritime bunkers, short lists of sufficiency assumptions in both buildings and transports.
+1. **Complete the remaining TODO sections:** Maritime bunkers. The short lists of sufficiency assumptions in buildings and transports are now filled by the website-export cells.
 2. **Add a validation cell** at the end of each notebook that compares 2019 reconstructed demand with Eurostat/JRC-IDEES totals and prints the percentage deviation.
 3. **Refactor repetitive code:** Extract the repeated plotting code and the carrier-shares-to-TWh conversion boilerplate into functions in `sub_functions.py`.
 4. **Resolve data discrepancies:** The truck tkm and train tkm inconsistencies between JRC-IDEES, Statbel, and Eurostat need to be resolved or at least bounded.
@@ -216,7 +216,7 @@ The model conflates policy targets with physical outcomes. For example:
 
 ### 4.3. Long-Term (High Effort)
 
-11. **Add an industry sector module** or clearly define the system boundary and provide bridge tables to existing industry scenarios (e.g., EnergyVille PATHS2050, Climact CLEVER).
+11. **Industry reconstruction exists** (`nW_BE_demand_model_industry.ipynb`); remaining work is a bottom-up Belgian module or a clearer bridge into PyPSA, plus agriculture (still from the CLEVER dashboard).
 12. **Implement scenario comparison:** Define at least two scenarios (e.g., "sufficiency" vs. "technology-only") to explore the sensitivity of total demand to behavioural vs. technological levers.
 13. **Automated pipeline:** Replace the `%run` chain with a proper build system (e.g., `papermill` or `nbconvert` with parameterisation) to improve reproducibility and enable batch runs.
 14. **Open-data packaging:** Publish input data and scenario parameters as structured `.csv`/`.yaml` files with metadata, enabling external users to modify assumptions without editing notebooks.
@@ -291,12 +291,12 @@ While this may be outside the scope of a demand model, flagging the investment i
 
 ### 6.6. Bug: Tertiary Catering Uses 2019 Population for 2050
 
-In the buildings notebook, the tertiary catering demand for 2050 appears to use the 2019 population:
+In the buildings notebook (and the `nW_BE.py` transcription), the tertiary catering demand for 2050 used the 2019 population:
 ```python
 'catering': linear_growth(2019, ref_TS_tes_cat * df_SUF["population [person]"][2019] * 1e-9,
                           2050, trg_TS_tes_cat * df_SUF["population [person]"][2019] * 1e-9, years),
 ```
-The 2050 endpoint uses `[2019]` instead of `[2050]`. Other thermal services correctly use `[2050]` for the endpoint. This likely underestimates 2050 catering demand by ~4% (the population growth between 2019 and 2050).
+The 2050 endpoint used `[2019]` instead of `[2050]`. Other thermal services correctly use `[2050]` for the endpoint. This underestimated 2050 catering demand by ~10% (the population growth between 2019 and 2050). **Corrected 2026-08-17** in the notebooks and `nW_BE.py`.
 
 ---
 
@@ -326,7 +326,7 @@ The notebooks cite the following main references:
 
 | # | Priority | Recommendation |
 |---|----------|----------------|
-| 1 | **Critical** | Fix the tertiary catering population bug (2019 vs 2050) |
+| 1 | **Critical** | Fix the tertiary catering population bug (2019 vs 2050; ≈10 %, not ≈4 %) |
 | 2 | **Critical** | Complete maritime bunkers section |
 | 3 | **Critical** | Resolve JRC-IDEES vs Statbel/Eurostat freight data discrepancies |
 | 4 | **High** | Add validation cells comparing 2019 model vs actual Eurostat totals |
@@ -339,9 +339,9 @@ The notebooks cite the following main references:
 | 11 | **Medium** | Normalise tertiary sector consistently by floor area |
 | 12 | **Medium** | Discuss rebound effects, even qualitatively |
 | 13 | **Low** | Add unit tests for `sub_functions.py` |
-| 14 | **Low** | Consider industry sector boundary |
+| 14 | **Low** | Agriculture still from CLEVER dashboard; no climate trajectory |
 | 15 | **Low** | Implement automated notebook pipeline |
 
 ---
 
-*Review generated from the codebase as of its current state. All page/line references correspond to the notebook files in the repository.*
+*Review updated 2026-08-17 from the notebooks in this repository. All page/line references correspond to the notebook files.*

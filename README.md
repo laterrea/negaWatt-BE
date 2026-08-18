@@ -107,6 +107,12 @@ re-run the notebook, and the website updates automatically.** The transport and
 buildings notebooks' formerly empty "Short List of Sufficiency Assumptions"
 sections are now filled by these export cells.
 
+The same export cells also write `data/energy_totals_overrides.csv` (tidy TWh
+totals for 2019/2030/2040/2050, using the same aggregation as `scripts/nW_BE.py`
+in the PyPSA-Eur fork). Re-run the buildings and transport Website-export cells
+to refresh it. CI compares `nW_BE.py` to that committed file
+(`scripts/check_nW_BE_consistency.py`).
+
 ### Regenerating the site
 
 From the repository root, in the `data_processing` environment:

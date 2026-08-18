@@ -1,0 +1,58 @@
+# generated from nW_BE.py; refresh from notebooks to detect transcription drift
+source,sector,key,year,value_twh
+buildings,residential,distributed heat residential,2019,0.150987
+buildings,residential,distributed heat residential,2030,2.33057
+buildings,residential,distributed heat residential,2040,3.584586
+buildings,residential,distributed heat residential,2050,4.18665
+buildings,residential,electricity residential,2019,11.603
+buildings,residential,electricity residential,2030,9.665
+buildings,residential,electricity residential,2040,8.455
+buildings,residential,electricity residential,2050,8.538
+buildings,residential,total residential space,2019,44.007
+buildings,residential,total residential space,2030,36.786
+buildings,residential,total residential space,2040,30.221
+buildings,residential,total residential space,2050,23.657
+buildings,residential,total residential water,2019,7.716
+buildings,residential,total residential water,2030,7.356
+buildings,residential,total residential water,2040,7.029
+buildings,residential,total residential water,2050,6.702
+buildings,services,distributed heat services,2019,0.603672
+buildings,services,distributed heat services,2030,1.580859
+buildings,services,distributed heat services,2040,2.275048
+buildings,services,distributed heat services,2050,2.82495
+buildings,services,electricity services,2019,12.241
+buildings,services,electricity services,2030,11.926
+buildings,services,electricity services,2040,11.64
+buildings,services,electricity services,2050,11.353
+buildings,services,total services space,2019,28.882
+buildings,services,total services space,2030,27.495
+buildings,services,total services space,2040,26.233
+buildings,services,total services space,2050,24.971
+buildings,services,total services water,2019,3.487
+buildings,services,total services water,2030,3.614
+buildings,services,total services water,2040,3.729
+buildings,services,total services water,2050,3.844
+transport,aviation,total international aviation,2019,19.823
+transport,aviation,total international aviation,2030,16.48
+transport,aviation,total international aviation,2040,13.534
+transport,aviation,total international aviation,2050,10.873
+transport,navigation,total domestic navigation,2019,1.668
+transport,navigation,total domestic navigation,2030,2.075
+transport,navigation,total domestic navigation,2040,2.407
+transport,navigation,total domestic navigation,2050,2.712
+transport,rail,electricity rail,2019,1.605
+transport,rail,electricity rail,2030,2.212
+transport,rail,electricity rail,2040,2.633
+transport,rail,electricity rail,2050,2.945
+transport,rail,total rail,2019,1.909
+transport,rail,total rail,2030,2.429
+transport,rail,total rail,2040,2.765
+transport,rail,total rail,2050,3.036
+transport,road,electricity road,2019,0.18
+transport,road,electricity road,2030,4.655
+transport,road,electricity road,2040,14.565
+transport,road,electricity road,2050,13.973
+transport,road,total road,2019,98.821
+transport,road,total road,2030,68.687
+transport,road,total road,2040,29.535
+transport,road,total road,2050,17.328

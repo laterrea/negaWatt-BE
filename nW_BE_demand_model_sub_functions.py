@@ -493,3 +493,224 @@ def write_hypotheses_js(sector_key, hypotheses, plots=None, title=None,
 #     s_vals = (np.array(s_vals) - min(s_vals)) / (max(s_vals) - min(s_vals))  # normalize to [0, 1]
 #     vals = start_value + s_vals * (end_value - start_value)
 #     return [round(v, 3) for v in vals]
+
+#%% ENERGY TOTALS OVERRIDES (notebook <-> nW_BE.py consistency)
+
+ENERGY_TOTALS_OVERRIDE_YEARS = (2019, 2030, 2040, 2050)
+ENERGY_TOTALS_OVERRIDE_COLUMNS = ["source", "sector", "key", "year", "value_twh"]
+
+ENERGY_TOTALS_MODE_MAPPING = {
+    "bicycle": "total road",
+    "bus&coach": "total road",
+    "car": "total road",
+    "truck-heavy duty": "total road",
+    "truck-light commercial": "total road",
+    "two-wheeler": "total road",
+    "navigation-coastal": "navigation",
+    "navigation-inland": "navigation",
+    "plane-extra EU": "aviation",
+    "plane-intra EU": "aviation",
+    "train": "total train",
+    "train-conventional": "total train",
+    "train-high speed": "total train",
+    "tram&metro": "total train",
+}
+
+# (mapped mode, sector, total energy_totals key, electricity energy_totals key or None)
+_TRANSPORT_EMIT = (
+    ("total road", "road", "total road", "electricity road"),
+    ("total train", "rail", "total rail", "electricity rail"),
+    ("aviation", "aviation", "total international aviation", None),
+    ("navigation", "navigation", "total domestic navigation", None),
+)
+
+
+def _label_for_year(labels, year):
+    year = int(year)
+    for lab in labels:
+        try:
+            if int(lab) == year:
+                return lab
+        except (TypeError, ValueError):
+            continue
+    raise KeyError("year %s not found" % year)
+
+
+def _idx_at(df, year, col=None):
+    lab = _label_for_year(df.index, year)
+    row = df.loc[lab]
+    if col is None:
+        if isinstance(row, pd.Series):
+            return float(row.sum())
+        return float(row)
+    return float(row[col])
+
+
+def _col_at(df, year, row=None):
+    if df is None or len(df) == 0:
+        return 0.0
+    lab = _label_for_year(df.columns, year)
+    if row is None:
+        return float(df[lab].sum())
+    if row not in df.index:
+        return 0.0
+    val = df.loc[row, lab]
+    if isinstance(val, pd.Series):
+        return float(val.sum())
+    return float(val)
+
+
+def _override_row(source, sector, key, year, value):
+    return {
+        "source": source,
+        "sector": sector,
+        "key": key,
+        "year": int(year),
+        "value_twh": round(float(value), 6),
+    }
+
+
+def _split_powertrains(df):
+    year_cols = [c for c in df.columns if c not in ("Mode", "Powertrain")]
+
+    def prep(mask):
+        out = df.loc[mask, ["Mode"] + list(year_cols)].copy()
+        if out.empty:
+            return pd.DataFrame(columns=year_cols)
+        return out.groupby("Mode", as_index=True).sum(numeric_only=True)
+
+    return {
+        "total": prep(df["Powertrain"] == "TOTAL"),
+        "elec": prep(df["Powertrain"] == "electrical"),
+    }
+
+
+def _map_transport_modes(df):
+    if df is None or len(df) == 0:
+        return df
+    mapped = df.copy()
+    mapped.index = mapped.index.to_series().replace(ENERGY_TOTALS_MODE_MAPPING)
+    return mapped.groupby(level=0).sum(numeric_only=True)
+
+
+def energy_totals_overrides_from_transport(mobility, freight, years=ENERGY_TOTALS_OVERRIDE_YEARS):
+    """Tidy energy_totals rows from passenger + freight TWh tables (Mode/Powertrain)."""
+    mobility_pt = _split_powertrains(mobility)
+    freight_pt = _split_powertrains(freight)
+    total = _map_transport_modes(
+        pd.concat([mobility_pt["total"], freight_pt["total"]]).groupby(level=0).sum()
+    )
+    elec = _map_transport_modes(
+        pd.concat([mobility_pt["elec"], freight_pt["elec"]]).groupby(level=0).sum()
+    )
+    rows = []
+    for mapped, sector, total_key, elec_key in _TRANSPORT_EMIT:
+        for year in years:
+            rows.append(_override_row("transport", sector, total_key, year, _col_at(total, year, mapped)))
+            if elec_key is not None:
+                rows.append(_override_row("transport", sector, elec_key, year, _col_at(elec, year, mapped)))
+    return pd.DataFrame(rows, columns=ENERGY_TOTALS_OVERRIDE_COLUMNS)
+
+
+def energy_totals_overrides_from_buildings(
+    residential_thermal,
+    residential_elec,
+    tertiary_thermal,
+    tertiary_elec,
+    years=ENERGY_TOTALS_OVERRIDE_YEARS,
+):
+    """Tidy energy_totals rows from residential/tertiary service DataFrames (index=year)."""
+    rows = []
+    for year in years:
+        rs_space = (
+            _idx_at(residential_thermal, year, "space heating")
+            + _idx_at(residential_thermal, year, "cooking")
+            + _idx_at(residential_thermal, year, "space cooling")
+        )
+        ts_space = (
+            _idx_at(tertiary_thermal, year, "space heating")
+            + _idx_at(tertiary_thermal, year, "catering")
+            + _idx_at(tertiary_thermal, year, "space cooling")
+        )
+        rows.extend(
+            [
+                _override_row("buildings", "residential", "total residential space", year, rs_space),
+                _override_row(
+                    "buildings",
+                    "residential",
+                    "total residential water",
+                    year,
+                    _idx_at(residential_thermal, year, "sanitary hot water"),
+                ),
+                _override_row(
+                    "buildings",
+                    "residential",
+                    "distributed heat residential",
+                    year,
+                    _idx_at(residential_thermal, year, "heat_dhn"),
+                ),
+                _override_row(
+                    "buildings",
+                    "residential",
+                    "electricity residential",
+                    year,
+                    _idx_at(residential_elec, year),
+                ),
+                _override_row("buildings", "services", "total services space", year, ts_space),
+                _override_row(
+                    "buildings",
+                    "services",
+                    "total services water",
+                    year,
+                    _idx_at(tertiary_thermal, year, "sanitary hot water"),
+                ),
+                _override_row(
+                    "buildings",
+                    "services",
+                    "distributed heat services",
+                    year,
+                    _idx_at(tertiary_thermal, year, "heat_dhn"),
+                ),
+                _override_row(
+                    "buildings",
+                    "services",
+                    "electricity services",
+                    year,
+                    _idx_at(tertiary_elec, year),
+                ),
+            ]
+        )
+    return pd.DataFrame(rows, columns=ENERGY_TOTALS_OVERRIDE_COLUMNS)
+
+
+def write_energy_totals_overrides(df, path, comment=None, replace_sources=None):
+    """Write (or merge-by-source) a tidy energy_totals overrides CSV."""
+    path = os.path.abspath(path)
+    directory = os.path.dirname(path)
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+    out = df[list(ENERGY_TOTALS_OVERRIDE_COLUMNS)].copy()
+    out["year"] = out["year"].astype(int)
+    out["value_twh"] = out["value_twh"].astype(float)
+    if replace_sources is not None and os.path.isfile(path):
+        existing = pd.read_csv(path, comment="#")
+        keep = existing[~existing["source"].isin(list(replace_sources))]
+        out = pd.concat([keep, out], ignore_index=True)
+    out = out.sort_values(["source", "sector", "key", "year"]).reset_index(drop=True)
+    if comment is None:
+        comment = "generated from nW_BE.py; refresh from notebooks to detect transcription drift"
+    with open(path, "w", encoding="utf-8") as fh:
+        for line in str(comment).splitlines():
+            fh.write("# " + line.lstrip("# ").rstrip() + "\n")
+        out.to_csv(fh, index=False)
+    return path
+
+
+def make_energy_totals_overrides(df, path=None, comment=None, replace_sources=None):
+    """Write the overrides CSV. Default path is ``data/energy_totals_overrides.csv`` next to this file."""
+    if path is None:
+        here = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(here, "data", "energy_totals_overrides.csv")
+    return write_energy_totals_overrides(
+        df, path, comment=comment, replace_sources=replace_sources
+    )
