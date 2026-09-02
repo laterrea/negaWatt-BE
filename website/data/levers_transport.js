@@ -2,7 +2,7 @@
 window.NW_LEVERS = window.NW_LEVERS || {};
 window.NW_LEVERS["transport"] = {
   "title": "Mobility & transport",
-  "generated": "2026-08-31",
+  "generated": "2026-09-02",
   "levers": {
     "ground-km-day": {
       "topic": "inland-mobility",
@@ -80,8 +80,11 @@ window.NW_LEVERS["transport"] = {
       },
       "history": "car_share_motorised",
       "facts": {
-        "carSharePkm2019": 58.8,
         "shiftPct": 30.0,
+        "busShareMot2019": 10.0,
+        "railShareMot2019": 8.8,
+        "tramShareMot2019": 1.1,
+        "motoShareMot2019": 1.3,
         "railShareTarget2040": 15.0,
         "toBusPct": 10.0,
         "toRailPct": 8.0,
@@ -167,8 +170,10 @@ window.NW_LEVERS["transport"] = {
       },
       "facts": {
         "reductionPct": 25.0,
-        "kwhPerKmDiesel2019": 0.642,
-        "kwhPerKmBev2019": 0.211
+        "kwhPerKmPetrol2019": 0.674,
+        "kwhPerKmBev2019": 0.211,
+        "litresPetrol2019": 7.0,
+        "litresPetrolEqBev2019": 2.2
       },
       "spoilers": [
         "reductionPct"

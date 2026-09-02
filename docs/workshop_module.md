@@ -218,6 +218,9 @@ Each decision records *why*, so it can be revisited on purpose rather than by ac
 | D26 | `ws_answer_log` deliberately has no foreign key | It is an append-only trace, so deleting a session leaves the record of what was moved and when. Nothing personal is stored. Clean it explicitly if you want a session gone entirely. |
 | D27 | **The questions ask for an objective, not a prediction** | The first draft read "In 2050, how many people will be sitting in the average car?", which asks a group to forecast — the wrong act entirely for a normative scenario, and an invitation to answer with what they expect rather than what they think is right. The questions now take one of two shapes: *"What car occupancy is a realistic 2050 objective?"* for the levers that must rise, and *"How far can sufficiency bring daily motorised travel down by 2050?"* for those that must fall. French uses **sobriété** for sufficiency, with *demande sobre* where it reads better. |
 | D28 | French typography uses no-break spaces before `?` and `!` and inside guillemets | Not decoration: a plain space let the line break there, and the question headline rendered with an orphaned "?" on its own line. This also forced a fix in the build — `" ".join(text.split())` silently destroys U+00A0, because Python counts it as whitespace, so the folding now collapses ASCII whitespace only. |
+| D29 | **The leverage readout shows what *this* lever contributes, against keeping today's level** | Two earlier versions were both misleading, and a reviewer caught both. Showing the sector total at the answer (≈22 TWh) reads as the combined effect of all eight assumptions. Comparing that total to 2019 was worse: electrification alone cuts inland mobility by three quarters, so *every* answer showed a large decrease and the sign never moved — pushing the slider towards more traffic still reported "79 % less than 2019". The readout is now `E(answer) − E(2019 level of the same indicator)`, everything else held fixed. It is zero at today's level, positive when the group asks for more demand, and negative when less. |
+| D30 | Facts are quoted on the **same denominator as the question** | A reviewer spotted "58.8 % of all passenger-kilometres by car" sitting under a chart reading 78.8 %: the first is car out of *all* pkm (aviation included), the second out of *motorised ground* pkm, which is what the lever asks about. The Belgian-context fact now gives the whole split on the lever's own basis, and it adds to 100. |
+| D31 | Comparisons within a fact use one fuel, and one metric | Also from review: the "concretely" card compared an electric car to *petrol* litres while quoting a *diesel* car's consumption, and the cycling card put "9.3 % of trips" next to "64 % of kilometres". Now petrol throughout, and the trips/kilometres gap is stated *and explained* (an e-bike trip is longer) rather than left as an apparent contradiction. |
 
 ---
 
@@ -333,3 +336,25 @@ Two things changed as a result:
   error now returns a JSON `500` and a logged detail instead of a blank body — and a
   warning like "undefined array key" is promoted to an exception rather than quietly
   becoming a null.
+
+---
+
+## 11. Review round, 2026-09-01
+
+First run-through by Sylvain. Verdict: *"structure de l'outil : top; données : certaines à
+retravailler"*. Five findings, all acted on.
+
+| Finding | What was wrong | Fix |
+|---|---|---|
+| "the *effect on demand* section probably needs rework — it looks like the combined effect of all the hypotheses" | It was: the box showed the whole sector's 2050 demand with the other seven levers at their négaWatt values | D29 — it now shows this lever's own contribution against keeping today's level |
+| km/person/day: "even when I increase it, energy goes down — counter-intuitive" | Correct, and the sharpest catch. Everything was measured against 2019, and electrification alone dominates that comparison, so the sign could not move | D29 — the sign now tracks the slider |
+| car share: "the Belgian-context fact says 58.8 %, the chart above says ~79 %" | Two different denominators in one screen | D30 — the fact now gives the full split on the motorised-ground basis, adding to 100 |
+| average consumption: "why compare with a diesel? use petrol, or give the diesel equivalent" | The card mixed a diesel car's consumption with petrol-equivalent litres | D31 — petrol throughout: 7.0 L/100 km against a 2.2 L equivalent for the electric car |
+| cycling: "why not harmonise share of trips and share of km?" | 9.3 % of *trips* (2017) next to 64 % of *kilometres* (2025), from two different surveys and not reconcilable | D31 — both metrics named, and the gap explained by trip length (4 / 5 / 10 km) |
+
+Found while fixing the above:
+
+- the leverage line printed the unit in English (`1,22 persons/car`) because it used
+  `lever.unit` directly instead of the `T.unit()` translation the rest of the page uses;
+- for `car-energy` the reference line was circular — "compared with staying at the 2019
+  level (100 % of 2019)" — so that lever now uses a shorter phrasing.

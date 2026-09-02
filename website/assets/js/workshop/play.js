@@ -190,31 +190,38 @@
     }
     box.classList.remove("is-hidden");
 
-    var twh = window.NW_IMPACT.evaluate(lever.impact, value);
-    var ref = reference2019();
-    var change = window.NW_IMPACT.changeVs(lever.impact, value, ref);
-    $("leverage-value").textContent = T.t("play.leverage.value", { twh: T.num(twh, 1) });
+    // What THIS answer contributes, against simply keeping today's level of the
+    // same indicator. Never the sector total (which reads as the combined effect
+    // of all eight levers) and never a comparison with negaWatt (which a group
+    // could solve by sliding until the difference vanished).
+    var delta = window.NW_IMPACT.contribution(lever.impact, value, lever.refValue);
+    var main = $("leverage-value");
+    var sub = $("leverage-delta");
 
-    // Deliberately compared to the observed 2019 demand, never to negaWatt:
-    // a live "you are 1.1 TWh below negaWatt" would let a group slide until the
-    // difference vanished and read the answer straight off the screen.
-    var el = $("leverage-delta");
-    if (change === null) {
-      el.textContent = "";
-      el.dataset.dir = "flat";
-    } else {
-      el.textContent = T.t(change > 0 ? "play.leverage.above2019" : "play.leverage.vs2019",
-                           { delta: T.num(Math.abs(change), 0), year: 2019 });
-      el.dataset.dir = change > 0 ? "up" : (change < 0 ? "down" : "flat");
+    if (delta === null) {
+      main.textContent = "";
+      sub.textContent = "";
+      sub.removeAttribute("data-dir");
+      return;
     }
-  }
 
-  /* The 2019 inland-mobility demand, from the notebook's model block. */
-  function reference2019() {
-    var data = window.NW_LEVERS && window.NW_LEVERS[state.sector];
-    var model = data && data.model;
-    var value = model && model.inlandTwh && model.inlandTwh["2019"];
-    return value || null;
+    if (Math.abs(delta) < 0.05) {
+      main.textContent = T.t("play.leverage.neutral");
+      main.dataset.dir = "flat";
+    } else {
+      main.textContent = T.t(delta < 0 ? "play.leverage.saves" : "play.leverage.costs",
+                             { delta: T.num(Math.abs(delta), 1) });
+      main.dataset.dir = delta < 0 ? "down" : "up";
+    }
+    // Levers already expressed as "% of 2019" have a reference of 100 % of 2019,
+    // and naming it makes the sentence circular.
+    sub.textContent = lever.unit === "% of 2019"
+      ? T.t("play.leverage.versusPlain", { year: lever.refYear })
+      : T.t("play.leverage.versus", {
+          year: lever.refYear,
+          ref: T.num(lever.refValue, lever.decimals) + " " + T.unit(lever.unit)
+        });
+    sub.dataset.dir = "flat";
   }
 
   /* ------------------------------------------------------------------ facts */

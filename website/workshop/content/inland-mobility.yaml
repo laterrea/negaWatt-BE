@@ -227,18 +227,19 @@ levers:
       - kind: structure
         text:
           fr: >
-            En 2019, la répartition belge était : {carSharePkm2019} % de tous les
-            voyageurs-kilomètres en voiture, 10,3 % en bus et autocar, 9,0 % en train
-            (base Eurostat voiture + bus + train).
+            En 2019, ces kilomètres motorisés se répartissaient ainsi : {refValue:d1} % en
+            voiture, {busShareMot2019:d1} % en bus et autocar, {railShareMot2019:d1} % en train,
+            {tramShareMot2019:d1} % en tram ou métro et {motoShareMot2019:d1} % en deux-roues.
           nl: >
-            In 2019 was de Belgische verdeling: {carSharePkm2019} % van alle
-            reizigerskilometers met de auto, 10,3 % met bus en touringcar, 9,0 % met de trein
-            (Eurostat-basis auto + bus + trein).
+            In 2019 verdeelden die gemotoriseerde kilometers zich zo: {refValue:d1} % met de
+            auto, {busShareMot2019:d1} % met bus en touringcar, {railShareMot2019:d1} % met de trein,
+            {tramShareMot2019:d1} % met tram of metro en {motoShareMot2019:d1} % met tweewielers.
           en: >
-            In 2019 the Belgian split was {carSharePkm2019}% of all passenger-kilometres by
-            car, 10.3% by bus and coach, 9.0% by train (Eurostat car + bus + train basis).
-        source: "Eurostat, tran_hv_psmod"
-        url: https://ec.europa.eu/eurostat/databrowser/view/tran_hv_psmod/default/table?lang=en
+            In 2019 those motorised kilometres split as {refValue:d1}% by car,
+            {busShareMot2019:d1}% by bus and coach, {railShareMot2019:d1}% by train,
+            {tramShareMot2019:d1}% by tram or metro and {motoShareMot2019:d1}% by two-wheelers.
+        source: JRC-IDEES-2023, via nW-BE §2.1
+        url: https://joint-research-centre.ec.europa.eu/potencia/jrc-idees_en
       - kind: caution
         text:
           fr: >
@@ -512,33 +513,33 @@ levers:
       - kind: structure
         text:
           fr: >
-            En 2019, une voiture diesel consommait {kwhPerKmDiesel2019} kWh/km et une électrique
-            {kwhPerKmBev2019} kWh/km. Le passage à l'électrique est compté séparément : ce levier
-            est ce qui vient *en plus*.
+            En 2019, une voiture à essence consommait {kwhPerKmPetrol2019} kWh/km et une
+            électrique {kwhPerKmBev2019} kWh/km. Le passage à l'électrique est compté
+            séparément : ce levier est ce qui vient *en plus*.
           nl: >
-            In 2019 gebruikte een dieselauto {kwhPerKmDiesel2019} kWh/km en een elektrische
+            In 2019 gebruikte een benzineauto {kwhPerKmPetrol2019} kWh/km en een elektrische
             {kwhPerKmBev2019} kWh/km. De overstap naar elektrisch wordt apart geteld: deze
             hefboom komt daar *bovenop*.
           en: >
-            In 2019 a diesel car used {kwhPerKmDiesel2019} kWh/km and an electric one
+            In 2019 a petrol car used {kwhPerKmPetrol2019} kWh/km and an electric one
             {kwhPerKmBev2019} kWh/km. The switch to electric is counted separately: this lever is
             what comes *on top*.
         source: JRC-IDEES-2023 via nW-BE §2.3.5
       - kind: tangible
         text:
           fr: >
-            {kwhPerKmBev2019} kWh/km pour une électrique de 2019, c'est l'équivalent énergétique
-            d'environ 2,2 litres d'essence aux 100 km. Une diesel de la même année en demandait
-            l'équivalent de 6,6 litres.
+            Une essence de 2019 consommait environ {litresPetrol2019:d1} litres aux 100 km. Une
+            électrique de la même année demandait {kwhPerKmBev2019} kWh/km, soit l'équivalent
+            énergétique de {litresPetrolEqBev2019} litres d'essence aux 100 km.
           nl: >
-            {kwhPerKmBev2019} kWh/km voor een elektrische auto uit 2019 is het energetische
-            equivalent van ongeveer 2,2 liter benzine per 100 km. Een diesel uit hetzelfde jaar
-            vroeg het equivalent van 6,6 liter.
+            Een benzineauto uit 2019 verbruikte ongeveer {litresPetrol2019:d1} liter per 100 km.
+            Een elektrische uit hetzelfde jaar vroeg {kwhPerKmBev2019} kWh/km, het energetische
+            equivalent van {litresPetrolEqBev2019} liter benzine per 100 km.
           en: >
-            {kwhPerKmBev2019} kWh/km for a 2019 electric car is the energy equivalent of about
-            2.2 litres of petrol per 100 km. A diesel of the same year needed the equivalent of
-            6.6 litres.
-        source: "JRC-IDEES-2023 ; essence à 9,7 kWh/litre"
+            A 2019 petrol car used about {litresPetrol2019:d1} litres per 100 km. An electric one
+            of the same year needed {kwhPerKmBev2019} kWh/km — the energy equivalent of
+            {litresPetrolEqBev2019} litres of petrol per 100 km.
+        source: "JRC-IDEES-2023 ; essence à 9,7 kWh/litre (PCI)"
       - kind: benchmark
         text:
           fr: >
@@ -629,20 +630,20 @@ levers:
       - kind: trend
         text:
           fr: >
-            Le vélo électrique a tout changé, vite : 9,3 % des *trajets* à vélo en 2017,
-            {ebikeShareKm2025} % des *kilomètres* à vélo en 2025. Distance moyenne par trajet :
-            {bikeTripKm} km à vélo classique, {ebikeTripKm} km en électrique, {pedelecTripKm} km
-            en speed pedelec.
+            Le vélo électrique s'est imposé très vite : il assure {ebikeShareKm2025} % des
+            *kilomètres* parcourus à vélo en 2025, mais une part bien plus faible des *trajets*
+            (9,3 % en 2017). L'écart est mécanique : un trajet fait {bikeTripKm} km à vélo
+            classique, {ebikeTripKm} km en électrique et {pedelecTripKm} km en speed pedelec.
           nl: >
-            De elektrische fiets veranderde alles, en snel: 9,3 % van de fiets*ritten* in 2017,
-            {ebikeShareKm2025} % van de fiets*kilometers* in 2025. Gemiddelde afstand per rit:
-            {bikeTripKm} km met een gewone fiets, {ebikeTripKm} km elektrisch, {pedelecTripKm} km
-            met een speed pedelec.
+            De elektrische fiets zette snel door: hij dekt {ebikeShareKm2025} % van de
+            fiets*kilometers* in 2025, maar een veel kleiner deel van de *ritten* (9,3 % in 2017).
+            Het verschil is mechanisch: een rit is {bikeTripKm} km met een gewone fiets,
+            {ebikeTripKm} km elektrisch en {pedelecTripKm} km met een speed pedelec.
           en: >
-            E-bikes changed the picture fast: 9.3% of cycling *trips* in 2017,
-            {ebikeShareKm2025}% of cycling *kilometres* by 2025. Average trip length:
-            {bikeTripKm} km by ordinary bike, {ebikeTripKm} km by e-bike, {pedelecTripKm} km by
-            speed pedelec.
+            E-bikes took over fast: they carry {ebikeShareKm2025}% of cycling *kilometres* by
+            2025, but a far smaller share of *trips* (9.3% in 2017). The gap is mechanical: a trip
+            is {bikeTripKm} km by ordinary bike, {ebikeTripKm} km by e-bike and {pedelecTripKm} km
+            by speed pedelec.
         source: "Enquêtes SPF Mobilité 2017 et 2025, via nW-BE §2.2.1"
       - kind: caution
         text:

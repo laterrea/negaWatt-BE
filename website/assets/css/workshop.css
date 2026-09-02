@@ -293,15 +293,15 @@
 }
 .ws-leverage__value {
   margin: 0;
-  font-weight: 700;
-  font-size: 1rem;
+  font-weight: 800;
+  font-size: 1.15rem;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
 }
-.ws-leverage__delta { margin: 3px 0 0; font-size: .88rem; font-weight: 700; }
-.ws-leverage__delta[data-dir="up"] { color: var(--up); }
-.ws-leverage__delta[data-dir="down"] { color: var(--down); }
-.ws-leverage__delta[data-dir="flat"] { color: var(--flat); }
+.ws-leverage__value[data-dir="up"] { color: var(--up); }
+.ws-leverage__value[data-dir="down"] { color: var(--down); }
+.ws-leverage__value[data-dir="flat"] { color: var(--flat); }
+.ws-leverage__delta { margin: 3px 0 0; font-size: .84rem; color: var(--ink-soft); }
 .ws-leverage__caveat { margin: 7px 0 0; font-size: .74rem; color: var(--muted); }
 .ws-leverage.is-hidden .ws-leverage__value,
 .ws-leverage.is-hidden .ws-leverage__delta { color: var(--muted); font-weight: 600; }

@@ -161,31 +161,37 @@ strings:
     nl: Met voorzichtigheid te hanteren
     en: Handle with care
   play.leverage.title:
-    fr: Effet sur la demande d'énergie
-    nl: Effect op de energievraag
-    en: Effect on energy demand
-  play.leverage.value:
-    fr: "{twh} TWh en 2050 pour la mobilité intérieure"
-    nl: "{twh} TWh in 2050 voor de binnenlandse mobiliteit"
-    en: "{twh} TWh in 2050 for inland mobility"
-  # Compared with the observed 2019 demand, never with negaWatt: see
-  # docs/workshop_module.md, decision D17.
-  play.leverage.vs2019:
-    fr: "soit {delta} % de moins qu'en {year}"
-    nl: "dat is {delta} % minder dan in {year}"
-    en: "that is {delta}% less than in {year}"
-  play.leverage.above2019:
-    fr: "soit {delta} % de plus qu'en {year}"
-    nl: "dat is {delta} % meer dan in {year}"
-    en: "that is {delta}% more than in {year}"
+    fr: Ce que votre réponse change
+    nl: Wat jullie antwoord verandert
+    en: What your answer changes
+  play.leverage.saves:
+    fr: "{delta} TWh de moins en 2050"
+    nl: "{delta} TWh minder in 2050"
+    en: "{delta} TWh less in 2050"
+  play.leverage.costs:
+    fr: "{delta} TWh de plus en 2050"
+    nl: "{delta} TWh meer in 2050"
+    en: "{delta} TWh more in 2050"
+  play.leverage.neutral:
+    fr: Effet négligeable sur la demande d'énergie
+    nl: Verwaarloosbaar effect op de energievraag
+    en: A negligible effect on energy demand
+  play.leverage.versus:
+    fr: "par rapport au maintien du niveau de {year} ({ref})"
+    nl: "vergeleken met het handhaven van het niveau van {year} ({ref})"
+    en: "compared with staying at the {year} level ({ref})"
+  play.leverage.versusPlain:
+    fr: "par rapport au maintien du niveau de {year}"
+    nl: "vergeleken met het handhaven van het niveau van {year}"
+    en: "compared with staying at the {year} level"
   play.leverage.hidden:
     fr: Révélé après votre réponse
     nl: Wordt na jullie antwoord getoond
     en: Revealed once you answer
   play.leverage.caveat:
-    fr: Effet de ce seul levier, les autres hypothèses restant inchangées.
-    nl: Effect van deze ene hefboom, met de andere veronderstellingen ongewijzigd.
-    en: The effect of this lever alone, with the other assumptions left unchanged.
+    fr: "Effet de ce seul levier : les sept autres hypothèses restent inchangées."
+    nl: "Effect van deze ene hefboom: de zeven andere veronderstellingen blijven ongewijzigd."
+    en: "This lever alone: the other seven assumptions are left unchanged."
   play.confidence.label:
     fr: Votre degré de certitude
     nl: Hoe zeker zijn jullie?
