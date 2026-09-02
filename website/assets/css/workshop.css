@@ -1,0 +1,636 @@
+/* ==========================================================================
+   negaWatt Belgium — interactive workshop
+   Loaded after styles.css and reusing its :root variables. The workshop pages
+   deliberately do NOT load nav.js: they are a focused, phone-first app, not
+   pages of the public site, so they carry their own minimal chrome and are free
+   of the site header's 130px sticky offset.
+   ========================================================================== */
+
+:root {
+  --ws-amber:      #c0612a;
+  --ws-amber-soft: #fbeede;
+  --ws-shadow-up:  0 -1px 12px rgba(13, 93, 91, .07);
+  --ws-tap:        44px;            /* minimum comfortable touch target */
+}
+
+/* ------------------------------------------------------------------ shell */
+.ws-body {
+  background: var(--bg-alt);
+  margin: 0;
+}
+.ws-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  max-width: 720px;
+  margin: 0 auto;
+  background: var(--bg);
+  box-shadow: 0 0 0 1px var(--line);
+}
+.ws-wide { max-width: 1180px; }
+
+.ws-main {
+  flex: 1 1 auto;
+  padding: 18px 20px 24px;
+}
+.ws-main > * + * { margin-top: 18px; }
+
+/* ----------------------------------------------------------------- topbar */
+.ws-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  background: var(--nw-cream);
+  border-bottom: 1px solid #e8e1bf;
+}
+.ws-topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 800;
+  font-size: .9rem;
+  color: var(--nw-teal-darker);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.ws-topbar__brand img { height: 26px; width: auto; display: block; }
+.ws-topbar__spacer { flex: 1 1 auto; }
+
+.ws-lang {
+  display: inline-flex;
+  border: 1px solid #ded7b4;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #fffdf5;
+}
+.ws-lang button {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--ink-soft);
+  padding: 5px 9px;
+  min-width: 34px;
+}
+.ws-lang button[aria-pressed="true"] {
+  background: var(--nw-teal);
+  color: #fff;
+}
+
+.ws-badge {
+  font-size: .74rem;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--nw-mint);
+  color: var(--nw-teal-darker);
+  white-space: nowrap;
+}
+.ws-badge--warn { background: var(--ws-amber-soft); color: #8a4419; }
+.ws-badge--quiet { background: #eceeed; color: var(--muted); }
+
+/* --------------------------------------------------------------- progress */
+.ws-progress {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ws-progress__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #dfe6e4;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: background .15s, transform .15s;
+}
+.ws-progress__dot[data-state="answered"] { background: var(--nw-teal); }
+.ws-progress__dot[data-state="current"] {
+  background: var(--ws-amber);
+  transform: scale(1.45);
+}
+.ws-progress__label {
+  font-size: .78rem;
+  color: var(--muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------- question */
+.ws-eyebrow {
+  font-size: .74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: var(--nw-teal-dark);
+  margin: 0 0 6px;
+}
+.ws-question {
+  font-size: clamp(1.25rem, 4.4vw, 1.65rem);
+  line-height: 1.25;
+  font-weight: 800;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+.ws-subtitle {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: .93rem;
+}
+
+/* ------------------------------------------------------------------ chart */
+.ws-chart {
+  background: linear-gradient(180deg, var(--nw-mint-soft), #fff 70%);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 8px 4px;
+}
+.ws-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  padding: 0 8px 6px;
+  font-size: .74rem;
+  color: var(--muted);
+}
+.ws-chart__legend span { display: inline-flex; align-items: center; gap: 5px; }
+.ws-chart__legend i {
+  width: 16px; height: 0;
+  border-top: 2.5px solid currentColor;
+  display: inline-block;
+}
+.ws-chart__legend .obs { color: var(--nw-teal); }
+.ws-chart__legend .you { color: var(--ws-amber); }
+.ws-chart__legend .nw { color: var(--nw-teal-dark); }
+.ws-chart__note {
+  margin: 0;
+  padding: 2px 8px 4px;
+  font-size: .72rem;
+  color: var(--muted);
+}
+
+/* ----------------------------------------------------------------- slider */
+.ws-slider { padding: 2px 2px 0; }
+.ws-slider__hint {
+  font-size: .85rem;
+  color: var(--nw-teal-dark);
+  font-weight: 600;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.ws-slider__hint::before { content: "↔"; font-size: 1.15rem; line-height: 1; }
+.ws-slider.is-answered .ws-slider__hint { display: none; }
+
+.ws-slider input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: var(--ws-tap);
+  background: none;
+  margin: 0;
+  cursor: pointer;
+}
+.ws-slider input[type="range"]:focus { outline: none; }
+.ws-slider input[type="range"]:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 4px rgba(192, 97, 42, .3);
+}
+.ws-slider input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 999px;
+  background: #e4eae8;
+}
+.ws-slider input[type="range"]::-moz-range-track {
+  height: 8px;
+  border-radius: 999px;
+  background: #e4eae8;
+}
+.ws-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 30px; height: 30px;
+  margin-top: -11px;
+  border-radius: 50%;
+  background: var(--ws-amber);
+  border: 3px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .22);
+}
+.ws-slider input[type="range"]::-moz-range-thumb {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--ws-amber);
+  border: 3px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .22);
+}
+.ws-slider:not(.is-answered) input[type="range"]::-webkit-slider-thumb {
+  background: #b6c2c0;                     /* unset: never suggest a default */
+}
+.ws-slider:not(.is-answered) input[type="range"]::-moz-range-thumb {
+  background: #b6c2c0;
+}
+.ws-slider__scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: .74rem;
+  color: var(--muted);
+  padding: 0 2px;
+}
+
+/* ---------------------------------------------------------------- readout */
+.ws-readout {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: var(--ws-amber-soft);
+  border: 1px solid #f0dcc0;
+}
+.ws-readout.is-empty { background: #f2f5f4; border-color: var(--line); }
+.ws-readout__num {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #8a4419;
+  font-variant-numeric: tabular-nums;
+}
+.ws-readout.is-empty .ws-readout__num { color: var(--muted); font-size: 1.15rem; }
+.ws-readout__unit { font-size: .95rem; font-weight: 700; color: #8a4419; }
+.ws-readout.is-empty .ws-readout__unit { display: none; }
+.ws-readout__tangible {
+  flex: 1 0 100%;
+  font-size: .88rem;
+  color: #6c5526;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------- leverage */
+.ws-leverage {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--nw-teal);
+  border-radius: var(--radius-sm);
+  padding: 12px 15px;
+  background: var(--nw-mint-soft);
+}
+.ws-leverage__label {
+  font-size: .72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--nw-teal-darker);
+  margin: 0 0 5px;
+}
+.ws-leverage__value {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.ws-leverage__delta { margin: 3px 0 0; font-size: .88rem; font-weight: 700; }
+.ws-leverage__delta[data-dir="up"] { color: var(--up); }
+.ws-leverage__delta[data-dir="down"] { color: var(--down); }
+.ws-leverage__delta[data-dir="flat"] { color: var(--flat); }
+.ws-leverage__caveat { margin: 7px 0 0; font-size: .74rem; color: var(--muted); }
+.ws-leverage.is-hidden .ws-leverage__value,
+.ws-leverage.is-hidden .ws-leverage__delta { color: var(--muted); font-weight: 600; }
+
+/* ------------------------------------------------------------------ facts */
+.ws-facts h2 {
+  font-size: .78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+.ws-facts__grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 620px) {
+  .ws-facts__grid { grid-template-columns: 1fr 1fr; }
+}
+.ws-fact {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.ws-fact__kind {
+  display: inline-block;
+  font-size: .68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  margin-bottom: 7px;
+  background: var(--nw-mint);
+  color: var(--nw-teal-darker);
+}
+.ws-fact[data-kind="trend"] .ws-fact__kind { background: #e3edfa; color: #2d5b8e; }
+.ws-fact[data-kind="benchmark"] .ws-fact__kind { background: #eae6f8; color: #55418f; }
+.ws-fact[data-kind="tangible"] .ws-fact__kind { background: #e5f5ec; color: #17724a; }
+.ws-fact[data-kind="caution"] .ws-fact__kind { background: #fbf0dd; color: #8a5b12; }
+.ws-fact__text { margin: 0; font-size: .9rem; color: var(--ink-soft); }
+.ws-fact__source {
+  margin: 8px 0 0;
+  font-size: .72rem;
+  color: var(--muted);
+}
+.ws-fact__source a { color: var(--nw-teal-dark); }
+
+/* ------------------------------------------------------------- confidence */
+.ws-field > label,
+.ws-field > .ws-field__label {
+  display: block;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin: 0 0 8px;
+}
+.ws-segmented {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.ws-segmented button {
+  min-height: var(--ws-tap);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  font: inherit;
+  font-size: .86rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background .12s, border-color .12s, color .12s;
+}
+.ws-segmented button:hover { border-color: var(--nw-teal); }
+.ws-segmented button[aria-pressed="true"] {
+  background: var(--nw-teal);
+  border-color: var(--nw-teal);
+  color: #fff;
+}
+.ws-input, .ws-textarea {
+  width: 100%;
+  min-height: var(--ws-tap);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 11px 13px;
+  font: inherit;
+  font-size: .95rem;
+  color: var(--ink);
+  background: #fff;
+}
+.ws-textarea { min-height: 74px; resize: vertical; }
+.ws-input:focus, .ws-textarea:focus {
+  outline: none;
+  border-color: var(--nw-teal);
+  box-shadow: 0 0 0 3px rgba(26, 156, 152, .16);
+}
+.ws-help { margin: 6px 0 0; font-size: .76rem; color: var(--muted); }
+
+/* ----------------------------------------------------------------- footer */
+.ws-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  display: flex;
+  gap: 10px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, .96);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid var(--line);
+  box-shadow: var(--ws-shadow-up);
+}
+.ws-btn {
+  flex: 1 1 auto;
+  min-height: var(--ws-tap);
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-size: .96rem;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 0 20px;
+  background: var(--nw-teal);
+  color: #fff;
+  transition: background .15s, opacity .15s;
+}
+.ws-btn:hover { background: var(--nw-teal-dark); }
+.ws-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.ws-btn--ghost {
+  flex: 0 0 auto;
+  background: #fff;
+  color: var(--ink-soft);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.ws-btn--ghost:hover { background: var(--bg-alt); color: var(--ink); }
+.ws-btn--amber { background: var(--ws-amber); }
+.ws-btn--amber:hover { background: #a24f20; }
+
+/* ------------------------------------------------------------------ panels */
+.ws-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.ws-panel h1 { font-size: 1.4rem; margin: 0 0 8px; }
+.ws-panel h2 { font-size: 1.05rem; margin: 0 0 8px; }
+.ws-note {
+  background: var(--nw-mint-soft);
+  border-left: 4px solid var(--nw-teal);
+  border-radius: var(--radius-sm);
+  padding: 12px 15px;
+  font-size: .9rem;
+  color: var(--ink-soft);
+}
+.ws-note--warn {
+  background: var(--ws-amber-soft);
+  border-left-color: #e0a93b;
+  color: #6c5526;
+}
+.ws-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: .18em;
+  color: var(--nw-teal-darker);
+}
+
+/* ------------------------------------------------------------------ reveal */
+.ws-reveal__head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.ws-dots { margin-top: 6px; }
+.ws-stat {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+  font-size: .88rem;
+  color: var(--ink-soft);
+}
+.ws-stat b { display: block; font-size: 1.3rem; color: var(--ink); font-weight: 800; }
+.ws-quote {
+  border-left: 3px solid var(--nw-mint);
+  padding: 2px 0 2px 12px;
+  margin: 0 0 10px;
+  font-size: .92rem;
+  color: var(--ink-soft);
+}
+.ws-quote cite { display: block; font-size: .76rem; color: var(--muted); font-style: normal; }
+
+.ws-nw-marker { animation: ws-drop .55s cubic-bezier(.2, 1.3, .4, 1) both; }
+@keyframes ws-drop {
+  from { opacity: 0; transform: translateY(-18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ws-dot { animation: ws-pop .4s ease-out both; }
+@keyframes ws-pop {
+  from { opacity: 0; transform: scale(.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ws-nw-marker, .ws-dot { animation: none; }
+}
+
+.ws-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.ws-table th, .ws-table td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+}
+.ws-table th { font-size: .74rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.ws-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.ws-scroll { overflow-x: auto; }
+
+.ws-hidden { display: none !important; }
+
+/* ==========================================================================
+   Printable fact cards (cards.html)
+   One A5 card per lever, two to an A4 sheet in portrait. The facts are the same
+   ones the participant sees on screen — the paper is for the table discussion.
+   ========================================================================== */
+.ws-cards { max-width: 1180px; margin: 0 auto; padding: 20px; }
+.ws-cards__toolbar {
+  display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+  margin-bottom: 18px;
+}
+
+.ws-card {
+  border: 1.5px solid var(--nw-teal);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  background: #fff;
+  break-inside: avoid;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ws-card__head {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+  border-bottom: 1px solid var(--line); padding-bottom: 8px;
+}
+.ws-card__n {
+  font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--nw-teal-dark); white-space: nowrap;
+}
+.ws-card__q { font-size: 1.02rem; font-weight: 800; margin: 0; line-height: 1.25; }
+.ws-card__sub { font-size: .78rem; color: var(--ink-soft); margin: 4px 0 0; }
+.ws-card__anchor {
+  display: flex; gap: 16px; flex-wrap: wrap; font-size: .8rem; color: var(--ink-soft);
+  background: var(--nw-mint-soft); border-radius: var(--radius-sm); padding: 8px 12px;
+}
+.ws-card__anchor b { display: block; font-size: 1.1rem; color: var(--ink); }
+.ws-card__facts { display: grid; gap: 8px; }
+.ws-card__fact { font-size: .8rem; color: var(--ink-soft); }
+.ws-card__fact b {
+  display: inline-block; font-size: .66rem; text-transform: uppercase;
+  letter-spacing: .07em; color: var(--nw-teal-darker); margin-right: 6px;
+}
+.ws-card__fact cite { display: block; font-size: .68rem; color: var(--muted); font-style: normal; }
+.ws-card__foot {
+  margin-top: auto; border-top: 1px dashed var(--line); padding-top: 8px;
+  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+  font-size: .74rem; color: var(--muted);
+}
+.ws-card__code { font-weight: 800; letter-spacing: .14em; color: var(--nw-teal-darker); }
+.ws-card__scale { font-size: .72rem; color: var(--muted); }
+
+.ws-cards__grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
+@media (min-width: 820px) {
+  .ws-cards__grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media print {
+  @page { size: A4 portrait; margin: 10mm; }
+  body { background: #fff; }
+  .ws-cards { padding: 0; max-width: none; }
+  .ws-cards__toolbar, .ws-topbar { display: none !important; }
+  .ws-cards__grid { grid-template-columns: 1fr; gap: 0; }
+
+  /* Roughly A5, two to an A4 page. `min-height` rather than a fixed height on
+     purpose: measured at print width the tallest card needs ~134mm, and a fixed
+     133mm silently cut a fact off the bottom of six cards out of eight. Letting a
+     long card grow costs a little paper; clipping costs the participants a fact.
+     `break-inside: avoid` keeps each card whole and lets the browser pack the
+     pages, which also avoids the blank pages a forced break-after produced. */
+  .ws-card {
+    min-height: 128mm;
+    height: auto;
+    box-sizing: border-box;
+    margin: 0 0 6mm;
+    padding: 12px 14px;
+    gap: 6px;
+    line-height: 1.4;
+    border-color: #137c79;
+    box-shadow: none;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .ws-card__q { font-size: 11pt; }
+  .ws-card__sub { font-size: 8pt; }
+  .ws-card__facts { gap: 6px; }
+  .ws-card__fact { font-size: 8.5pt; line-height: 1.4; }
+  .ws-card__fact cite { font-size: 6.5pt; }
+  .ws-card__anchor { padding: 6px 10px; }
+  a { color: inherit; text-decoration: none; }
+}
+
+/* Who this device is answering as, with a one-tap rename. Server-assigned names
+   are fine for a remote session; in a room a group wants to be "Table 3". */
+.ws-identity {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: .84rem;
+  font-weight: 700;
+  color: var(--nw-teal-darker);
+}
+.ws-linkbtn {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.ws-linkbtn:hover { color: var(--nw-teal-dark); }

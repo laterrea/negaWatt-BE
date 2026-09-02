@@ -1,0 +1,109 @@
+<!-- negaWatt Belgium — workshop reveal screen (the projector).
+     Group answers appear live; the negaWatt value drops in on demand, one lever
+     at a time, with its written justification. -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Mise en commun — négaWatt Belgium workshop</title>
+<link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/workshop.css">
+
+<body class="ws-body">
+<div class="ws-shell ws-wide">
+
+  <div class="ws-topbar">
+    <span class="ws-topbar__brand">
+      <img src="../assets/img/nW_BE_logo_square.png" alt="négaWatt Belgium">
+      <span data-ui="reveal.title"></span>
+    </span>
+    <span class="ws-topbar__spacer"></span>
+    <span class="ws-badge" id="scope-badge"></span>
+    <span class="ws-badge ws-badge--quiet" id="live-badge"></span>
+    <div class="ws-lang" id="lang-switch" role="group"></div>
+  </div>
+
+  <main class="ws-main" id="screen-lever">
+    <div class="ws-progress">
+      <span class="ws-progress__label" id="progress-label"></span>
+      <span class="ws-topbar__spacer"></span>
+      <span id="progress-dots" style="display:flex;gap:6px"></span>
+    </div>
+
+    <div>
+      <p class="ws-eyebrow" id="topic-title"></p>
+      <h1 class="ws-question" id="question"></h1>
+      <p class="ws-subtitle" id="subtitle"></p>
+    </div>
+
+    <div class="ws-chart">
+      <div class="ws-dots" id="dots" style="min-height:182px"></div>
+      <div class="ws-chart__legend" id="dots-legend"></div>
+    </div>
+
+    <div class="ws-stat" id="stats"></div>
+
+    <div class="ws-panel ws-hidden" id="nw-panel">
+      <h2 data-ui="reveal.why"></h2>
+      <p id="justification"></p>
+      <div class="ws-note ws-note--warn" id="debate-box">
+        <strong data-ui="reveal.debate"></strong>
+        <p id="debate" style="margin:6px 0 0"></p>
+      </div>
+      <p id="verdict" style="margin-top:12px;font-weight:700"></p>
+      <div class="ws-facts__grid" id="reveal-facts" style="margin-top:14px"></div>
+    </div>
+
+    <section class="ws-hidden" id="conditions-box">
+      <h2 style="font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)"
+          data-ui="reveal.conditions"></h2>
+      <div id="conditions"></div>
+    </section>
+  </main>
+
+  <main class="ws-main ws-hidden" id="screen-summary">
+    <h1 class="ws-question" data-ui="reveal.summary"></h1>
+    <div class="ws-scroll">
+      <table class="ws-table" id="summary-table"></table>
+    </div>
+    <div class="ws-stat" id="awards" style="margin-top:18px"></div>
+  </main>
+
+  <main class="ws-main ws-hidden" id="screen-setup">
+    <div class="ws-panel">
+      <h1 data-ui="reveal.title"></h1>
+      <p class="ws-help" id="setup-help"></p>
+      <div class="ws-field" style="margin-top:12px">
+        <label for="setup-code" data-ui="facil.code"></label>
+        <input class="ws-input ws-code" id="setup-code" maxlength="8" style="text-align:center">
+      </div>
+      <div class="ws-field" style="margin-top:12px">
+        <label for="setup-token">admin_token</label>
+        <input class="ws-input" id="setup-token" autocomplete="off">
+      </div>
+      <div class="ws-field" style="margin-top:12px">
+        <label for="setup-key" data-ui="facil.keyLabel"></label>
+        <input class="ws-input" id="setup-key" autocomplete="off">
+        <p class="ws-help" data-ui="reveal.needKey"></p>
+      </div>
+      <p class="ws-note ws-note--warn ws-hidden" id="setup-error" style="margin-top:12px"></p>
+      <button class="ws-btn" id="setup-go" style="margin-top:16px;width:100%"
+              data-ui="reveal.show"></button>
+    </div>
+  </main>
+
+  <div class="ws-actions" id="actions">
+    <button class="ws-btn ws-btn--ghost" id="btn-prev" data-ui="reveal.prev"></button>
+    <button class="ws-btn ws-btn--amber" id="btn-reveal" data-ui="reveal.show"></button>
+    <button class="ws-btn ws-btn--ghost" id="btn-next" data-ui="reveal.next"></button>
+  </div>
+</div>
+
+<script src="../data/levers_transport.js"></script>
+<script src="../data/history_transport.js"></script>
+<script src="../data/workshop_content.js"></script>
+<script src="../assets/js/workshop/i18n.js"></script>
+<script src="../assets/js/workshop/spark.js"></script>
+<script src="../assets/js/workshop/impact.js"></script>
+<script src="../assets/js/workshop/api.js"></script>
+<script src="../assets/js/workshop/reveal.js"></script>
+</body>

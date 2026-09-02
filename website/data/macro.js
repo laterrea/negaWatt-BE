@@ -2,7 +2,7 @@
 window.NW_DATA = window.NW_DATA || {};
 window.NW_DATA["macro"] = {
   "title": "Population & context",
-  "generated": "2026-06-21",
+  "generated": "2026-08-31",
   "hypotheses": {
     "population": {
       "name": "Population",

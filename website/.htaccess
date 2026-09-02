@@ -1,0 +1,53 @@
+# ============================================================
+# negaWatt Belgium — Apache access control for the published site.
+# The repository's website/ folder is the web docroot
+# (/home/negawatt/public_html on negawatt.squoilin.eu).
+# Modelled on the smartcampus site on the same host.
+# ============================================================
+
+Options -Indexes +FollowSymLinks
+DirectoryIndex index.html index.php
+AddDefaultCharset UTF-8
+
+# Never serve the live database credentials.
+<Files "config.php">
+  Require all denied
+</Files>
+
+# Block dotfiles (.htaccess, .git, ...).
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
+# Block sources that are inputs to the build, not content to serve:
+# the schema, the config template, and the hand-edited content YAML.
+<FilesMatch "\.(sql|ya?ml|sample\.php)$">
+  Require all denied
+</FilesMatch>
+
+# The workshop is unlisted, not secret: no nav link, and keep it out of indexes.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|php)$">
+    Header set X-Content-Type-Options "nosniff"
+  </FilesMatch>
+  <FilesMatch "^(play|reveal|facilitator|cards|index)\.html$">
+    Header set X-Robots-Tag "noindex, nofollow"
+  </FilesMatch>
+</IfModule>
+
+# Caching. The vendored libraries and images never change, so cache them hard.
+# Everything the notebooks or the content build regenerate must be revalidated on
+# every load: a facilitator who refreshes the content between two sessions cannot
+# be left with participants running yesterday's data. `no-cache` still allows a
+# cheap 304, it only forbids using a copy without asking.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|html)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <Files "plotly.min.js">
+    Header set Cache-Control "public, max-age=604800, immutable"
+  </Files>
+  <FilesMatch "\.(png|jpg|jpeg|svg|woff2?)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>

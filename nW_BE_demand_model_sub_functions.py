@@ -1,4 +1,5 @@
 import json
+import math
 import os
 from datetime import date
 
@@ -494,6 +495,296 @@ def write_hypotheses_js(sector_key, hypotheses, plots=None, title=None,
 #     vals = start_value + s_vals * (end_value - start_value)
 #     return [round(v, 3) for v in vals]
 
+#%% WORKSHOP EXPORT (interactive workshop module — website/workshop/)
+#
+# The public card site shows what the scenario assumes. The workshop module asks
+# participants to set the *upstream* behavioural assumptions themselves, before
+# revealing the négaWatt value. These helpers export those "levers" and the
+# historical series used to anchor the discussion.
+#
+# Two files per sector, both consumed as plain <script> globals so the workshop
+# pages keep working from file:// :
+#   website/data/levers_<sector>.js   -> window.NW_LEVERS["<sector>"]
+#   website/data/history_<sector>.js  -> window.NW_HISTORY["<sector>"]
+#
+# The wording of the questions, the facts and the written justifications are NOT
+# here: they live in website/workshop/content/<topic>.yaml and are merged in the
+# browser by lever id. See docs/workshop_module.md.
+
+LEVER_IMPACT_KINDS = ("proportional", "inverse", "linear-shift", "negligible")
+
+# Anti-anchoring guard (docs/workshop_module.md, decision D4): if the négaWatt
+# target sits at an end of the slider range, the range itself gives the answer
+# away. Reject anything closer than this fraction of the span to either end.
+LEVER_MIN_EDGE_MARGIN = 0.12
+
+
+def _nice_step(span):
+    """A human-friendly slider step: roughly span/40, snapped to 1/2/5·10^n."""
+    if span <= 0:
+        return 1.0
+    raw = span / 40.0
+    mag = 10.0 ** math.floor(math.log10(raw))
+    for mult in (1, 2, 5, 10):
+        if raw <= mult * mag:
+            return mult * mag
+    return 10 * mag
+
+
+def _auto_slider(ref_value, target_value):
+    """Fallback slider envelope, generous enough on both sides of the target."""
+    lo, hi = min(ref_value, target_value), max(ref_value, target_value)
+    delta = hi - lo
+    if delta == 0:
+        delta = abs(ref_value) * 0.25 or 1.0
+    lo -= 0.6 * delta
+    hi += 0.6 * delta
+    step = _nice_step(hi - lo)
+    lo = math.floor(lo / step) * step
+    hi = math.ceil(hi / step) * step
+    if lo > 0 and lo < step:          # keep a clean zero when we are close to it
+        lo = 0.0
+    return {"min": round(lo, 6), "max": round(hi, 6), "step": round(step, 6)}
+
+
+def make_lever(id, topic, name, unit, ref_value, target_value,
+               ref_year=2019, target_year=2050,
+               slider=None, impact=None, model=None, history=None,
+               facts=None, spoilers=None, shown=True, better=None, decimals=None,
+               notebook=None, reference=None):
+    """Build one workshop lever record (a plain dict).
+
+    Parameters
+    ----------
+    id : str
+        Stable lever id. Must match an entry in the topic's content YAML.
+    topic : str
+        Workshop topic, e.g. ``"inland-mobility"``. One sector file can feed
+        several topics (transport feeds inland *and* international mobility).
+    name : str
+        Short internal (English) label. The participant-facing question text
+        comes from the content YAML, not from here.
+    unit : str
+        Tangible unit shown to participants (``"persons/car"``, ``"km/day"``).
+    ref_value, target_value : float
+        Reference-year value and the négaWatt target.
+    slider : dict, optional
+        ``{"min":…, "max":…, "step":…}``. Auto-derived when omitted. Validated
+        against :data:`LEVER_MIN_EDGE_MARGIN` so the range cannot betray the
+        target.
+    impact : dict, optional
+        Leverage formula for the live readout, ``{"kind": …, …}`` with ``kind``
+        in :data:`LEVER_IMPACT_KINDS`. Evaluated client-side by impact.js.
+    model : dict, optional
+        Traceability: ``{"var": "occu_trgt_PM_car", "cell": 77}``. ``"prose"``
+        may be set to the markdown cell a value was promoted from.
+    history : str, optional
+        Key into ``window.NW_HISTORY[<sector>].series`` for the curve whose 2050
+        endpoint the slider becomes.
+    facts : dict, optional
+        Numeric anchors this lever's *wording* needs, e.g.
+        ``{"ebikeShareKm": 64.0}``. The content YAML refers to them as
+        ``{ebikeShareKm}`` placeholders, so a figure quoted in the workshop text
+        can never drift from the notebook. build_workshop_content.py fails if a
+        placeholder has no matching key.
+    spoilers : list[str], optional
+        Which of those fact keys state *the scenario's own choice* rather than an
+        observation — the reduction it assumes, where it sends the shifted
+        kilometres, the 2050 demand it lands on. A card shown before the group
+        answers must not quote these, or the exercise gives away its answer, so
+        build_workshop_content.py refuses to put them in anything but a
+        ``reveal: true`` fact or the written justification.
+    shown : bool
+        False for spare levers that are exported but not played in the UI.
+    better : {"up", "down"}, optional
+        Which direction counts as more ambitious. Defaults to the sign of
+        ``target_value - ref_value``.
+    decimals : int, optional
+        Display precision. Derived from the slider step when omitted.
+    """
+    ref_value, target_value = float(ref_value), float(target_value)
+
+    if slider is None:
+        slider = _auto_slider(ref_value, target_value)
+    slider = {"min": float(slider["min"]), "max": float(slider["max"]),
+              "step": float(slider["step"])}
+    span = slider["max"] - slider["min"]
+    if span <= 0:
+        raise ValueError(f"lever '{id}': slider max must exceed min")
+
+    edge = min(target_value - slider["min"], slider["max"] - target_value) / span
+    if edge < LEVER_MIN_EDGE_MARGIN:
+        raise ValueError(
+            f"lever '{id}': the négaWatt target {target_value:g} sits {edge:.0%} from a "
+            f"slider end ([{slider['min']:g}, {slider['max']:g}]); widen the range so it "
+            f"stays at least {LEVER_MIN_EDGE_MARGIN:.0%} inside (see docs/workshop_module.md, D4)"
+        )
+    if abs((target_value - slider["min"]) / span - 0.5) < 0.05:
+        print(f"[workshop] note: lever '{id}' has the target almost dead centre of the "
+              f"slider range; consider shifting the range (D4)")
+    if not (slider["min"] <= ref_value <= slider["max"]):
+        print(f"[workshop] note: lever '{id}' reference value {ref_value:g} falls outside "
+              f"the slider range; the {ref_year} tick will be clamped")
+
+    if impact is not None:
+        if impact.get("kind") not in LEVER_IMPACT_KINDS:
+            raise ValueError(f"lever '{id}': impact kind must be one of {LEVER_IMPACT_KINDS}")
+
+    if better is None:
+        better = "down" if target_value < ref_value else "up"
+    if decimals is None:
+        decimals = max(0, -int(math.floor(math.log10(slider["step"])))) if slider["step"] < 1 else 0
+
+    rec = {
+        "id": id,
+        "topic": topic,
+        "name": name,
+        "unit": unit,
+        "refYear": ref_year,
+        "refValue": round(ref_value, 4),
+        "targetYear": target_year,
+        "targetValue": round(target_value, 4),
+        "slider": slider,
+        "better": better,
+        "decimals": int(decimals),
+        "shown": bool(shown),
+    }
+    if impact is not None:
+        rec["impact"] = impact
+    if model is not None:
+        rec["model"] = model
+    if history is not None:
+        rec["history"] = history
+    if facts:
+        rec["facts"] = dict(facts)
+    if spoilers:
+        unknown = [k for k in spoilers if k not in (facts or {})]
+        if unknown:
+            raise ValueError(f"lever '{id}': spoilers {unknown} are not fact keys")
+        rec["spoilers"] = sorted(spoilers)
+    if notebook is not None:
+        rec["notebook"] = notebook
+    if reference is not None:
+        rec["reference"] = reference
+    return rec
+
+
+def mode_totals_twh(df):
+    """Per-mode total TWh from a Mode/Powertrain-shaped table.
+
+    Thin public wrapper around the same grouping the energy-totals export uses,
+    so notebooks (which import with ``from ... import *``) can reach it.
+
+    Returns a DataFrame indexed by mode, with the table's year columns.
+    """
+    return _split_powertrains(df)["total"]
+
+
+def _write_global_js(out_path, global_name, sector_key, payload, generator):
+    payload = _json_safe(payload)
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    body = json.dumps(payload, indent=2, ensure_ascii=False)
+    content = (
+        f"/* AUTO-GENERATED by the notebook '{generator}' cell. Do not edit by hand. */\n"
+        f"window.{global_name} = window.{global_name} || {{}};\n"
+        f"window.{global_name}[\"{sector_key}\"] = {body};\n"
+    )
+    with open(out_path, "w", encoding="utf-8") as fh:
+        fh.write(content)
+    return out_path
+
+
+def write_levers_js(sector_key, levers, model=None, title=None, out_path=None):
+    """Write ``website/data/levers_<sector_key>.js`` for the workshop module.
+
+    Parameters
+    ----------
+    sector_key : str
+        Key under ``window.NW_LEVERS`` (e.g. ``"transport"``).
+    levers : list[dict]
+        Records from :func:`make_lever`. Ids must be unique.
+    model : dict, optional
+        Shared quantities the client-side leverage formulas need — per-mode 2050
+        TWh and energy intensities. Kept separate from the levers so several
+        levers can reference the same numbers.
+    title : str, optional
+        Human-readable sector title.
+    """
+    lever_map = {}
+    for lv in levers:
+        lv = dict(lv)
+        lid = lv.pop("id")
+        if lid in lever_map:
+            raise ValueError(f"duplicate lever id '{lid}'")
+        lever_map[lid] = lv
+
+    payload = {
+        "title": title or sector_key.capitalize(),
+        "generated": date.today().isoformat(),
+        "levers": lever_map,
+    }
+    if model:
+        payload["model"] = model
+
+    if out_path is None:
+        here = os.path.dirname(os.path.abspath(__file__))
+        out_path = os.path.join(here, "website", "data", "levers_" + sector_key + ".js")
+    _write_global_js(out_path, "NW_LEVERS", sector_key, payload, "Workshop export")
+
+    topics = sorted({lv.get("topic", "?") for lv in lever_map.values()})
+    shown = sum(1 for lv in lever_map.values() if lv.get("shown"))
+    print(f"[workshop] wrote {len(lever_map)} levers ({shown} shown) "
+          f"across topics {topics} to {out_path}")
+    return out_path
+
+
+def make_history_series(key, label, unit, years, values, source=None, note=None):
+    """One historical series for the workshop fact charts.
+
+    ``years`` and ``values`` must be the same length; non-finite values are kept
+    as ``None`` so the client can break the line.
+    """
+    years = [int(y) for y in years]
+    vals = []
+    for v in values:
+        try:
+            fv = float(v)
+        except (TypeError, ValueError):
+            fv = float("nan")
+        vals.append(None if not np.isfinite(fv) else round(fv, 4))
+    if len(years) != len(vals):
+        raise ValueError(f"series '{key}': {len(years)} years vs {len(vals)} values")
+    rec = {"key": key, "label": label, "unit": unit, "x": years, "y": vals}
+    if source is not None:
+        rec["source"] = source
+    if note is not None:
+        rec["note"] = note
+    return rec
+
+
+def write_history_js(sector_key, series, title=None, out_path=None):
+    """Write ``website/data/history_<sector_key>.js`` (observed series, no projections)."""
+    smap = {}
+    for s in series:
+        s = dict(s)
+        skey = s.pop("key")
+        if skey in smap:
+            raise ValueError(f"duplicate history series '{skey}'")
+        smap[skey] = s
+
+    payload = {
+        "title": title or sector_key.capitalize(),
+        "generated": date.today().isoformat(),
+        "series": smap,
+    }
+    if out_path is None:
+        here = os.path.dirname(os.path.abspath(__file__))
+        out_path = os.path.join(here, "website", "data", "history_" + sector_key + ".js")
+    _write_global_js(out_path, "NW_HISTORY", sector_key, payload, "Workshop history export")
+    print(f"[workshop] wrote {len(smap)} historical series to {out_path}")
+    return out_path
+
+
 #%% ENERGY TOTALS OVERRIDES (notebook <-> nW_BE.py consistency)
 
 ENERGY_TOTALS_OVERRIDE_YEARS = (2019, 2030, 2040, 2050)
@@ -573,10 +864,18 @@ def _override_row(source, sector, key, year, value):
 def _split_powertrains(df):
     year_cols = [c for c in df.columns if c not in ("Mode", "Powertrain")]
 
+    # These tables double as display tables: the notebooks label only the first
+    # row of each mode block and leave "Mode" blank underneath (including on the
+    # TOTAL row). Carry the label down before grouping, otherwise every mode but
+    # the first collapses into a single blank-named group and the totals come out
+    # as zeros.
+    modes = df["Mode"].replace(r"^\s*$", pd.NA, regex=True).ffill()
+
     def prep(mask):
-        out = df.loc[mask, ["Mode"] + list(year_cols)].copy()
+        out = df.loc[mask, list(year_cols)].copy()
         if out.empty:
             return pd.DataFrame(columns=year_cols)
+        out.insert(0, "Mode", modes.loc[mask])
         return out.groupby("Mode", as_index=True).sum(numeric_only=True)
 
     return {

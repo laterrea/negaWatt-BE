@@ -222,3 +222,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+# Workshop module: local dev database and the live API credentials
+scripts/workshop_dev.sqlite*
+website/api/config.php

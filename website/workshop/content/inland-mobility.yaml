@@ -1,0 +1,1044 @@
+# =============================================================================
+# negaWatt-BE workshop — topic: inland mobility
+#
+# HAND-EDITED. Wording, facts and justifications live here; every *number* comes
+# either from the notebook (as a {placeholder}, resolved at build time from the
+# lever's `facts` block in website/data/levers_transport.js) or from an external
+# source quoted with its URL.
+#
+# Built by scripts/build_workshop_content.py, which refuses to build if a string
+# is missing a language, a fact has no source, a placeholder does not resolve, or
+# the lever ids here and in the notebook export disagree.
+#
+# NOTE: the Dutch was written by the implementer, not a native speaker, and needs
+# a review pass before a real workshop (docs/workshop_module.md, Q5).
+# =============================================================================
+
+topic: inland-mobility
+sector: transport
+
+title:
+  fr: Mobilité intérieure
+  nl: Binnenlandse mobiliteit
+  en: Inland mobility
+
+lead:
+  fr: >
+    Les déplacements de personnes et de marchandises à l'intérieur de la Belgique.
+    L'aviation fait l'objet d'un autre atelier.
+  nl: >
+    Het vervoer van personen en goederen binnen België. De luchtvaart komt in een
+    andere workshop aan bod.
+  en: >
+    Moving people and goods inside Belgium. Aviation is the subject of a separate
+    workshop.
+
+intro:
+  fr: >
+    Vous allez fixer huit hypothèses de comportement et de politique publique pour
+    2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt.
+    Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de
+    décider ce qui vous paraît à la fois souhaitable et atteignable. Chaque
+    question tient sur un écran, avec quelques repères factuels pour nourrir la
+    discussion.
+  nl: >
+    Jullie stellen acht gedrags- en beleidsveronderstellingen voor 2050 vast —
+    precies die welke de energiecijfers van het negaWatt-scenario *voortbrengen*.
+    De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel
+    wenselijk als haalbaar vinden. Elke vraag past op één scherm, met een paar
+    feitelijke referentiepunten voor de discussie.
+  en: >
+    You are going to set eight behavioural and policy assumptions for 2050 — the
+    ones that *produce* the negaWatt scenario's energy figures. You do not yet
+    know the values negaWatt chose: decide what strikes you as both desirable and
+    achievable. Each question fits on one screen, with a few factual anchors to
+    feed the discussion.
+
+# -----------------------------------------------------------------------------
+levers:
+
+  # ------------------------------------------------------------ 1 -------------
+  ground-km-day:
+    short:
+      fr: Distance parcourue par jour
+      nl: Afgelegde afstand per dag
+      en: Distance travelled per day
+    question:
+      fr: "Jusqu'où la sobriété peut-elle ramener la mobilité motorisée quotidienne en 2050 ?"
+      nl: "Tot hoever kan soberheid de dagelijkse gemotoriseerde mobiliteit in 2050 terugbrengen?"
+      en: "How far can sufficiency bring daily motorised travel down by 2050?"
+    subtitle:
+      fr: "En kilomètres par personne et par jour, à l'intérieur du pays. La marche, le vélo et l'avion sont comptés à part."
+      nl: "In kilometers per persoon per dag, binnen het land. Wandelen, fietsen en vliegen worden apart geteld."
+      en: "In kilometres per person per day, inside the country. Walking, cycling and flying are counted separately."
+    tangible:
+      fr: "{value} km par jour, pour chaque habitant, nourrissons et centenaires compris."
+      nl: "{value} km per dag, voor elke inwoner, van baby tot honderdjarige."
+      en: "{value} km a day, for every inhabitant, newborns and centenarians included."
+    facts:
+      - kind: trend
+        text:
+          fr: >
+            Par habitant, cette distance a culminé à 35,6 km/jour en 2008 et *diminue*
+            depuis : 33,7 km/jour en 2000, {refValue} en 2019, 31,4 en 2023. Toute la
+            croissance de la mobilité belge est venue de l'avion.
+          nl: >
+            Per inwoner piekte deze afstand op 35,6 km/dag in 2008 en *daalt* sindsdien:
+            33,7 km/dag in 2000, {refValue} in 2019, 31,4 in 2023. De volledige groei van de
+            Belgische mobiliteit kwam van het vliegtuig.
+          en: >
+            Per person this distance peaked at 35.6 km/day in 2008 and has been *falling*
+            since: 33.7 km/day in 2000, {refValue} in 2019, 31.4 in 2023. All of the growth in
+            Belgian mobility came from flying.
+        source: JRC-IDEES-2023, population Statbel
+        url: https://joint-research-centre.ec.europa.eu/potencia/jrc-idees_en
+      - kind: structure
+        reveal: true
+        text:
+          fr: >
+            Le scénario réduit la mobilité totale de {totalIntensityChangePct:abs} %, mais
+            l'essentiel vient de l'avion : les kilomètres aériens par personne chutent de
+            {aviationChangePct:abs} %, contre {changePct:abs} % pour le sol motorisé.
+          nl: >
+            Het scenario verlaagt de totale mobiliteit met {totalIntensityChangePct:abs} %,
+            maar het grootste deel komt van de luchtvaart: de vliegkilometers per persoon
+            dalen met {aviationChangePct:abs} %, tegenover {changePct:abs} % op de grond.
+          en: >
+            The scenario cuts total mobility by {totalIntensityChangePct:abs}%, but most of it
+            comes from aviation: air kilometres per person fall {aviationChangePct:abs}%, against
+            {changePct:abs}% for motorised ground travel.
+        source: nW-BE §1.2.1 and §2.1.1
+      - kind: structure
+        text:
+          fr: >
+            En 2019, chaque Belge parcourait {refValue} km par jour au sol — et 8,7 km par jour
+            de plus en avion, qui s'y ajoutent sans apparaître dans cette question.
+          nl: >
+            In 2019 legde elke Belg {refValue} km per dag af over land — plus nog 8,7 km per dag
+            door de lucht, die daar bovenop komen en niet in deze vraag zitten.
+          en: >
+            In 2019 every Belgian travelled {refValue} km a day on the ground — plus another
+            8.7 km a day by air, which sits on top and is not part of this question.
+        source: JRC-IDEES-2023, population Statbel
+        url: https://joint-research-centre.ec.europa.eu/potencia/jrc-idees_en
+      - kind: benchmark
+        text:
+          fr: >
+            Une revue de la littérature (Peeters et al., 2026) situe une mobilité terrestre
+            soutenable entre {peetersMin} et {peetersMax} pkm par personne et par an, en
+            insistant sur l'absence de consensus.
+          nl: >
+            Een literatuurstudie (Peeters et al., 2026) plaatst duurzame landmobiliteit
+            tussen {peetersMin} en {peetersMax} pkm per persoon per jaar, met de nadruk op
+            het gebrek aan consensus.
+          en: >
+            A literature review (Peeters et al., 2026) puts sustainable ground mobility
+            between {peetersMin} and {peetersMax} pkm per person per year, stressing the lack
+            of consensus.
+        source: "Peeters et al. (2026), Energy Research & Social Science"
+        url: https://doi.org/10.1016/j.erss.2026.104580
+      - kind: tangible
+        text:
+          fr: >
+            {pkmYear2019} km par an et par personne en 2019 : près d'un tiers du tour de la
+            Terre (40 075 km), chaque année, pour chacun.
+          nl: >
+            {pkmYear2019} km per jaar per persoon in 2019: bijna een derde van de omtrek van de
+            aarde (40.075 km), elk jaar, voor iedereen.
+          en: >
+            {pkmYear2019} km a year per person in 2019: close to a third of the way around the
+            Earth (40,075 km), every year, for every person.
+        source: nW-BE, valeur 2019
+    justification:
+      fr: >
+        négaWatt retient {targetValue} km/jour. La mobilité motorisée terrestre ne baisse que de
+        {changePct:abs} % : le télétravail, un habitat plus urbain, des vacances plus proches, le
+        vieillissement de la population et le renchérissement des transports pèsent dans ce sens,
+        et le Bureau fédéral du Plan projette une intensité à peu près stable à politique
+        inchangée. Le gros de la réduction de {totalIntensityChangePct:abs} % de la mobilité
+        totale est obtenu sur l'avion (−{aviationChangePct:abs} % par personne), pas sur les
+        trajets quotidiens. Tous modes terrestres compris, le scénario aboutit à environ
+        12 650 pkm par personne et par an — près du haut de la fourchette de Peeters et al.
+      nl: >
+        negaWatt kiest {targetValue} km/dag. De gemotoriseerde landmobiliteit daalt met slechts
+        {changePct:abs} %: telewerk, meer stedelijk wonen, vakanties dichter bij huis, de
+        vergrijzing en duurdere mobiliteit werken in die richting, en het Federaal Planbureau
+        verwacht bij ongewijzigd beleid een ongeveer stabiele intensiteit. Het grootste deel van
+        de daling van {totalIntensityChangePct:abs} % in de totale mobiliteit komt van de
+        luchtvaart (−{aviationChangePct:abs} % per persoon), niet van de dagelijkse
+        verplaatsingen. Alle landmodi samen komt het scenario uit op ongeveer 12.650 pkm per
+        persoon per jaar — dicht bij de bovengrens van Peeters et al.
+      en: >
+        negaWatt settles on {targetValue} km/day. Motorised ground travel falls by only
+        {changePct:abs}%: teleworking, more urban housing, closer holidays, an ageing population
+        and higher transport costs all push that way, and the Federal Planning Bureau projects a
+        roughly flat intensity under unchanged policy. Most of the
+        {totalIntensityChangePct:abs}% cut in total mobility is taken on aviation
+        (−{aviationChangePct:abs}% per person), not on daily travel. Across all ground modes the
+        scenario lands at about 12,650 pkm per person per year — near the top of the range in
+        Peeters et al.
+    debate:
+      fr: >
+        La revue du scénario reproche à ce −10 % d'être un chiffre rond appliqué à l'identique à
+        quatre secteurs différents, et de renverser trente ans de tendance sans qu'aucune
+        politique précise ne soit chiffrée.
+      nl: >
+        De review van het scenario verwijt deze −10 % een rond getal te zijn dat identiek op vier
+        verschillende sectoren wordt toegepast, en dertig jaar trend om te buigen zonder dat één
+        concreet beleid becijferd wordt.
+      en: >
+        The scenario's peer review objects that this −10% is a round number applied identically
+        to four different sectors, and that it reverses a thirty-year trend without any specific
+        policy being quantified.
+
+  car-share:
+    short:
+      fr: Part de la voiture
+      nl: Aandeel van de auto
+      en: Car share
+    question:
+      fr: "Quelle part de la voiture dans les kilomètres motorisés est un objectif 2050 réaliste ?"
+      nl: "Welk aandeel van de auto in de gemotoriseerde kilometers is een realistisch doel voor 2050?"
+      en: "What car share of motorised kilometres is a realistic 2050 objective?"
+    subtitle:
+      fr: Le reste se répartit entre bus, tram, métro, train et deux-roues.
+      nl: De rest verdeelt zich over bus, tram, metro, trein en tweewielers.
+      en: The rest is shared between buses, trams, metro, trains and two-wheelers.
+    tangible:
+      fr: "{value} % en voiture — le reste par les transports publics et les deux-roues."
+      nl: "{value} % met de auto — de rest met openbaar vervoer en tweewielers."
+      en: "{value}% by car — the rest by public transport and two-wheelers."
+    facts:
+      - kind: trend
+        text:
+          fr: >
+            Presque immobile depuis vingt ans : 81,4 % en 2000, {refValue} % en 2019,
+            78,5 % en 2023. Le pic de 83 % en 2021 était un effet Covid — on a fui les
+            transports publics.
+          nl: >
+            Al twintig jaar bijna onveranderd: 81,4 % in 2000, {refValue} % in 2019,
+            78,5 % in 2023. De piek van 83 % in 2021 was een covid-effect — men meed het
+            openbaar vervoer.
+          en: >
+            Almost motionless for twenty years: 81.4% in 2000, {refValue}% in 2019, 78.5% in
+            2023. The 83% spike in 2021 was a Covid effect — people avoided public transport.
+        source: JRC-IDEES-2023, population Statbel
+        url: https://joint-research-centre.ec.europa.eu/potencia/jrc-idees_en
+      - kind: structure
+        text:
+          fr: >
+            En 2019, la répartition belge était : {carSharePkm2019} % de tous les
+            voyageurs-kilomètres en voiture, 10,3 % en bus et autocar, 9,0 % en train
+            (base Eurostat voiture + bus + train).
+          nl: >
+            In 2019 was de Belgische verdeling: {carSharePkm2019} % van alle
+            reizigerskilometers met de auto, 10,3 % met bus en touringcar, 9,0 % met de trein
+            (Eurostat-basis auto + bus + trein).
+          en: >
+            In 2019 the Belgian split was {carSharePkm2019}% of all passenger-kilometres by
+            car, 10.3% by bus and coach, 9.0% by train (Eurostat car + bus + train basis).
+        source: "Eurostat, tran_hv_psmod"
+        url: https://ec.europa.eu/eurostat/databrowser/view/tran_hv_psmod/default/table?lang=en
+      - kind: caution
+        text:
+          fr: >
+            Attention au raccourci : ce sont les Pays-Bas qui affichent la *plus forte* part de
+            la voiture (85,3 % en 2023), parce que les kilomètres à vélo ne comptent pas dans
+            cet indicateur. Rouler beaucoup à vélo ne suffit pas à faire baisser cette part.
+          nl: >
+            Pas op met de conclusie: Nederland heeft juist het *hoogste* autoaandeel (85,3 % in
+            2023), omdat fietskilometers niet in deze indicator meetellen. Veel fietsen alleen
+            verlaagt dit aandeel niet.
+          en: >
+            Careful with the shortcut: the Netherlands has the *highest* car share of all
+            (85.3% in 2023), because cycling kilometres are not counted in this indicator.
+            Cycling a lot is not by itself enough to bring this share down.
+        source: "Eurostat, tran_hv_psmod"
+        url: https://ec.europa.eu/eurostat/databrowser/view/tran_hv_psmod/default/table?lang=en
+      - kind: benchmark
+        text:
+          fr: >
+            La Suisse est le pays le moins dépendant de la voiture d'Europe occidentale :
+            72,5 % des voyageurs-kilomètres en voiture et 21,2 % en train (2023), contre
+            80,4 % et 9,4 % en Belgique.
+          nl: >
+            Zwitserland is het minst autoafhankelijke land van West-Europa: 72,5 % van de
+            reizigerskilometers met de auto en 21,2 % met de trein (2023), tegenover 80,4 %
+            en 9,4 % in België.
+          en: >
+            Switzerland is western Europe's least car-dependent country: 72.5% of
+            passenger-kilometres by car and 21.2% by train (2023), against 80.4% and 9.4% in
+            Belgium.
+        source: "Eurostat, tran_hv_psmod"
+        url: https://ec.europa.eu/eurostat/databrowser/view/tran_hv_psmod/default/table?lang=en
+      - kind: structure
+        reveal: true
+        text:
+          fr: >
+            négaWatt déplace {shiftPct} % des kilomètres-voiture : {toBusPct} points vers le
+            bus, {toRailPct} vers le train, {toBikePct} vers le vélo, le reste vers tram,
+            métro, deux-roues et marche.
+          nl: >
+            negaWatt verschuift {shiftPct} % van de autokilometers: {toBusPct} punten naar de
+            bus, {toRailPct} naar de trein, {toBikePct} naar de fiets, de rest naar tram,
+            metro, tweewielers en wandelen.
+          en: >
+            negaWatt moves {shiftPct}% of car-kilometres away: {toBusPct} points to buses,
+            {toRailPct} to trains, {toBikePct} to cycling, the rest to trams, metro,
+            two-wheelers and walking.
+        source: nW-BE §2.1.2
+      - kind: tangible
+        text:
+          fr: >
+            Le train transporte aujourd'hui environ 9 % des voyageurs-kilomètres belges. Faire
+            reculer nettement la voiture suppose d'augmenter l'offre par habitant alors que la
+            population croît de 10 % d'ici 2050. Vision Rail 2040 vise
+            {railShareTarget2040} % de part modale pour le rail.
+          nl: >
+            De trein vervoert vandaag ongeveer 9 % van de Belgische reizigerskilometers. De auto
+            duidelijk terugdringen vraagt meer aanbod per inwoner, terwijl de bevolking tot 2050
+            met 10 % groeit. Vision Rail 2040 mikt op {railShareTarget2040} % modaal aandeel voor
+            het spoor.
+          en: >
+            Rail carries about 9% of Belgian passenger-kilometres today. Pushing the car back
+            substantially means more service per inhabitant while the population grows 10% by
+            2050. Vision Rail 2040 targets a {railShareTarget2040}% rail modal share.
+        source: nW-BE §2.1.3, Vision Rail 2040
+    justification:
+      fr: >
+        négaWatt retient {targetValue} %. C'est la pièce maîtresse du volet voyageurs :
+        {shiftPct} % des kilomètres-voiture sont repris par d'autres modes, en supposant un
+        investissement massif dans le rail, le bus et le vélo. La voiture reste néanmoins le
+        premier mode.
+      nl: >
+        negaWatt kiest {targetValue} %. Dit is het hart van het personenvervoerluik:
+        {shiftPct} % van de autokilometers wordt door andere modi overgenomen, met een
+        massale investering in spoor, bus en fiets. De auto blijft toch de belangrijkste modus.
+      en: >
+        negaWatt settles on {targetValue}%. This is the centrepiece of the passenger
+        scenario: {shiftPct}% of car-kilometres are taken over by other modes, assuming
+        massive investment in rail, buses and cycling. The car still remains the leading mode.
+    debate:
+      fr: >
+        Aucun pays de l'UE n'a réalisé un report modal de cette ampleur en trente ans sans un
+        investissement transformateur. Les auteurs signalent eux-mêmes que le triplement du
+        tram et du métro est « probablement trop élevé ».
+      nl: >
+        Geen enkel EU-land heeft in dertig jaar een modale verschuiving van deze omvang
+        gerealiseerd zonder transformerende investeringen. De auteurs geven zelf aan dat de
+        verdrievoudiging van tram en metro "waarschijnlijk te hoog" is.
+      en: >
+        No EU country has achieved a modal shift of this magnitude within thirty years without
+        transformative investment. The authors themselves flag the tripling of tram and metro
+        use as "likely too high".
+
+  # ------------------------------------------------------------ 3 -------------
+  car-occupancy:
+    short:
+      fr: Occupation des voitures
+      nl: Autobezetting
+      en: Car occupancy
+    question:
+      fr: "Quel taux d'occupation des voitures est un objectif 2050 réaliste ?"
+      nl: "Welke autobezetting is een realistisch doel voor 2050?"
+      en: "What car occupancy is a realistic 2050 objective?"
+    subtitle:
+      fr: "Moyenne sur tous les trajets : voyageurs-kilomètres divisés par kilomètres-voiture."
+      nl: "Gemiddelde over alle ritten: reizigerskilometers gedeeld door autokilometers."
+      en: "Averaged over all trips: passenger-kilometres divided by car-kilometres."
+    tangible:
+      fr: "{value} personne par voiture en moyenne, sur tous les trajets confondus."
+      nl: "{value} personen per auto, gemiddeld over alle ritten samen."
+      en: "{value} people per car, averaged over every trip."
+    facts:
+      - kind: trend
+        text:
+          fr: >
+            Immobile depuis des décennies : ce chiffre est resté entre 1,2 et 1,5 dans toute
+            l'UE pendant trente ans, malgré de nombreuses initiatives de covoiturage.
+          nl: >
+            Al decennia onveranderd: dit cijfer bleef in de hele EU dertig jaar lang tussen
+            1,2 en 1,5, ondanks talrijke carpoolinitiatieven.
+          en: >
+            Motionless for decades: this figure stayed between 1.2 and 1.5 across the EU for
+            thirty years, despite many carpooling initiatives.
+        source: "Revue critique du modèle nW-BE, §6.1"
+      - kind: structure
+        reveal: true
+        text:
+          fr: >
+            C'est le levier le plus puissant de cet atelier. L'énergie des voitures en 2050
+            vaut {carTwhTarget} TWh à 2,0 personnes par voiture ; à 1,5 elle serait de
+            9,3 TWh, soit un tiers de plus.
+          nl: >
+            Dit is de krachtigste hefboom van deze workshop. De auto-energie in 2050 bedraagt
+            {carTwhTarget} TWh bij 2,0 personen per auto; bij 1,5 zou dat 9,3 TWh zijn, een
+            derde meer.
+          en: >
+            This is the most powerful lever in the workshop. Car energy in 2050 is
+            {carTwhTarget} TWh at 2.0 people per car; at 1.5 it would be 9.3 TWh, a third more.
+        source: nW-BE §2.3.5, computed from the scenario
+      - kind: structure
+        text:
+          fr: >
+            La voiture a consommé {carTwh2019} TWh en 2019, plus de la moitié des 102,4 TWh de
+            toute la mobilité intérieure. L'occupation divise ce chiffre directement : deux fois
+            plus de monde par voiture, deux fois moins d'énergie par personne transportée.
+          nl: >
+            De auto verbruikte {carTwh2019} TWh in 2019, meer dan de helft van de 102,4 TWh van
+            de hele binnenlandse mobiliteit. De bezetting deelt dat cijfer rechtstreeks: twee
+            keer zoveel mensen per auto, twee keer minder energie per vervoerd persoon.
+          en: >
+            Cars used {carTwh2019} TWh in 2019, more than half of the 102.4 TWh of all inland
+            mobility. Occupancy divides that number directly: twice as many people per car,
+            half the energy per person carried.
+        source: nW-BE, reconstruction 2019
+      - kind: tangible
+        text:
+          fr: >
+            {refValue} personne par voiture correspond par exemple à quatre voitures sur cinq
+            occupées par le seul conducteur, et une sur cinq avec un passager.
+          nl: >
+            {refValue} persoon per auto komt bijvoorbeeld overeen met vier op de vijf auto's met
+            alleen de bestuurder, en één op de vijf met een passagier.
+          en: >
+            {refValue} people per car corresponds, for instance, to four cars in five carrying
+            only the driver and one in five carrying a passenger.
+        source: nW-BE, illustration de la valeur 2019
+      - kind: caution
+        text:
+          fr: >
+            Les sources ne s'accordent pas. JRC-IDEES donne {occupancyIdees} pour 2019, les
+            enquêtes fédérales {occupancySurvey:d2}, et certains indicateurs belges approchent 1,8
+            sur une base différente (par trajet plutôt que par kilomètre). Cette question porte
+            sur la première définition.
+          nl: >
+            De bronnen spreken elkaar tegen. JRC-IDEES geeft {occupancyIdees} voor 2019, de
+            federale enquêtes {occupancySurvey:d2}, en sommige Belgische indicatoren komen op bijna
+            1,8 uit op een andere basis (per rit in plaats van per kilometer). Deze vraag gaat
+            over de eerste definitie.
+          en: >
+            The sources disagree. JRC-IDEES gives {occupancyIdees} for 2019, the federal travel
+            surveys {occupancySurvey:d2}, and some Belgian indicators approach 1.8 on a different
+            basis (per trip rather than per kilometre). This question is about the first
+            definition.
+        source: nW-BE §2.1; CE monitor
+        url: https://cemonitor.be/en/indicator/mobility/market/car-use-efficiency/
+      - kind: tangible
+        reveal: true
+        text:
+          fr: >
+            2,0 signifie que le trajet moyen — trajet domicile-travail, école, courses,
+            vacances — transporte toujours un passager. C'est sur les trajets domicile-travail,
+            qui font l'essentiel du trafic de semaine, que le taux est le plus bas.
+          nl: >
+            2,0 betekent dat de gemiddelde rit — woon-werk, school, boodschappen, vakantie —
+            altijd een passagier vervoert. Juist bij woon-werkverkeer, het gros van het
+            weekdagverkeer, is de bezetting het laagst.
+          en: >
+            2.0 means the average trip — commute, school run, shopping, holiday — always
+            carries a passenger. Commuting, which is the bulk of weekday traffic, is where
+            occupancy is lowest.
+        source: nW-BE, calcul 2050
+    historyAbsent: true
+    historyNote:
+      fr: Aucune série historique d'occupation des voitures n'existe dans les données du projet ; seul le point de 2019 est connu.
+      nl: Er bestaat geen historische reeks van autobezetting in de projectdata; alleen het punt van 2019 is bekend.
+      en: No historical car-occupancy series exists in the project's data; only the 2019 point is known.
+    justification:
+      fr: >
+        négaWatt retient {targetValue} personnes par voiture, contre {refValue} en 2019
+        (+{gainPct} %), grâce au covoiturage. Cette seule hypothèse fait passer l'énergie des
+        voitures de {carTwh2019} TWh en 2019 à {carTwhTarget} TWh en 2050, avec le report modal
+        et l'électrification.
+      nl: >
+        negaWatt kiest {targetValue} personen per auto, tegenover {refValue} in 2019
+        (+{gainPct} %), dankzij carpoolen. Deze ene veronderstelling brengt de auto-energie van
+        {carTwh2019} TWh in 2019 naar {carTwhTarget} TWh in 2050, samen met de modale
+        verschuiving en de elektrificatie.
+      en: >
+        negaWatt settles on {targetValue} people per car, against {refValue} in 2019
+        (+{gainPct}%), through carpooling. This assumption alone helps take car energy from
+        {carTwh2019} TWh in 2019 to {carTwhTarget} TWh in 2050, together with the modal shift
+        and electrification.
+    debate:
+      fr: >
+        La revue qualifie cette hypothèse de « la plus déterminante et la moins étayée de tout
+        le modèle » : aucun pays n'a durablement dépassé 1,6 par la seule politique publique, et
+        la ramener à 1,5 augmenterait d'un tiers la consommation des voitures.
+      nl: >
+        De review noemt dit "de meest bepalende en minst onderbouwde veronderstelling van het
+        hele model": geen enkel land is via beleid duurzaam boven 1,6 gekomen, en een verlaging
+        naar 1,5 zou het autoverbruik met een derde verhogen.
+      en: >
+        The review calls this "the single most impactful and least supported assumption in the
+        entire model": no country has sustained a value above 1.6 through policy alone, and
+        relaxing it to 1.5 would raise car energy demand by a third.
+
+  # ------------------------------------------------------------ 4 -------------
+  car-energy:
+    short:
+      fr: Consommation par km
+      nl: Verbruik per km
+      en: Energy use per km
+    question:
+      fr: "Jusqu'où la consommation de la voiture moyenne peut-elle descendre en 2050, par rapport à 2019 ?"
+      nl: "Tot hoever kan het verbruik van de gemiddelde auto in 2050 zakken, vergeleken met 2019?"
+      en: "How far can the average car's energy use per kilometre come down by 2050, against 2019?"
+    subtitle:
+      fr: Vitesse, taille et poids des véhicules, éco-conduite — en plus de l'électrification, comptée ailleurs.
+      nl: Snelheid, grootte en gewicht van de voertuigen, ecodriving — bovenop de elektrificatie, die elders wordt geteld.
+      en: Speed, vehicle size and weight, eco-driving — on top of electrification, which is counted elsewhere.
+    tangible:
+      fr: "{value} % de la consommation de 2019, à motorisation équivalente."
+      nl: "{value} % van het verbruik in 2019, bij gelijke motorisering."
+      en: "{value}% of the 2019 figure, for an equivalent powertrain."
+    facts:
+      - kind: structure
+        text:
+          fr: >
+            Trois leviers sont regroupés dans ce seul chiffre : abaissement des vitesses,
+            éco-conduite, et voitures plus petites et plus légères. Le carnet de calcul signale
+            lui-même que la répartition entre les trois n'est pas quantifiée.
+          nl: >
+            Drie hefbomen zitten in dit ene cijfer: lagere snelheden, ecodriving, en kleinere en
+            lichtere auto's. Het rekenboek geeft zelf aan dat de verdeling over de drie niet
+            becijferd is.
+          en: >
+            Three levers are bundled into this single figure: lower speeds, eco-driving, and
+            smaller, lighter cars. The notebook itself flags that the split between them is not
+            quantified.
+        source: nW-BE §2.3.5
+      - kind: structure
+        text:
+          fr: >
+            En 2019, une voiture diesel consommait {kwhPerKmDiesel2019} kWh/km et une électrique
+            {kwhPerKmBev2019} kWh/km. Le passage à l'électrique est compté séparément : ce levier
+            est ce qui vient *en plus*.
+          nl: >
+            In 2019 gebruikte een dieselauto {kwhPerKmDiesel2019} kWh/km en een elektrische
+            {kwhPerKmBev2019} kWh/km. De overstap naar elektrisch wordt apart geteld: deze
+            hefboom komt daar *bovenop*.
+          en: >
+            In 2019 a diesel car used {kwhPerKmDiesel2019} kWh/km and an electric one
+            {kwhPerKmBev2019} kWh/km. The switch to electric is counted separately: this lever is
+            what comes *on top*.
+        source: JRC-IDEES-2023 via nW-BE §2.3.5
+      - kind: tangible
+        text:
+          fr: >
+            {kwhPerKmBev2019} kWh/km pour une électrique de 2019, c'est l'équivalent énergétique
+            d'environ 2,2 litres d'essence aux 100 km. Une diesel de la même année en demandait
+            l'équivalent de 6,6 litres.
+          nl: >
+            {kwhPerKmBev2019} kWh/km voor een elektrische auto uit 2019 is het energetische
+            equivalent van ongeveer 2,2 liter benzine per 100 km. Een diesel uit hetzelfde jaar
+            vroeg het equivalent van 6,6 liter.
+          en: >
+            {kwhPerKmBev2019} kWh/km for a 2019 electric car is the energy equivalent of about
+            2.2 litres of petrol per 100 km. A diesel of the same year needed the equivalent of
+            6.6 litres.
+        source: "JRC-IDEES-2023 ; essence à 9,7 kWh/litre"
+      - kind: benchmark
+        text:
+          fr: >
+            La résistance de l'air croît avec le carré de la vitesse : c'est pourquoi abaisser les
+            vitesses sur autoroute est l'une des mesures d'efficacité les moins chères, et
+            pourquoi l'alourdissement des véhicules coûte cher en énergie.
+          nl: >
+            De luchtweerstand neemt toe met het kwadraat van de snelheid: daarom is het verlagen
+            van snelheden op de autosnelweg een van de goedkoopste efficiëntiemaatregelen, en
+            daarom kost zwaarder wordende voertuigen veel energie.
+          en: >
+            Air drag rises with the square of speed: that is why lowering motorway speeds is one
+            of the cheapest efficiency measures available, and why heavier vehicles cost energy.
+        source: physique (pas une hypothèse du modèle)
+      - kind: tangible
+        reveal: true
+        text:
+          fr: >
+            −{reductionPct} % appliqués à une électrique de 2019 donneraient environ 0,16 kWh/km
+            au lieu de {kwhPerKmBev2019}.
+          nl: >
+            −{reductionPct} % toegepast op een elektrische auto van 2019 geeft ongeveer
+            0,16 kWh/km in plaats van {kwhPerKmBev2019}.
+          en: >
+            −{reductionPct}% applied to a 2019 electric car would give about 0.16 kWh/km instead
+            of {kwhPerKmBev2019}.
+        source: nW-BE, calcul 2050
+    historyAbsent: true
+    historyNote:
+      fr: L'intensité énergétique des voitures n'est pas disponible en série historique dans les données du projet.
+      nl: De energie-intensiteit van auto's is niet als historische reeks beschikbaar in de projectdata.
+      en: Car energy intensity is not available as a historical series in the project's data.
+    justification:
+      fr: >
+        négaWatt retient {targetValue} % de la consommation de 2019, soit −{reductionPct} %, en
+        additionnant vitesses réduites, éco-conduite, véhicules plus petits et motorisations plus
+        efficaces (récupération d'énergie au freinage, hybridation non rechargeable).
+      nl: >
+        negaWatt kiest {targetValue} % van het verbruik van 2019, dus −{reductionPct} %, door
+        lagere snelheden, ecodriving, kleinere voertuigen en efficiëntere aandrijflijnen
+        (remenergierecuperatie, niet-oplaadbare hybrides) samen te nemen.
+      en: >
+        negaWatt settles on {targetValue}% of the 2019 figure, i.e. −{reductionPct}%, adding
+        together lower speeds, eco-driving, smaller vehicles and more efficient powertrains
+        (regenerative braking, non-plug-in hybrids).
+    debate:
+      fr: >
+        Les effets ne sont pas décomposés, ce que les auteurs reconnaissent. Et le modèle ne
+        contient aucun effet rebond : rouler moins cher, c'est souvent rouler plus.
+      nl: >
+        De effecten worden niet uitgesplitst, wat de auteurs zelf toegeven. En het model bevat
+        geen enkel reboundeffect: goedkoper rijden betekent vaak meer rijden.
+      en: >
+        The effects are not disaggregated, as the authors acknowledge. And the model contains no
+        rebound effect at all: cheaper driving usually means more driving.
+
+  # ------------------------------------------------------------ 5 -------------
+  bike-km-day:
+    short:
+      fr: Kilomètres à vélo
+      nl: Fietskilometers
+      en: Cycling per day
+    question:
+      fr: "Quel niveau de pratique du vélo est un objectif 2050 réaliste ?"
+      nl: "Welk fietsgebruik is een realistisch doel voor 2050?"
+      en: "What level of cycling is a realistic 2050 objective?"
+    subtitle:
+      fr: "En kilomètres par personne et par jour. Vélos classiques, électriques et speed pedelecs confondus."
+      nl: "In kilometers per persoon per dag. Gewone fietsen, elektrische fietsen en speed pedelecs samen."
+      en: "In kilometres per person per day. Ordinary bicycles, e-bikes and speed pedelecs together."
+    tangible:
+      fr: "{value} km par jour et par personne, soit {valuePerYear} km sur l'année."
+      nl: "{value} km per dag per persoon, dus {valuePerYear} km op jaarbasis."
+      en: "{value} km a day per person, i.e. {valuePerYear} km over a year."
+    facts:
+      - kind: benchmark
+        text:
+          fr: >
+            Les Néerlandais ont pédalé 1 065 km par personne en 2023, soit environ 2,9 km par
+            jour, et 902 km dix ans plus tôt.
+          nl: >
+            De Nederlanders fietsten in 2023 gemiddeld 1.065 km per persoon, ongeveer 2,9 km per
+            dag, tegen 902 km tien jaar eerder.
+          en: >
+            The Dutch cycled 1,065 km per person in 2023 — about 2.9 km a day, against 902 km ten years earlier.
+        source: "CBS, via DutchNews.nl (2024)"
+        url: https://www.dutchnews.nl/2024/11/the-dutch-are-cycling-more-and-buying-more-e-bikes/
+      - kind: trend
+        text:
+          fr: >
+            Le vélo électrique a tout changé, vite : 9,3 % des *trajets* à vélo en 2017,
+            {ebikeShareKm2025} % des *kilomètres* à vélo en 2025. Distance moyenne par trajet :
+            {bikeTripKm} km à vélo classique, {ebikeTripKm} km en électrique, {pedelecTripKm} km
+            en speed pedelec.
+          nl: >
+            De elektrische fiets veranderde alles, en snel: 9,3 % van de fiets*ritten* in 2017,
+            {ebikeShareKm2025} % van de fiets*kilometers* in 2025. Gemiddelde afstand per rit:
+            {bikeTripKm} km met een gewone fiets, {ebikeTripKm} km elektrisch, {pedelecTripKm} km
+            met een speed pedelec.
+          en: >
+            E-bikes changed the picture fast: 9.3% of cycling *trips* in 2017,
+            {ebikeShareKm2025}% of cycling *kilometres* by 2025. Average trip length:
+            {bikeTripKm} km by ordinary bike, {ebikeTripKm} km by e-bike, {pedelecTripKm} km by
+            speed pedelec.
+        source: "Enquêtes SPF Mobilité 2017 et 2025, via nW-BE §2.2.1"
+      - kind: caution
+        text:
+          fr: >
+            Le point de départ est une estimation, pas une mesure : JRC-IDEES ne couvre pas le
+            vélo, et les {bikeGpkm2019} Gpkm retenus pour 2019 viennent des enquêtes fédérales.
+          nl: >
+            Het startpunt is een schatting, geen meting: JRC-IDEES dekt de fiets niet, en de
+            {bikeGpkm2019} Gpkm voor 2019 komen uit de federale enquêtes.
+          en: >
+            The starting point is an estimate, not a measurement: JRC-IDEES does not cover
+            cycling, and the {bikeGpkm2019} Gpkm taken for 2019 come from the federal travel
+            surveys.
+        source: nW-BE §1.2.1
+      - kind: structure
+        text:
+          fr: >
+            La Flandre visait {flandersTripTarget} % des déplacements à vélo en 2040 ; le chiffre
+            pour l'ensemble de la Belgique était proche de 10 % en 2021.
+          nl: >
+            Vlaanderen mikte op {flandersTripTarget} % van de verplaatsingen per fiets in 2040;
+            voor heel België lag dat cijfer rond 10 % in 2021.
+          en: >
+            Flanders aimed for {flandersTripTarget}% of journeys by bike by 2040; the figure for
+            Belgium as a whole was close to 10% in 2021.
+        source: "FietsDNA 2025 / Fietsberaad Vlaanderen, via nW-BE §2.1.4"
+    historyAbsent: true
+    historyNote:
+      fr: Le vélo n'apparaît pas dans les séries JRC-IDEES ; seule l'estimation de 2019 est disponible.
+      nl: De fiets komt niet voor in de JRC-IDEES-reeksen; alleen de schatting voor 2019 is beschikbaar.
+      en: Cycling does not appear in the JRC-IDEES series; only the 2019 estimate is available.
+    justification:
+      fr: >
+        négaWatt retient {targetValue} km/jour, soit près du double de {refValue} km/jour en 2019.
+        Le vélo reçoit {toBikePct} des 30 points de kilomètres-voiture reportés, et le vélo
+        électrique étend le rayon d'action utile bien au-delà des 4 km du vélo classique.
+      nl: >
+        negaWatt kiest {targetValue} km/dag, bijna het dubbele van {refValue} km/dag in 2019. De
+        fiets krijgt {toBikePct} van de 30 punten verschoven autokilometers, en de elektrische
+        fiets vergroot het bruikbare bereik ver voorbij de 4 km van de gewone fiets.
+      en: >
+        negaWatt settles on {targetValue} km/day, close to double the {refValue} km/day of 2019.
+        Cycling receives {toBikePct} of the 30 points of shifted car-kilometres, and e-bikes
+        extend the useful range well beyond the 4 km of an ordinary bicycle.
+    debate:
+      fr: >
+        Une part modale de ce niveau suppose une culture cycliste néerlandaise ou danoise. La
+        revue juge cela optimiste pour une moyenne nationale, vu le relief wallon et l'habitat
+        dispersé.
+      nl: >
+        Een modaal aandeel van dit niveau veronderstelt een Nederlandse of Deense fietscultuur.
+        De review vindt dat optimistisch als nationaal gemiddelde, gezien het Waalse reliëf en de
+        verspreide bebouwing.
+      en: >
+        A modal share at this level implies a Dutch or Danish cycling culture. The review judges
+        that optimistic for a national average, given Wallonia's hills and dispersed settlement.
+
+  # ------------------------------------------------------------ 6 -------------
+  freight-tkm:
+    short:
+      fr: Marchandises transportées
+      nl: Vervoerde goederen
+      en: Goods moved
+    question:
+      fr: "Jusqu'où une demande sobre peut-elle ramener le transport de marchandises en 2050 ?"
+      nl: "Tot hoever kan een sobere vraag het goederenvervoer in 2050 terugbrengen?"
+      en: "How far can a sufficient level of demand bring freight transport down by 2050?"
+    subtitle:
+      fr: Une tonne-kilomètre = une tonne transportée sur un kilomètre. Route, rail, voie d'eau et fret aérien.
+      nl: Eén tonkilometer = één ton over één kilometer. Weg, spoor, waterweg en luchtvracht.
+      en: One tonne-kilometre = one tonne carried one kilometre. Road, rail, waterway and air freight.
+    tangible:
+      fr: "{value} tkm par personne et par an, soit environ {valuePerDay} tkm chaque jour."
+      nl: "{value} tkm per persoon per jaar, ongeveer {valuePerDay} tkm per dag."
+      en: "{value} tkm per person per year, i.e. about {valuePerDay} tkm a day."
+    facts:
+      - kind: trend
+        text:
+          fr: >
+            +{growth2000to2019Pct} % entre 2000 et 2019 (de 5 548 à {refValue} tkm par personne),
+            avec un pic à 7 533 en 2016 et un creux lors de la crise de 2009.
+          nl: >
+            +{growth2000to2019Pct} % tussen 2000 en 2019 (van 5.548 naar {refValue} tkm per
+            persoon), met een piek van 7.533 in 2016 en een dal tijdens de crisis van 2009.
+          en: >
+            +{growth2000to2019Pct}% between 2000 and 2019 (from 5,548 to {refValue} tkm per
+            person), peaking at 7,533 in 2016 and dipping in the 2009 crisis.
+        source: JRC-IDEES-2023, population Statbel
+        url: https://joint-research-centre.ec.europa.eu/potencia/jrc-idees_en
+      - kind: structure
+        text:
+          fr: >
+            2023 était déjà retombé à {tkm2023} tkm par personne, soit −8 % par rapport à 2019 — mais
+            pour des raisons conjoncturelles (industrie faible, prix de l'énergie), pas pour les
+            raisons structurelles qu'invoque un scénario de sobriété.
+          nl: >
+            2023 was al teruggevallen naar {tkm2023} tkm per persoon, −8 % tegenover 2019 — maar om
+            conjuncturele redenen (zwakke industrie, energieprijzen), niet om de structurele
+            redenen die een soberheidsscenario aanvoert.
+          en: >
+            2023 had already fallen back to {tkm2023} tkm per person, −8% against 2019 — but for
+            cyclical reasons (weak industry, energy prices), not the structural ones a
+            sufficiency scenario invokes.
+        source: JRC-IDEES-2023, via nW-BE §1.2.2
+      - kind: structure
+        text:
+          fr: >
+            Une partie de ce trafic n'est pas de la consommation belge : en 2019, 58,6 % des
+            tonnes-kilomètres des poids lourds relevaient du transport international et 41,4 % du
+            transport intérieur.
+          nl: >
+            Een deel van dit verkeer is geen Belgische consumptie: in 2019 was 58,6 % van de
+            tonkilometers van zware vrachtwagens internationaal vervoer en 41,4 % binnenlands.
+          en: >
+            Part of this traffic is not Belgian consumption at all: in 2019, 58.6% of heavy-truck
+            tonne-kilometres were international transport and 41.4% domestic.
+        source: JRC-IDEES-2023, via nW-BE §3.2.1
+      - kind: tangible
+        text:
+          fr: >
+            {refValue} tkm par an et par personne en 2019, c'est environ 19 tkm par jour : un
+            colis de 20 kg qui voyagerait 960 km, chaque jour, pour chaque habitant.
+          nl: >
+            {refValue} tkm per jaar per persoon in 2019 is ongeveer 19 tkm per dag: een pakje van
+            20 kg dat elke dag 960 km aflegt, voor elke inwoner.
+          en: >
+            {refValue} tkm per person per year in 2019 is about 19 tkm a day: a 20 kg parcel
+            travelling 960 km, every day, for every inhabitant.
+        source: nW-BE, valeur 2019
+    justification:
+      fr: >
+        négaWatt retient {targetValue} tkm par personne, soit {changePct} % par rapport à 2019.
+        La justification tient à une baisse de la consommation de biens matériels, à la
+        relocalisation d'une partie de la production et au développement des circuits courts.
+        L'intensité s'était de fait stabilisée autour de 7 000 tkm avant 2019, et 2023 est déjà
+        repassé sous la cible — pour des raisons conjoncturelles.
+      nl: >
+        negaWatt kiest {targetValue} tkm per persoon, dus {changePct} % ten opzichte van 2019.
+        De onderbouwing: minder consumptie van materiële goederen, gedeeltelijke relokalisatie
+        van de productie en de opkomst van korte ketens. De intensiteit was voor 2019 feitelijk
+        gestabiliseerd rond 7.000 tkm, en 2023 zit al onder de doelstelling — om conjuncturele
+        redenen.
+      en: >
+        negaWatt settles on {targetValue} tkm per person, i.e. {changePct}% against 2019. The
+        justification rests on lower consumption of material goods, partial relocalisation of
+        production and the growth of short supply chains. The intensity had in fact levelled off
+        around 7,000 tkm before 2019, and 2023 is already below the target — for cyclical
+        reasons.
+    debate:
+      fr: >
+        La revue souligne que l'intensité du fret dépend de la structure du PIB et des flux
+        commerciaux, largement hors de portée d'une politique nationale — et que le même −10 %
+        rond sert ici à quatre choses différentes dans le scénario.
+      nl: >
+        De review benadrukt dat de vrachtintensiteit afhangt van de bbp-structuur en de
+        handelsstromen, grotendeels buiten het bereik van nationaal beleid — en dat dezelfde ronde
+        −10 % in het scenario voor vier verschillende dingen wordt gebruikt.
+      en: >
+        The review stresses that freight intensity is driven by GDP structure and trade patterns,
+        largely beyond the reach of domestic policy — and that the same round −10% is used for
+        four different things in the scenario.
+
+  truck-share:
+    short:
+      fr: Part de la route (fret)
+      nl: Aandeel van de weg (vracht)
+      en: Road share of freight
+    question:
+      fr: "Quelle part de la route dans les tonnes-kilomètres est un objectif 2050 réaliste ?"
+      nl: "Welk aandeel van de weg in de tonkilometers is een realistisch doel voor 2050?"
+      en: "What road share of tonne-kilometres is a realistic 2050 objective?"
+    subtitle:
+      fr: Le reste se répartit entre le rail, la voie d'eau et une petite part de fret aérien.
+      nl: De rest verdeelt zich over het spoor, de waterweg en een klein deel luchtvracht.
+      en: The rest is shared between rail, inland waterways and a small share of air freight.
+    tangible:
+      fr: "{value} % par la route — le reste par le rail et la voie d'eau."
+      nl: "{value} % over de weg — de rest via spoor en water."
+      en: "{value}% by road — the rest by rail and water."
+    facts:
+      - kind: trend
+        text:
+          fr: >
+            La Belgique va dans l'autre sens : la part de la route est remontée de
+            {refValue} % en 2019 à 68,6 % en 2023, après un maximum de 74,2 % en 2009. Le trafic
+            fluvial avait culminé à {navPeak2017} tkm par personne en 2017 ; il était à
+            {nav2023} en 2023.
+          nl: >
+            België gaat de andere kant op: het aandeel van de weg steeg weer van {refValue} % in
+            2019 naar 68,6 % in 2023, na een maximum van 74,2 % in 2009. Het riviervervoer piekte
+            op {navPeak2017} tkm per persoon in 2017; in 2023 was dat {nav2023}.
+          en: >
+            Belgium is heading the other way: road's share climbed back from {refValue}% in 2019
+            to 68.6% in 2023, after a high of 74.2% in 2009. Barge traffic peaked at
+            {navPeak2017} tkm per person in 2017; it was {nav2023} in 2023.
+        source: "JRC-IDEES-2023; nW-BE §3.1.3"
+        url: https://joint-research-centre.ec.europa.eu/potencia/jrc-idees_en
+      - kind: benchmark
+        text:
+          fr: >
+            La Suisse déplace 34,3 % de ses tonnes-kilomètres intérieures par le rail, l'Autriche
+            29,3 % ; les Pays-Bas en déplacent 40,9 % par voie d'eau. Belgique : 11,7 % rail,
+            10,7 % eau. La moyenne UE pour la route est de 78,1 % et augmente.
+          nl: >
+            Zwitserland vervoert 34,3 % van zijn binnenlandse tonkilometers per spoor, Oostenrijk
+            29,3 %; Nederland 40,9 % over water. België: 11,7 % spoor, 10,7 % water. Het
+            EU-gemiddelde voor de weg is 78,1 % en stijgt.
+          en: >
+            Switzerland moves 34.3% of its inland tonne-kilometres by rail and Austria 29.3%; the
+            Netherlands moves 40.9% by water. Belgium: 11.7% rail, 10.7% water. The EU average road
+            share is 78.1% and rising.
+        source: "Eurostat tran_hv_frmod, 2023"
+        url: https://ec.europa.eu/eurostat/databrowser/view/tran_hv_frmod/default/table?lang=en
+      - kind: caution
+        text:
+          fr: >
+            Même les statistiques ne s'accordent pas. Eurostat donne 12,1 % pour le rail belge en
+            2019 ; JRC-IDEES, la source de ce modèle, en donne 18,3 %. L'écart reste non résolu.
+            Les bases diffèrent aussi : Eurostat exclut le fret aérien du total, la question
+            ci-dessus l'inclut.
+          nl: >
+            Zelfs de statistieken spreken elkaar tegen. Eurostat geeft 12,1 % voor het Belgische
+            spoor in 2019; JRC-IDEES, de bron van dit model, geeft 18,3 %. Het verschil blijft
+            onopgelost. Ook de basis verschilt: Eurostat laat luchtvracht buiten het totaal, de
+            vraag hierboven neemt die mee.
+          en: >
+            Even the statistics disagree. Eurostat gives 12.1% for Belgian rail in 2019;
+            JRC-IDEES, this model's source, gives 18.3%. The gap remains unresolved. The bases
+            differ too: Eurostat leaves air freight out of the total, the question above includes
+            it.
+        source: "Eurostat tran_hv_frmod ; revue critique nW-BE §2.3.2"
+        url: https://ec.europa.eu/eurostat/databrowser/view/tran_hv_frmod/default/table?lang=en
+      - kind: caution
+        text:
+          fr: >
+            Reporter la route vers le rail et l'eau économise moins d'énergie qu'il n'y paraît :
+            en 2050 un poids lourd électrique demande {truckKwhPerTkm:d2} kWh par tonne-kilomètre,
+            une péniche {bargeKwhPerTkm:d2} et un train {railKwhPerTkm:d2}. Seule la moitié ferroviaire
+            du report économise vraiment.
+          nl: >
+            Verschuiven van weg naar spoor en water bespaart minder energie dan het lijkt: in 2050
+            vraagt een elektrische vrachtwagen {truckKwhPerTkm:d2} kWh per tonkilometer, een
+            binnenschip {bargeKwhPerTkm:d2} en een trein {railKwhPerTkm:d2}. Alleen de spoorhelft van de
+            verschuiving bespaart echt.
+          en: >
+            Shifting road freight to rail and water saves less energy than it looks: by 2050 an
+            electric heavy truck needs {truckKwhPerTkm:d2} kWh per tonne-kilometre, a barge
+            {bargeKwhPerTkm:d2} and a train {railKwhPerTkm:d2}. Only the rail half of the shift really
+            saves.
+        source: nW-BE, calcul 2050
+    justification:
+      fr: >
+        négaWatt retient {targetValue} % par la route. {shiftPct} % des tonnes-kilomètres des
+        poids lourds sont reportés : {toRailPct} points vers le rail et {toWaterPct} vers les voies
+        navigables, un réseau dont la Belgique est exceptionnellement bien dotée. En 2019 la route
+        représentait {refValue} % du total.
+      nl: >
+        negaWatt kiest {targetValue} % over de weg. {shiftPct} % van de tonkilometers van zware
+        vrachtwagens wordt verschoven: {toRailPct} punten naar het spoor en {toWaterPct} naar de
+        waterwegen, een net waarover België uitzonderlijk goed beschikt. In 2019 was de weg
+        {refValue} % van het totaal.
+      en: >
+        negaWatt settles on {targetValue}% by road. {shiftPct}% of heavy-truck tonne-kilometres are
+        shifted: {toRailPct} points to rail and {toWaterPct} to inland waterways, a network Belgium
+        is exceptionally well endowed with. In 2019 road accounted for {refValue}% of the total.
+    debate:
+      fr: >
+        Le fret ferroviaire belge est en déclin, pas en croissance, et l'écart de 60 % entre les
+        sources sur les tonnes-kilomètres routières laisse planer un doute sur l'ampleur même de
+        l'exercice.
+      nl: >
+        Het Belgische spoorvervoer krimpt, het groeit niet, en het verschil van 60 % tussen de
+        bronnen over de tonkilometers over de weg laat twijfel bestaan over de omvang van de
+        oefening zelf.
+      en: >
+        Belgian rail freight is declining, not growing, and the 60% gap between sources on road
+        tonne-kilometres leaves doubt about the very magnitude of the exercise.
+
+  # ------------------------------------------------------------ 8 -------------
+  truck-load:
+    short:
+      fr: Charge des camions
+      nl: Vrachtwagenlading
+      en: Truck payload
+    question:
+      fr: "Quelle charge moyenne des camions est un objectif 2050 réaliste ?"
+      nl: "Welke gemiddelde vrachtwagenlading is een realistisch doel voor 2050?"
+      en: "What average truck load is a realistic 2050 objective?"
+    subtitle:
+      fr: "Tous trajets confondus, retours à vide inclus. C'est cette moyenne qui détermine l'énergie consommée."
+      nl: "Over alle ritten samen, leegritten inbegrepen. Dat gemiddelde bepaalt het energieverbruik."
+      en: "Across all trips, empty runs included. That average is what drives the energy use."
+    tangible:
+      fr: "{value} tonnes par camion, en moyenne sur tous les trajets."
+      nl: "{value} ton per vrachtwagen, gemiddeld over alle ritten."
+      en: "{value} tonnes per truck, averaged over every trip."
+    facts:
+      - kind: benchmark
+        text:
+          fr: >
+            En 2024, 21,6 % des kilomètres parcourus par les véhicules de fret routier dans l'UE
+            l'ont été à vide : 25,9 % en transport national, 13,1 % en international.
+          nl: >
+            In 2024 werd 21,6 % van de kilometers van vrachtvoertuigen in de EU leeg gereden:
+            25,9 % bij binnenlands vervoer, 13,1 % bij internationaal.
+          en: >
+            In 2024, 21.6% of the distance travelled by road freight vehicles in the EU was run
+            empty: 25.9% for national transport, 13.1% for international.
+        source: "Eurostat, Road freight transport by journey characteristics"
+        url: https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Road_freight_transport_by_journey_characteristics
+      - kind: structure
+        reveal: true
+        text:
+          fr: >
+            négaWatt ne retient que +{gainPct} % sur ce chiffre à l'horizon 2050 — l'une des
+            hypothèses les plus prudentes de tout le volet transport. Il n'existe pas de levier
+            distinct pour les retours à vide.
+          nl: >
+            negaWatt houdt het op slechts +{gainPct} % voor 2050 — een van de voorzichtigste
+            veronderstellingen van het hele transportluik. Er is geen aparte hefboom voor
+            leegritten.
+          en: >
+            negaWatt assumes only +{gainPct}% on this figure by 2050 — one of the most
+            conservative assumptions in the whole transport scenario. There is no separate lever
+            for empty running.
+        source: nW-BE §3.3.3
+      - kind: structure
+        text:
+          fr: >
+            En 2019, le poids lourd belge moyen transportait {refValue} tonnes tous trajets
+            confondus — retours à vide inclus. C'est cette moyenne-là qui compte pour l'énergie,
+            pas la capacité maximale du camion.
+          nl: >
+            In 2019 vervoerde de gemiddelde Belgische zware vrachtwagen {refValue} ton over alle
+            ritten samen — leegritten inbegrepen. Dat gemiddelde bepaalt het energieverbruik,
+            niet de maximale capaciteit van de vrachtwagen.
+          en: >
+            In 2019 the average Belgian heavy truck carried {refValue} tonnes across all trips,
+            empty runs included. That average is what drives the energy use, not the truck's
+            maximum capacity.
+        source: JRC-IDEES-2023, via nW-BE §3.1
+      - kind: caution
+        text:
+          fr: >
+            Ce levier mélange deux choses que le modèle ne sait pas séparer : le taux de
+            remplissage d'un camion chargé, et la fréquence des retours à vide.
+          nl: >
+            Deze hefboom mengt twee zaken die het model niet kan scheiden: de vullingsgraad van een
+            geladen vrachtwagen, en hoe vaak er leeg wordt gereden.
+          en: >
+            This lever mixes two things the model cannot separate: how full a loaded truck is, and
+            how often trucks run empty.
+        source: nW-BE §3.3.3
+      - kind: tangible
+        text:
+          fr: >
+            Le poids lourd n'est souvent pas rempli par la masse mais par le volume : la remorque
+            est pleine avant d'être lourde. C'est ce qui limite les gains faciles.
+          nl: >
+            Een zware vrachtwagen wordt vaak niet door gewicht maar door volume beperkt: de
+            oplegger is vol voordat hij zwaar is. Dat beperkt de makkelijke winst.
+          en: >
+            A heavy truck is often filled by volume rather than by weight: the trailer is full
+            before it is heavy. That is what limits the easy gains.
+        source: pratique logistique courante (pas une hypothèse du modèle)
+    historyAbsent: true
+    historyNote:
+      fr: La charge moyenne des camions n'est pas disponible en série historique dans les données du projet.
+      nl: De gemiddelde vrachtwagenlading is niet als historische reeks beschikbaar in de projectdata.
+      en: Average truck load is not available as a historical series in the project's data.
+    justification:
+      fr: >
+        négaWatt retient {targetValue} tonnes, contre {refValue} en 2019, soit +{gainPct} %. C'est
+        une hypothèse volontairement modeste : mieux remplir les camions suppose de mutualiser les
+        chargements entre chargeurs concurrents. L'énergie des poids lourds tombe malgré tout à
+        {truckTwhTarget} TWh en 2050, surtout grâce à l'électrification.
+      nl: >
+        negaWatt kiest {targetValue} ton, tegenover {refValue} in 2019, dus +{gainPct} %. Een
+        bewust bescheiden veronderstelling: vrachtwagens beter vullen vereist het bundelen van
+        ladingen tussen concurrerende verladers. De energie van zware vrachtwagens daalt toch naar
+        {truckTwhTarget} TWh in 2050, vooral door elektrificatie.
+      en: >
+        negaWatt settles on {targetValue} tonnes, against {refValue} in 2019, i.e. +{gainPct}%. It
+        is a deliberately modest assumption: filling trucks better means pooling loads between
+        competing shippers. Heavy-truck energy still falls to {truckTwhTarget} TWh by 2050, mostly
+        thanks to electrification.
+    debate:
+      fr: >
+        Avec un cinquième des kilomètres parcourus à vide en Europe, on peut trouver +5 % très
+        timide. À l'inverse, la mutualisation des chargements se heurte depuis trente ans au
+        secret commercial et à la fragmentation du secteur.
+      nl: >
+        Met een vijfde van de kilometers leeg in Europa kan +5 % erg voorzichtig lijken. Anderzijds
+        stuit het bundelen van ladingen al dertig jaar op bedrijfsgeheim en de versnippering van de
+        sector.
+      en: >
+        With a fifth of European vehicle-kilometres run empty, +5% can look very timid. On the other
+        hand, pooling loads has run into commercial confidentiality and a fragmented sector for
+        thirty years.

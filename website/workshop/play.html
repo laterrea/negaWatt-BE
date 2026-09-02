@@ -1,0 +1,110 @@
+<!-- negaWatt Belgium — workshop participant interface.
+     One lever per screen. The slider handle IS the 2050 endpoint of the
+     historical curve. See docs/workshop_module.md -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Atelier négaWatt — négaWatt Belgium workshop</title>
+<link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/workshop.css">
+
+<body class="ws-body">
+<div class="ws-shell">
+
+  <div class="ws-topbar">
+    <a class="ws-topbar__brand" href="index.html">
+      <img src="../assets/img/nW_BE_logo_square.png" alt="négaWatt Belgium">
+      <span data-ui="app.title"></span>
+    </a>
+    <span class="ws-topbar__spacer"></span>
+    <span class="ws-badge ws-badge--quiet ws-hidden" id="status-badge"></span>
+    <div class="ws-lang" id="lang-switch" role="group"></div>
+  </div>
+
+  <main class="ws-main" id="screen-play">
+
+    <div class="ws-identity ws-hidden" id="identity"></div>
+
+    <div class="ws-progress">
+      <span class="ws-progress__label" id="progress-label"></span>
+      <span class="ws-topbar__spacer"></span>
+      <span id="progress-dots" style="display:flex;gap:6px"></span>
+    </div>
+
+    <div>
+      <p class="ws-eyebrow" id="topic-title"></p>
+      <h1 class="ws-question" id="question"></h1>
+      <p class="ws-subtitle" id="subtitle"></p>
+    </div>
+
+    <div class="ws-chart">
+      <div id="chart" style="min-height:190px"></div>
+      <div class="ws-chart__legend" id="chart-legend"></div>
+      <p class="ws-chart__note" id="chart-note"></p>
+    </div>
+
+    <div class="ws-slider" id="slider-wrap">
+      <p class="ws-slider__hint" data-ui="play.dragHint"></p>
+      <input type="range" id="slider" aria-describedby="readout">
+      <div class="ws-slider__scale">
+        <span id="scale-min"></span>
+        <span id="scale-max"></span>
+      </div>
+    </div>
+
+    <div class="ws-readout is-empty" id="readout" aria-live="polite">
+      <span class="ws-readout__num" id="readout-num"></span>
+      <span class="ws-readout__unit" id="readout-unit"></span>
+      <p class="ws-readout__tangible" id="readout-tangible"></p>
+    </div>
+
+    <div class="ws-leverage is-hidden" id="leverage">
+      <p class="ws-leverage__label" data-ui="play.leverage.title"></p>
+      <p class="ws-leverage__value" id="leverage-value"></p>
+      <p class="ws-leverage__delta" id="leverage-delta"></p>
+      <p class="ws-leverage__caveat" data-ui="play.leverage.caveat"></p>
+    </div>
+
+    <section class="ws-facts">
+      <h2 data-ui="play.facts.title"></h2>
+      <div class="ws-facts__grid" id="facts"></div>
+    </section>
+
+    <div class="ws-field">
+      <span class="ws-field__label" data-ui="play.confidence.label"></span>
+      <div class="ws-segmented" id="confidence" role="group"></div>
+    </div>
+
+    <div class="ws-field">
+      <label for="condition" data-ui="play.condition.label"></label>
+      <textarea class="ws-textarea" id="condition" maxlength="280" rows="2"></textarea>
+    </div>
+
+  </main>
+
+  <main class="ws-main ws-hidden" id="screen-done">
+    <div class="ws-panel">
+      <h1 data-ui="play.done.title"></h1>
+      <p data-ui="play.done.body"></p>
+      <div class="ws-scroll">
+        <table class="ws-table" id="summary-table"></table>
+      </div>
+    </div>
+  </main>
+
+  <div class="ws-actions" id="actions">
+    <button class="ws-btn ws-btn--ghost" id="btn-back" data-ui="play.back"></button>
+    <button class="ws-btn" id="btn-next"></button>
+  </div>
+
+</div>
+
+<script src="../data/levers_transport.js"></script>
+<script src="../data/history_transport.js"></script>
+<script src="../data/workshop_content.js"></script>
+<script src="../assets/js/workshop/i18n.js"></script>
+<script src="../assets/js/workshop/spark.js"></script>
+<script src="../assets/js/workshop/impact.js"></script>
+<script src="../assets/js/workshop/api.js"></script>
+<script src="../assets/js/workshop/play.js"></script>
+</body>

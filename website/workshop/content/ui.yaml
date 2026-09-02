@@ -1,0 +1,450 @@
+# =============================================================================
+# negaWatt-BE workshop — interface strings (FR / NL / EN)
+#
+# Hand-edited. Built into website/data/workshop_content.js by
+# scripts/build_workshop_content.py, which fails if any string is missing a
+# language. Placeholders in braces are filled in by the page at run time.
+#
+# NOTE: the Dutch was written by the implementer, not a native speaker, and
+# needs a review pass before a real workshop (docs/workshop_module.md, Q5).
+# =============================================================================
+
+meta:
+  languages: [fr, nl, en]
+  default: fr
+
+strings:
+  lang.fr: {fr: Français, nl: Frans, en: French}
+  lang.nl: {fr: Néerlandais, nl: Nederlands, en: Dutch}
+  lang.en: {fr: Anglais, nl: Engels, en: English}
+
+  app.title:
+    fr: Atelier négaWatt Belgique
+    nl: negaWatt België workshop
+    en: negaWatt Belgium workshop
+  app.tagline:
+    fr: À vous de construire le scénario
+    nl: Bouw zelf het scenario
+    en: You build the scenario
+
+  # ---------------------------------------------------------------- joining
+  join.title:
+    fr: Rejoindre un atelier
+    nl: Neem deel aan een workshop
+    en: Join a workshop
+  join.lead:
+    fr: Entrez le code affiché par l'animateur, puis donnez un nom à votre groupe.
+    nl: Voer de code in die de begeleider toont en geef je groep een naam.
+    en: Enter the code shown by the facilitator, then give your group a name.
+  join.codeLabel:
+    fr: Code de session
+    nl: Sessiecode
+    en: Session code
+  join.groupLabel:
+    fr: Nom de votre groupe
+    nl: Naam van je groep
+    en: Your group's name
+  join.groupPlaceholder:
+    fr: "p. ex. Table 3, Les cyclistes…"
+    nl: "bv. Tafel 3, De fietsers…"
+    en: "e.g. Table 3, The cyclists…"
+  join.start:
+    fr: Commencer
+    nl: Beginnen
+    en: Start
+  join.badCode:
+    fr: Ce code ne correspond à aucune session ouverte.
+    nl: Deze code hoort bij geen enkele open sessie.
+    en: That code does not match any open session.
+  join.needName:
+    fr: Donnez d'abord un nom à votre groupe.
+    nl: Geef je groep eerst een naam.
+    en: Give your group a name first.
+  join.solo:
+    fr: Essayer seul
+    nl: Alleen uitproberen
+    en: Try it on your own
+  join.soloHint:
+    fr: Crée une session privée, exclue des résultats collectifs.
+    nl: Maakt een privésessie, niet meegerekend in de gezamenlijke resultaten.
+    en: Creates a private session, excluded from the collective results.
+
+  # ------------------------------------------------------------------ groups
+  group.autoPrefix:
+    fr: Groupe
+    nl: Groep
+    en: Group
+  group.rename:
+    fr: renommer
+    nl: hernoemen
+    en: rename
+  group.renamePrompt:
+    fr: Nom de votre groupe
+    nl: Naam van je groep
+    en: Your group's name
+  group.renameFailed:
+    fr: Ce nom est déjà pris.
+    nl: Die naam is al in gebruik.
+    en: That name is already taken.
+  join.badLink:
+    fr: Ce lien ne correspond à aucun atelier ouvert. Demandez le lien à l'animateur.
+    nl: Deze link hoort bij geen enkele open workshop. Vraag de begeleider om de link.
+    en: This link does not match any open workshop. Ask the facilitator for the link.
+  facil.workshopName:
+    fr: Nom de l'atelier (dans le lien)
+    nl: Naam van de workshop (in de link)
+    en: Workshop name (used in the link)
+  facil.shareLink:
+    fr: Lien à partager avec les participants
+    nl: Link om met de deelnemers te delen
+    en: Link to share with participants
+  facil.copyLink:
+    fr: Copier le lien
+    nl: Link kopiëren
+    en: Copy the link
+  facil.copied:
+    fr: Copié
+    nl: Gekopieerd
+    en: Copied
+  facil.codeFallback:
+    fr: Ou, à taper depuis l'écran
+    nl: Of, om over te typen van het scherm
+    en: Or, to type from the screen
+  facil.slugTaken:
+    fr: Ce nom d'atelier est déjà utilisé, choisissez-en un autre.
+    nl: Deze workshopnaam bestaat al, kies een andere.
+    en: That workshop name is already in use, pick another.
+
+  # ------------------------------------------------------------------ playing
+  play.progress:
+    fr: "Question {n} sur {total}"
+    nl: "Vraag {n} van {total}"
+    en: "Question {n} of {total}"
+  play.dragHint:
+    fr: Faites glisser le curseur pour prolonger la courbe jusqu'en 2050.
+    nl: Sleep de schuifknop om de curve tot 2050 te verlengen.
+    en: Drag the handle to extend the curve to 2050.
+  play.unanswered:
+    fr: Pas encore de réponse
+    nl: Nog geen antwoord
+    en: No answer yet
+  play.yourAnswer:
+    fr: Votre réponse pour 2050
+    nl: Jullie antwoord voor 2050
+    en: Your answer for 2050
+  play.refValue:
+    fr: "En {year}"
+    nl: "In {year}"
+    en: "In {year}"
+  play.facts.title:
+    fr: Quelques repères
+    nl: Enkele referentiepunten
+    en: A few reality checks
+  play.facts.kind.trend:
+    fr: Tendance passée
+    nl: Trend uit het verleden
+    en: Past trend
+  play.facts.kind.structure:
+    fr: Contexte belge
+    nl: Belgische context
+    en: Belgian context
+  play.facts.kind.benchmark:
+    fr: Ailleurs en Europe
+    nl: Elders in Europa
+    en: Elsewhere in Europe
+  play.facts.kind.tangible:
+    fr: Concrètement
+    nl: Concreet
+    en: In practice
+  play.facts.kind.caution:
+    fr: À manier avec prudence
+    nl: Met voorzichtigheid te hanteren
+    en: Handle with care
+  play.leverage.title:
+    fr: Effet sur la demande d'énergie
+    nl: Effect op de energievraag
+    en: Effect on energy demand
+  play.leverage.value:
+    fr: "{twh} TWh en 2050 pour la mobilité intérieure"
+    nl: "{twh} TWh in 2050 voor de binnenlandse mobiliteit"
+    en: "{twh} TWh in 2050 for inland mobility"
+  # Compared with the observed 2019 demand, never with negaWatt: see
+  # docs/workshop_module.md, decision D17.
+  play.leverage.vs2019:
+    fr: "soit {delta} % de moins qu'en {year}"
+    nl: "dat is {delta} % minder dan in {year}"
+    en: "that is {delta}% less than in {year}"
+  play.leverage.above2019:
+    fr: "soit {delta} % de plus qu'en {year}"
+    nl: "dat is {delta} % meer dan in {year}"
+    en: "that is {delta}% more than in {year}"
+  play.leverage.hidden:
+    fr: Révélé après votre réponse
+    nl: Wordt na jullie antwoord getoond
+    en: Revealed once you answer
+  play.leverage.caveat:
+    fr: Effet de ce seul levier, les autres hypothèses restant inchangées.
+    nl: Effect van deze ene hefboom, met de andere veronderstellingen ongewijzigd.
+    en: The effect of this lever alone, with the other assumptions left unchanged.
+  play.confidence.label:
+    fr: Votre degré de certitude
+    nl: Hoe zeker zijn jullie?
+    en: How sure are you?
+  play.confidence.hunch:
+    fr: Intuition
+    nl: Gevoel
+    en: A hunch
+  play.confidence.fairly:
+    fr: Assez sûrs
+    nl: Redelijk zeker
+    en: Fairly sure
+  play.confidence.confident:
+    fr: Confiants
+    nl: Overtuigd
+    en: Confident
+  play.condition.label:
+    fr: Pour que cela arrive, il faudrait que…
+    nl: Om dit te bereiken, zou…
+    en: For this to happen, it would take…
+  play.condition.placeholder:
+    fr: une phrase, la condition qui compte le plus
+    nl: één zin, de belangrijkste voorwaarde
+    en: one sentence, the condition that matters most
+  play.back:
+    fr: Précédent
+    nl: Vorige
+    en: Back
+  play.next:
+    fr: Suivant
+    nl: Volgende
+    en: Next
+  play.finish:
+    fr: Terminer
+    nl: Afronden
+    en: Finish
+  play.done.title:
+    fr: C'est envoyé, merci !
+    nl: Verzonden, bedankt!
+    en: Sent — thank you!
+  play.done.body:
+    fr: Vos réponses sont enregistrées. Elles apparaîtront sur l'écran commun lors de la mise en commun.
+    nl: Jullie antwoorden zijn opgeslagen. Ze verschijnen straks op het gezamenlijke scherm.
+    en: Your answers are saved. They will appear on the shared screen during the reveal.
+  play.done.review:
+    fr: Revoir nos réponses
+    nl: Onze antwoorden bekijken
+    en: Review our answers
+  play.saved:
+    fr: Enregistré
+    nl: Opgeslagen
+    en: Saved
+  play.offline:
+    fr: Hors ligne — vos réponses sont gardées sur cet appareil et renvoyées dès le retour du réseau.
+    nl: Offline — jullie antwoorden blijven op dit toestel en worden verzonden zodra er weer verbinding is.
+    en: Offline — your answers are kept on this device and sent as soon as the network returns.
+
+  # ------------------------------------------------------------------ reveal
+  reveal.title:
+    fr: Mise en commun
+    nl: Gezamenlijke resultaten
+    en: The reveal
+  reveal.waiting:
+    fr: En attente des réponses…
+    nl: Wachten op antwoorden…
+    en: Waiting for answers…
+  reveal.groups:
+    fr: "{n} groupes"
+    nl: "{n} groepen"
+    en: "{n} groups"
+  reveal.groupsOne:
+    fr: 1 groupe
+    nl: 1 groep
+    en: 1 group
+  reveal.groupsLabel:
+    fr: groupes
+    nl: groepen
+    en: groups
+  reveal.sessionsLabel:
+    fr: sessions
+    nl: sessies
+    en: sessions
+  reveal.sessions:
+    fr: "{n} sessions"
+    nl: "{n} sessies"
+    en: "{n} sessions"
+  reveal.mean:
+    fr: Moyenne des groupes
+    nl: Gemiddelde van de groepen
+    en: Group average
+  reveal.nwValue:
+    fr: Valeur du scénario négaWatt
+    nl: Waarde van het negaWatt-scenario
+    en: The negaWatt scenario's value
+  reveal.show:
+    fr: Révéler la valeur négaWatt
+    nl: Toon de negaWatt-waarde
+    en: Reveal the negaWatt value
+  reveal.why:
+    fr: Pourquoi cette valeur
+    nl: Waarom deze waarde
+    en: Why this value
+  reveal.debate:
+    fr: Ce qu'on peut lui reprocher
+    nl: Wat je erop kunt aanmerken
+    en: What can be held against it
+  reveal.conditions:
+    fr: Ce que les groupes ont écrit
+    nl: Wat de groepen schreven
+    en: What the groups wrote
+  reveal.bolder:
+    fr: Les groupes ont été plus ambitieux que négaWatt.
+    nl: De groepen waren ambitieuzer dan negaWatt.
+    en: The groups were bolder than negaWatt.
+  reveal.shyer:
+    fr: Les groupes ont été plus prudents que négaWatt.
+    nl: De groepen waren voorzichtiger dan negaWatt.
+    en: The groups were more cautious than negaWatt.
+  reveal.aligned:
+    fr: Les groupes ont visé presque exactement la même valeur que négaWatt.
+    nl: De groepen kwamen vrijwel exact op de negaWatt-waarde uit.
+    en: The groups landed almost exactly on the negaWatt value.
+  reveal.bolderShort:
+    fr: plus ambitieux
+    nl: ambitieuzer
+    en: bolder
+  reveal.shyerShort:
+    fr: plus prudent
+    nl: voorzichtiger
+    en: more cautious
+  reveal.alignedShort:
+    fr: identique
+    nl: gelijk
+    en: same
+  reveal.next:
+    fr: Levier suivant
+    nl: Volgende hefboom
+    en: Next lever
+  reveal.prev:
+    fr: Levier précédent
+    nl: Vorige hefboom
+    en: Previous lever
+  reveal.summary:
+    fr: Vue d'ensemble
+    nl: Overzicht
+    en: Overview
+  reveal.closest:
+    fr: Groupe le plus proche de négaWatt
+    nl: Groep die negaWatt het dichtst benadert
+    en: Closest to negaWatt
+  reveal.boldest:
+    fr: Groupe le plus ambitieux
+    nl: Meest ambitieuze groep
+    en: Boldest group
+  reveal.needKey:
+    fr: Clé d'animateur requise pour agréger plusieurs sessions.
+    nl: Begeleiderssleutel nodig om meerdere sessies samen te voegen.
+    en: A facilitator key is needed to aggregate several sessions.
+
+  # ------------------------------------------------------- facilitator & cards
+  facil.title:
+    fr: Console d'animation
+    nl: Begeleiderspaneel
+    en: Facilitator console
+  facil.create:
+    fr: Créer une session
+    nl: Sessie aanmaken
+    en: Create a session
+  facil.label:
+    fr: Nom de l'atelier
+    nl: Naam van de workshop
+    en: Workshop name
+  facil.topic:
+    fr: Thème
+    nl: Thema
+    en: Topic
+  facil.code:
+    fr: Code à communiquer
+    nl: Code om te delen
+    en: Code to share
+  facil.openReveal:
+    fr: Ouvrir l'écran de mise en commun
+    nl: Open het gezamenlijke scherm
+    en: Open the reveal screen
+  facil.printCards:
+    fr: Imprimer les fiches
+    nl: Print de kaarten
+    en: Print the fact cards
+  facil.progress:
+    fr: Avancement des groupes
+    nl: Voortgang van de groepen
+    en: Group progress
+  facil.answers:
+    fr: "{done}/{total} réponses"
+    nl: "{done}/{total} antwoorden"
+    en: "{done}/{total} answers"
+  facil.keyLabel:
+    fr: Clé d'animateur
+    nl: Begeleiderssleutel
+    en: Facilitator key
+  cards.title:
+    fr: Fiches de discussion
+    nl: Discussiekaarten
+    en: Discussion cards
+  cards.scan:
+    fr: Scannez pour répondre
+    nl: Scan om te antwoorden
+    en: Scan to answer
+  cards.source:
+    fr: Source
+    nl: Bron
+    en: Source
+
+  # -------------------------------------------------------------------- units
+  # Keyed by the raw `unit` string the notebook exports, so a new lever only
+  # needs a line here. Falls back to the raw string if a key is missing.
+  "unit.km/person/day":
+    fr: km/pers./jour
+    nl: km/pers./dag
+    en: km/person/day
+  "unit.% of motorised km":
+    fr: "% des km motorisés"
+    nl: "% van de gemotoriseerde km"
+    en: "% of motorised km"
+  "unit.persons/car":
+    fr: personnes/voiture
+    nl: personen/auto
+    en: people per car
+  "unit.% of 2019":
+    fr: "% de 2019"
+    nl: "% van 2019"
+    en: "% of 2019"
+  "unit.tkm/person/year":
+    fr: tkm/pers./an
+    nl: tkm/pers./jaar
+    en: tkm/person/year
+  "unit.% of tonne-km":
+    fr: "% des tonnes-km"
+    nl: "% van de tonkilometers"
+    en: "% of tonne-km"
+  "unit.tonnes":
+    fr: tonnes
+    nl: ton
+    en: tonnes
+
+  # ------------------------------------------------------------------ generic
+  common.source:
+    fr: Source
+    nl: Bron
+    en: Source
+  common.notebook:
+    fr: Détail du calcul
+    nl: Detail van de berekening
+    en: Calculation details
+  common.error:
+    fr: Une erreur est survenue.
+    nl: Er is een fout opgetreden.
+    en: Something went wrong.
+  common.retry:
+    fr: Réessayer
+    nl: Opnieuw proberen
+    en: Try again
