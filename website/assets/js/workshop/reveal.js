@@ -89,12 +89,24 @@
   /* ------------------------------------------------------------------ render */
   function render() {
     if (state.summary) { renderSummary(); return; }
+
+    // The topic only becomes known once a poll succeeds. If it has not — no
+    // facilitator key, a wrong code, the network down — there is nothing to draw
+    // and the projector must show the waiting screen, not crash on it.
+    var id = current();
+    if (!id || !levers()[id]) {
+      $("screen-lever").classList.add("ws-hidden");
+      $("screen-summary").classList.add("ws-hidden");
+      $("actions").classList.add("ws-hidden");
+      $("screen-setup").classList.remove("ws-hidden");
+      return;
+    }
+
     $("screen-lever").classList.remove("ws-hidden");
     $("screen-summary").classList.add("ws-hidden");
     $("screen-setup").classList.add("ws-hidden");
     $("actions").classList.remove("ws-hidden");
 
-    var id = current();
     var lever = levers()[id];
     var content = leverContent(id);
     var rows = answersFor(id);

@@ -221,6 +221,10 @@ Each decision records *why*, so it can be revisited on purpose rather than by ac
 | D29 | **The leverage readout shows what *this* lever contributes, against keeping today's level** | Two earlier versions were both misleading, and a reviewer caught both. Showing the sector total at the answer (≈22 TWh) reads as the combined effect of all eight assumptions. Comparing that total to 2019 was worse: electrification alone cuts inland mobility by three quarters, so *every* answer showed a large decrease and the sign never moved — pushing the slider towards more traffic still reported "79 % less than 2019". The readout is now `E(answer) − E(2019 level of the same indicator)`, everything else held fixed. It is zero at today's level, positive when the group asks for more demand, and negative when less. |
 | D30 | Facts are quoted on the **same denominator as the question** | A reviewer spotted "58.8 % of all passenger-kilometres by car" sitting under a chart reading 78.8 %: the first is car out of *all* pkm (aviation included), the second out of *motorised ground* pkm, which is what the lever asks about. The Belgian-context fact now gives the whole split on the lever's own basis, and it adds to 100. |
 | D31 | Comparisons within a fact use one fuel, and one metric | Also from review: the "concretely" card compared an electric car to *petrol* litres while quoting a *diesel* car's consumption, and the cycling card put "9.3 % of trips" next to "64 % of kilometres". Now petrol throughout, and the trips/kilometres gap is stated *and explained* (an e-bike trip is longer) rather than left as an apparent contradiction. |
+| D32 | **Levers live one module per topic under `workshop_levers/`, not in the notebook** | Two topics share each notebook — inland and international mobility in the transport one, residential and tertiary heat in the buildings one — so a single export cell made them compete for the same 300 lines of a 140-cell notebook. Each topic is now a module reading the notebook's `globals()`, and each notebook keeps one generic `export_topics(sector, globals())` cell. Verified behaviour-neutral: the inland levers came out byte-identical. |
+| D33 | The model block is keyed by topic | Otherwise two topics of one sector overwrite each other's context quantities. |
+| D34 | Every workshop page loads every sector's data file | A topic names its sector in the content bundle and the page follows it, so adding a topic to a new sector is one `<script>` line rather than a code change. |
+| D35 | A topic may declare its own interface strings in its YAML | So a new topic needs no edit to the shared `ui.yaml`. A key already defined elsewhere is an error, not a silent override. |
 
 ---
 
@@ -358,3 +362,105 @@ Found while fixing the above:
   `lever.unit` directly instead of the `T.unit()` translation the rest of the page uses;
 - for `car-energy` the reference line was circular — "compared with staying at the 2019
   level (100 % of 2019)" — so that lever now uses a shorter phrasing.
+
+---
+
+## 12. Adding a topic
+
+This is the whole recipe. It is deliberately narrow: a new topic is **two new
+files**, and nothing else. Everything shared is either generic already or
+regenerated centrally.
+
+### The two files you own
+
+**1. `workshop_levers/<topic_id_with_underscores>.py`**
+
+```python
+from nW_BE_demand_model_sub_functions import make_lever
+from . import need
+
+TOPIC  = "residential-heat"      # must equal the YAML's `topic`
+SECTOR = "buildings"             # which notebook computes the inputs
+ORDER  = 30                      # optional, print order only
+
+def build(ctx):
+    years, df_SUF, population_dict = need(ctx, "years", "df_SUF", "population_dict")
+    ...
+    return {"levers": [...], "model": {...}}
+```
+
+`ctx` is the notebook's `globals()`. Read the quantities the notebook has
+already computed; **never re-declare an assumption here**. If you need a number
+the notebook does not compute, that belongs in the notebook — report it rather
+than inventing it.
+
+`need()` fails with a readable message when a variable is absent or renamed.
+
+**2. `website/workshop/content/<topic-id>.yaml`**
+
+Same schema as `inland-mobility.yaml`, which is the reference. `topic:` and
+`sector:` must match the module.
+
+### The rules the build enforces
+
+Run `python scripts/build_workshop_content.py --check` — it refuses to build on
+any of these, so you cannot get them wrong quietly:
+
+- every string carries all three languages (`fr`, `nl`, `en`);
+- every fact has a `kind` from {trend, structure, benchmark, tangible, caution}
+  and a `source`; a `url` must look like one;
+- every `{placeholder}` resolves against that lever's `facts` block (or
+  `refValue`, `targetValue`, `refYear`, `targetYear`, `unit`);
+- lever ids match both ways between the module and the YAML;
+- **nothing shown before a group answers may state négaWatt's choice** — not a
+  `spoilers` fact key, not the target value as a number, not the words
+  "négaWatt" or "the scenario". Facts that *do* describe the scenario carry
+  `reveal: true` and appear only on the reveal screen;
+- every lever's `history` key resolves, or the YAML declares `historyAbsent:
+  true` with a `historyNote` saying why;
+- `make_lever` itself rejects a slider range that puts the target within 12% of
+  an end stop.
+
+### The design rules the build cannot check
+
+- **Ask for an objective, never a forecast** (principle 4). "What floor area per
+  person is a realistic 2050 objective?" — not "how many m² will people have?".
+- **Tangible units.** m² per person, °C, kWh/m², litres. Never the model's
+  internal units.
+- **Four facts per lever**, one each of: past trend · Belgian structure ·
+  elsewhere in Europe · in practice. They are also the printed card.
+- **Every fact on the same denominator as the question and its chart.** Mixing
+  bases is the single most common error (see D30).
+- **Levers must be real degrees of freedom** of the model, so the reveal is
+  exact and no group can enter a self-inconsistent scenario.
+
+### Testing
+
+```bash
+# 1. your levers (runs the notebook once; use your own --output path)
+jupyter nbconvert --to notebook --execute --output /tmp/<you>.ipynb \
+        nW_BE_demand_model_<sector>.ipynb
+
+# 2. your content
+python scripts/build_workshop_content.py --check
+
+# 3. the whole thing in a browser
+python scripts/dev_static.py --port <your port> &
+python scripts/dev_api.py --port <your port+1> --db /tmp/<you>.sqlite &
+#   .../workshop/play.html?topic=<topic-id>&lang=fr&api=http://127.0.0.1:<port+1>
+```
+
+### What you must not touch
+
+Shared files. If you think one needs changing, **report it instead of editing
+it** — a concurrent edit costs more than a round trip:
+
+`nW_BE_demand_model_*.ipynb` · `nW_BE_demand_model_sub_functions.py` ·
+`workshop_levers/__init__.py` · other topics' modules or YAMLs ·
+`website/workshop/content/ui.yaml` · `website/assets/js/**` ·
+`website/assets/css/**` · `website/workshop/*.html` · `website/api/**` ·
+`scripts/**` · `docs/**`
+
+Generated files are **not deliverables** — `website/data/*.js` is regenerated
+centrally after all topics land. Do not hand them over and do not worry if a
+sibling's notebook run makes one momentarily odd; re-run yours.

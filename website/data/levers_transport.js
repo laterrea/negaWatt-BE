@@ -410,62 +410,64 @@ window.NW_LEVERS["transport"] = {
     }
   },
   "model": {
-    "scope": "inland mobility: domestic passenger ground transport + domestic freight (aviation excluded)",
-    "refYear": 2019,
-    "targetYear": 2050,
-    "population": {
-      "2019": 11431406,
-      "2050": 12600911
-    },
-    "inlandTwh": {
-      "2019": 102.398,
-      "2050": 23.076
-    },
-    "inlandPassengerTwh": {
-      "2019": 63.878,
-      "2050": 11.878
-    },
-    "motorisedPassengerTwh": {
-      "2019": 63.861,
-      "2050": 11.758
-    },
-    "inlandFreightTwh": {
-      "2019": 38.52,
-      "2050": 11.198
-    },
-    "modeTwhTarget": {
-      "two-wheeler": 0.278,
-      "tram&metro": 0.214,
-      "bus&coach": 2.167,
-      "car": 6.946,
-      "train-conventional": 1.812,
-      "train-high speed": 0.341,
-      "pedestrian": 0.0,
-      "bicycle": 0.12
-    },
-    "freightModeTwhTarget": {
-      "train": 0.669,
-      "navigation-inland": 2.624,
-      "navigation-coastal": 0.088,
-      "truck-heavy duty": 4.339,
-      "truck-light commercial": 3.478
-    },
-    "modeIntensityTarget": {
-      "two-wheeler": 0.0951,
-      "tram&metro": 0.0441,
-      "bus&coach": 0.0831,
-      "car": 0.0893,
-      "train-conventional": 0.0764,
-      "train-high speed": 0.0704,
-      "pedestrian": 0.0,
-      "bicycle": 0.008
-    },
-    "freightModeIntensityTarget": {
-      "train": 0.0299,
-      "navigation-inland": 0.2033,
-      "navigation-coastal": 0.461,
-      "truck-heavy duty": 0.1112,
-      "truck-light commercial": 3.2034
+    "inland-mobility": {
+      "scope": "inland mobility: domestic passenger ground transport + domestic freight (aviation excluded)",
+      "refYear": 2019,
+      "targetYear": 2050,
+      "population": {
+        "2019": 11431406,
+        "2050": 12600911
+      },
+      "inlandTwh": {
+        "2019": 102.398,
+        "2050": 23.076
+      },
+      "inlandPassengerTwh": {
+        "2019": 63.878,
+        "2050": 11.878
+      },
+      "motorisedPassengerTwh": {
+        "2019": 63.861,
+        "2050": 11.758
+      },
+      "inlandFreightTwh": {
+        "2019": 38.52,
+        "2050": 11.198
+      },
+      "modeTwhTarget": {
+        "two-wheeler": 0.278,
+        "tram&metro": 0.214,
+        "bus&coach": 2.167,
+        "car": 6.946,
+        "train-conventional": 1.812,
+        "train-high speed": 0.341,
+        "pedestrian": 0.0,
+        "bicycle": 0.12
+      },
+      "freightModeTwhTarget": {
+        "train": 0.669,
+        "navigation-inland": 2.624,
+        "navigation-coastal": 0.088,
+        "truck-heavy duty": 4.339,
+        "truck-light commercial": 3.478
+      },
+      "modeIntensityTarget": {
+        "two-wheeler": 0.0951,
+        "tram&metro": 0.0441,
+        "bus&coach": 0.0831,
+        "car": 0.0893,
+        "train-conventional": 0.0764,
+        "train-high speed": 0.0704,
+        "pedestrian": 0.0,
+        "bicycle": 0.008
+      },
+      "freightModeIntensityTarget": {
+        "train": 0.0299,
+        "navigation-inland": 0.2033,
+        "navigation-coastal": 0.461,
+        "truck-heavy duty": 0.1112,
+        "truck-light commercial": 3.2034
+      }
     }
   }
 };

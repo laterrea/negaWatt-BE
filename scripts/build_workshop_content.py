@@ -365,6 +365,17 @@ def build(check_only=False):
 
             topic["levers"][lid] = rec
 
+        # A topic may add interface strings of its own, so that a new topic can
+        # be written without touching the shared ui.yaml. Collisions are an error
+        # rather than a silent last-one-wins.
+        for key, node in (doc.get("strings") or {}).items():
+            if key in ui_strings:
+                errors.append(f"{name}: string {key!r} is already defined "
+                              f"(in ui.yaml or another topic); prefix it with the topic id")
+                continue
+            ui_strings[key] = check_multilang(node, languages, f"{name}.strings.{key}",
+                                              errors)
+
         topics[topic_id] = topic
 
     if errors:

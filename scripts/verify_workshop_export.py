@@ -95,8 +95,11 @@ def main():
         check(imp is not None, f"{lid}: no impact record")
         if imp:
             check(imp["kind"] in IMPACT_KINDS, f"{lid}: bad impact kind {imp['kind']!r}")
-            check(abs(imp["total"] - levers_doc["model"]["inlandTwh"]["2050"]) < 0.01,
-                  f"{lid}: impact total {imp['total']} != model inlandTwh 2050")
+            topic_model = levers_doc.get("model", {}).get(lv.get("topic"), {})
+            expected = (topic_model.get("inlandTwh") or {}).get("2050")
+            if expected is not None:
+                check(abs(imp["total"] - expected) < 0.01,
+                      f"{lid}: impact total {imp['total']} != the topic's 2050 total")
             if imp["kind"] == "linear-shift":
                 check("slope" in imp, f"{lid}: linear-shift without a slope")
             else:
@@ -104,7 +107,11 @@ def main():
                                          f"(the mode lookup probably failed)")
 
     # --- the energy model --------------------------------------------------
-    m = levers_doc["model"]
+    # The model block is keyed by topic, so two topics of one sector cannot
+    # overwrite each other's context quantities.
+    check("inland-mobility" in levers_doc.get("model", {}),
+          "the model block has no inland-mobility entry")
+    m = levers_doc["model"]["inland-mobility"]
     tot19, tot50 = m["inlandTwh"]["2019"], m["inlandTwh"]["2050"]
     check(90 < tot19 < 115, f"2019 inland demand {tot19} TWh is outside a sane range")
     check(15 < tot50 < 35, f"2050 inland demand {tot50} TWh is outside a sane range")
