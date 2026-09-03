@@ -1,0 +1,1186 @@
+# =============================================================================
+# negaWatt-BE workshop — topic: tertiary heat
+#
+# HAND-EDITED. Wording, facts and justifications live here; every *number* comes
+# either from the notebook (as a {placeholder}, resolved at build time from the
+# lever's `facts` block in website/data/levers_buildings.js) or from an external
+# source quoted with its URL.
+#
+# Built by scripts/build_workshop_content.py, which refuses to build if a string
+# is missing a language, a fact has no source, a placeholder does not resolve, or
+# the lever ids here and in the notebook export disagree.
+#
+# NOTE: the Dutch was written by the implementer, not a native speaker, and needs
+# a review pass before a real workshop (docs/workshop_module.md, Q5).
+# =============================================================================
+
+topic: tertiary-heat
+sector: buildings
+
+title:
+  fr: Chaleur des bâtiments de services
+  nl: Warmte in dienstengebouwen
+  en: Service-building heat
+
+lead:
+  fr: >
+    Chauffer, rafraîchir, laver et cuisiner dans les bureaux, commerces, écoles,
+    hôpitaux et restaurants. Les logements font l'objet d'un autre atelier.
+  nl: >
+    Verwarmen, koelen, wassen en koken in kantoren, winkels, scholen, ziekenhuizen
+    en restaurants. Woningen komen in een andere workshop aan bod.
+  en: >
+    Heating, cooling, washing and cooking in offices, shops, schools, hospitals and
+    restaurants. Housing is the subject of a separate workshop.
+
+intro:
+  fr: >
+    Vous allez fixer sept hypothèses de comportement et de politique publique pour
+    2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour
+    le secteur tertiaire. Vous ne connaissez pas encore les valeurs retenues par
+    négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et
+    atteignable. Une particularité de ce secteur : depuis 2000, sa demande de froid
+    a explosé pendant que sa demande de chaleur stagnait. Chaque question tient sur
+    un écran, avec quelques repères factuels pour nourrir la discussion.
+  nl: >
+    Jullie stellen zeven gedrags- en beleidsveronderstellingen voor 2050 vast —
+    precies die welke de energiecijfers van het negaWatt-scenario voor de tertiaire
+    sector *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis
+    zelf wat jullie zowel wenselijk als haalbaar vinden. Eén bijzonderheid van deze
+    sector: sinds 2000 is de koudevraag geëxplodeerd terwijl de warmtevraag
+    stagneerde. Elke vraag past op één scherm, met een paar feitelijke
+    referentiepunten voor de discussie.
+  en: >
+    You are going to set seven behavioural and policy assumptions for 2050 — the
+    ones that *produce* the negaWatt scenario's energy figures for the service
+    sector. You do not yet know the values negaWatt chose: decide what strikes you
+    as both desirable and achievable. One peculiarity of this sector: since 2000 its
+    demand for cooling has exploded while its demand for heat stood still. Each
+    question fits on one screen, with a few factual anchors to feed the discussion.
+
+# -----------------------------------------------------------------------------
+# Interface strings this topic adds. A key already defined in ui.yaml or in
+# another topic is an error, not a silent override (D35), so every unit key below
+# is spelled to be unmistakably tertiary — the displayed text may coincide with
+# the residential one, only the keys have to differ.
+strings:
+  "unit.m² of service building per person":
+    fr: m² de services/pers.
+    nl: m² diensten/pers.
+    en: m² of service floor per person
+  "unit.kWh/m²/year of service heating need":
+    fr: kWh de chaleur/m²/an
+    nl: kWh warmte/m²/jaar
+    en: kWh of heat/m²/year
+  "unit.°C less in service buildings":
+    fr: "°C en moins"
+    nl: "°C minder"
+    en: "°C less"
+  "unit.kWh/m²/year of service cooling":
+    fr: kWh de froid/m²/an
+    nl: kWh koeling/m²/jaar
+    en: kWh of cooling/m²/year
+  "unit.kWh/person/year of service hot water":
+    fr: kWh/pers./an
+    nl: kWh/pers./jaar
+    en: kWh/person/year
+  "unit.kWh/person/year of catering":
+    fr: kWh/pers./an
+    nl: kWh/pers./jaar
+    en: kWh/person/year
+  "unit.% of service-building heat":
+    fr: "% de la chaleur des services"
+    nl: "% van de warmte in diensten"
+    en: "% of service-building heat"
+
+# -----------------------------------------------------------------------------
+levers:
+
+  # ------------------------------------------------------------ 1 -------------
+  ter-floor-area:
+    short:
+      fr: Surface tertiaire
+      nl: Tertiaire oppervlakte
+      en: Service floor area
+    question:
+      fr: "Quelle surface de bâtiments de services par personne est un objectif 2050 réaliste ?"
+      nl: "Welke oppervlakte aan dienstengebouwen per persoon is een realistisch doel voor 2050?"
+      en: "What service-building floor area per person is a realistic 2050 objective?"
+    subtitle:
+      fr: "Bureaux, commerces, écoles, hôpitaux, hôtels, restaurants : surface utile de tout le parc, divisée par la population entière."
+      nl: "Kantoren, winkels, scholen, ziekenhuizen, hotels, restaurants: nuttige oppervlakte van het hele bestand, gedeeld door de volledige bevolking."
+      en: "Offices, shops, schools, hospitals, hotels, restaurants: useful floor area of the whole stock, divided by the entire population."
+    tangible:
+      fr: "{value} m² de bâtiments de services pour chaque habitant, à chauffer et à rafraîchir."
+      nl: "{value} m² dienstengebouwen voor elke inwoner, te verwarmen en te koelen."
+      en: "{value} m² of service building for every inhabitant, to be heated and cooled."
+    facts:
+      - kind: trend
+        text:
+          fr: >
+            En hausse de près de 18 % en vingt-trois ans : 17,1 m² par personne en 2000,
+            {refValue} en 2019, 20,1 en 2023. La montée a été rapide jusqu'en 2010, puis la
+            courbe s'est nettement tassée.
+          nl: >
+            Bijna 18 % gestegen in drieëntwintig jaar: 17,1 m² per persoon in 2000,
+            {refValue} in 2019, 20,1 in 2023. De stijging was snel tot 2010, daarna vlakte de
+            curve duidelijk af.
+          en: >
+            Up by nearly 18% in twenty-three years: 17.1 m² per person in 2000, {refValue} in
+            2019, 20.1 in 2023. The climb was fast until 2010, after which the curve flattened
+            markedly.
+        source: JRC-IDEES-2023 (Belgium), floor areas from the EU Building Observatory; population Statbel
+        url: http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f
+      - kind: benchmark
+        text:
+          fr: >
+            Sur exactement la même base et la même source, l'Allemagne compte 42,1 m² de
+            bâtiments de services par personne, les Pays-Bas 24,0, la moyenne UE27 22,5 et la
+            France 15,3 (2019). Un facteur presque trois entre la France et l'Allemagne : ce
+            chiffre relève de choix d'aménagement et d'organisation, pas d'une fatalité.
+          nl: >
+            Op precies dezelfde basis en uit dezelfde bron heeft Duitsland 42,1 m²
+            dienstengebouwen per persoon, Nederland 24,0, het EU27-gemiddelde 22,5 en
+            Frankrijk 15,3 (2019). Bijna een factor drie tussen Frankrijk en Duitsland: dit
+            cijfer volgt uit ruimtelijke en organisatorische keuzes, niet uit een noodlot.
+          en: >
+            On exactly the same basis and from the same source, Germany has 42.1 m² of service
+            buildings per person, the Netherlands 24.0, the EU27 average 22.5 and France 15.3
+            (2019). Almost a factor of three between France and Germany: this figure follows
+            from planning and organisational choices, not from fate.
+        source: JRC-IDEES-2023, same floor-area series for BE, EU27, FR, DE and NL
+        url: http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f
+      - kind: structure
+        text:
+          fr: >
+            Chauffage et climatisation sont les deux postes qui suivent la surface :
+            {areaDrivenTwh} TWh sur {thermalTwh}, soit {areaDrivenSharePct} % de l'énergie
+            thermique du tertiaire. L'eau chaude et la restauration suivent la population. Le
+            parc compte {stockMm2} millions de m², un peu plus du tiers de la surface des
+            logements.
+          nl: >
+            Verwarming en koeling zijn de twee posten die de oppervlakte volgen:
+            {areaDrivenTwh} TWh op {thermalTwh}, ofwel {areaDrivenSharePct} % van de
+            thermische energie van de tertiaire sector. Warm water en catering volgen de
+            bevolking. Het bestand telt {stockMm2} miljoen m², iets meer dan een derde van de
+            woonoppervlakte.
+          en: >
+            Heating and cooling are the two services that follow floor area: {areaDrivenTwh}
+            TWh out of {thermalTwh}, or {areaDrivenSharePct}% of the sector's thermal energy.
+            Hot water and catering follow population. The stock holds {stockMm2} million m²,
+            a little over a third of the residential floor area.
+        source: nW-BE §1.2.2 and §3.1 (JRC-IDEES-2023)
+      - kind: tangible
+        text:
+          fr: >
+            {refValue} m² par personne, c'est une pièce de 4 mètres sur 5 pour chaque
+            habitant — répartie entre son bureau, l'école de ses enfants, ses magasins,
+            son hôpital et son administration.
+          nl: >
+            {refValue} m² per persoon is een kamer van 4 bij 5 meter voor elke inwoner —
+            verdeeld over het kantoor, de school van de kinderen, de winkels, het ziekenhuis
+            en de administratie.
+          en: >
+            {refValue} m² per person is a room of 4 by 5 metres for every inhabitant — spread
+            across their office, their children's school, their shops, their hospital and
+            their administration.
+        source: nW-BE §1.2.2, arithmetic on the 2019 value
+      - kind: structure
+        reveal: true
+        text:
+          fr: >
+            Le scénario retient {changePct} % par personne. Comme la population croît, la
+            surface totale ne baisse que de 227 à {stockMm2Target} millions de m².
+          nl: >
+            Het scenario kiest {changePct} % per persoon. Omdat de bevolking groeit, daalt de
+            totale oppervlakte slechts van 227 naar {stockMm2Target} miljoen m².
+          en: >
+            The scenario settles on {changePct}% per person. Because population grows, the
+            total floor area falls only from 227 to {stockMm2Target} million m².
+        source: nW-BE §1.2.2
+    justification:
+      fr: >
+        négaWatt retient {targetValue} m² par personne, soit {changePct} % — exactement la même
+        réduction que pour le logement. L'objectif est double : réduire l'empreinte matérielle
+        de la construction et la surface à chauffer et rafraîchir. Comme la population
+        augmente d'ici 2050, la surface totale ne recule que de 227 à {stockMm2Target} millions
+        de m². Les leviers implicites sont le télétravail et la mutualisation des bureaux, la
+        reconversion des surfaces commerciales vides, et l'usage partagé des équipements
+        publics.
+      nl: >
+        negaWatt kiest {targetValue} m² per persoon, ofwel {changePct} % — precies dezelfde
+        verlaging als voor woningen. Het doel is tweeledig: de materiaalvoetafdruk van de bouw
+        verkleinen én de te verwarmen en te koelen oppervlakte. Omdat de bevolking tegen 2050
+        groeit, daalt de totale oppervlakte slechts van 227 naar {stockMm2Target} miljoen m².
+        De impliciete hefbomen zijn telewerk en het delen van kantoren, de herbestemming van
+        leegstaande winkelruimte, en gedeeld gebruik van openbare voorzieningen.
+      en: >
+        negaWatt settles on {targetValue} m² per person, i.e. {changePct}% — exactly the same
+        reduction as for housing. The aim is twofold: cut the material footprint of
+        construction and cut the area to be heated and cooled. Because population grows by
+        2050, total floor area falls only from 227 to {stockMm2Target} million m². The implicit
+        levers are teleworking and desk sharing, the conversion of empty retail space, and
+        shared use of public facilities.
+    debate:
+      fr: >
+        C'est le même −10 % que pour le logement, appliqué à un parc dont la composition est
+        beaucoup plus hétérogène : on ne réduit pas la surface d'un hôpital comme celle d'un
+        bureau. Le rapport note lui-même que cette hypothèse « devrait être davantage
+        motivée ». Et le télétravail, principal candidat, libère des bureaux sans les faire
+        disparaître : sans reconversion, la surface reste chauffée.
+      nl: >
+        Het is dezelfde −10 % als voor woningen, toegepast op een bestand met een veel
+        heterogenere samenstelling: de oppervlakte van een ziekenhuis verklein je niet zoals
+        die van een kantoor. Het rapport merkt zelf op dat deze veronderstelling "beter
+        gemotiveerd zou moeten worden". En telewerk, de belangrijkste kandidaat, maakt
+        kantoren leeg zonder ze te doen verdwijnen: zonder herbestemming blijft de
+        oppervlakte verwarmd.
+      en: >
+        It is the same −10% as for housing, applied to a stock of far more heterogeneous
+        composition: you do not shrink a hospital the way you shrink an office. The report
+        itself notes that this assumption "should be further motivated". And teleworking, the
+        main candidate, empties offices without making them disappear: without conversion, the
+        floor area stays heated.
+
+  # ------------------------------------------------------------ 2 -------------
+  ter-insulation:
+    short:
+      fr: Isolation du parc tertiaire
+      nl: Isolatie van het tertiaire bestand
+      en: Insulation of the service stock
+    question:
+      fr: "Quel besoin de chauffage par mètre carré est un objectif 2050 réaliste pour les bâtiments de services ?"
+      nl: "Welke warmtevraag per vierkante meter is een realistisch doel voor 2050 voor dienstengebouwen?"
+      en: "What heating need per square metre is a realistic 2050 objective for service buildings?"
+    subtitle:
+      fr: "Chaleur utile à apporter aux locaux, par m² et par an, moyenne sur tout le parc tertiaire. Avant les pertes de chaudière, et à comportement de chauffage inchangé."
+      nl: "Nuttige warmte die de lokalen moeten krijgen, per m² per jaar, gemiddeld over het hele tertiaire bestand. Vóór ketelverliezen, en bij ongewijzigd stookgedrag."
+      en: "Useful heat that has to reach the premises, per m² per year, averaged over the whole service stock. Before boiler losses, and at unchanged heating behaviour."
+    tangible:
+      fr: "{value} kWh de chaleur par m² et par an, pour le bâtiment de services moyen."
+      nl: "{value} kWh warmte per m² per jaar, voor het gemiddelde dienstengebouw."
+      en: "{value} kWh of heat per m² per year, for the average service building."
+    facts:
+      - kind: trend
+        text:
+          fr: >
+            Très irrégulière, et sans tendance nette pendant vingt ans : 81,6 kWh/m² en 2000,
+            un pic à 114,5 en 2004, {refValue} en 2019. Puis une chute franche pendant la crise
+            des prix de l'énergie : {sht2021} en 2021, {sht2023} en 2023 — {crisisDropPerYear}
+            kWh/m² par an, en deux ans.
+          nl: >
+            Zeer onregelmatig, en twintig jaar zonder duidelijke trend: 81,6 kWh/m² in 2000,
+            een piek van 114,5 in 2004, {refValue} in 2019. Daarna een scherpe val tijdens de
+            energieprijzencrisis: {sht2021} in 2021, {sht2023} in 2023 —
+            {crisisDropPerYear} kWh/m² per jaar, in twee jaar.
+          en: >
+            Highly irregular, and with no clear trend for twenty years: 81.6 kWh/m² in 2000, a
+            peak of 114.5 in 2004, {refValue} in 2019. Then a sharp fall through the energy
+            price crisis: {sht2021} in 2021, {sht2023} in 2023 — {crisisDropPerYear} kWh/m² a
+            year, over two years.
+        source: JRC-IDEES-2023 (Belgium), floor areas from the EU Building Observatory
+        url: http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f
+      - kind: structure
+        text:
+          fr: >
+            Ce qu'on appelle « taux de rénovation » dépend de ce qu'on compte : les données du
+            projet enregistrent {renewalRateJrc} % du parc tertiaire renouvelé chaque année,
+            mais c'est {newBuildRateJrc:d1} % de construction neuve et seulement
+            {renoRateJrc:d1} % de rénovation — dont la part est une constante du jeu de
+            données, pas une mesure. Le chauffage pèse {heatTwh} TWh sur {thermalTwh}, soit
+            {heatSharePct} % de l'énergie thermique du tertiaire.
+          nl: >
+            Wat men "renovatietempo" noemt hangt af van wat men meetelt: de projectdata boeken
+            {renewalRateJrc} % van het tertiaire bestand dat elk jaar vernieuwd wordt, maar dat
+            is {newBuildRateJrc:d1} % nieuwbouw en slechts {renoRateJrc:d1} % renovatie — en
+            dat renovatiedeel is een constante van de dataset, geen meting. Verwarming weegt
+            {heatTwh} TWh op {thermalTwh}, ofwel {heatSharePct} % van de thermische energie van
+            de tertiaire sector.
+          en: >
+            What counts as a "renovation rate" depends on what you count: the project's data
+            book {renewalRateJrc}% of the service stock renewed each year, but that is
+            {newBuildRateJrc:d1}% of new construction and only {renoRateJrc:d1}% of renovation
+            — and that renovation share is a constant of the dataset, not a measurement. Space
+            heating weighs {heatTwh} TWh out of {thermalTwh}, or {heatSharePct}% of the
+            sector's thermal energy.
+        source: "nW-BE §3.1.1; decomposition of the JRC-IDEES-2023 floor-area series used in nW_BE_demand_data_aux.ipynb"
+        url: http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f
+      - kind: benchmark
+        text:
+          fr: >
+            La directive européenne sur la performance énergétique des bâtiments, révisée en
+            2024, impose de rénover les 16 % de bâtiments non résidentiels les moins
+            performants d'ici 2030, et 26 % d'ici 2033. Les seuils sont fixés pays par pays, en
+            classant le parc de 2020 par consommation — souvent exprimés, précisément, en
+            kWh/m² par an.
+          nl: >
+            De Europese richtlijn energieprestatie van gebouwen, herzien in 2024, verplicht de
+            renovatie van de 16 % slechtst presterende niet-residentiële gebouwen tegen 2030,
+            en 26 % tegen 2033. De drempels worden land per land vastgelegd door het bestand
+            van 2020 op verbruik te rangschikken — vaak uitgedrukt in, precies, kWh/m² per
+            jaar.
+          en: >
+            The European directive on the energy performance of buildings, revised in 2024,
+            requires the renovation of the 16% worst-performing non-residential buildings by
+            2030, and 26% by 2033. The thresholds are set country by country by ranking the
+            2020 stock on consumption — often expressed, precisely, in kWh/m² per year.
+        source: "Directive (EU) 2024/1275 on the energy performance of buildings; European Commission, DG Energy"
+        url: https://energy.ec.europa.eu/topics/energy-efficiency/energy-performance-buildings/energy-performance-buildings-directive_en
+      - kind: tangible
+        text:
+          fr: >
+            {refValue} kWh/m² sur un bâtiment de 1 000 m² — une école, un supermarché, un
+            petit immeuble de bureaux — cela fait {heatKwhPer1000m2} kWh de chaleur utile par
+            an, avant les pertes de la chaudière et de la distribution.
+          nl: >
+            {refValue} kWh/m² op een gebouw van 1.000 m² — een school, een supermarkt, een
+            klein kantoorgebouw — geeft {heatKwhPer1000m2} kWh nuttige warmte per jaar, vóór de
+            ketel- en distributieverliezen.
+          en: >
+            {refValue} kWh/m² over a 1,000 m² building — a school, a supermarket, a small
+            office block — gives {heatKwhPer1000m2} kWh of useful heat a year, before boiler
+            and distribution losses.
+        source: nW-BE §3.1.1, arithmetic on the 2019 value
+      - kind: structure
+        reveal: true
+        text:
+          fr: >
+            Le scénario multiplie par {accTarget} le rythme d'amélioration observé
+            ({improvementHist:abs} → {improvementTarget:abs} kWh/m² par an), ce qui amène le
+            parc à {intensityEffTarget} kWh/m² en 2050 par la seule efficacité, et à
+            {intensityTarget} kWh/m² une fois le thermostat pris en compte.
+          nl: >
+            Het scenario vermenigvuldigt het waargenomen verbeteringsritme met {accTarget}
+            ({improvementHist:abs} → {improvementTarget:abs} kWh/m² per jaar), wat het bestand
+            op {intensityEffTarget} kWh/m² brengt in 2050 door efficiëntie alleen, en op
+            {intensityTarget} kWh/m² zodra de thermostaat wordt meegerekend.
+          en: >
+            The scenario multiplies the observed rate of improvement by {accTarget}
+            ({improvementHist:abs} → {improvementTarget:abs} kWh/m² a year), taking the stock
+            to {intensityEffTarget} kWh/m² in 2050 through efficiency alone, and to
+            {intensityTarget} kWh/m² once the thermostat is counted in.
+        source: nW-BE §3.1.1 and §3.1.2
+    justification:
+      fr: >
+        négaWatt juge le rythme d'amélioration observé « trop faible pour atteindre les
+        objectifs climatiques » et le multiplie par {accTarget} : de {improvementHist:abs} à
+        {improvementTarget:abs} kWh/m² par an, ce qui amène le parc de {refValue} kWh/m² en
+        2019 à {targetValue} kWh/m² en 2050 par la seule efficacité — et à
+        {intensityTarget} kWh/m² une fois le thermostat pris en compte. Le facteur retenu est
+        beaucoup plus agressif que dans le logement (×{accTarget} contre ×2), parce que le
+        rythme de départ était lui-même beaucoup plus faible. C'est le levier le plus puissant
+        du tertiaire.
+      nl: >
+        negaWatt vindt het waargenomen verbeteringsritme "te laag om de klimaatdoelstellingen
+        te halen" en vermenigvuldigt het met {accTarget}: van {improvementHist:abs} naar
+        {improvementTarget:abs} kWh/m² per jaar, wat het bestand van {refValue} kWh/m² in 2019
+        naar {targetValue} kWh/m² in 2050 brengt door efficiëntie alleen — en naar
+        {intensityTarget} kWh/m² zodra de thermostaat wordt meegerekend. De gekozen factor is
+        veel agressiever dan bij woningen (×{accTarget} tegenover ×2), omdat het vertrekritme
+        zelf veel lager lag. Dit is de krachtigste hefboom van de tertiaire sector.
+      en: >
+        negaWatt judges the observed rate of improvement "too low to meet the climate
+        objectives" and multiplies it by {accTarget}: from {improvementHist:abs} to
+        {improvementTarget:abs} kWh/m² a year, which takes the stock from {refValue} kWh/m² in
+        2019 to {targetValue} kWh/m² in 2050 through efficiency alone — and to
+        {intensityTarget} kWh/m² once the thermostat is counted in. The factor chosen is far
+        more aggressive than in housing (×{accTarget} against ×2), because the starting pace
+        was itself far lower. This is the service sector's most powerful lever.
+    debate:
+      fr: >
+        Le rapport porte lui-même une note de travail qui va plus loin que son propre
+        chiffre : entre 2021 et 2023, la crise des prix a fait tomber l'intensité de
+        {sht2021} à {sht2023} kWh/m², et l'auteur en conclut qu'« il y a une marge ÉNORME » et
+        qu'atteindre environ 60 kWh/m² serait « plus que réaliste ». L'objectif retenu,
+        {targetValue} kWh/m² avant thermostat, est donc plus prudent que la lecture de ses
+        propres données. À l'inverse, la baisse de 2022-2023 n'est peut-être qu'un effet de
+        prix, réversible dès que les prix retombent.
+      nl: >
+        Het rapport bevat zelf een werknota die verder gaat dan zijn eigen cijfer: tussen 2021
+        en 2023 deed de prijzencrisis de intensiteit van {sht2021} naar {sht2023} kWh/m²
+        zakken, en de auteur besluit daaruit dat er "een ENORME marge" is en dat ongeveer
+        60 kWh/m² "meer dan realistisch" zou zijn. Het gekozen doel, {targetValue} kWh/m² vóór
+        thermostaat, is dus voorzichtiger dan de lezing van zijn eigen data. Omgekeerd is de
+        daling van 2022-2023 misschien slechts een prijseffect, omkeerbaar zodra de prijzen
+        weer zakken.
+      en: >
+        The report carries a working note of its own that goes further than its own figure:
+        between 2021 and 2023 the price crisis brought the intensity down from {sht2021} to
+        {sht2023} kWh/m², and the author concludes that there is "HUGE margin" and that
+        reaching about 60 kWh/m² would be "more than realistic". The objective adopted,
+        {targetValue} kWh/m² before the thermostat, is therefore more cautious than the reading
+        of its own data. Conversely, the 2022-2023 fall may be only a price effect, reversible
+        as soon as prices come back down.
+
+  # ------------------------------------------------------------ 3 -------------
+  ter-thermostat:
+    short:
+      fr: Thermostat des services
+      nl: Thermostaat in diensten
+      en: Service thermostat
+    question:
+      fr: "De combien de degrés la sobriété peut-elle abaisser le thermostat des bâtiments de services d'ici 2050 ?"
+      nl: "Met hoeveel graden kan soberheid de thermostaat in dienstengebouwen tegen 2050 verlagen?"
+      en: "By how many degrees can sufficiency bring the service-building thermostat down by 2050?"
+    subtitle:
+      fr: "Écart moyen de la température de consigne par rapport à 2019, sur tout le parc tertiaire. Zéro = on ne change rien, négatif = on chauffe davantage."
+      nl: "Gemiddeld verschil van de ingestelde temperatuur tegenover 2019, over het hele tertiaire bestand. Nul = niets verandert, negatief = warmer stoken."
+      en: "Average setpoint change against 2019, across the whole service stock. Zero = nothing changes, negative = heating more."
+    tangible:
+      fr: "{value} °C de moins dans les bureaux, les classes et les magasins, toute la saison de chauffe."
+      nl: "{value} °C minder in kantoren, klaslokalen en winkels, het hele stookseizoen."
+      en: "{value} °C less in offices, classrooms and shops, right through the heating season."
+    facts:
+      - kind: benchmark
+        text:
+          fr: >
+            Un gouvernement européen l'a déjà imposé par la loi, et exactement sur ce
+            périmètre : en août 2022, l'Espagne a plafonné le chauffage à 19 °C dans les
+            bâtiments publics, les commerces, les cinémas, les gares et les aéroports, et fixé
+            la climatisation à 27 °C minimum. Son exposé des motifs retient la même physique
+            que ce levier : environ {pctPerDegC} % de consommation en moins par degré.
+          nl: >
+            Eén Europese regering heeft het al bij wet opgelegd, en precies op deze perimeter:
+            in augustus 2022 beperkte Spanje de verwarming tot 19 °C in openbare gebouwen,
+            winkels, bioscopen, stations en luchthavens, en stelde het de koeling op minimaal
+            27 °C. De toelichting hanteert dezelfde fysica als deze hefboom: ongeveer
+            {pctPerDegC} % minder verbruik per graad.
+          en: >
+            One European government has already legislated it, and on exactly this perimeter:
+            in August 2022 Spain capped heating at 19 °C in public buildings, shops, cinemas,
+            stations and airports, and set cooling at a minimum of 27 °C. Its explanatory note
+            uses the same physics as this lever: about {pctPerDegC}% less consumption per
+            degree.
+        source: "Government of Spain, Royal Decree-Law 14/2022 — plan for energy saving and air-conditioning management, 1 August 2022"
+        url: https://www.lamoncloa.gob.es/lang/en/gobierno/councilministers/Paginas/2022/20220801_council.aspx
+      - kind: structure
+        text:
+          fr: >
+            La recherche belge sur le chauffage bas — *SlowHeat* — porte presque entièrement
+            sur le logement ; le tertiaire est encore peu étudié. Les obstacles n'y sont pas
+            les mêmes : crainte d'une perte d'attractivité pour les commerces, et désaccord
+            entre occupants d'un même plateau de bureaux.
+          nl: >
+            Het Belgische onderzoek naar laag stoken — *SlowHeat* — gaat bijna volledig over
+            woningen; de tertiaire sector is nog weinig onderzocht. De obstakels zijn er
+            anders: vrees voor verlies van aantrekkelijkheid bij winkels, en onenigheid tussen
+            gebruikers van dezelfde kantoorvloer.
+          en: >
+            Belgian research on low-temperature heating — *SlowHeat* — is almost entirely about
+            housing; the service sector is still little studied. The obstacles there are not
+            the same: fear of losing commercial appeal, and disagreement between the occupants
+            of a single office floor.
+        source: nW-BE §3.1.2, citing De Grave & Van Moeseke (2024)
+        url: https://pul.uclouvain.be/book/?GCOI=29303100724760
+      - kind: tangible
+        text:
+          fr: >
+            Un degré en moins, c'est {pctPerDegC} % de chauffage en moins : {degCTwh2019} TWh à
+            l'échelle du parc tertiaire belge de 2019, sur un poste chauffage de
+            {heatTwh} TWh — {heatSharePct} % de l'énergie thermique du secteur.
+          nl: >
+            Eén graad minder is {pctPerDegC} % minder verwarming: {degCTwh2019} TWh op de
+            schaal van het Belgische tertiaire bestand van 2019, op een verwarmingspost van
+            {heatTwh} TWh — {heatSharePct} % van de thermische energie van de sector.
+          en: >
+            One degree less is {pctPerDegC}% less heating: {degCTwh2019} TWh across the Belgian
+            service stock of 2019, out of a heating bill of {heatTwh} TWh — {heatSharePct}% of
+            the sector's thermal energy.
+        source: nW-BE §3.1.2, arithmetic on the 2019 stock
+      - kind: caution
+        text:
+          fr: >
+            Dans un bâtiment partagé, la consigne est un compromis et non un choix individuel :
+            c'est ce qui rend ce levier plus difficile qu'à la maison, où chacun décide chez
+            soi. Et personne ne mesure la consigne réelle du parc tertiaire belge : on
+            n'observe que la consommation, qui mélange thermostat, isolation et météo.
+          nl: >
+            In een gedeeld gebouw is de instelling een compromis en geen individuele keuze:
+            dat maakt deze hefboom moeilijker dan thuis, waar ieder voor zich beslist. En
+            niemand meet de werkelijke instelling in het Belgische tertiaire bestand: men
+            observeert alleen het verbruik, dat thermostaat, isolatie en weer door elkaar
+            mengt.
+          en: >
+            In a shared building the setpoint is a compromise, not an individual choice: that
+            is what makes this lever harder than at home, where each household decides for
+            itself. And nobody measures the actual setpoint of the Belgian service stock: only
+            consumption is observed, and it mixes thermostat, insulation and weather together.
+        source: nW-BE §3.1.2
+    historyAbsent: true
+    historyNote:
+      fr: Aucune série mesurée des températures de consigne des bâtiments de services belges n'existe ; seule la consommation de chauffage est observée, et elle mélange l'effet du thermostat, de l'isolation et de la météo.
+      nl: Er bestaat geen gemeten reeks van de ingestelde temperaturen in Belgische dienstengebouwen; alleen het verwarmingsverbruik wordt waargenomen, en dat mengt het effect van de thermostaat, de isolatie en het weer.
+      en: No measured series of Belgian service-building setpoints exists; only heating consumption is observed, and it mixes the effect of the thermostat, of insulation and of the weather.
+    justification:
+      fr: >
+        négaWatt retient {targetValue} °C de moins en moyenne d'ici 2050 — la moitié de ce qu'il
+        demande au logement, précisément parce que les barrières sociales y sont jugées plus
+        fortes : « crainte d'une perte d'attractivité pour les activités commerciales » et
+        « désaccord entre les occupants d'un bureau ». À {pctPerDegC} % par degré, cela retire
+        {demandCutPct} % de la demande de chauffage, en plus des gains d'efficacité.
+      nl: >
+        negaWatt kiest {targetValue} °C minder gemiddeld tegen 2050 — de helft van wat het van
+        woningen vraagt, precies omdat de sociale barrières daar sterker worden geacht: "vrees
+        voor verlies van aantrekkelijkheid voor commerciële activiteiten" en "onenigheid tussen
+        kantoorgebruikers". Aan {pctPerDegC} % per graad haalt dat {demandCutPct} % van de
+        warmtevraag weg, bovenop de efficiëntiewinst.
+      en: >
+        negaWatt settles on {targetValue} °C less on average by 2050 — half what it asks of
+        housing, precisely because the social barriers are judged stronger here: "fear of a
+        loss of attractiveness for commercial activities" and "disagreement among office
+        staff". At {pctPerDegC}% per degree that removes {demandCutPct}% of heating demand, on
+        top of the efficiency gains.
+    debate:
+      fr: >
+        L'argument se retourne assez bien : dans un bâtiment tertiaire, personne ne paie la
+        facture de sa poche et personne ne décide seul, ce qui bloque — mais la consigne y est
+        aussi réglée par une seule personne pour des centaines, ce qui est beaucoup plus
+        rapide à changer que des millions de décisions domestiques. La loi espagnole de 2022 a
+        d'ailleurs visé le tertiaire, pas les logements.
+      nl: >
+        Het argument laat zich vrij goed omkeren: in een tertiair gebouw betaalt niemand de
+        rekening uit eigen zak en beslist niemand alleen, wat blokkeert — maar de instelling
+        wordt er ook door één persoon voor honderden geregeld, wat veel sneller te wijzigen is
+        dan miljoenen huishoudelijke beslissingen. De Spaanse wet van 2022 richtte zich
+        trouwens op de tertiaire sector, niet op woningen.
+      en: >
+        The argument reverses rather well: in a service building nobody pays the bill out of
+        their own pocket and nobody decides alone, which blocks change — but the setpoint is
+        also set by one person for hundreds, which is far faster to change than millions of
+        household decisions. The Spanish law of 2022 did, after all, target the service sector
+        and not homes.
+
+  # ------------------------------------------------------------ 4 -------------
+  ter-cooling:
+    short:
+      fr: Climatisation des services
+      nl: Koeling in diensten
+      en: Service cooling
+    question:
+      fr: "Quel niveau de climatisation des bâtiments de services est un objectif 2050 acceptable ?"
+      nl: "Welk niveau van koeling in dienstengebouwen is een aanvaardbaar doel voor 2050?"
+      en: "What level of service-building cooling is an acceptable 2050 objective?"
+    subtitle:
+      fr: "Besoin de froid utile par m² et par an, moyenne sur tout le parc tertiaire — climatisé ou non."
+      nl: "Nuttige koudevraag per m² per jaar, gemiddeld over het hele tertiaire bestand — gekoeld of niet."
+      en: "Useful cooling demand per m² per year, averaged over the whole service stock — cooled or not."
+    tangible:
+      fr: "{value} kWh de froid par m² de bâtiment de services et par an."
+      nl: "{value} kWh koeling per m² dienstengebouw per jaar."
+      en: "{value} kWh of cooling per m² of service building per year."
+    facts:
+      - kind: trend
+        text:
+          fr: >
+            C'est l'explosion du secteur : multiplié par {growthX2019} entre 2000 et 2019, de
+            {scl2000} kWh/m² à {refValue}. Depuis, un plateau — un pic à 18,7 en 2020, puis
+            {scl2023} en 2023 — que la pandémie et la crise des prix expliquent probablement.
+          nl: >
+            Dit is de explosie van de sector: vermenigvuldigd met {growthX2019} tussen 2000 en
+            2019, van {scl2000} kWh/m² naar {refValue}. Sindsdien een plateau — een piek van
+            18,7 in 2020, dan {scl2023} in 2023 — wat de pandemie en de prijzencrisis
+            waarschijnlijk verklaren.
+          en: >
+            This is the sector's explosion: multiplied by {growthX2019} between 2000 and 2019,
+            from {scl2000} kWh/m² to {refValue}. Since then a plateau — a peak of 18.7 in 2020,
+            then {scl2023} in 2023 — which the pandemic and the price crisis probably explain.
+        source: JRC-IDEES-2023 (Belgium), floor areas from the EU Building Observatory
+        url: http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f
+      - kind: structure
+        text:
+          fr: >
+            Le froid pèse déjà {coolingTwh} TWh, soit {coolingSharePct} % de l'énergie
+            thermique du tertiaire, contre {heatTwh} TWh pour le chauffage. Et par mètre carré,
+            le tertiaire climatise environ quarante fois plus que le logement, qui en est resté
+            à 0,44 kWh/m² — même source, même définition de chaleur utile.
+          nl: >
+            Koeling weegt al {coolingTwh} TWh, ofwel {coolingSharePct} % van de thermische
+            energie van de tertiaire sector, tegenover {heatTwh} TWh voor verwarming. En per
+            vierkante meter koelt de tertiaire sector ongeveer veertig keer meer dan de
+            woningen, die op 0,44 kWh/m² bleven — dezelfde bron, dezelfde definitie van nuttige
+            warmte.
+          en: >
+            Cooling already weighs {coolingTwh} TWh, or {coolingSharePct}% of the sector's
+            thermal energy, against {heatTwh} TWh for heating. And per square metre the service
+            sector cools about forty times as much as housing, which has stayed at
+            0.44 kWh/m² — same source, same definition of useful heat.
+        source: nW-BE §2.1.2 and §3.1.2 (JRC-IDEES-2023)
+      - kind: benchmark
+        text:
+          fr: >
+            Le climat belge reste tempéré : 12 degrés-jours de refroidissement en 2024, contre
+            139 en moyenne dans l'UE27, 304 en Espagne et 365 en Italie. Mais la moyenne belge
+            par décennie monte régulièrement : 14 sur 1990-1999, 15 sur 2000-2009, 20 sur
+            2010-2019, 24 sur 2015-2024.
+          nl: >
+            Het Belgische klimaat blijft gematigd: 12 koelgraaddagen in 2024, tegenover 139
+            gemiddeld in de EU27, 304 in Spanje en 365 in Italië. Maar het Belgische
+            decenniumgemiddelde stijgt gestaag: 14 over 1990-1999, 15 over 2000-2009, 20 over
+            2010-2019, 24 over 2015-2024.
+          en: >
+            Belgium's climate is still temperate: 12 cooling degree days in 2024, against 139
+            on average in the EU27, 304 in Spain and 365 in Italy. But the Belgian decade
+            average climbs steadily: 14 over 1990-1999, 15 over 2000-2009, 20 over 2010-2019,
+            24 over 2015-2024.
+        source: "Eurostat, nrg_chddr2_a (cooling degree days), 1990-2024"
+        url: https://ec.europa.eu/eurostat/databrowser/view/nrg_chddr2_a/default/table
+      - kind: tangible
+        text:
+          fr: >
+            À {refValue} kWh/m² et par an, un immeuble de bureaux de 5 000 m² demandait environ
+            86 000 kWh de froid en 2019 — un cinquième de ce qu'il demandait en chaleur la
+            même année.
+          nl: >
+            Aan {refValue} kWh/m² per jaar vroeg een kantoorgebouw van 5.000 m² in 2019
+            ongeveer 86.000 kWh koeling — een vijfde van wat het datzelfde jaar aan warmte
+            vroeg.
+          en: >
+            At {refValue} kWh/m² a year, a 5,000 m² office block needed about 86,000 kWh of
+            cooling in 2019 — one fifth of what it needed in heat that same year.
+        source: nW-BE, arithmetic on the 2019 values
+      - kind: structure
+        reveal: true
+        text:
+          fr: >
+            Le scénario ne garde qu'un tiers du rythme de déploiement observé
+            (+{rateHist} kWh/m² par an devient +{rateAssumed}), ce qui porte quand même le
+            besoin de froid à +{growthPct} % et {coolingTwhTarget} TWh en 2050. Le froid passe
+            ainsi de {coolingSharePct} % à près d'un cinquième de l'énergie thermique du
+            secteur.
+          nl: >
+            Het scenario houdt slechts een derde van het waargenomen uitrolritme over
+            (+{rateHist} kWh/m² per jaar wordt +{rateAssumed}), wat de koudevraag toch op
+            +{growthPct} % en {coolingTwhTarget} TWh in 2050 brengt. Koeling gaat zo van
+            {coolingSharePct} % naar bijna een vijfde van de thermische energie van de sector.
+          en: >
+            The scenario keeps only one third of the observed deployment pace
+            (+{rateHist} kWh/m² a year becomes +{rateAssumed}), which still takes cooling
+            demand to +{growthPct}% and {coolingTwhTarget} TWh in 2050. Cooling thus goes from
+            {coolingSharePct}% to nearly a fifth of the sector's thermal energy.
+        source: nW-BE §3.1.2
+    justification:
+      fr: >
+        négaWatt retient {targetValue} kWh/m² et par an, soit +{growthPct} % et
+        {coolingTwhTarget} TWh en 2050 : le rythme de déploiement historique
+        (+{rateHist} kWh/m² par an) réduit au tiers (+{rateAssumed}). Le raisonnement est
+        assumé : avec le réchauffement, la climatisation devient nécessaire pour une qualité de
+        vie décente dans certains cas, mais son extension peut être contenue à ces cas. C'est
+        le seul poste thermique du tertiaire que le scénario laisse croître — et il devient
+        alors le deuxième du secteur, devant l'eau chaude et la restauration.
+      nl: >
+        negaWatt kiest {targetValue} kWh/m² per jaar, ofwel +{growthPct} % en
+        {coolingTwhTarget} TWh in 2050: het historische uitrolritme (+{rateHist} kWh/m² per
+        jaar) tot een derde teruggebracht (+{rateAssumed}). De redenering wordt uitgesproken:
+        met de opwarming wordt koeling in bepaalde gevallen noodzakelijk voor een behoorlijke
+        levenskwaliteit, maar de uitbreiding kan tot die gevallen beperkt blijven. Het is de
+        enige thermische post van de tertiaire sector die het scenario laat groeien — en
+        daarmee wordt hij de tweede van de sector, vóór warm water en catering.
+      en: >
+        negaWatt settles on {targetValue} kWh/m² a year, i.e. +{growthPct}% and
+        {coolingTwhTarget} TWh in 2050: the historical deployment pace (+{rateHist} kWh/m² a
+        year) cut to a third (+{rateAssumed}). The reasoning is stated openly: with warming,
+        air conditioning becomes necessary for a decent quality of life in some cases, but its
+        spread can be held to those cases. It is the only thermal service of the sector the
+        scenario lets grow — and it thereby becomes the sector's second largest, ahead of hot
+        water and catering.
+    debate:
+      fr: >
+        Le rapport porte ici encore une note de travail plus ambitieuse que son chiffre :
+        « depuis le COVID et la crise de 2022, stagnation (17,3 kWh/m² en 2019, 16,4 en 2023).
+        Contenir cela est donc réaliste ! » — ce qui plaiderait pour une croissance nulle
+        plutôt qu'un tiers de la tendance. À l'inverse, les degrés-jours de refroidissement
+        belges augmentent décennie après décennie, et un bâtiment tertiaire mal orienté et
+        très vitré n'a pas d'alternative passive facile. Le levier oppose donc une hypothèse
+        de confort à une hypothèse de climat.
+      nl: >
+        Het rapport bevat ook hier een werknota die ambitieuzer is dan zijn cijfer: "sinds
+        COVID en de crisis van 2022 stagnatie (17,3 kWh/m² in 2019, 16,4 in 2023). Dit
+        beheersen is dus realistisch!" — wat zou pleiten voor nulgroei in plaats van een derde
+        van de trend. Omgekeerd stijgen de Belgische koelgraaddagen decennium na decennium, en
+        een slecht georiënteerd, sterk beglaasd tertiair gebouw heeft geen gemakkelijk passief
+        alternatief. De hefboom zet dus een comfortveronderstelling tegenover een
+        klimaatveronderstelling.
+      en: >
+        Here too the report carries a working note more ambitious than its figure: "since COVID
+        and the 2022 crisis, stagnation (17.3 kWh/m² in 2019, 16.4 in 2023). Containing this is
+        therefore realistic!" — which would argue for zero growth rather than a third of the
+        trend. Conversely, Belgian cooling degree days rise decade after decade, and a
+        badly-oriented, heavily-glazed service building has no easy passive alternative. The
+        lever therefore sets a comfort assumption against a climate assumption.
+
+  # ------------------------------------------------------------ 5 -------------
+  ter-hot-water:
+    short:
+      fr: Eau chaude des services
+      nl: Warm water in diensten
+      en: Service hot water
+    question:
+      fr: "Quelle consommation d'eau chaude des bâtiments de services par personne est un objectif 2050 réaliste ?"
+      nl: "Welk warmwaterverbruik van dienstengebouwen per persoon is een realistisch doel voor 2050?"
+      en: "What service-building hot-water use per person is a realistic 2050 objective?"
+    subtitle:
+      fr: "Chaleur utile dans l'eau chaude des bureaux, écoles, hôpitaux, hôtels et restaurants, rapportée à la population entière."
+      nl: "Nuttige warmte in het warme water van kantoren, scholen, ziekenhuizen, hotels en restaurants, betrokken op de volledige bevolking."
+      en: "Useful heat in the hot water of offices, schools, hospitals, hotels and restaurants, per head of the whole population."
+    tangible:
+      fr: "{value} kWh d'eau chaude par personne et par an, hors du domicile."
+      nl: "{value} kWh warm water per persoon per jaar, buiten de woning."
+      en: "{value} kWh of hot water per person per year, away from home."
+    facts:
+      - kind: trend
+        text:
+          fr: >
+            En hausse presque sans interruption : 244 kWh par personne en 2000, 319 en 2018.
+            Puis un creux en 2019-2020, et une remontée à {shw2023} en 2023 — le point le plus
+            haut de toute la série.
+          nl: >
+            Bijna zonder onderbreking gestegen: 244 kWh per persoon in 2000, 319 in 2018.
+            Daarna een dal in 2019-2020, en een herstel naar {shw2023} in 2023 — het hoogste
+            punt van de hele reeks.
+          en: >
+            Rising almost without interruption: 244 kWh per person in 2000, 319 in 2018. Then a
+            trough in 2019-2020, and a rebound to {shw2023} in 2023 — the highest point of the
+            whole series.
+        source: JRC-IDEES-2023 (Belgium); population Statbel
+        url: http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f
+      - kind: structure
+        text:
+          fr: >
+            L'eau chaude pèse {hotWaterTwh} TWh sur {thermalTwh}, soit {hotWaterSharePct} % de
+            l'énergie thermique du tertiaire — le plus petit des quatre postes, à peine devant
+            la restauration. Elle suit la population et non la surface, et elle représente un
+            peu moins de la moitié de l'eau chaude des logements (7,7 TWh) pour la même
+            population.
+          nl: >
+            Warm water weegt {hotWaterTwh} TWh op {thermalTwh}, ofwel {hotWaterSharePct} % van
+            de thermische energie van de tertiaire sector — de kleinste van de vier posten,
+            nauwelijks vóór catering. Het volgt de bevolking en niet de oppervlakte, en het is
+            iets minder dan de helft van het warme water in woningen (7,7 TWh) voor dezelfde
+            bevolking.
+          en: >
+            Hot water weighs {hotWaterTwh} TWh out of {thermalTwh}, or {hotWaterSharePct}% of
+            the sector's thermal energy — the smallest of the four services, barely ahead of
+            catering. It follows population rather than floor area, and it comes to a little
+            under half the hot water of housing (7.7 TWh) for the same population.
+        source: nW-BE §2.1.2 and §3.1.2 (JRC-IDEES-2023)
+      - kind: tangible
+        text:
+          fr: >
+            L'équivalent de {litres2019} litres d'eau à 40 °C par jour et par personne, hors du
+            domicile — contre 64 litres à la maison, même source et même base. Douches de
+            salles de sport, vestiaires, cuisines de collectivité, lavabos d'hôpitaux.
+          nl: >
+            Het equivalent van {litres2019} liter water van 40 °C per dag per persoon, buiten
+            de woning — tegenover 64 liter thuis, dezelfde bron en dezelfde basis. Douches in
+            sportzalen, kleedkamers, grootkeukens, wastafels in ziekenhuizen.
+          en: >
+            The equivalent of {litres2019} litres of 40 °C water a day per person, away from
+            home — against 64 litres at home, same source and same basis. Sports-hall showers,
+            changing rooms, canteen kitchens, hospital basins.
+        source: nW-BE §3.1.2, arithmetic on the 2019 value
+      - kind: caution
+        text:
+          fr: >
+            Attention à l'année de référence : c'est la seule des quatre séries thermiques du
+            tertiaire qui n'a jamais durablement baissé, et 2019 y est un creux local — la
+            demande était plus élevée en 2018 (319 kWh) et plus élevée encore en 2023
+            ({shw2023}). Un objectif qui paraît modeste par rapport à 2019 peut donc demander
+            un vrai effort par rapport à aujourd'hui.
+          nl: >
+            Let op het referentiejaar: dit is de enige van de vier thermische reeksen van de
+            tertiaire sector die nooit duurzaam is gedaald, en 2019 is er een lokaal dal — de
+            vraag was hoger in 2018 (319 kWh) en nog hoger in 2023 ({shw2023}). Een doel dat
+            tegenover 2019 bescheiden lijkt, kan dus een echte inspanning vragen tegenover
+            vandaag.
+          en: >
+            Mind the reference year: this is the only one of the sector's four thermal series
+            that has never fallen durably, and 2019 is a local trough in it — demand was higher
+            in 2018 (319 kWh) and higher still in 2023 ({shw2023}). An objective that looks
+            modest against 2019 may therefore demand a real effort against today.
+        source: JRC-IDEES-2023, reading of the series
+        url: http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f
+      - kind: structure
+        reveal: true
+        text:
+          fr: >
+            Le scénario est le seul de l'atelier à ne rien changer du tout ({changePct} %) : il
+            contient la demande à son niveau de 2019, ce qui, compte tenu de la remontée de
+            2021-2023 et de la croissance de la population, représente déjà {hotWaterTwhTarget}
+            TWh en 2050 contre {hotWaterTwh} en 2019.
+          nl: >
+            Het scenario is het enige van de workshop dat helemaal niets verandert
+            ({changePct} %): het houdt de vraag op het niveau van 2019, wat, gegeven het
+            herstel van 2021-2023 en de bevolkingsgroei, toch al {hotWaterTwhTarget} TWh in
+            2050 betekent tegenover {hotWaterTwh} in 2019.
+          en: >
+            The scenario is the only one in the workshop that changes nothing at all
+            ({changePct}%): it contains demand at its 2019 level, which — given the 2021-2023
+            rebound and population growth — still comes to {hotWaterTwhTarget} TWh in 2050
+            against {hotWaterTwh} in 2019.
+        source: nW-BE §3.1.2
+    justification:
+      fr: >
+        négaWatt « contient la demande d'eau chaude sanitaire à son niveau de 2019 », soit
+        {targetValue} kWh par personne et par an et {changePct} % de variation par personne.
+        C'est le seul des quatorze leviers des bâtiments à ne rien changer par rapport à
+        l'année de référence — mais ce n'est pas rien pour autant : la série montait depuis
+        vingt ans et se trouve, en 2023, {gap2023Pct} % au-dessus de cette cible. Et comme le
+        poste suit la population, qui croît, le total passe malgré tout de {hotWaterTwh} à
+        {hotWaterTwhTarget} TWh.
+      nl: >
+        negaWatt "houdt de vraag naar sanitair warm water op het niveau van 2019", ofwel
+        {targetValue} kWh per persoon per jaar en {changePct} % verandering per persoon. Het is
+        de enige van de veertien gebouwhefbomen die niets verandert tegenover het
+        referentiejaar — maar daarmee is het niet niets: de reeks steeg al twintig jaar en ligt
+        in 2023 {gap2023Pct} % boven dit doel. En omdat de post de bevolking volgt, die groeit,
+        gaat het totaal toch van {hotWaterTwh} naar {hotWaterTwhTarget} TWh.
+      en: >
+        negaWatt "contains sanitary hot-water demand at its 2019 level", i.e. {targetValue} kWh
+        per person per year and {changePct}% of change per person. It is the only one of the
+        fourteen building levers that changes nothing against the reference year — which is not
+        the same as changing nothing at all: the series had been rising for twenty years and
+        sits, in 2023, {gap2023Pct}% above this target. And because the service follows
+        population, which grows, the total still goes from {hotWaterTwh} to
+        {hotWaterTwhTarget} TWh.
+    debate:
+      fr: >
+        Contenir une demande qui monte depuis vingt ans est une hypothèse de politique
+        publique, mais aucune n'est citée. Et le poste est hétérogène au point que la moyenne
+        n'apprend pas grand-chose : un hôpital, une piscine et un immeuble de bureaux n'ont
+        rien de comparable, et la seule chose qu'ils partagent est d'être rapportés à la
+        population entière.
+      nl: >
+        Een vraag beheersen die al twintig jaar stijgt is een beleidsveronderstelling, maar er
+        wordt geen enkel beleid genoemd. En de post is zo heterogeen dat het gemiddelde weinig
+        leert: een ziekenhuis, een zwembad en een kantoorgebouw zijn onvergelijkbaar, en het
+        enige wat ze delen is dat ze op de volledige bevolking betrokken worden.
+      en: >
+        Containing a demand that has risen for twenty years is a policy assumption, but no
+        policy is named. And the service is so heterogeneous that the average teaches little: a
+        hospital, a swimming pool and an office block have nothing in common, and the only
+        thing they share is being divided by the whole population.
+
+  # ------------------------------------------------------------ 6 -------------
+  ter-catering:
+    short:
+      fr: Restauration
+      nl: Catering
+      en: Catering
+    question:
+      fr: "Quelle consommation d'énergie pour la restauration est un objectif 2050 réaliste ?"
+      nl: "Welk energieverbruik voor catering is een realistisch doel voor 2050?"
+      en: "What energy use for catering is a realistic 2050 objective?"
+    subtitle:
+      fr: "Cuisines des restaurants, cantines, écoles et hôpitaux, par personne et par an. La cuisine à la maison est une question de l'atelier consacré aux logements."
+      nl: "Keukens van restaurants, kantines, scholen en ziekenhuizen, per persoon per jaar. Thuis koken is een vraag uit de workshop over woningen."
+      en: "The kitchens of restaurants, canteens, schools and hospitals, per person per year. Cooking at home is a question in the housing workshop."
+    tangible:
+      fr: "{value} kWh par personne et par an pour cuisiner hors du domicile."
+      nl: "{value} kWh per persoon per jaar om buiten de woning te koken."
+      en: "{value} kWh per person per year for cooking away from home."
+    facts:
+      - kind: trend
+        text:
+          fr: >
+            L'exact contraire de la cuisine domestique : +{trendHist} kWh par personne et par
+            an en moyenne entre 2000 et 2023 pour la restauration, quand la cuisine à la maison
+            reculait de {homeCookingTrend:abs} kWh sur la même période. On mange de plus en plus
+            dehors, et l'énergie suit.
+          nl: >
+            Het exacte tegendeel van thuis koken: +{trendHist} kWh per persoon per jaar
+            gemiddeld tussen 2000 en 2023 voor catering, terwijl thuis koken in dezelfde
+            periode met {homeCookingTrend:abs} kWh daalde. We eten steeds meer buitenshuis, en
+            de energie volgt.
+          en: >
+            The exact opposite of home cooking: +{trendHist} kWh per person per year on average
+            between 2000 and 2023 for catering, while cooking at home fell by
+            {homeCookingTrend:abs} kWh over the same period. We eat out more and more, and the
+            energy follows.
+        source: nW-BE §2.1.2 and §3.1.2 (JRC-IDEES-2023, 2000-2023 average trends)
+        url: http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f
+      - kind: structure
+        text:
+          fr: >
+            La restauration pèse {cateringTwh} TWh sur {thermalTwh}, soit
+            {cateringSharePct} % de l'énergie thermique du tertiaire — presque autant que l'eau
+            chaude. Le gaz en fournissait {gasShare2019} % en 2019, la biomasse
+            {bioShare2019} %, le reste étant électrique.
+          nl: >
+            Catering weegt {cateringTwh} TWh op {thermalTwh}, ofwel {cateringSharePct} % van de
+            thermische energie van de tertiaire sector — bijna evenveel als warm water. Gas
+            leverde er in 2019 {gasShare2019} % van, biomassa {bioShare2019} %, de rest was
+            elektrisch.
+          en: >
+            Catering weighs {cateringTwh} TWh out of {thermalTwh}, or {cateringSharePct}% of
+            the sector's thermal energy — nearly as much as hot water. Gas supplied
+            {gasShare2019}% of it in 2019 and biomass {bioShare2019}%, the rest being electric.
+        source: nW-BE §3.1.2 (JRC-IDEES-2023)
+      - kind: benchmark
+        text:
+          fr: >
+            Manger dehors varie d'un facteur trois en Europe : les ménages belges y consacrent
+            5,9 % de leur budget, contre 7,1 % dans l'UE27, 14,0 % en Espagne et 4,9 % en
+            Allemagne (2024). La Belgique mange donc peu au restaurant par rapport à ses
+            voisins du sud — ce qui laisse de la marge dans les deux sens.
+          nl: >
+            Buitenshuis eten varieert met een factor drie in Europa: Belgische huishoudens
+            besteden er 5,9 % van hun budget aan, tegenover 7,1 % in de EU27, 14,0 % in Spanje
+            en 4,9 % in Duitsland (2024). België eet dus weinig op restaurant vergeleken met
+            zijn zuidelijke buren — wat in beide richtingen ruimte laat.
+          en: >
+            Eating out varies by a factor of three across Europe: Belgian households spend 5.9%
+            of their budget on it, against 7.1% in the EU27, 14.0% in Spain and 4.9% in Germany
+            (2024). Belgium therefore eats out little compared with its southern neighbours —
+            which leaves room in both directions.
+        source: "Eurostat, nama_10_cp18 (household consumption by purpose, CP111 food and beverage serving services), 2024"
+        url: https://ec.europa.eu/eurostat/databrowser/view/nama_10_cp18/default/table
+      - kind: caution
+        text:
+          fr: >
+            Cette question a une jumelle dans l'atelier consacré aux logements, qui demande
+            combien d'énergie ira à la cuisine domestique. Les deux ne peuvent pas monter
+            ensemble sans se contredire : si l'on cuisine davantage chez soi, la restauration
+            doit croître moins vite que sa tendance. Pensez votre réponse en regard de l'autre.
+          nl: >
+            Deze vraag heeft een tweelingvraag in de workshop over woningen, die vraagt hoeveel
+            energie naar het thuis koken gaat. Beide kunnen niet samen stijgen zonder elkaar
+            tegen te spreken: als er meer thuis gekookt wordt, moet catering minder snel
+            groeien dan haar trend. Denk jullie antwoord in samenhang met het andere.
+          en: >
+            This question has a twin in the housing workshop, which asks how much energy will
+            go to cooking at home. The two cannot both rise without contradicting each other:
+            if people cook more at home, catering has to grow more slowly than its trend. Think
+            your answer through alongside the other one.
+        source: nW-BE §2.1.2 and §3.1.2
+      - kind: structure
+        reveal: true
+        text:
+          fr: >
+            Le scénario retient {changePct} %, soit {cateringTwhTarget} TWh en 2050 —
+            +{cateringChangeTwh} TWh par rapport à 2019. En parallèle, la part du gaz tombe de
+            {gasShare2019} % à {gasShareTarget} %, la biomasse étant maintenue.
+          nl: >
+            Het scenario kiest {changePct} %, ofwel {cateringTwhTarget} TWh in 2050 —
+            +{cateringChangeTwh} TWh tegenover 2019. Tegelijk daalt het gasaandeel van
+            {gasShare2019} % naar {gasShareTarget} %, terwijl biomassa behouden blijft.
+          en: >
+            The scenario settles on {changePct}%, i.e. {cateringTwhTarget} TWh in 2050 —
+            +{cateringChangeTwh} TWh against 2019. In parallel the gas share falls from
+            {gasShare2019}% to {gasShareTarget}%, with biomass maintained.
+        source: nW-BE §3.1.2
+    historyAbsent: true
+    historyNote:
+      fr: Aucune série observée de la consommation de restauration n'a été exportée pour l'atelier ; seule la tendance moyenne 2000-2023 citée dans le rapport est connue.
+      nl: Er is voor de workshop geen waargenomen reeks van het cateringverbruik geëxporteerd; alleen de gemiddelde trend 2000-2023 uit het rapport is bekend.
+      en: No observed series of catering consumption was exported for the workshop; only the 2000-2023 average trend quoted in the report is known.
+    justification:
+      fr: >
+        négaWatt retient {targetValue} kWh par personne et par an, soit {changePct} % —
+        {cateringTwhTarget} TWh en 2050 contre {cateringTwh} en 2019. Le raisonnement est
+        simplement la prolongation de la tendance : « étant donné la tendance historiquement
+        croissante ». S'y ajoute une hypothèse d'efficacité : la part du gaz tombe de
+        {gasShare2019} % à {gasShareTarget} %, au profit de l'induction et du four électrique,
+        la biomasse étant maintenue — pour les pizzas au feu de bois.
+      nl: >
+        negaWatt kiest {targetValue} kWh per persoon per jaar, ofwel {changePct} % —
+        {cateringTwhTarget} TWh in 2050 tegenover {cateringTwh} in 2019. De redenering is
+        gewoon het voortzetten van de trend: "gegeven de historisch groeiende trend". Daar komt
+        een efficiëntieveronderstelling bij: het gasaandeel daalt van {gasShare2019} % naar
+        {gasShareTarget} %, ten gunste van inductie en de elektrische oven, terwijl biomassa
+        behouden blijft — voor de pizza's uit de houtoven.
+      en: >
+        negaWatt settles on {targetValue} kWh per person per year, i.e. {changePct}% —
+        {cateringTwhTarget} TWh in 2050 against {cateringTwh} in 2019. The reasoning is simply
+        an extension of the trend: "given the historically growing trend". An efficiency
+        assumption comes with it: the gas share falls from {gasShare2019}% to
+        {gasShareTarget}%, in favour of induction and the electric oven, with biomass
+        maintained — for the wood-fired pizzas.
+    debate:
+      fr: >
+        C'est la contradiction la plus nette du scénario sur les bâtiments. La restauration
+        gagne {cateringChangeTwh} TWh au motif que la tendance monte, tandis que la cuisine
+        domestique gagne elle aussi 0,38 TWh au motif inverse — que l'on cuisinera davantage
+        chez soi avec des produits moins transformés. Les deux hypothèses ne sont pas
+        réconciliées : ensemble, elles ajoutent près de 1,5 TWh de préparation alimentaire dans
+        un scénario de sobriété, et la contrepartie supposée — moins d'industrie
+        agroalimentaire, moins de gaspillage — se trouve hors du modèle et n'est pas chiffrée.
+      nl: >
+        Dit is de duidelijkste tegenspraak van het gebouwenscenario. Catering wint
+        {cateringChangeTwh} TWh omdat de trend stijgt, terwijl thuis koken óók 0,38 TWh wint om
+        de omgekeerde reden — dat er meer thuis gekookt zal worden met minder verwerkte
+        producten. De twee veronderstellingen zijn niet verzoend: samen voegen ze bijna 1,5 TWh
+        voedselbereiding toe in een soberheidsscenario, en de veronderstelde tegenprestatie —
+        minder voedingsindustrie, minder verspilling — zit buiten het model en is niet
+        becijferd.
+      en: >
+        This is the clearest contradiction in the buildings scenario. Catering gains
+        {cateringChangeTwh} TWh on the grounds that the trend is rising, while home cooking
+        also gains 0.38 TWh on the opposite grounds — that people will cook more at home with
+        less processed food. The two assumptions are not reconciled: together they add nearly
+        1.5 TWh of food preparation to a sufficiency scenario, and the assumed counterpart —
+        less food industry, less waste — sits outside the model and is not quantified.
+
+  # ------------------------------------------------------------ 7 -------------
+  ter-district-heat:
+    short:
+      fr: Réseaux de chaleur
+      nl: Warmtenetten
+      en: District heating
+    question:
+      fr: "Quelle part de la chaleur des bâtiments de services livrée par un réseau est un objectif 2050 réaliste ?"
+      nl: "Welk aandeel van de warmte in dienstengebouwen geleverd door een net is een realistisch doel voor 2050?"
+      en: "What share of service-building heat delivered by a network is a realistic 2050 objective?"
+    subtitle:
+      fr: "Chauffage des locaux et eau chaude livrés par un réseau plutôt que par une chaudière propre au bâtiment. Ce levier ne change pas la demande, seulement sa source."
+      nl: "Ruimteverwarming en warm water geleverd door een net in plaats van door een eigen ketel van het gebouw. Deze hefboom verandert de vraag niet, alleen de bron."
+      en: "Space heating and hot water delivered by a network rather than by the building's own boiler. This lever does not change demand, only its source."
+    tangible:
+      fr: "{value} % de la chaleur des bâtiments de services livrée par un réseau."
+      nl: "{value} % van de warmte in dienstengebouwen geleverd door een net."
+      en: "{value}% of service-building heat delivered by a network."
+    facts:
+      - kind: structure
+        text:
+          fr: >
+            En 2019, {refValue} % de la chaleur des bâtiments de services belges venait d'un
+            réseau, soit {servedTwh2019} TWh sur les {networkableTwh} TWh raccordables —
+            chauffage plus eau chaude, {networkableSharePct} % de l'énergie thermique du
+            secteur. C'est près de dix fois la pénétration du logement, et cela reste marginal.
+          nl: >
+            In 2019 kwam {refValue} % van de warmte in Belgische dienstengebouwen van een net,
+            ofwel {servedTwh2019} TWh op de {networkableTwh} TWh die aansluitbaar zijn —
+            verwarming plus warm water, {networkableSharePct} % van de thermische energie van
+            de sector. Dat is bijna tien keer de penetratie bij woningen, en het blijft
+            marginaal.
+          en: >
+            In 2019, {refValue}% of the heat in Belgian service buildings came from a network,
+            i.e. {servedTwh2019} TWh out of the {networkableTwh} TWh that could be networked —
+            space heating plus hot water, {networkableSharePct}% of the sector's thermal
+            energy. That is close to ten times the penetration in housing, and it is still
+            marginal.
+        source: nW-BE §3.1.3 (JRC-IDEES-2023)
+      - kind: benchmark
+        text:
+          fr: >
+            Dans les services, la chaleur de réseau couvre 41 % de l'énergie livrée au
+            Danemark et 31 % en Suède, contre 7,7 % dans l'UE27, 6,1 % en Allemagne, 4,3 % en
+            France et 2,2 % en Belgique (2023). Attention à la base : ces chiffres portent sur
+            toute l'énergie du secteur, électricité de l'éclairage et de l'informatique
+            comprise, donc sur un dénominateur plus large que cette question.
+          nl: >
+            In de dienstensector dekt netwarmte 41 % van de geleverde energie in Denemarken en
+            31 % in Zweden, tegenover 7,7 % in de EU27, 6,1 % in Duitsland, 4,3 % in Frankrijk
+            en 2,2 % in België (2023). Let op de basis: die cijfers gaan over alle energie van
+            de sector, inclusief elektriciteit voor verlichting en ICT, dus over een ruimere
+            noemer dan deze vraag.
+          en: >
+            In the service sector, network heat covers 41% of the energy delivered in Denmark
+            and 31% in Sweden, against 7.7% in the EU27, 6.1% in Germany, 4.3% in France and
+            2.2% in Belgium (2023). Mind the basis: these figures cover all of the sector's
+            energy, including electricity for lighting and IT, so a wider denominator than this
+            question.
+        source: "Eurostat, nrg_bal_c — derived heat as a share of commercial and public services final energy consumption, 2023"
+        url: https://ec.europa.eu/eurostat/databrowser/view/nrg_bal_c/default/table
+      - kind: structure
+        text:
+          fr: >
+            Le plafond est géographique avant d'être technique : un réseau demande une densité
+            de chaleur, et l'habitat belge est dispersé. Des travaux récents situent le
+            potentiel technico-économique belge à {potentialPct} % de la demande de chaleur
+            *résidentielle* à l'horizon 2050 ; PATHS2050 (EnergyVille) retient
+            {paths2050Pct} % pour l'ensemble des bâtiments. Le tertiaire est en principe plus
+            favorable — bâtiments plus grands, plus concentrés dans les centres — mais aucun
+            chiffrage propre au tertiaire belge n'est cité dans le rapport.
+          nl: >
+            Het plafond is eerder geografisch dan technisch: een net vraagt warmtedichtheid, en
+            de Belgische bebouwing is verspreid. Recent werk plaatst het technisch-economische
+            potentieel van België op {potentialPct} % van de *residentiële* warmtevraag tegen
+            2050; PATHS2050 (EnergyVille) houdt {paths2050Pct} % aan voor alle gebouwen samen.
+            De tertiaire sector is in principe gunstiger — grotere gebouwen, meer geconcentreerd
+            in de centra — maar er wordt in het rapport geen eigen becijfering voor de
+            Belgische tertiaire sector genoemd.
+          en: >
+            The ceiling is geographic before it is technical: a network needs heat density, and
+            Belgian settlement is dispersed. Recent work puts Belgium's techno-economic
+            potential at {potentialPct}% of *residential* heat demand by 2050; PATHS2050
+            (EnergyVille) uses {paths2050Pct}% for all buildings together. The service sector is
+            in principle more favourable — bigger buildings, more concentrated in city centres —
+            but no figure specific to the Belgian service sector is quoted in the report.
+        source: "Lund et al. (2025), District heating in clean energy systems, Nature Reviews Clean Technology; EnergyVille PATHS2050 (2025)"
+        url: https://doi.org/10.1038/s44359-025-00076-8
+      - kind: caution
+        text:
+          fr: >
+            Ce levier ne modifie pas la demande d'énergie utile mesurée ici : c'est pourquoi cet
+            écran n'affiche pas l'encadré d'effet des autres questions. Le bénéfice est en
+            amont — géothermie, chaleur fatale industrielle, cogénération biomasse, stockage
+            saisonnier — dans une partie du système que ce modèle de demande ne représente pas.
+            En 2019, les réseaux belges ont livré {servedTwh2019} TWh aux bâtiments de services.
+          nl: >
+            Deze hefboom wijzigt de hier gemeten nuttige energievraag niet: daarom toont dit
+            scherm het effectkader van de andere vragen niet. Het voordeel zit stroomopwaarts —
+            geothermie, industriële restwarmte, biomassawarmtekracht, seizoensopslag — in een
+            deel van het systeem dat dit vraagmodel niet weergeeft. In 2019 leverden de
+            Belgische netten {servedTwh2019} TWh aan de dienstengebouwen.
+          en: >
+            This lever does not change the useful energy demand measured here: that is why this
+            screen carries none of the effect box the other questions show. The benefit sits
+            upstream — geothermal energy, industrial waste heat, biomass cogeneration, seasonal
+            storage — in a part of the system this demand model does not represent. In 2019
+            Belgian networks delivered {servedTwh2019} TWh to service buildings.
+        source: nW-BE §3.1.3, arithmetic on the 2019 value
+    historyAbsent: true
+    historyNote:
+      fr: Aucune série observée de la part des réseaux de chaleur dans le tertiaire belge n'a été exportée pour l'atelier ; seul le point de 2019 est connu.
+      nl: Er is voor de workshop geen waargenomen reeks van het aandeel warmtenetten in de Belgische tertiaire sector geëxporteerd; alleen het punt van 2019 is bekend.
+      en: No observed series of the district-heating share of Belgian service buildings was exported for the workshop; only the 2019 point is known.
+    justification:
+      fr: >
+        négaWatt retient {targetValue} % de la chaleur des bâtiments livrée par un réseau en
+        2050, contre {refValue} % en 2019 — soit {networkableTwhTarget} TWh de chauffage et
+        d'eau chaude raccordés côté tertiaire. Le rapport applique au tertiaire exactement la
+        même cible qu'au logement, « comme pour le secteur résidentiel », sans chiffrage
+        distinct. La motivation n'est pas la sobriété mais le couplage sectoriel : un réseau
+        permet des pompes à chaleur industrielles sur géothermie, chaleur fatale ou cogénération
+        biomasse, et un stockage thermique saisonnier qui donne de la flexibilité à tout le
+        système. Le froid de réseau, lui, est explicitement exclu du modèle.
+      nl: >
+        negaWatt kiest {targetValue} % van de gebouwwarmte geleverd door een net in 2050,
+        tegenover {refValue} % in 2019 — ofwel {networkableTwhTarget} TWh verwarming en warm
+        water aangesloten aan de tertiaire zijde. Het rapport past op de tertiaire sector
+        precies hetzelfde doel toe als op woningen, "zoals voor de residentiële sector", zonder
+        afzonderlijke becijfering. De motivering is niet soberheid maar sectorkoppeling: een net
+        maakt industriële warmtepompen op geothermie, restwarmte of biomassawarmtekracht
+        mogelijk, en seizoensopslag die het hele systeem flexibiliteit geeft. Koudenetten worden
+        expliciet uit het model gelaten.
+      en: >
+        negaWatt settles on {targetValue}% of building heat delivered by a network in 2050,
+        against {refValue}% in 2019 — that is {networkableTwhTarget} TWh of space heating and
+        hot water connected on the service side. The report applies exactly the same target to
+        the service sector as to housing, "as with the residential sector", with no separate
+        figure. The motivation is not sufficiency but sector coupling: a network makes
+        industrial heat pumps on geothermal energy, waste heat or biomass cogeneration
+        possible, along with seasonal thermal storage that gives the whole system flexibility.
+        District cooling, by contrast, is explicitly excluded from the model.
+    debate:
+      fr: >
+        Appliquer au tertiaire la cible du logement est une commodité, pas une analyse : les
+        deux parcs n'ont ni la même densité de chaleur, ni la même durée de vie des
+        installations, ni les mêmes maîtres d'ouvrage. On peut soutenir que le tertiaire
+        devrait aller bien plus loin — c'est par lui que commencent la plupart des réseaux
+        européens — ou bien moins, faute de décideur unique dans un parc morcelé. Et comme dans
+        le logement, ce levier ne change rien à la demande, donc rien au modèle de demande.
+      nl: >
+        Het doel van de woningen op de tertiaire sector toepassen is een gemakkelijkheidsoplossing,
+        geen analyse: de twee bestanden hebben niet dezelfde warmtedichtheid, niet dezelfde
+        levensduur van installaties en niet dezelfde opdrachtgevers. Men kan verdedigen dat de
+        tertiaire sector veel verder zou moeten gaan — daar beginnen de meeste Europese netten —
+        of veel minder, bij gebrek aan één beslisser in een versnipperd bestand. En zoals bij
+        woningen verandert deze hefboom niets aan de vraag, en dus niets aan het vraagmodel.
+      en: >
+        Applying the housing target to the service sector is a convenience, not an analysis: the
+        two stocks share neither heat density, nor plant lifetime, nor the same clients. You can
+        argue the service sector should go much further — it is where most European networks
+        start — or much less, for want of a single decision-maker in a fragmented stock. And as
+        in housing, this lever changes nothing about demand, and therefore nothing in the demand
+        model.

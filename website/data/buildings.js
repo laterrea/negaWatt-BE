@@ -2,7 +2,7 @@
 window.NW_DATA = window.NW_DATA || {};
 window.NW_DATA["buildings"] = {
   "title": "Buildings (residential & tertiary)",
-  "generated": "2026-06-21",
+  "generated": "2026-09-03",
   "hypotheses": {
     "rs-surface": {
       "name": "Residential floor area per person",

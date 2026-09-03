@@ -59,8 +59,14 @@ def main():
     series = history_doc["series"]
 
     # --- the lever set ------------------------------------------------------
-    shown = {k for k, v in levers.items() if v.get("shown")}
-    check(shown == set(EXPECTED), f"shown levers are {sorted(shown)}, expected {sorted(EXPECTED)}")
+    # Scoped to inland-mobility on purpose: levers_transport.js also carries the
+    # international-mobility topic, and everything below this line is the inland
+    # acceptance test of docs/workshop_module.md §3.
+    shown = {k for k, v in levers.items()
+             if v.get("shown") and v.get("topic") == "inland-mobility"}
+    check(shown == set(EXPECTED),
+          f"shown inland-mobility levers are {sorted(shown)}, "
+          f"expected {sorted(EXPECTED)}")
     check(SPARE <= set(levers), f"spare levers missing: {sorted(SPARE - set(levers))}")
 
     for lid, (unit, ref, target, tol) in EXPECTED.items():

@@ -2,6 +2,795 @@
 window.NW_LEVERS = window.NW_LEVERS || {};
 window.NW_LEVERS["buildings"] = {
   "title": "Buildings",
-  "generated": "2026-09-02",
-  "levers": {}
+  "generated": "2026-09-03",
+  "levers": {
+    "floor-area": {
+      "topic": "residential-heat",
+      "name": "Home floor area per person",
+      "unit": "m² of home per person",
+      "refYear": 2019,
+      "refValue": 54.695,
+      "targetYear": 2050,
+      "targetValue": 49.225,
+      "slider": {
+        "min": 40.0,
+        "max": 65.0,
+        "step": 0.5
+      },
+      "better": "down",
+      "decimals": 1,
+      "shown": true,
+      "impact": {
+        "kind": "proportional",
+        "vTarget": 49.225,
+        "total": 30.359,
+        "scaled": 22.153
+      },
+      "model": {
+        "var": "pro_RS_sur_spe",
+        "section": "1.2.1",
+        "note": "space heating and cooling scale with the floor area; hot water scales with population and cooking with households, so they do not move with this lever"
+      },
+      "history": "res_m2_per_person",
+      "facts": {
+        "changePct": -10.0,
+        "m2PerHousehold": 126.4,
+        "m2PerHouseholdTarget": 107.5,
+        "householdChangePct": -14.9,
+        "householdSize": 2.31,
+        "householdSizeTarget": 2.18,
+        "householdSizeChangePct": -5.5,
+        "stockMm2": 625.0,
+        "areaDrivenTwh": 42.9,
+        "areaDrivenSharePct": 82.9,
+        "thermalTwh": 51.7
+      },
+      "spoilers": [
+        "changePct",
+        "householdChangePct",
+        "m2PerHouseholdTarget"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_1",
+      "reference": "nW-BE §1.2.1"
+    },
+    "insulation": {
+      "topic": "residential-heat",
+      "name": "Heating need of the average home",
+      "unit": "kWh/m²/year of heating need",
+      "refYear": 2019,
+      "refValue": 68.1549,
+      "targetYear": 2050,
+      "targetValue": 39.7589,
+      "slider": {
+        "min": 20.0,
+        "max": 75.0,
+        "step": 0.5
+      },
+      "better": "down",
+      "decimals": 1,
+      "shown": true,
+      "impact": {
+        "kind": "proportional",
+        "vTarget": 39.7589,
+        "total": 30.359,
+        "scaled": 21.209
+      },
+      "model": {
+        "var": "acc_RS_tes_sht_ren",
+        "section": "2.1.1",
+        "prose": "the model input is the multiplier on the observed -0.458 kWh/m²/year improvement quoted in section 2.1.1; this lever is the 2050 intensity it produces",
+        "note": "efficiency only, before the suf_RS_tes_sht thermostat multiplier, so it sits on the same basis as the observed kWh/m² series"
+      },
+      "history": "res_heat_per_m2",
+      "facts": {
+        "accTarget": 2,
+        "improvementHist": -0.458,
+        "improvementTarget": -0.916,
+        "intensityEffTarget": 39.8,
+        "intensityTarget": 34.2,
+        "renewalRateJrc": 3.0,
+        "renoRateJrc": 2.261,
+        "newBuildRateJrc": 0.751,
+        "heatKwhPerHousehold": 8612,
+        "m2PerHousehold": 126.4,
+        "heatTwh": 42.6,
+        "heatSharePct": 82.4,
+        "thermalTwh": 51.7
+      },
+      "spoilers": [
+        "accTarget",
+        "improvementTarget",
+        "intensityEffTarget",
+        "intensityTarget"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_2",
+      "reference": "nW-BE §2.1.1"
+    },
+    "thermostat": {
+      "topic": "residential-heat",
+      "name": "Degrees off the heating setpoint",
+      "unit": "°C less on the home thermostat",
+      "refYear": 2019,
+      "refValue": 0.0,
+      "targetYear": 2050,
+      "targetValue": 2.0,
+      "slider": {
+        "min": -1.0,
+        "max": 6.0,
+        "step": 0.5
+      },
+      "better": "up",
+      "decimals": 1,
+      "shown": true,
+      "impact": {
+        "kind": "linear-shift",
+        "vTarget": 2.0,
+        "total": 30.359,
+        "scaled": 0.0,
+        "slope": -1.7263
+      },
+      "model": {
+        "var": "suf_RS_tes_sht",
+        "section": "2.1.2",
+        "note": "d_temp cannot be read from the notebook's globals: cell 65 reassigns it to the tertiary value, so the residential drop is recovered from suf_RS_tes_sht"
+      },
+      "facts": {
+        "pctPerDegC": 7.0,
+        "demandCutPct": 14.0,
+        "slowheatOk": 15.0,
+        "slowheatMin": 12.0,
+        "setpoint2022": 19.0,
+        "degCTwh2019": 2.98,
+        "degCKwhPerPerson2019": 261.0,
+        "heatTwh": 42.6,
+        "heatSharePct": 82.4
+      },
+      "spoilers": [
+        "demandCutPct"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_2",
+      "reference": "nW-BE §2.1.2"
+    },
+    "hot-water": {
+      "topic": "residential-heat",
+      "name": "Domestic hot water",
+      "unit": "kWh/person/year of home hot water",
+      "refYear": 2019,
+      "refValue": 674.9606,
+      "targetYear": 2050,
+      "targetValue": 531.8845,
+      "slider": {
+        "min": 300.0,
+        "max": 900.0,
+        "step": 10.0
+      },
+      "better": "down",
+      "decimals": 0,
+      "shown": true,
+      "impact": {
+        "kind": "proportional",
+        "vTarget": 531.8845,
+        "total": 30.359,
+        "scaled": 6.702
+      },
+      "model": {
+        "var": "trg_RS_tes_shw",
+        "section": "2.1.2"
+      },
+      "history": "res_hot_water_per_person",
+      "facts": {
+        "changePct": -21.2,
+        "litres2019": 63.7,
+        "litresTarget": 50.2,
+        "kwhPer100Litres": 2.9,
+        "showerMinutes": 5,
+        "showerFlow": 7,
+        "showerTemp": 38,
+        "showerKwh": 0.93,
+        "othersLitres": 10,
+        "othersTemp": 60,
+        "othersKwh": 0.52,
+        "hotWaterTwh": 7.7,
+        "hotWaterSharePct": 14.9,
+        "thermalTwh": 51.7
+      },
+      "spoilers": [
+        "changePct",
+        "litresTarget",
+        "othersKwh",
+        "othersLitres",
+        "othersTemp",
+        "showerFlow",
+        "showerKwh",
+        "showerMinutes",
+        "showerTemp"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_2",
+      "reference": "nW-BE §2.1.2"
+    },
+    "cooling": {
+      "topic": "residential-heat",
+      "name": "Home cooling",
+      "unit": "kWh/m²/year of home cooling",
+      "refYear": 2019,
+      "refValue": 0.4363,
+      "targetYear": 2050,
+      "targetValue": 1.5213,
+      "slider": {
+        "min": 0.0,
+        "max": 6.0,
+        "step": 0.05
+      },
+      "better": "up",
+      "decimals": 2,
+      "shown": true,
+      "impact": {
+        "kind": "proportional",
+        "vTarget": 1.5213,
+        "total": 30.359,
+        "scaled": 0.944
+      },
+      "model": {
+        "var": "acc_RS_tes_scl_ren",
+        "section": "2.1.2",
+        "note": "a multiplier on the observed +0.035 kWh/m²/year deployment rate; see the report on how that rate compares with the observed series"
+      },
+      "history": "res_cooling_per_m2",
+      "facts": {
+        "accTarget": 1,
+        "rateAssumed": 0.035,
+        "growthPct": 249.0,
+        "coolingTwh": 0.27,
+        "coolingSharePct": 0.5,
+        "coolingTwhTarget": 0.94,
+        "heatTwh": 42.6,
+        "thermalTwh": 51.7
+      },
+      "spoilers": [
+        "accTarget",
+        "coolingTwhTarget",
+        "growthPct",
+        "rateAssumed"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_2",
+      "reference": "nW-BE §2.1.2"
+    },
+    "cooking": {
+      "topic": "residential-heat",
+      "name": "Home cooking",
+      "unit": "kWh/household/year of home cooking",
+      "refYear": 2019,
+      "refValue": 226.5529,
+      "targetYear": 2050,
+      "targetValue": 260.5358,
+      "slider": {
+        "min": 150.0,
+        "max": 420.0,
+        "step": 10.0
+      },
+      "better": "up",
+      "decimals": 0,
+      "shown": true,
+      "impact": {
+        "kind": "proportional",
+        "vTarget": 260.5358,
+        "total": 30.359,
+        "scaled": 1.504
+      },
+      "model": {
+        "var": "pro_RS_tes_cok",
+        "section": "2.1.2"
+      },
+      "facts": {
+        "changePct": 15.0,
+        "trendHist": -1.6,
+        "perDay2019": 0.62,
+        "gasShare2019": 26.8,
+        "gasShareTarget": 2.0,
+        "cookingTwh": 1.12,
+        "cookingSharePct": 2.2,
+        "householdSize": 2.31,
+        "thermalTwh": 51.7
+      },
+      "spoilers": [
+        "changePct",
+        "gasShareTarget"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_2",
+      "reference": "nW-BE §2.1.2"
+    },
+    "district-heat": {
+      "topic": "residential-heat",
+      "name": "District heating share of home heat",
+      "unit": "% of home heat",
+      "refYear": 2019,
+      "refValue": 0.2501,
+      "targetYear": 2050,
+      "targetValue": 15.0,
+      "slider": {
+        "min": 0.0,
+        "max": 45.0,
+        "step": 0.5
+      },
+      "better": "up",
+      "decimals": 1,
+      "shown": true,
+      "impact": {
+        "kind": "negligible",
+        "vTarget": 15.0,
+        "total": 30.359,
+        "scaled": 0.0
+      },
+      "model": {
+        "var": "trg_RS_tes_dhn",
+        "section": "2.1.3",
+        "note": "splits space heating + hot water between a network and individual boilers; the end-use total is unchanged"
+      },
+      "facts": {
+        "potentialPct": 45.0,
+        "paths2050Pct": 13.0,
+        "networkableTwh": 50.3,
+        "networkableSharePct": 97.3,
+        "networkableTwhTarget": 27.9,
+        "servedTwh2019": 0.13,
+        "thermalTwh": 51.7
+      },
+      "spoilers": [
+        "networkableTwhTarget"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_2",
+      "reference": "nW-BE §2.1.3"
+    },
+    "ter-floor-area": {
+      "topic": "tertiary-heat",
+      "name": "Service floor area per person",
+      "unit": "m² of service building per person",
+      "refYear": 2019,
+      "refValue": 19.864,
+      "targetYear": 2050,
+      "targetValue": 17.878,
+      "slider": {
+        "min": 12.0,
+        "max": 30.0,
+        "step": 0.25
+      },
+      "better": "down",
+      "decimals": 1,
+      "shown": true,
+      "impact": {
+        "kind": "proportional",
+        "vTarget": 17.878,
+        "total": 28.815,
+        "scaled": 20.599
+      },
+      "model": {
+        "var": "pro_TS_sur_spe",
+        "section": "1.2.2",
+        "note": "heating and cooling scale with the floor area; hot water and catering scale with population, so they do not move with this lever"
+      },
+      "history": "ter_m2_per_person",
+      "facts": {
+        "changePct": -10.0,
+        "stockMm2": 227.0,
+        "stockMm2Target": 225.0,
+        "areaDrivenTwh": 25.6,
+        "areaDrivenSharePct": 79.0,
+        "thermalTwh": 32.4,
+        "electricalTwh": 12.2
+      },
+      "spoilers": [
+        "changePct",
+        "stockMm2Target"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_3",
+      "reference": "nW-BE §1.2.2"
+    },
+    "ter-insulation": {
+      "topic": "tertiary-heat",
+      "name": "Heating need of the average service building",
+      "unit": "kWh/m²/year of service heating need",
+      "refYear": 2019,
+      "refValue": 95.4146,
+      "targetYear": 2050,
+      "targetValue": 71.5446,
+      "slider": {
+        "min": 45.0,
+        "max": 110.0,
+        "step": 0.5
+      },
+      "better": "down",
+      "decimals": 1,
+      "shown": true,
+      "impact": {
+        "kind": "proportional",
+        "vTarget": 71.5446,
+        "total": 28.815,
+        "scaled": 14.989
+      },
+      "model": {
+        "var": "acc_TS_tes_sht_ren",
+        "section": "3.1.1",
+        "prose": "the model input is the multiplier on the observed -0.154 kWh/m²/year improvement quoted in section 3.1.1; this lever is the 2050 intensity it produces",
+        "note": "efficiency only, before the suf_TS_tes_sht thermostat multiplier"
+      },
+      "history": "ter_heat_per_m2",
+      "facts": {
+        "accTarget": 5,
+        "improvementHist": -0.154,
+        "improvementTarget": -0.77,
+        "intensityEffTarget": 71.5,
+        "intensityTarget": 66.5,
+        "renewalRateJrc": 1.7,
+        "renoRateJrc": 0.51,
+        "newBuildRateJrc": 1.22,
+        "sht2021": 102.6,
+        "sht2023": 78.6,
+        "crisisDropPerYear": 12.0,
+        "heatKwhPer1000m2": 95415,
+        "heatTwh": 21.7,
+        "heatSharePct": 66.9,
+        "thermalTwh": 32.4
+      },
+      "spoilers": [
+        "accTarget",
+        "improvementTarget",
+        "intensityEffTarget",
+        "intensityTarget"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_3",
+      "reference": "nW-BE §3.1.1"
+    },
+    "ter-thermostat": {
+      "topic": "tertiary-heat",
+      "name": "Degrees off the service-building setpoint",
+      "unit": "°C less in service buildings",
+      "refYear": 2019,
+      "refValue": 0.0,
+      "targetYear": 2050,
+      "targetValue": 1.0,
+      "slider": {
+        "min": -1.0,
+        "max": 5.0,
+        "step": 0.5
+      },
+      "better": "up",
+      "decimals": 1,
+      "shown": true,
+      "impact": {
+        "kind": "linear-shift",
+        "vTarget": 1.0,
+        "total": 28.815,
+        "scaled": 0.0,
+        "slope": -1.1282
+      },
+      "model": {
+        "var": "suf_TS_tes_sht",
+        "section": "3.1.2",
+        "note": "d_temp is shared with the residential block, so the tertiary drop is recovered from suf_TS_tes_sht"
+      },
+      "facts": {
+        "pctPerDegC": 7.0,
+        "demandCutPct": 7.0,
+        "degCTwh2019": 1.52,
+        "heatTwh": 21.7,
+        "heatSharePct": 66.9,
+        "thermalTwh": 32.4
+      },
+      "spoilers": [
+        "demandCutPct"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_3",
+      "reference": "nW-BE §3.1.2"
+    },
+    "ter-cooling": {
+      "topic": "tertiary-heat",
+      "name": "Cooling of service buildings",
+      "unit": "kWh/m²/year of service cooling",
+      "refYear": 2019,
+      "refValue": 17.2228,
+      "targetYear": 2050,
+      "targetValue": 24.9005,
+      "slider": {
+        "min": 8.0,
+        "max": 48.0,
+        "step": 0.5
+      },
+      "better": "up",
+      "decimals": 1,
+      "shown": true,
+      "impact": {
+        "kind": "proportional",
+        "vTarget": 24.9005,
+        "total": 28.815,
+        "scaled": 5.61
+      },
+      "model": {
+        "var": "acc_TS_tes_scl_ren",
+        "section": "3.1.2",
+        "note": "a multiplier on the observed +0.743 kWh/m²/year deployment rate; the scenario keeps one third of it"
+      },
+      "history": "ter_cooling_per_m2",
+      "facts": {
+        "accTarget": 0.333,
+        "rateHist": 0.743,
+        "rateAssumed": 0.248,
+        "growthPct": 45.0,
+        "growthX2019": 9.7,
+        "scl2000": 1.8,
+        "scl2023": 16.1,
+        "coolingTwh": 3.91,
+        "coolingSharePct": 12.1,
+        "coolingTwhTarget": 5.61,
+        "heatTwh": 21.7,
+        "thermalTwh": 32.4
+      },
+      "spoilers": [
+        "accTarget",
+        "coolingTwhTarget",
+        "growthPct",
+        "rateAssumed"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_3",
+      "reference": "nW-BE §3.1.2"
+    },
+    "ter-hot-water": {
+      "topic": "tertiary-heat",
+      "name": "Hot water in service buildings",
+      "unit": "kWh/person/year of service hot water",
+      "refYear": 2019,
+      "refValue": 305.045,
+      "targetYear": 2050,
+      "targetValue": 305.045,
+      "slider": {
+        "min": 200.0,
+        "max": 460.0,
+        "step": 5.0
+      },
+      "better": "down",
+      "decimals": 0,
+      "shown": true,
+      "impact": {
+        "kind": "proportional",
+        "vTarget": 305.045,
+        "total": 28.815,
+        "scaled": 3.844
+      },
+      "model": {
+        "var": "pro_TS_tes_shw",
+        "section": "3.1.2"
+      },
+      "history": "ter_hot_water_per_person",
+      "facts": {
+        "changePct": 0.0,
+        "shw2023": 323.9,
+        "litres2019": 28.8,
+        "gap2023Pct": 6.2,
+        "hotWaterTwh": 3.49,
+        "hotWaterSharePct": 10.8,
+        "hotWaterTwhTarget": 3.84,
+        "thermalTwh": 32.4
+      },
+      "spoilers": [
+        "changePct",
+        "gap2023Pct",
+        "hotWaterTwhTarget"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_3",
+      "reference": "nW-BE §3.1.2"
+    },
+    "ter-catering": {
+      "topic": "tertiary-heat",
+      "name": "Catering",
+      "unit": "kWh/person/year of catering",
+      "refYear": 2019,
+      "refValue": 289.1414,
+      "targetYear": 2050,
+      "targetValue": 346.9697,
+      "slider": {
+        "min": 150.0,
+        "max": 450.0,
+        "step": 5.0
+      },
+      "better": "up",
+      "decimals": 0,
+      "shown": true,
+      "impact": {
+        "kind": "proportional",
+        "vTarget": 346.9697,
+        "total": 28.815,
+        "scaled": 4.372
+      },
+      "model": {
+        "var": "pro_TS_tes_cat",
+        "section": "3.1.2"
+      },
+      "facts": {
+        "changePct": 20.0,
+        "trendHist": 4.297,
+        "homeCookingTrend": -0.523,
+        "gasShare2019": 40.4,
+        "gasShareTarget": 5.0,
+        "bioShare2019": 0.6,
+        "cateringTwh": 3.31,
+        "cateringSharePct": 10.2,
+        "cateringTwhTarget": 4.37,
+        "cateringChangeTwh": 1.07,
+        "thermalTwh": 32.4
+      },
+      "spoilers": [
+        "cateringChangeTwh",
+        "cateringTwhTarget",
+        "changePct",
+        "gasShareTarget"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_3",
+      "reference": "nW-BE §3.1.2"
+    },
+    "ter-district-heat": {
+      "topic": "tertiary-heat",
+      "name": "District heating share of service-building heat",
+      "unit": "% of service-building heat",
+      "refYear": 2019,
+      "refValue": 2.4212,
+      "targetYear": 2050,
+      "targetValue": 15.0,
+      "slider": {
+        "min": 0.0,
+        "max": 45.0,
+        "step": 0.5
+      },
+      "better": "up",
+      "decimals": 1,
+      "shown": true,
+      "impact": {
+        "kind": "negligible",
+        "vTarget": 15.0,
+        "total": 28.815,
+        "scaled": 0.0
+      },
+      "model": {
+        "var": "trg_TS_tes_dhn",
+        "section": "3.1.3",
+        "note": "splits space heating + hot water between a network and individual boilers; the end-use total is unchanged"
+      },
+      "facts": {
+        "potentialPct": 45.0,
+        "paths2050Pct": 13.0,
+        "networkableTwh": 25.2,
+        "networkableSharePct": 77.7,
+        "networkableTwhTarget": 18.8,
+        "servedTwh2019": 0.61,
+        "thermalTwh": 32.4
+      },
+      "spoilers": [
+        "networkableTwhTarget"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_3",
+      "reference": "nW-BE §3.1.3"
+    }
+  },
+  "model": {
+    "residential-heat": {
+      "scope": "residential thermal demand: space heating, space cooling, sanitary hot water and cooking (household appliances excluded)",
+      "refYear": 2019,
+      "targetYear": 2050,
+      "population": {
+        "2019": 11431406,
+        "2050": 12600911
+      },
+      "households": {
+        "2019": 4948398,
+        "2050": 5770867
+      },
+      "floorAreaMm2": {
+        "2019": 625.2,
+        "2050": 620.3
+      },
+      "thermalTwh": {
+        "2019": 51.723,
+        "2050": 30.359
+      },
+      "applianceTwh": {
+        "2019": 11.603,
+        "2050": 8.538
+      },
+      "residentialTwh": {
+        "2019": 63.326,
+        "2050": 38.897
+      },
+      "serviceTwh": {
+        "2019": {
+          "space heating": 42.613,
+          "space cooling": 0.273,
+          "sanitary hot water": 7.716,
+          "cooking": 1.121
+        },
+        "2050": {
+          "space heating": 21.209,
+          "space cooling": 0.944,
+          "sanitary hot water": 6.702,
+          "cooking": 1.504
+        }
+      },
+      "areaDrivenTwh": {
+        "2019": 42.886,
+        "2050": 22.153
+      },
+      "networkableTwh": {
+        "2019": 50.329,
+        "2050": 27.911
+      },
+      "intensityKwhM2": {
+        "2019": 68.155,
+        "2050": 34.193
+      },
+      "districtHeatShare": {
+        "2019": 0.25,
+        "2050": 15.0
+      }
+    },
+    "tertiary-heat": {
+      "scope": "tertiary thermal demand: space heating, space cooling, sanitary hot water and catering (ventilation, lighting, commercial refrigeration and ICT excluded)",
+      "refYear": 2019,
+      "targetYear": 2050,
+      "population": {
+        "2019": 11431406,
+        "2050": 12600911
+      },
+      "floorAreaMm2": {
+        "2019": 227.1,
+        "2050": 225.3
+      },
+      "floorAreaPerPerson": {
+        "2019": 19.864,
+        "2050": 17.878
+      },
+      "thermalTwh": {
+        "2019": 32.369,
+        "2050": 28.815
+      },
+      "electricalTwh": {
+        "2019": 12.241,
+        "2050": 11.353
+      },
+      "tertiaryTwh": {
+        "2019": 44.61,
+        "2050": 40.168
+      },
+      "serviceTwh": {
+        "2019": {
+          "space heating": 21.666,
+          "space cooling": 3.911,
+          "sanitary hot water": 3.487,
+          "catering": 3.305
+        },
+        "2050": {
+          "space heating": 14.989,
+          "space cooling": 5.61,
+          "sanitary hot water": 3.844,
+          "catering": 4.372
+        }
+      },
+      "areaDrivenTwh": {
+        "2019": 25.577,
+        "2050": 20.599
+      },
+      "networkableTwh": {
+        "2019": 25.153,
+        "2050": 18.833
+      },
+      "intensityKwhM2": {
+        "2019": 95.415,
+        "2050": 66.536
+      },
+      "coolingKwhM2": {
+        "2019": 17.223,
+        "2050": 24.901
+      },
+      "districtHeatShare": {
+        "2019": 2.421,
+        "2050": 15.0
+      }
+    }
+  }
 };
