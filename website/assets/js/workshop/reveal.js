@@ -5,10 +5,12 @@
    facilitator drops in the negaWatt value with its written justification, one
    lever at a time.
 
-   Two scopes:
-     ?code=ABCD&admin=TOKEN     one session
-     ?topic=inland-mobility&key=KEY   every open session on the topic, which is
-                                      what makes a fully remote workshop work
+     reveal.html?topic=inland-mobility
+
+   Which answers are shown is a question of *when*, not of which session: the
+   date filter selects the groups that started inside its window. It opens on
+   today — one workshop — and widening the start date summarises every sitting
+   ever run on the topic.
    ========================================================================== */
 (function () {
   "use strict";
@@ -18,10 +20,11 @@
   var POLL_MS = 3000;
 
   var state = {
-    scope: null, code: null, adminToken: null, adminKey: null,
     topic: null, sector: null, order: [], index: 0,
-    revealed: {},          // leverId -> true once the nW value is shown
+    from: null, to: null,       // local 'YYYY-MM-DD', or null for an open end
+    revealed: {},               // leverId -> true once the nW value is shown
     results: null,
+    labels: {},                 // groupId -> the name to draw
     summary: false,
     timer: null
   };
@@ -49,6 +52,8 @@
     document.querySelectorAll("[data-ui]").forEach(function (node) {
       node.textContent = T.t(node.getAttribute("data-ui"));
     });
+    $("from").setAttribute("aria-label", T.t("reveal.filter.from"));
+    $("to").setAttribute("aria-label", T.t("reveal.filter.to"));
   }
 
   function buildLangSwitch() {
@@ -60,23 +65,87 @@
       b.textContent = code;
       b.setAttribute("aria-pressed", code === T.lang() ? "true" : "false");
       b.addEventListener("click", function () {
-        T.setLang(code); buildLangSwitch(); applyStaticText(); render();
+        T.setLang(code); buildLangSwitch(); applyStaticText(); showWindow(); render();
       });
       box.appendChild(b);
     });
   }
 
+  /* ------------------------------------------------------------------ dates */
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+
+  function localToday() {
+    var d = new Date();
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  }
+
+  /* The filter is a pair of local dates; the API window is UTC. Going through a
+     real Date is what makes an evening workshop count as that evening rather
+     than as the next UTC day. */
+  function toUtc(date, endOfDay) {
+    if (!date) return null;
+    var p = date.split("-");
+    var d = new Date(+p[0], +p[1] - 1, +p[2],
+                     endOfDay ? 23 : 0, endOfDay ? 59 : 0, endOfDay ? 59 : 0);
+    return d.toISOString().slice(0, 19).replace("T", " ");
+  }
+
+  function pretty(date) {
+    var p = date.split("-");
+    return new Date(+p[0], +p[1] - 1, +p[2])
+      .toLocaleDateString(document.documentElement.lang || undefined,
+                          { day: "numeric", month: "short", year: "numeric" });
+  }
+
+  function showWindow() {
+    var badge = $("window-badge");
+    if (!state.from && !state.to) badge.textContent = T.t("reveal.filter.allLabel");
+    else if (state.from === state.to) badge.textContent = pretty(state.from);
+    else {
+      badge.textContent = (state.from ? pretty(state.from) : "…") + " – " +
+                          (state.to ? pretty(state.to) : "…");
+    }
+    $("from").value = state.from || "";
+    $("to").value = state.to || "";
+  }
+
+  function setWindow(from, to) {
+    state.from = from || null;
+    state.to = to || null;
+    state.results = null;
+    showWindow();
+    render();
+    startPolling();
+  }
+
   /* ------------------------------------------------------------------ stats */
+
+  /* Two tables that both called themselves "Table 3", or a window spanning
+     several sittings, would draw two dots with one label. Number the duplicates
+     rather than hiding one of them. */
+  function relabel() {
+    var groups = (state.results && state.results.groups) || [];
+    var count = {};
+    groups.forEach(function (g) {
+      var name = g.name || ("#" + g.id);
+      count[name] = (count[name] || 0) + 1;
+    });
+    var nth = {};
+    var labels = {};
+    groups.forEach(function (g) {
+      var name = g.name || ("#" + g.id);
+      nth[name] = (nth[name] || 0) + 1;
+      labels[g.id] = count[name] > 1 ? name + " ·" + nth[name] : name;
+    });
+    state.labels = labels;
+  }
+
   function answersFor(leverId) {
     if (!state.results) return [];
-    var names = {};
-    (state.results.groups || []).forEach(function (g) {
-      names[g.id] = g.name + (state.scope === "topic" && g.session ? " · " + g.session : "");
-    });
     return (state.results.answers || [])
       .filter(function (a) { return a.lever_id === leverId; })
       .map(function (a) {
-        return { label: names[a.group_id] || ("#" + a.group_id), value: a.value,
+        return { label: state.labels[a.group_id] || ("#" + a.group_id), value: a.value,
                  confidence: a.confidence, condition: a.condition };
       });
   }
@@ -90,21 +159,11 @@
   function render() {
     if (state.summary) { renderSummary(); return; }
 
-    // The topic only becomes known once a poll succeeds. If it has not — no
-    // facilitator key, a wrong code, the network down — there is nothing to draw
-    // and the projector must show the waiting screen, not crash on it.
     var id = current();
-    if (!id || !levers()[id]) {
-      $("screen-lever").classList.add("ws-hidden");
-      $("screen-summary").classList.add("ws-hidden");
-      $("actions").classList.add("ws-hidden");
-      $("screen-setup").classList.remove("ws-hidden");
-      return;
-    }
+    if (!id || !levers()[id]) return;
 
     $("screen-lever").classList.remove("ws-hidden");
     $("screen-summary").classList.add("ws-hidden");
-    $("screen-setup").classList.add("ws-hidden");
     $("actions").classList.remove("ws-hidden");
 
     var lever = levers()[id];
@@ -218,7 +277,7 @@
       var q = document.createElement("blockquote");
       q.className = "ws-quote";
       // no-break spaces inside the guillemets, French typography
-      q.textContent = "\u00ab\u00a0" + r.condition + "\u00a0\u00bb";
+      q.textContent = "« " + r.condition + " »";
       var cite = document.createElement("cite");
       cite.textContent = r.label;
       q.appendChild(cite);
@@ -251,7 +310,6 @@
   function renderSummary() {
     $("screen-lever").classList.add("ws-hidden");
     $("screen-summary").classList.remove("ws-hidden");
-    $("screen-setup").classList.add("ws-hidden");
 
     var table = $("summary-table");
     table.innerHTML = "";
@@ -320,14 +378,7 @@
   function go(index) {
     state.summary = false;
     state.index = Math.max(0, Math.min(index, state.order.length - 1));
-    pushStep();
     render();
-  }
-
-  function pushStep() {
-    // keep any second screen on the same lever; harmless if we are not admin
-    if (state.scope !== "session" || !state.adminToken) return;
-    API.setReveal(state.code, state.adminToken, state.index).catch(function () {});
   }
 
   function revealOrAdvance() {
@@ -348,22 +399,19 @@
 
   /* ------------------------------------------------------------------- poll */
   function poll() {
-    var opts = state.scope === "topic"
-      ? { topic: state.topic, adminKey: state.adminKey }
-      : { code: state.code, adminToken: state.adminToken };
-    return API.getResults(opts).then(function (doc) {
+    return API.getResults({
+      topic: state.topic,
+      from: toUtc(state.from, false),
+      to: toUtc(state.to, true)
+    }).then(function (doc) {
       state.results = doc;
-      if (!state.topic) state.topic = doc.topic;
-      var badge = $("live-badge");
-      badge.textContent = (doc.groups || []).length === 1
-        ? T.t("reveal.groupsOne") : T.t("reveal.groups", { n: (doc.groups || []).length });
-      if (state.scope === "topic") {
-        badge.textContent += " · " + T.t("reveal.sessions", { n: (doc.sessions || []).length });
-      }
-      if (!state.summary) render();
-    }).catch(function (err) {
+      relabel();
+      var n = (doc.groups || []).length;
+      $("live-badge").textContent = n === 1 ? T.t("reveal.groupsOne")
+                                            : T.t("reveal.groups", { n: n });
+      if (!state.summary) render(); else renderSummary();
+    }).catch(function () {
       $("live-badge").textContent = T.t("common.error");
-      if (err && err.status === 403) showSetup(T.t("reveal.needKey"));
     });
   }
 
@@ -373,44 +421,13 @@
     poll();
   }
 
-  /* ------------------------------------------------------------------ setup */
-  function showSetup(message) {
-    if (state.timer) window.clearInterval(state.timer);
+  /* ------------------------------------------------------------------- init */
+  function fail(message) {
     $("screen-lever").classList.add("ws-hidden");
     $("screen-summary").classList.add("ws-hidden");
-    $("screen-setup").classList.remove("ws-hidden");
     $("actions").classList.add("ws-hidden");
-    if (message) {
-      $("setup-error").textContent = message;
-      $("setup-error").classList.remove("ws-hidden");
-    }
-    $("setup-help").textContent = "API: " + API.base();
-  }
-
-  function beginFromSetup() {
-    var code = $("setup-code").value.trim().toUpperCase();
-    var token = $("setup-token").value.trim();
-    var key = $("setup-key").value.trim();
-    if (key) {
-      state.scope = "topic";
-      state.adminKey = key;
-      state.topic = state.topic || Object.keys(window.NW_WS_CONTENT.topics)[0];
-    } else if (code) {
-      state.scope = "session";
-      state.code = code;
-      state.adminToken = token || null;
-    } else {
-      return;
-    }
-    prepareOrder();
-    startPolling();
-  }
-
-  function prepareOrder() {
-    var topic = topicContent();
-    if (!topic) return;
-    state.sector = topic.sector;
-    state.order = (topic.order || []).filter(function (id) { return !!levers()[id]; });
+    $("screen-error").classList.remove("ws-hidden");
+    $("error-text").textContent = message;
   }
 
   function init() {
@@ -422,41 +439,33 @@
     buildLangSwitch();
     applyStaticText();
 
+    state.topic = param("topic") || Object.keys(window.NW_WS_CONTENT.topics)[0];
+    var topic = topicContent();
+    if (!topic) return fail("Unknown workshop topic: " + state.topic);
+    state.sector = topic.sector;
+    state.order = (topic.order || []).filter(function (id) { return !!levers()[id]; });
+    if (!state.order.length) return fail("No levers to reveal for topic " + state.topic);
+
     $("btn-prev").addEventListener("click", function () { go(state.index - 1); });
     $("btn-next").addEventListener("click", function () {
       if (state.index === state.order.length - 1) { state.summary = true; renderSummary(); }
       else go(state.index + 1);
     });
     $("btn-reveal").addEventListener("click", revealOrAdvance);
-    $("setup-go").addEventListener("click", beginFromSetup);
+    $("preset-today").addEventListener("click", function () {
+      setWindow(localToday(), localToday());
+    });
+    $("preset-all").addEventListener("click", function () { setWindow(null, null); });
+    $("from").addEventListener("change", function () { setWindow(this.value, state.to); });
+    $("to").addEventListener("change", function () { setWindow(state.from, this.value); });
     document.addEventListener("keydown", function (e) {
       if (e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
       if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); revealOrAdvance(); }
       if (e.key === "ArrowLeft") { e.preventDefault(); go(state.index - 1); }
     });
 
-    state.code = param("code");
-    state.adminToken = param("admin");
-    state.adminKey = param("key");
-    state.topic = param("topic");
-
-    if (state.adminKey) {
-      state.scope = "topic";
-      state.topic = state.topic || Object.keys(window.NW_WS_CONTENT.topics)[0];
-      $("scope-badge").textContent = "topic";
-    } else if (state.code) {
-      state.scope = "session";
-      $("scope-badge").textContent = state.code;
-    } else {
-      return showSetup(null);
-    }
-
-    if (state.topic) prepareOrder();
-    startPolling();
-    // for the session scope the topic only becomes known from the first poll
-    window.setTimeout(function () {
-      if (!state.order.length) { prepareOrder(); render(); }
-    }, 600);
+    // Today, unless the URL asks otherwise: one workshop, which is the normal case.
+    setWindow(param("from") || localToday(), param("to") || localToday());
   }
 
   if (document.readyState === "loading") {

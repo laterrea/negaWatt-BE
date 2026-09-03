@@ -5,6 +5,9 @@
    is implemented by scripts/dev_api.py, so the UI can be developed offline and
    a workshop can be run from a laptop with no internet.
 
+   There is no session and no code: a group belongs to a topic, and the reveal
+   screen selects groups by date.
+
    Offline behaviour is a feature, not an afterthought: workshop wifi fails. Every
    answer is written to localStorage first and queued for the server; the queue is
    flushed whenever a later call succeeds or the browser comes back online. The
@@ -17,6 +20,11 @@
   var LS_QUEUE = "nw.ws.queue";
   var LS_ANSWERS = "nw.ws.answers";
   var LS_IDENTITY = "nw.ws.identity";
+
+  // A group is a workshop sitting, not an account. Re-opening the page an hour
+  // later must return to the same group; re-opening it next week must not, or the
+  // new answers would be filed under a group the reveal screen no longer shows.
+  var IDENTITY_TTL_MS = 12 * 3600 * 1000;
 
   var listeners = [];
   var online = true;
@@ -98,26 +106,23 @@
   function identity() { return read(LS_IDENTITY, null); }
   function forgetIdentity() { write(LS_IDENTITY, null); }
 
-  /* --------------------------------------------------------------- sessions */
-  function createSession(payload) {
-    return request("/session.php", { method: "POST", body: payload });
+  function fresh(id) {
+    if (!id || !id.groupId) return false;
+    var at = Date.parse(id.at || "");
+    return isFinite(at) && (Date.now() - at) < IDENTITY_TTL_MS;
   }
 
-  function getSession(code) {
-    return request("/session.php?code=" + encodeURIComponent(code));
-  }
-
-  function remember(data, slug) {
+  function remember(data, topic) {
     var id = {
-      code: data.code, slug: slug || data.slug || null,
       groupId: data.group_id, token: data.token,
-      name: data.name, topic: data.topic
+      name: data.name, topic: data.topic || topic,
+      at: new Date().toISOString()
     };
-    // Joining a *different* group or workshop must not inherit the answers of the
+    // Answering as a *different* group must not inherit the answers of the
     // previous one: they would be restored on screen and, worse, pushed into the
     // new group by the autosave.
     var previous = identity();
-    if (previous && (previous.code !== id.code || previous.groupId !== id.groupId)) {
+    if (previous && previous.groupId !== id.groupId) {
       write(LS_ANSWERS, {});
       write(LS_QUEUE, []);
       announce();
@@ -126,40 +131,55 @@
     return id;
   }
 
-  function joinGroup(code, name) {
-    return request("/group.php", { method: "POST", body: { code: code, name: name } })
-      .then(function (data) { return remember(data, null); });
+  /* ----------------------------------------------------------------- groups */
+
+  /* Start answering. `name` is optional: without one the server names the group
+     after its rank in the day, and `prefix` carries the language, which only the
+     client knows. */
+  function start(topic, name, prefix) {
+    var body = { topic: topic, name_prefix: prefix || undefined };
+    if (name) body.name = name;
+    return request("/group.php", { method: "POST", body: body })
+      .then(function (data) {
+        var id = remember(data, topic);
+        // Anything answered before the group existed (offline first load) belongs
+        // to it now.
+        if (Object.keys(localAnswers()).length) pushLocal();
+        return id;
+      });
   }
 
-  /* Join a workshop straight from its link: the server hands out the next free
-     "Groupe 3", so the participant types nothing at all. `prefix` carries the
-     language, which only the client knows. */
-  function joinAuto(target, prefix) {
-    var body = { auto_name: true, name_prefix: prefix };
-    if (target.slug) body.slug = target.slug; else body.code = target.code;
-    return request("/group.php", { method: "POST", body: body })
-      .then(function (data) { return remember(data, target.slug || null); });
+  /* The identity this device should answer with, creating a group if needed. */
+  function ensure(topic, prefix) {
+    var id = identity();
+    if (id && id.topic === topic && fresh(id)) return Promise.resolve(id);
+    return start(topic, null, prefix);
   }
 
   function renameGroup(name) {
     var id = identity();
     if (!id) return Promise.reject(new Error("no identity"));
-    var body = { group_id: id.groupId, token: id.token, name: name };
-    if (id.slug) body.slug = id.slug; else body.code = id.code;
-    return request("/rename.php", { method: "POST", body: body })
-      .then(function (data) {
-        id.name = data.name;
-        write(LS_IDENTITY, id);
-        return id;
-      });
-  }
-
-  function getSessionBySlug(slug) {
-    return request("/session.php?slug=" + encodeURIComponent(slug));
+    return request("/rename.php", {
+      method: "POST",
+      body: { group_id: id.groupId, token: id.token, name: name }
+    }).then(function (data) {
+      id.name = data.name;
+      write(LS_IDENTITY, id);
+      return id;
+    });
   }
 
   /* ---------------------------------------------------------------- answers */
   function localAnswers() { return read(LS_ANSWERS, {}); }
+
+  function payload(id, leverId, answer) {
+    return {
+      group_id: id.groupId, token: id.token, lever_id: leverId,
+      value: answer.value,
+      confidence: answer.confidence || null,
+      condition: answer.condition || null
+    };
+  }
 
   function saveAnswer(leverId, answer) {
     var id = identity();
@@ -174,12 +194,7 @@
 
     if (!id) return Promise.resolve({ local: true });
 
-    var body = {
-      code: id.code, group_id: id.groupId, token: id.token,
-      lever_id: leverId, value: answer.value,
-      confidence: answer.confidence || null,
-      condition: answer.condition || null
-    };
+    var body = payload(id, leverId, answer);
     return request("/answer.php", { method: "POST", body: body })
       .then(function (data) { flush(); return data; })
       .catch(function (err) {
@@ -187,6 +202,20 @@
         enqueue(body);
         return { queued: true };
       });
+  }
+
+  /* Send everything this device holds locally. Used once, right after a group is
+     created, so answers given while offline are not stranded. */
+  function pushLocal() {
+    var id = identity();
+    if (!id) return Promise.resolve({ pushed: 0 });
+    var all = localAnswers();
+    Object.keys(all).forEach(function (leverId) {
+      if (all[leverId] && all[leverId].value !== undefined && all[leverId].value !== null) {
+        enqueue(payload(id, leverId, all[leverId]));
+      }
+    });
+    return flush();
   }
 
   function enqueue(body) {
@@ -220,20 +249,14 @@
   }
 
   /* ---------------------------------------------------------------- results */
-  function getResults(opts) {
-    var params = [];
-    if (opts.code) params.push("code=" + encodeURIComponent(opts.code));
-    if (opts.topic) params.push("topic=" + encodeURIComponent(opts.topic));
-    if (opts.adminToken) params.push("admin_token=" + encodeURIComponent(opts.adminToken));
-    if (opts.adminKey) params.push("admin_key=" + encodeURIComponent(opts.adminKey));
-    return request("/results.php?" + params.join("&"));
-  }
 
-  function setReveal(code, adminToken, step) {
-    return request("/reveal.php", {
-      method: "POST",
-      body: { code: code, admin_token: adminToken, step: step }
-    });
+  /* Every group that started on the topic inside the window. `from`/`to` are UTC
+     'YYYY-MM-DD HH:MM:SS'; leave either out for an open end. */
+  function getResults(opts) {
+    var params = ["topic=" + encodeURIComponent(opts.topic)];
+    if (opts.from) params.push("from=" + encodeURIComponent(opts.from));
+    if (opts.to) params.push("to=" + encodeURIComponent(opts.to));
+    return request("/results.php?" + params.join("&"));
   }
 
   function selftest() { return request("/selftest.php"); }
@@ -244,11 +267,10 @@
   window.NW_API = {
     base: base, setBase: setBase,
     status: status, onStatus: onStatus,
-    identity: identity, forgetIdentity: forgetIdentity,
-    createSession: createSession, getSession: getSession,
-    getSessionBySlug: getSessionBySlug,
-    joinGroup: joinGroup, joinAuto: joinAuto, renameGroup: renameGroup,
-    saveAnswer: saveAnswer, localAnswers: localAnswers, flush: flush,
-    getResults: getResults, setReveal: setReveal, selftest: selftest
+    identity: identity, forgetIdentity: forgetIdentity, fresh: fresh,
+    start: start, ensure: ensure, renameGroup: renameGroup,
+    saveAnswer: saveAnswer, localAnswers: localAnswers,
+    pushLocal: pushLocal, flush: flush,
+    getResults: getResults, selftest: selftest
   };
 })();

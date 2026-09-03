@@ -30,32 +30,16 @@ import threading
 from datetime import datetime, timezone
 from urllib.parse import urlparse, parse_qs
 
-CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"      # no O/0/I/1/L
-CODE_LENGTH = 4
 MAX_BODY = 8192
-DEFAULT_ADMIN_KEY = "dev-admin-key"
 
 SCHEMA = """
-CREATE TABLE IF NOT EXISTS ws_sessions (
-  code TEXT PRIMARY KEY,
-  slug TEXT UNIQUE,
-  topic TEXT NOT NULL,
-  label TEXT NOT NULL DEFAULT '',
-  mode TEXT NOT NULL DEFAULT 'group',
-  results_public INTEGER NOT NULL DEFAULT 0,
-  reveal_step INTEGER NOT NULL DEFAULT -1,
-  admin_token_hash TEXT NOT NULL,
-  created_at TEXT NOT NULL,
-  closed_at TEXT
-);
 CREATE TABLE IF NOT EXISTS ws_groups (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  session_code TEXT NOT NULL REFERENCES ws_sessions(code) ON DELETE CASCADE,
+  topic TEXT NOT NULL,
   name TEXT NOT NULL,
   token_hash TEXT NOT NULL,
   created_at TEXT NOT NULL,
-  updated_at TEXT NOT NULL,
-  UNIQUE (session_code, name)
+  updated_at TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS ws_answers (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -75,7 +59,7 @@ CREATE TABLE IF NOT EXISTS ws_answer_log (
   confidence INTEGER,
   created_at TEXT NOT NULL
 );
-CREATE INDEX IF NOT EXISTS idx_topic_open ON ws_sessions(topic, closed_at);
+CREATE INDEX IF NOT EXISTS idx_topic_created ON ws_groups(topic, created_at);
 CREATE INDEX IF NOT EXISTS idx_group_lever ON ws_answer_log(group_id, lever_id);
 """
 
@@ -90,6 +74,10 @@ class ApiError(Exception):
 
 def now():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+
+
+def today():
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d 00:00:00")
 
 
 def sha256(text):
@@ -118,24 +106,6 @@ def check_id(value, field):
     return value
 
 
-def check_code(value):
-    value = str(value or "").strip().upper()
-    if not re.fullmatch(f"[{CODE_ALPHABET}]{{{CODE_LENGTH},8}}", value):
-        raise ApiError("invalid_code", 400)
-    return value
-
-
-def check_slug(value, required=True):
-    value = str(value or "").strip().lower()
-    if not value:
-        if required:
-            raise ApiError("missing_field", 400, field="slug")
-        return None
-    if not re.fullmatch(r"[a-z0-9][a-z0-9-]{1,63}", value):
-        raise ApiError("invalid_slug", 400)
-    return value
-
-
 def check_number(value, field):
     if isinstance(value, bool) or value is None:
         raise ApiError("invalid_field", 400, field=field)
@@ -146,6 +116,26 @@ def check_number(value, field):
     if number != number or number in (float("inf"), float("-inf")):
         raise ApiError("invalid_field", 400, field=field)
     return number
+
+
+def check_stamp(value, field, end_of_day=False):
+    """A results-window bound in UTC; see ws_stamp() in website/api/db.php."""
+    value = str(value or "").strip().replace("T", " ").replace("Z", "")
+    if not value:
+        return None
+    match = re.fullmatch(r"(\d{4})-(\d{2})-(\d{2})", value)
+    if match:
+        time = "23:59:59" if end_of_day else "00:00:00"
+    else:
+        match = re.fullmatch(r"(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})(?::(\d{2}))?", value)
+        if not match:
+            raise ApiError("invalid_field", 400, field=field)
+        time = f"{match.group(4)}:{match.group(5)}:{match.group(6) or '00'}"
+    try:
+        datetime(int(match.group(1)), int(match.group(2)), int(match.group(3)))
+    except ValueError:
+        raise ApiError("invalid_field", 400, field=field)
+    return f"{match.group(1)}-{match.group(2)}-{match.group(3)} {time}"
 
 
 class Store:
@@ -173,129 +163,51 @@ class Store:
             self.conn.commit()
             return cur
 
-    def new_code(self):
-        for _ in range(40):
-            code = "".join(secrets.choice(CODE_ALPHABET) for _ in range(CODE_LENGTH))
-            if not self.one("SELECT 1 FROM ws_sessions WHERE code = ?", (code,)):
-                return code
-        raise ApiError("code_space_exhausted", 503)
-
-    def session(self, code):
-        row = self.one("SELECT * FROM ws_sessions WHERE code = ?", (code,))
+    def group(self, group_id, token):
+        """The group token is the only credential: it stops one device
+        overwriting another group's answers. It does not gate the results."""
+        token = check_str(token, 96, "token")
+        row = self.one("SELECT * FROM ws_groups WHERE id = ?", (int(group_id or 0),))
         if row is None:
-            raise ApiError("unknown_session", 404)
+            raise ApiError("unknown_group", 404)
+        if not secrets.compare_digest(row["token_hash"], sha256(token)):
+            raise ApiError("bad_token", 403)
         return row
-
-    def session_by(self, code, slug):
-        """Participants arrive with a slug from a link; a projector gives a code."""
-        if slug:
-            row = self.one("SELECT * FROM ws_sessions WHERE slug = ?", (slug,))
-            if row is None:
-                raise ApiError("unknown_session", 404)
-            return row
-        if not code:
-            raise ApiError("missing_field", 400, field="code or slug")
-        return self.session(code)
-
-
-def is_admin(session, token):
-    return bool(token) and secrets.compare_digest(session["admin_token_hash"], sha256(token))
 
 
 # --------------------------------------------------------------------- handlers
 
-def handle_session_post(store, body, _query, admin_key):
+def handle_group(store, body, _query):
     topic = check_id(body.get("topic"), "topic")
-    label = check_str(body.get("label", ""), 160, "label", required=False) or ""
-    mode = body.get("mode", "group")
-    if mode not in ("group", "solo"):
-        mode = "group"
-    results_public = 1 if body.get("results_public") else 0
-    slug = check_slug(body.get("slug"), required=False)
-    if slug and store.one("SELECT code FROM ws_sessions WHERE slug = ?", (slug,)):
-        raise ApiError("slug_taken", 409, slug=slug)
-    code = store.new_code()
-    token = secrets.token_hex(24)
-    store.run(
-        "INSERT INTO ws_sessions (code, slug, topic, label, mode, results_public,"
-        " reveal_step, admin_token_hash, created_at) VALUES (?, ?, ?, ?, ?, ?, -1, ?, ?)",
-        (code, slug, topic, label, mode, results_public, sha256(token), now()))
-    return 201, {"code": code, "slug": slug, "admin_token": token, "topic": topic,
-                 "label": label, "mode": mode, "reveal_step": -1}
-
-
-def handle_session_get(store, _body, query, admin_key):
-    raw_code = query.get("code", [None])[0]
-    raw_slug = query.get("slug", [None])[0]
-    session = store.session_by(check_code(raw_code) if raw_code else None,
-                               check_slug(raw_slug) if raw_slug else None)
-    code = session["code"]
-    rows = store.query(
-        "SELECT g.id, g.name, g.updated_at, COUNT(a.id) AS answered FROM ws_groups g"
-        " LEFT JOIN ws_answers a ON a.group_id = g.id WHERE g.session_code = ?"
-        " GROUP BY g.id, g.name, g.updated_at ORDER BY g.id", (code,))
-    groups = [{"id": r["id"], "name": r["name"], "answered": r["answered"],
-               "updated_at": r["updated_at"]} for r in rows]
-    return 200, {"code": session["code"], "slug": session["slug"],
-                 "topic": session["topic"],
-                 "label": session["label"], "mode": session["mode"],
-                 "reveal_step": session["reveal_step"],
-                 "results_public": bool(session["results_public"]),
-                 "closed": session["closed_at"] is not None,
-                 "created_at": session["created_at"], "groups": groups}
-
-
-def handle_group(store, body, _query, admin_key):
-    session = store.session_by(
-        check_code(body["code"]) if body.get("code") else None,
-        check_slug(body["slug"]) if body.get("slug") else None)
-    code = session["code"]
-    auto = bool(body.get("auto_name"))
-    name = None if auto else check_str(body.get("name"), 80, "name")
-    if session["closed_at"] is not None:
-        raise ApiError("session_closed", 409)
+    name = check_str(body.get("name"), 80, "name", required=False)
+    prefix = check_str(body.get("name_prefix"), 40, "name_prefix", required=False) or "Group"
     token = secrets.token_hex(24)
     stamp = now()
-
-    if auto:
-        # Next free ordinal; the unique index settles any race between devices.
-        prefix = check_str(body.get("name_prefix"), 40, "name_prefix", required=False) or "Group"
-        start = store.one("SELECT COUNT(*) AS n FROM ws_groups WHERE session_code = ?",
-                          (code,))["n"] + 1
-        for n in range(start, start + 200):
-            candidate = (prefix + " " + str(n))[:80]
-            try:
-                cur = store.run(
-                    "INSERT INTO ws_groups (session_code, name, token_hash, created_at,"
-                    " updated_at) VALUES (?, ?, ?, ?, ?)",
-                    (code, candidate, sha256(token), stamp, stamp))
-            except sqlite3.IntegrityError:
-                continue
-            return 200, {"group_id": cur.lastrowid, "token": token, "name": candidate,
-                         "ordinal": n, "topic": session["topic"], "code": code,
-                         "slug": session["slug"], "rejoined": False}
-        raise ApiError("too_many_groups", 503)
-
-    existing = store.one("SELECT id FROM ws_groups WHERE session_code = ? AND name = ?",
-                         (code, name))
-    if existing:
-        store.run("UPDATE ws_groups SET token_hash = ?, updated_at = ? WHERE id = ?",
-                  (sha256(token), stamp, existing["id"]))
-        group_id, rejoined = existing["id"], True
-    else:
-        cur = store.run(
-            "INSERT INTO ws_groups (session_code, name, token_hash, created_at, updated_at)"
-            " VALUES (?, ?, ?, ?, ?)", (code, name, sha256(token), stamp, stamp))
-        group_id, rejoined = cur.lastrowid, False
+    cur = store.run(
+        "INSERT INTO ws_groups (topic, name, token_hash, created_at, updated_at)"
+        " VALUES (?, ?, ?, ?, ?)", (topic, name or "", sha256(token), stamp, stamp))
+    group_id = cur.lastrowid
+    if name is None:
+        rank = store.one(
+            "SELECT COUNT(*) AS n FROM ws_groups WHERE topic = ? AND created_at >= ?"
+            " AND id <= ?", (topic, today(), group_id))["n"]
+        name = f"{prefix} {rank}"[:80]
+        store.run("UPDATE ws_groups SET name = ? WHERE id = ?", (name, group_id))
     return 200, {"group_id": group_id, "token": token, "name": name,
-                 "topic": session["topic"], "code": code, "slug": session["slug"],
-                 "rejoined": rejoined}
+                 "topic": topic, "created_at": stamp}
 
 
-def handle_answer(store, body, _query, admin_key):
-    code = check_code(body.get("code"))
-    group_id = int(body.get("group_id") or 0)
-    token = check_str(body.get("token"), 96, "token")
+def handle_rename(store, body, _query):
+    group = store.group(body.get("group_id"), body.get("token"))
+    name = check_str(body.get("name"), 80, "name")
+    store.run("UPDATE ws_groups SET name = ?, updated_at = ? WHERE id = ?",
+              (name, now(), group["id"]))
+    return 200, {"ok": True, "group_id": group["id"], "name": name}
+
+
+def handle_answer(store, body, _query):
+    group = store.group(body.get("group_id"), body.get("token"))
+    group_id = group["id"]
     lever_id = check_id(body.get("lever_id"), "lever_id")
     value = check_number(body.get("value"), "value")
     confidence = body.get("confidence")
@@ -304,16 +216,6 @@ def handle_answer(store, body, _query, admin_key):
         if confidence < 1 or confidence > 3:
             raise ApiError("invalid_field", 400, field="confidence")
     condition = check_str(body.get("condition"), 280, "condition", required=False)
-
-    session = store.session(code)
-    if session["closed_at"] is not None:
-        raise ApiError("session_closed", 409)
-    group = store.one("SELECT token_hash FROM ws_groups WHERE id = ? AND session_code = ?",
-                      (group_id, code))
-    if group is None:
-        raise ApiError("unknown_group", 404)
-    if not secrets.compare_digest(group["token_hash"], sha256(token)):
-        raise ApiError("bad_token", 403)
 
     stamp = now()
     store.run(
@@ -329,128 +231,62 @@ def handle_answer(store, body, _query, admin_key):
     return 200, {"ok": True, "lever_id": lever_id, "updated_at": stamp}
 
 
-def handle_results(store, _body, query, admin_key):
-    topic = query.get("topic", [None])[0]
-    code = query.get("code", [None])[0]
-    if not topic and not code:
-        raise ApiError("missing_field", 400, field="code or topic")
+def handle_results(store, _body, query):
+    topic = check_id(query.get("topic", [None])[0], "topic")
+    start = check_stamp(query.get("from", [None])[0], "from")
+    end = check_stamp(query.get("to", [None])[0], "to", end_of_day=True)
 
-    sessions, codes, scope = [], [], "session"
-    if code:
-        code = check_code(code)
-        session = store.session(code)
-        token = query.get("admin_token", [None])[0]
-        if not session["results_public"] and not is_admin(session, token):
-            raise ApiError("forbidden", 403, detail="admin_token required for this session")
-        codes = [code]
-        topic = session["topic"]
-        sessions.append({"code": code, "label": session["label"],
-                         "reveal_step": session["reveal_step"],
-                         "closed": session["closed_at"] is not None})
-    else:
-        scope = "topic"
-        topic = check_id(topic, "topic")
-        key = query.get("admin_key", [""])[0]
-        if not admin_key or not secrets.compare_digest(admin_key, key):
-            raise ApiError("forbidden", 403, detail="admin_key required for the topic scope")
-        for row in store.query(
-                "SELECT code, label, reveal_step, closed_at FROM ws_sessions"
-                " WHERE topic = ? AND closed_at IS NULL AND mode <> 'solo'"
-                " ORDER BY created_at", (topic,)):
-            codes.append(row["code"])
-            sessions.append({"code": row["code"], "label": row["label"],
-                             "reveal_step": row["reveal_step"],
-                             "closed": row["closed_at"] is not None})
+    sql = "SELECT id, name, created_at, updated_at FROM ws_groups WHERE topic = ?"
+    args = [topic]
+    if start is not None:
+        sql += " AND created_at >= ?"
+        args.append(start)
+    if end is not None:
+        sql += " AND created_at <= ?"
+        args.append(end)
+    rows = store.query(sql + " ORDER BY id", tuple(args))
+    groups = [{"id": r["id"], "name": r["name"], "created_at": r["created_at"],
+               "updated_at": r["updated_at"]} for r in rows]
 
-    groups, answers = [], []
-    if codes:
-        marks = ",".join("?" * len(codes))
-        rows = store.query(
-            f"SELECT id, session_code, name FROM ws_groups WHERE session_code IN ({marks})"
-            " ORDER BY session_code, id", tuple(codes))
-        groups = [{"id": r["id"], "session": r["session_code"], "name": r["name"]}
-                  for r in rows]
-        ids = [r["id"] for r in rows]
-        if ids:
-            marks = ",".join("?" * len(ids))
-            for r in store.query(
-                    "SELECT group_id, lever_id, value, confidence, condition_text, updated_at"
-                    f" FROM ws_answers WHERE group_id IN ({marks})"
-                    " ORDER BY lever_id, group_id", tuple(ids)):
-                answers.append({"group_id": r["group_id"], "lever_id": r["lever_id"],
-                                "value": float(r["value"]),
-                                "confidence": r["confidence"],
-                                "condition": r["condition_text"],
-                                "updated_at": r["updated_at"]})
+    answers = []
+    ids = [r["id"] for r in rows]
+    if ids:
+        marks = ",".join("?" * len(ids))
+        for r in store.query(
+                "SELECT group_id, lever_id, value, confidence, condition_text, updated_at"
+                f" FROM ws_answers WHERE group_id IN ({marks})"
+                " ORDER BY lever_id, group_id", tuple(ids)):
+            answers.append({"group_id": r["group_id"], "lever_id": r["lever_id"],
+                            "value": float(r["value"]),
+                            "confidence": r["confidence"],
+                            "condition": r["condition_text"],
+                            "updated_at": r["updated_at"]})
 
-    return 200, {"scope": scope, "topic": topic, "sessions": sessions,
+    return 200, {"topic": topic, "from": start, "to": end,
                  "groups": groups, "answers": answers, "served_at": now()}
 
 
-def handle_reveal(store, body, _query, admin_key):
-    code = check_code(body.get("code"))
-    session = store.session(code)
-    if not is_admin(session, body.get("admin_token")):
-        raise ApiError("forbidden", 403, detail="admin_token required")
-    step = int(body.get("step", -1))
-    if step < -1 or step > 999:
-        raise ApiError("invalid_field", 400, field="step")
-    if body.get("close"):
-        store.run("UPDATE ws_sessions SET reveal_step = ?, closed_at = ? WHERE code = ?",
-                  (step, now(), code))
-    else:
-        store.run("UPDATE ws_sessions SET reveal_step = ? WHERE code = ?", (step, code))
-    return 200, {"ok": True, "code": code, "reveal_step": step,
-                 "closed": bool(body.get("close"))}
-
-
-def handle_selftest(store, _body, _query, admin_key):
+def handle_selftest(store, _body, _query):
     tables = {}
-    for table in ("ws_sessions", "ws_groups", "ws_answers", "ws_answer_log"):
+    for table in ("ws_groups", "ws_answers", "ws_answer_log"):
         tables[table] = store.one(f"SELECT COUNT(*) AS n FROM {table}")["n"]
     return 200, {"ok": True, "php": None, "implementation": "dev_api.py (sqlite)",
                  "configured": True, "pdo_mysql": False,
                  "database": "reachable", "tables": tables, "db_path": store.path}
 
 
-def handle_rename(store, body, _query, admin_key):
-    session = store.session_by(
-        check_code(body["code"]) if body.get("code") else None,
-        check_slug(body["slug"]) if body.get("slug") else None)
-    code = session["code"]
-    group_id = int(body.get("group_id") or 0)
-    token = check_str(body.get("token"), 96, "token")
-    name = check_str(body.get("name"), 80, "name")
-
-    group = store.one("SELECT token_hash FROM ws_groups WHERE id = ? AND session_code = ?",
-                      (group_id, code))
-    if group is None:
-        raise ApiError("unknown_group", 404)
-    if not secrets.compare_digest(group["token_hash"], sha256(token)):
-        raise ApiError("bad_token", 403)
-    if store.one("SELECT id FROM ws_groups WHERE session_code = ? AND name = ? AND id <> ?",
-                 (code, name, group_id)):
-        raise ApiError("name_taken", 409)
-    store.run("UPDATE ws_groups SET name = ?, updated_at = ? WHERE id = ?",
-              (name, now(), group_id))
-    return 200, {"ok": True, "group_id": group_id, "name": name}
-
-
 ROUTES = {
-    ("POST", "/session.php"): handle_session_post,
-    ("GET", "/session.php"): handle_session_get,
     ("POST", "/group.php"): handle_group,
     ("POST", "/rename.php"): handle_rename,
     ("POST", "/answer.php"): handle_answer,
     ("GET", "/results.php"): handle_results,
-    ("POST", "/reveal.php"): handle_reveal,
     ("GET", "/selftest.php"): handle_selftest,
 }
 
 
-def make_handler(store, admin_key, quiet):
+def make_handler(store, quiet):
     class Handler(http.server.BaseHTTPRequestHandler):
-        server_version = "nwWorkshopDevAPI/1.0"
+        server_version = "nwWorkshopDevAPI/2.0"
 
         def log_message(self, fmt, *args):
             if not quiet:
@@ -474,7 +310,7 @@ def make_handler(store, admin_key, quiet):
         def _dispatch(self, method):
             parsed = urlparse(self.path)
             path = parsed.path
-            if not path.endswith(".php"):            # tolerate /session as well
+            if not path.endswith(".php"):            # tolerate /group as well
                 path = path.rstrip("/") + ".php"
             handler = ROUTES.get((method, path))
             if handler is None:
@@ -497,7 +333,7 @@ def make_handler(store, admin_key, quiet):
                     if not isinstance(body, dict):
                         return self._send(400, {"error": "invalid_json"})
             try:
-                status, payload = handler(store, body, parse_qs(parsed.query), admin_key)
+                status, payload = handler(store, body, parse_qs(parsed.query))
             except ApiError as exc:
                 return self._send(exc.status, exc.payload)
             except Exception as exc:                 # never leak a stack trace
@@ -525,19 +361,16 @@ def main():
     ap.add_argument("--host", default="127.0.0.1",
                     help="0.0.0.0 to serve a workshop over the local network")
     ap.add_argument("--db", default=None, help="SQLite file (default: alongside this script)")
-    ap.add_argument("--admin-key", default=os.environ.get("NW_WS_ADMIN_KEY", DEFAULT_ADMIN_KEY),
-                    help="key that unlocks results.php?topic=…")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args()
 
     db = args.db or os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                  "workshop_dev.sqlite")
     store = Store(db)
-    handler = make_handler(store, args.admin_key, args.quiet)
+    handler = make_handler(store, args.quiet)
     server = Server((args.host, args.port), handler)
     print(f"negaWatt workshop dev API on http://{args.host}:{args.port}")
     print(f"  database  {db}")
-    print(f"  admin key {args.admin_key}")
     print(f"  point the pages at it once with ?api=http://{args.host}:{args.port}")
     try:
         server.serve_forever()

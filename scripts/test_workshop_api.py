@@ -6,23 +6,28 @@ website/api/ and the SQLite shim in scripts/dev_api.py cannot drift apart:
 
     python scripts/dev_api.py --port 8787 --quiet &
     python scripts/test_workshop_api.py --base http://127.0.0.1:8787
-    python scripts/test_workshop_api.py --base https://negawatt.squoilin.eu/api \\
-                                        --admin-key <key from config.php>
+    python scripts/test_workshop_api.py --base https://negawatt.squoilin.eu/api
 
-It exercises the happy path (create → three groups join → answers → results →
-reveal) and the failure modes that matter (bad code, wrong token, gating,
-validation, closed session, solo exclusion). It writes only into sessions it
-creates, and closes them at the end.
+There is no session, no code and no facilitator key: a group belongs to a topic
+and the reveal screen selects groups by date. The suite exercises the happy path
+(three groups start → answer → results) plus the failure modes that matter (wrong
+token, unknown group, validation) and the date window, which is the only way to
+tell one workshop from another.
+
+It writes into the real topic, so it names its groups "contract-test …" and the
+date-window checks only ever assert about its own groups.
 """
 import argparse
 import json
 import sys
 import urllib.error
 import urllib.request
+from datetime import datetime, timedelta, timezone
 
 TOPIC = "inland-mobility"
 LEVERS = ["ground-km-day", "car-share", "car-occupancy", "car-energy",
           "bike-km-day", "freight-tkm", "truck-share", "truck-load"]
+TAG = "contract-test"
 
 
 class Client:
@@ -67,12 +72,13 @@ class Runner:
         self.check(label, got == want, f"got {got!r}, want {want!r}")
 
 
+def utc_date(offset_days=0):
+    return (datetime.now(timezone.utc) + timedelta(days=offset_days)).strftime("%Y-%m-%d")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--base", required=True, help="e.g. http://127.0.0.1:8787")
-    ap.add_argument("--admin-key", default="dev-admin-key",
-                    help="value of admin_key in config.php (topic-scope results)")
-    ap.add_argument("--keep", action="store_true", help="do not close the test sessions")
     args = ap.parse_args()
 
     api = Client(args.base)
@@ -83,115 +89,77 @@ def main():
     status, doc = api.call("GET", "/selftest.php")
     run.equal("selftest returns 200", status, 200)
     run.check("selftest reports ok", bool(doc.get("ok")), json.dumps(doc)[:200])
-    run.check("all four tables exist",
-              set(doc.get("tables", {})) == {"ws_sessions", "ws_groups", "ws_answers",
-                                             "ws_answer_log"},
+    run.check("the three tables exist",
+              set(doc.get("tables", {})) == {"ws_groups", "ws_answers", "ws_answer_log"},
               str(doc.get("tables")))
     impl = doc.get("implementation") or f"php {doc.get('php')}"
     print(f"        implementation: {impl}\n")
 
-    # ------------------------------------------------------ create the session
-    status, sess = api.call("POST", "/session.php",
-                            {"topic": TOPIC, "label": "contract test"})
-    run.equal("create session returns 201", status, 201)
-    code, admin = sess.get("code"), sess.get("admin_token")
-    run.check("session code has the right shape",
-              isinstance(code, str) and len(code) == 4
-              and all(c in "ABCDEFGHJKMNPQRSTUVWXYZ23456789" for c in code), repr(code))
-    run.check("an admin token was issued", isinstance(admin, str) and len(admin) >= 32,
-              repr(admin))
-    run.equal("reveal starts before the first lever", sess.get("reveal_step"), -1)
-
-    status, doc = api.call("POST", "/session.php", {"topic": "not a topic!"})
-    run.equal("a malformed topic is rejected", status, 400)
-
-    # ------------------------------------------------------------- groups join
+    # ------------------------------------------------- starting, with a name
     groups = []
-    for name in ["Table 1", "Table 2", "Les cyclistes"]:
-        status, doc = api.call("POST", "/group.php", {"code": code, "name": name})
-        run.equal(f"group {name!r} joins", status, 200)
-        run.equal(f"group {name!r} gets the session topic", doc.get("topic"), TOPIC)
+    for name in [f"{TAG} Table 1", f"{TAG} Table 2", f"{TAG} Les cyclistes"]:
+        status, doc = api.call("POST", "/group.php", {"topic": TOPIC, "name": name})
+        run.equal(f"group {name!r} starts", status, 200)
+        run.equal(f"group {name!r} keeps its name", doc.get("name"), name)
+        run.equal(f"group {name!r} gets the topic back", doc.get("topic"), TOPIC)
+        run.check("a group token was issued",
+                  isinstance(doc.get("token"), str) and len(doc["token"]) >= 32,
+                  repr(doc.get("token")))
         groups.append({"name": name, "id": doc.get("group_id"), "token": doc.get("token")})
     run.check("group ids are distinct", len({g["id"] for g in groups}) == 3,
               str([g["id"] for g in groups]))
 
-    status, doc = api.call("POST", "/group.php", {"code": code, "name": "Table 1"})
-    run.equal("re-joining an existing name is allowed", status, 200)
-    run.equal("re-joining returns the same group", doc.get("group_id"), groups[0]["id"])
-    run.check("re-joining is flagged as such", doc.get("rejoined") is True, str(doc))
-    groups[0]["token"] = doc.get("token")
+    # Starting twice under one name is two groups now: without sessions there is
+    # nothing to re-join, and the reveal numbers any duplicate labels.
+    status, doc = api.call("POST", "/group.php",
+                           {"topic": TOPIC, "name": f"{TAG} Table 1"})
+    run.equal("starting again under the same name is allowed", status, 200)
+    run.check("...and is a group of its own", doc.get("group_id") != groups[0]["id"],
+              str(doc.get("group_id")))
+    duplicate = {"id": doc.get("group_id"), "token": doc.get("token")}
 
-    status, doc = api.call("POST", "/group.php", {"code": "ZZZZ", "name": "nobody"})
-    run.equal("joining an unknown session is a 404", status, 404)
-    status, doc = api.call("POST", "/group.php", {"code": code, "name": ""})
-    run.equal("an empty group name is rejected", status, 400)
+    status, doc = api.call("POST", "/group.php", {"topic": "not a topic!"})
+    run.equal("a malformed topic is rejected", status, 400)
 
-    # ------------------------------------------- joining from a link, no typing
-    # This is the flow a participant actually gets: a link carrying the slug, a
-    # group named by the server, and straight into question 1.
-    slug = "contract-test-" + code.lower()
-    status, doc = api.call("POST", "/session.php",
-                           {"topic": TOPIC, "label": "slug test", "slug": slug})
-    run.equal("a session can be created with a slug", status, 201)
-    run.equal("the slug comes back", doc.get("slug"), slug)
-    slug_code, slug_admin = doc.get("code"), doc.get("admin_token")
-
-    status, doc = api.call("POST", "/session.php",
-                           {"topic": TOPIC, "label": "dup", "slug": slug})
-    run.equal("a duplicate slug is refused", status, 409)
-
-    status, doc = api.call("POST", "/session.php",
-                           {"topic": TOPIC, "label": "bad", "slug": "Not A Slug"})
-    run.equal("a malformed slug is refused", status, 400)
-
-    status, doc = api.call("GET", "/session.php", slug=slug)
-    run.equal("a session resolves by slug", status, 200)
-    run.equal("...to the right session", doc.get("code"), slug_code)
-    status, doc = api.call("GET", "/session.php", slug="no-such-workshop")
-    run.equal("an unknown slug is a 404", status, 404)
-
+    # ------------------------------------------- starting without typing a name
+    # This is the flow a participant actually gets: press Start, get named by the
+    # server, land on question 1.
     auto = []
     for _ in range(3):
         status, doc = api.call("POST", "/group.php",
-                               {"slug": slug, "auto_name": True, "name_prefix": "Groupe"})
+                               {"topic": TOPIC, "name_prefix": f"{TAG} Groupe"})
         if status != 200:
-            run.check("auto-named join", False, f"{status} {doc}")
+            run.check("auto-named start", False, f"{status} {doc}")
             break
         auto.append(doc)
-    run.equal("three devices join from the link", len(auto), 3)
-    run.equal("the server names them in order",
-              [g.get("name") for g in auto], ["Groupe 1", "Groupe 2", "Groupe 3"])
+    run.equal("three devices start with no name typed", len(auto), 3)
+    run.check("the server names them in order and per day",
+              [g.get("name", "").rsplit(" ", 1)[-1] for g in auto] == ["1", "2", "3"]
+              or all(g.get("name", "").startswith(f"{TAG} Groupe ") for g in auto),
+              str([g.get("name") for g in auto]))
     run.check("each gets its own group",
               len({g.get("group_id") for g in auto}) == 3, str(auto))
-    run.check("the join returns the topic, so the page knows what to show",
-              all(g.get("topic") == TOPIC for g in auto), str([g.get("topic") for g in auto]))
+    run.check("an empty name is accepted as no name at all",
+              all(g.get("name") for g in auto), str([g.get("name") for g in auto]))
 
     first = auto[0]
     status, doc = api.call("POST", "/answer.php", {
-        "code": slug_code, "group_id": first["group_id"], "token": first["token"],
+        "group_id": first["group_id"], "token": first["token"],
         "lever_id": "car-occupancy", "value": 1.9})
-    run.equal("a link-joined group can answer", status, 200)
+    run.equal("an unnamed group can answer", status, 200)
 
     status, doc = api.call("POST", "/rename.php", {
-        "slug": slug, "group_id": first["group_id"], "token": first["token"],
-        "name": "Table du fond"})
+        "group_id": first["group_id"], "token": first["token"],
+        "name": f"{TAG} Table du fond"})
     run.equal("a group can rename itself", status, 200)
-    run.equal("the new name is returned", doc.get("name"), "Table du fond")
+    run.equal("the new name is returned", doc.get("name"), f"{TAG} Table du fond")
     status, doc = api.call("POST", "/rename.php", {
-        "slug": slug, "group_id": first["group_id"], "token": "wrong" * 8,
-        "name": "Pirate"})
+        "group_id": first["group_id"], "token": "wrong" * 8, "name": "Pirate"})
     run.equal("renaming needs the group's own token", status, 403)
     status, doc = api.call("POST", "/rename.php", {
-        "slug": slug, "group_id": auto[1]["group_id"], "token": auto[1]["token"],
-        "name": "Table du fond"})
-    run.equal("renaming onto another group's name is refused", status, 409)
-
-    status, doc = api.call("GET", "/results.php", code=slug_code, admin_token=slug_admin)
-    names = sorted(g["name"] for g in doc.get("groups", []))
-    run.equal("the rename is reflected in the results",
-              names, ["Groupe 2", "Groupe 3", "Table du fond"])
-    api.call("POST", "/reveal.php",
-             {"code": slug_code, "admin_token": slug_admin, "step": -1, "close": True})
+        "group_id": auto[1]["group_id"], "token": auto[1]["token"],
+        "name": f"{TAG} Table du fond"})
+    run.equal("renaming onto another group's name is allowed now", status, 200)
 
     # ----------------------------------------------------------------- answers
     plan = {
@@ -203,7 +171,7 @@ def main():
     for group in groups:
         for lever, value in zip(LEVERS, plan[group["id"]]):
             status, doc = api.call("POST", "/answer.php", {
-                "code": code, "group_id": group["id"], "token": group["token"],
+                "group_id": group["id"], "token": group["token"],
                 "lever_id": lever, "value": value, "confidence": 2,
                 "condition": f"{group['name']}: it would take real policy"})
             if status != 200 or not doc.get("ok"):
@@ -214,21 +182,23 @@ def main():
 
     # the log must keep every move, so overwriting is allowed and traced
     status, doc = api.call("POST", "/answer.php", {
-        "code": code, "group_id": groups[0]["id"], "token": groups[0]["token"],
+        "group_id": groups[0]["id"], "token": groups[0]["token"],
         "lever_id": "car-occupancy", "value": 1.75, "confidence": 3})
     run.equal("a group may change its mind", status, 200)
 
     bad = [
-        ({"code": code, "group_id": groups[0]["id"], "token": "wrong" * 8,
+        ({"group_id": groups[0]["id"], "token": "wrong" * 8,
           "lever_id": "car-share", "value": 60}, 403, "a wrong token is refused"),
-        ({"code": code, "group_id": 999999, "token": groups[0]["token"],
+        ({"group_id": 999999, "token": groups[0]["token"],
           "lever_id": "car-share", "value": 60}, 404, "an unknown group is refused"),
-        ({"code": code, "group_id": groups[0]["id"], "token": groups[0]["token"],
+        ({"group_id": groups[0]["id"],
+          "lever_id": "car-share", "value": 60}, 400, "a missing token is refused"),
+        ({"group_id": groups[0]["id"], "token": groups[0]["token"],
           "lever_id": "car-share", "value": "not a number"}, 400,
          "a non-numeric value is refused"),
-        ({"code": code, "group_id": groups[0]["id"], "token": groups[0]["token"],
+        ({"group_id": groups[0]["id"], "token": groups[0]["token"],
           "lever_id": "bad lever id", "value": 1}, 400, "a malformed lever id is refused"),
-        ({"code": code, "group_id": groups[0]["id"], "token": groups[0]["token"],
+        ({"group_id": groups[0]["id"], "token": groups[0]["token"],
           "lever_id": "car-share", "value": 60, "confidence": 9}, 400,
          "an out-of-range confidence is refused"),
     ]
@@ -237,81 +207,82 @@ def main():
         run.equal(label, status, want)
 
     # ----------------------------------------------------------------- results
-    status, doc = api.call("GET", "/results.php", code=code)
-    run.equal("session results are gated without the admin token", status, 403)
+    ours = {g["id"] for g in groups} | {g["group_id"] for g in auto} | {duplicate["id"]}
 
-    status, doc = api.call("GET", "/results.php", code=code, admin_token=admin)
-    run.equal("session results with the admin token", status, 200)
-    run.equal("scope is the session", doc.get("scope"), "session")
-    run.equal("three groups are reported", len(doc.get("groups", [])), 3)
-    run.equal("24 answers are reported", len(doc.get("answers", [])), 24)
-    occupancy = [a for a in doc["answers"]
+    status, doc = api.call("GET", "/results.php", topic=TOPIC)
+    run.equal("results need no credential at all", status, 200)
+    run.equal("the topic comes back", doc.get("topic"), TOPIC)
+    reported = {g["id"] for g in doc.get("groups", [])}
+    run.check("every group we started is reported", ours <= reported,
+              str(sorted(ours - reported)))
+    mine = [a for a in doc.get("answers", []) if a["group_id"] in ours]
+    run.equal("25 answers of ours are reported", len(mine), 25)
+    occupancy = [a for a in mine
                  if a["lever_id"] == "car-occupancy" and a["group_id"] == groups[0]["id"]]
     run.check("the changed answer is the one stored",
               len(occupancy) == 1 and abs(occupancy[0]["value"] - 1.75) < 1e-9,
               str(occupancy))
     run.check("conditions come back with the answers",
-              any(a.get("condition") for a in doc["answers"]), "no condition text")
+              any(a.get("condition") for a in mine), "no condition text")
+    named = {g["id"] for g in groups}
     run.check("confidence comes back with the answers",
-              all(a.get("confidence") in (1, 2, 3) for a in doc["answers"]), "bad confidence")
+              all(a.get("confidence") in (1, 2, 3)
+                  for a in mine if a["group_id"] in named), "bad confidence")
+    run.check("an answer given without a confidence keeps a null one",
+              any(a.get("confidence") is None for a in mine), "no null confidence")
+    run.check("groups carry the moment they started, which is what the filter uses",
+              all(g.get("created_at") for g in doc.get("groups", [])),
+              str(doc.get("groups", [])[:2]))
 
-    status, doc = api.call("GET", "/results.php", topic=TOPIC)
-    run.equal("topic results need the facilitator key", status, 403)
-    status, doc = api.call("GET", "/results.php", topic=TOPIC, admin_key=args.admin_key)
-    if status == 403:
-        print("  SKIP  topic-scope aggregation (admin key not supplied/matching)")
-    else:
-        run.equal("topic results with the facilitator key", status, 200)
-        run.equal("scope is the topic", doc.get("scope"), "topic")
-        run.check("our session is in the topic aggregation",
-                  code in [s["code"] for s in doc.get("sessions", [])],
-                  str([s["code"] for s in doc.get("sessions", [])]))
+    status, doc = api.call("GET", "/results.php")
+    run.equal("results without a topic are rejected", status, 400)
 
-        # a solo session must stay out of the collective totals
-        _, solo = api.call("POST", "/session.php",
-                           {"topic": TOPIC, "label": "solo test", "mode": "solo"})
-        status, doc = api.call("GET", "/results.php", topic=TOPIC, admin_key=args.admin_key)
-        run.check("a solo session is excluded from the topic aggregation",
-                  solo["code"] not in [s["code"] for s in doc.get("sessions", [])],
-                  str([s["code"] for s in doc.get("sessions", [])]))
-        api.call("POST", "/reveal.php", {"code": solo["code"],
-                                         "admin_token": solo["admin_token"],
-                                         "step": -1, "close": True})
+    # ------------------------------------------------------------ date window
+    # This is what replaces the session: which sitting is on screen.
+    status, doc = api.call("GET", "/results.php", topic=TOPIC,
+                           **{"from": utc_date(), "to": utc_date()})
+    run.equal("today's window returns 200", status, 200)
+    run.check("today's window holds the groups we just started",
+              ours <= {g["id"] for g in doc.get("groups", [])},
+              str(sorted(ours - {g["id"] for g in doc.get("groups", [])})))
+    run.check("a bare end date covers the whole day",
+              str(doc.get("to", "")).endswith("23:59:59"), str(doc.get("to")))
 
-    # ------------------------------------------------------------------ reveal
-    status, doc = api.call("POST", "/reveal.php", {"code": code, "step": 0})
-    run.equal("advancing the reveal needs the admin token", status, 403)
-    status, doc = api.call("POST", "/reveal.php",
-                           {"code": code, "admin_token": admin, "step": 3})
-    run.equal("the facilitator advances the reveal", status, 200)
-    run.equal("the step is stored", doc.get("reveal_step"), 3)
-    status, doc = api.call("GET", "/session.php", code=code)
-    run.equal("the session reports the new step", doc.get("reveal_step"), 3)
-    run.equal("group progress is visible to participants",
-              sorted(g["answered"] for g in doc.get("groups", [])), [8, 8, 8])
+    status, doc = api.call("GET", "/results.php", topic=TOPIC,
+                           **{"from": utc_date(1)})
+    run.equal("a window starting tomorrow returns 200", status, 200)
+    run.check("...and holds none of our groups",
+              not (ours & {g["id"] for g in doc.get("groups", [])}),
+              str([g["id"] for g in doc.get("groups", [])]))
 
-    status, doc = api.call("POST", "/reveal.php",
-                           {"code": code, "admin_token": admin, "step": 5000})
-    run.equal("an absurd step is rejected", status, 400)
+    status, doc = api.call("GET", "/results.php", topic=TOPIC,
+                           **{"to": utc_date(-1)})
+    run.equal("a window ending yesterday returns 200", status, 200)
+    run.check("...and holds none of our groups either",
+              not (ours & {g["id"] for g in doc.get("groups", [])}),
+              str([g["id"] for g in doc.get("groups", [])]))
 
-    # ------------------------------------------------------------------- close
-    if not args.keep:
-        status, doc = api.call("POST", "/reveal.php",
-                               {"code": code, "admin_token": admin, "step": 7, "close": True})
-        run.equal("the facilitator closes the session", status, 200)
-        status, doc = api.call("POST", "/answer.php", {
-            "code": code, "group_id": groups[0]["id"], "token": groups[0]["token"],
-            "lever_id": "car-share", "value": 60})
-        run.equal("a closed session refuses new answers", status, 409)
-        status, doc = api.call("GET", "/results.php", code=code, admin_token=admin)
-        run.equal("a closed session still returns its results", status, 200)
+    status, doc = api.call("GET", "/results.php", topic=TOPIC,
+                           **{"from": "2019-01-01"})
+    run.equal("widening the start summarises every sitting", status, 200)
+    run.check("...which includes ours", ours <= {g["id"] for g in doc.get("groups", [])},
+              str(sorted(ours - {g["id"] for g in doc.get("groups", [])})))
+
+    status, doc = api.call("GET", "/results.php", topic=TOPIC,
+                           **{"from": "2026-09-03 14:30"})
+    run.equal("a timestamp bound is accepted", status, 200)
+    run.equal("...and normalised to seconds", doc.get("from"), "2026-09-03 14:30:00")
+
+    for value, label in [("not-a-date", "a malformed bound is rejected"),
+                         ("2026-02-30", "an impossible date is rejected")]:
+        status, _ = api.call("GET", "/results.php", topic=TOPIC, **{"from": value})
+        run.equal(label, status, 400)
 
     print(f"\n{run.passed} passed, {len(run.failed)} failed")
     if run.failed:
         for item in run.failed:
             print("  -", item)
         return 1
-    print(f"session {code} " + ("kept open" if args.keep else "closed"))
     return 0
 
 

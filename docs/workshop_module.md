@@ -124,7 +124,7 @@ Everything is static except the vote API. All definition data ships as `window.*
 
 ```
 website/
-  workshop/{index,play,reveal,facilitator,cards}.html
+  workshop/{index,play,reveal,cards}.html
   workshop/content/<topic>.yaml        HAND-EDITED  (FR/NL/EN wording, facts, justifications)
   assets/css/workshop.css              reuses the :root variables of styles.css
   assets/js/workshop/*.js              spark, i18n, api, impact, levers, play, reveal, …
@@ -160,13 +160,15 @@ client-side by `impact.js` against the exported per-mode 2050 TWh and energy int
 
 ### 4.2 Backend
 
-MySQL database `negawatt_ws`, four tables: `sessions`, `groups`, `answers` (current state,
-unique per group × lever) and `answer_log` (append-only trace of every move). Endpoints:
-`session.php`, `group.php`, `answer.php`, `results.php`, `reveal.php`, `selftest.php`.
+MySQL database `negawatt_ws`, three tables: `ws_groups` (one per device that pressed
+Start, carrying its topic and the moment it started), `ws_answers` (current state, unique
+per group × lever) and `ws_answer_log` (append-only trace of every move). Endpoints:
+`group.php`, `rename.php`, `answer.php`, `results.php`, `selftest.php`.
 
-`results.php` accepts either `?code=` (one session) or `?topic=` (**all open sessions on a
-topic** — this is what makes a fully remote workshop work). The reveal page polls it every
-3 seconds.
+`results.php?topic=…&from=…&to=…` returns every group that started inside the window, with
+its answers. Both bounds are optional and UTC; the reveal page polls it every 3 seconds
+with a window of *today* and lets the facilitator widen it (D36). There is no session
+table and no facilitator credential — see D36 and Q9.
 
 ### 4.3 Deployment
 
@@ -212,10 +214,10 @@ Each decision records *why*, so it can be revisited on purpose rather than by ac
 | D20 | Generated files are served `no-cache`; only vendored assets cache hard | Re-running a notebook changes `website/data/*.js`. A facilitator refreshing content between sessions must not leave participants on yesterday's data. `scripts/dev_static.py` does the same locally, which is why it exists. |
 | D21 | Printed cards use `min-height`, not a fixed height | Measured at print width, six of the eight cards needed more than the fixed 133 mm and were being silently cut off at the bottom, losing a fact. Cards now start at 128 mm and grow; `break-inside: avoid` keeps each one whole and lets the browser pack the pages. All four pages still hold two cards. |
 | D22 | Chart labels follow the page language | `spark.js` reads `<html lang>` rather than hard-coding `en-US`, so a chart next to French prose no longer reads "2.00" where the text says "2,00". |
-| D23 | **A workshop is joined from a plain link, not a typed code** | Asking a participant for a code and a group name is two barriers before the first question, and pointless for a remote session. A session may carry a human-readable `slug`, and `…/workshop/play.html?w=namur-2026` joins automatically: the server hands out the next free "Groupe 3" and the page opens on question 1. The four-character code survives as the fallback for reading off a projector, and the facilitator console now shows the link first and the code second. |
+| D23 | ~~**A workshop is joined from a plain link, not a typed code**~~ *(superseded by D36: there is no session to link to any more)* | Asking a participant for a code and a group name is two barriers before the first question, and pointless for a remote session. A session may carry a human-readable `slug`, and `…/workshop/play.html?w=namur-2026` joins automatically: the server hands out the next free "Groupe 3" and the page opens on question 1. The four-character code survives as the fallback for reading off a projector, and the facilitator console now shows the link first and the code second. |
 | D24 | A group joined from a link can rename itself in one tap | Server-assigned ordinals are fine remotely; in a room the group wants to be "Table 3", and a named group makes the reveal's quotes far more useful. |
-| D25 | Joining a different workshop clears the answers held on the device | Found in testing: a device that had answered one workshop and then opened a second link resumed mid-way with the old answers *and* the autosave pushed them into the new group. |
-| D26 | `ws_answer_log` deliberately has no foreign key | It is an append-only trace, so deleting a session leaves the record of what was moved and when. Nothing personal is stored. Clean it explicitly if you want a session gone entirely. |
+| D25 | Answering as a different group clears the answers held on the device | Found in testing: a device that had answered one workshop and then opened a second link resumed mid-way with the old answers *and* the autosave pushed them into the new group. |
+| D26 | `ws_answer_log` deliberately has no foreign key | It is an append-only trace, so deleting a group leaves the record of what was moved and when. Nothing personal is stored. Clean it explicitly if you want a workshop gone entirely. |
 | D27 | **The questions ask for an objective, not a prediction** | The first draft read "In 2050, how many people will be sitting in the average car?", which asks a group to forecast — the wrong act entirely for a normative scenario, and an invitation to answer with what they expect rather than what they think is right. The questions now take one of two shapes: *"What car occupancy is a realistic 2050 objective?"* for the levers that must rise, and *"How far can sufficiency bring daily motorised travel down by 2050?"* for those that must fall. French uses **sobriété** for sufficiency, with *demande sobre* where it reads better. |
 | D28 | French typography uses no-break spaces before `?` and `!` and inside guillemets | Not decoration: a plain space let the line break there, and the question headline rendered with an orphaned "?" on its own line. This also forced a fix in the build — `" ".join(text.split())` silently destroys U+00A0, because Python counts it as whitespace, so the folding now collapses ASCII whitespace only. |
 | D29 | **The leverage readout shows what *this* lever contributes, against keeping today's level** | Two earlier versions were both misleading, and a reviewer caught both. Showing the sector total at the answer (≈22 TWh) reads as the combined effect of all eight assumptions. Comparing that total to 2019 was worse: electrification alone cuts inland mobility by three quarters, so *every* answer showed a large decrease and the sign never moved — pushing the slider towards more traffic still reported "79 % less than 2019". The readout is now `E(answer) − E(2019 level of the same indicator)`, everything else held fixed. It is zero at today's level, positive when the group asks for more demand, and negative when less. |
@@ -224,6 +226,10 @@ Each decision records *why*, so it can be revisited on purpose rather than by ac
 | D32 | **Levers live one module per topic under `workshop_levers/`, not in the notebook** | Two topics share each notebook — inland and international mobility in the transport one, residential and tertiary heat in the buildings one — so a single export cell made them compete for the same 300 lines of a 140-cell notebook. Each topic is now a module reading the notebook's `globals()`, and each notebook keeps one generic `export_topics(sector, globals())` cell. Verified behaviour-neutral: the inland levers came out byte-identical. |
 | D33 | The model block is keyed by topic | Otherwise two topics of one sector overwrite each other's context quantities. |
 | D34 | Every workshop page loads every sector's data file | A topic names its sector in the content bundle and the page follows it, so adding a topic to a new sector is one `<script>` line rather than a code change. |
+| D36 | **No sessions at all: a group belongs to a topic, and the reveal filters by date** | These workshops are small and never run in parallel, so the session existed only to answer "whose answers are these?" — and it charged for that with a code to type, a console to open, a slug to invent, a solo mode to explain and a facilitator key to paste. A timestamp answers the same question for free: the reveal opens on today's groups and widening the start date summarises every sitting ever run, which the session model could not do at all. Five endpoints instead of seven, three tables instead of four, and the participant journey is one button. |
+| D37 | The device's stored identity **expires after 12 h** | Falls straight out of D36: a group is now selected by date, so a device returning next month with last month's identity would file its answers under a group today's filter no longer shows — invisible on the projector and silently mixed into the wrong sitting's history. Twelve hours is longer than any workshop and shorter than any gap between two. |
+| D38 | Group names are optional, and no longer unique | The name only labels a dot on the reveal, so demanding one before question 1 was a barrier for nothing, and refusing a duplicate mid-workshop ("Table 3 is taken") was worse. Empty means the server names the group after its rank in the day; the reveal numbers any labels that collide. |
+| D39 | `results.php` needs no credential | The reveal screen is meant to be opened on a projector without anyone typing a key, and the payload is slider values plus a one-line condition on an unlisted, `noindex` page. The group token stays, because it does real work: it stops one device overwriting another group's answers. See Q9. |
 | D35 | A topic may declare its own interface strings in its YAML | So a new topic needs no edit to the shared `ui.yaml`. A key already defined elsewhere is an error, not a silent override. |
 
 ---
@@ -238,9 +244,9 @@ Each decision records *why*, so it can be revisited on purpose rather than by ac
 | Q4 | Transport notebook cells 28 (prose) and 29 (code) disagree on the intra-EU aviation shift split: prose says 25% to high-speed / 20% to conventional rail, the code does the reverse. | **noted, not fixed** — outside the PoC's eight levers. Belongs to a separate notebook-correctness pass. |
 | Q5 | Dutch translation quality | **needs native review** before any real workshop |
 | Q6 | No occupancy time series exists anywhere in the repo, and the JRC-IDEES *Transport* workbook is not downloaded (only EnergyBalance and Industry). | `car-occupancy`'s "past evolution" fact is hand-curated with a source URL and flagged as such |
-| Q7 | No QR code on the join page or the printed cards | deferred: it means either vendoring an unreviewed library or writing a Reed–Solomon encoder. A 4-character code on a short URL is enough for a room, and the facilitator screen shows both. Worth adding before a large public session |
+| Q7 | No QR code on the entry page or the printed cards | deferred: it means either vendoring an unreviewed library or writing a Reed–Solomon encoder. Since D36 the invitation is a bare `…/workshop/` URL, which is short enough to read off a projector. Worth adding before a large public session |
 | Q8 | Four of the eight levers have no observed curve (`car-occupancy`, `car-energy`, `bike-km-day`, `truck-load`) | their charts show the 2019 anchor against the span of possible answers, with a note saying why there is no curve. A curated series may be supplied from the YAML (D15) if a citable source is found — `cemonitor.be` looks promising for car occupancy |
-| Q9 | The API is open: anyone with a 4-character code can post answers, and there is no rate limiting | acceptable for a room; the codes are not guessable in bulk (31⁴ ≈ 920 000) and nothing personal is stored. Revisit before advertising a session publicly |
+| Q9 | The API is open: anyone can create a group and post answers, anyone with the reveal URL can read them, and there is no rate limiting | accepted, and wider since D36/D39 — there is no code left to not-guess. Acceptable for a room on an unlisted page with nothing personal stored; the visible failure mode is a spoiled dot plot, and the date filter makes a polluted window easy to step around. Revisit before advertising a workshop publicly: a per-day write cap keyed on `topic` is the cheap first move |
 
 ---
 
@@ -464,3 +470,49 @@ it** — a concurrent edit costs more than a round trip:
 Generated files are **not deliverables** — `website/data/*.js` is regenerated
 centrally after all topics land. Do not hand them over and do not worry if a
 sibling's notebook run makes one momentarily odd; re-run yours.
+
+---
+
+## 13. Simplification round, 2026-09-03
+
+The session layer is gone. It had cost the participant a code to type and the
+facilitator a console to open, a workshop name to invent and a key to paste — all
+to answer one question, *whose answers are these?*, that a timestamp answers for
+free. See D36–D39 for the reasoning; this section records what moved.
+
+**Removed.** `facilitator.html` / `facilitator.js` (nothing left to create),
+`session.php`, `reveal.php` (the two-screen step sync went with the admin token),
+the `ws_sessions` table, the four-character code, the slug, the solo mode, the
+`admin_key` in `config.php`, and 22 interface strings.
+
+**Changed.**
+
+| Was | Is |
+|---|---|
+| `index.html`: code + group name, or a solo panel | one topic picker, one optional name, one Start button |
+| `POST /group.php {code\|slug, name}` | `POST /group.php {topic, name?}` |
+| every write carried `code` | the group token alone identifies the writer |
+| `results.php?code=…&admin_token=…` or `?topic=…&admin_key=…` | `results.php?topic=…&from=…&to=…`, ungated |
+| reveal had a setup screen for code / token / key | reveal has a date filter, defaulting to today |
+| four tables | three (`ws_groups` gains `topic`, loses `session_code`) |
+
+**Kept, and worth keeping.** The offline queue (answers to localStorage first,
+flushed when the network returns) — and it now covers one more case: a device
+that loads the page with no network at all gets no group, so `api.js` pushes
+whatever it holds locally as soon as a group can be created. The one-tap rename,
+the anti-spoiler build checks, and the `ws_answer_log` trace are untouched.
+
+**Verified.** `test_workshop_api.py` rewritten to the new contract: 59/59 against
+`dev_api.py`, including the date window in five shapes. The MySQL migration was
+run against a legacy database built from the old schema with sessions, groups and
+answers in it: every group inherited its session's topic, the answers and the log
+survived, both files proved re-runnable, and the migrated `ws_groups` came out
+identical to one `schema.sql` creates from scratch. The browser walk covered a
+no-name start, a reload resuming mid-workshop, a two-week-old identity correctly
+starting a fresh group with a blank slider, the reveal's Today / Everything
+presets, and the négaWatt value staying hidden until the button is pressed.
+
+**Not verified here.** The PHP itself — this machine has no `php` binary, so the
+statements were checked by running each prepared query against MySQL 5.7 directly
+and the endpoint logic by its SQLite twin. `curl …/api/selftest.php` after the
+next deploy remains the real check; §10 is the cautionary tale.

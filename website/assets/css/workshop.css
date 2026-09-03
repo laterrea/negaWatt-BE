@@ -475,6 +475,38 @@
   color: var(--nw-teal-darker);
 }
 
+/* ------------------------------------------------------------------ filter */
+/* Which sitting is on screen. A facilitator control on a participant-free page,
+   so it stays deliberately small: one line, above the fold, never in the way of
+   the projected answers. */
+.ws-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 20px 0;
+}
+.ws-filter__label {
+  font-size: .74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+}
+.ws-filter__date {
+  width: auto;
+  min-height: 34px;
+  padding: 4px 8px;
+  font-size: .82rem;
+}
+.ws-filter__dash { color: var(--muted); }
+.ws-filter__preset {
+  flex: 0 0 auto;
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: .78rem;
+}
+
 /* ------------------------------------------------------------------ reveal */
 .ws-reveal__head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .ws-dots { margin-top: 6px; }
@@ -518,6 +550,18 @@
 .ws-table th { font-size: .74rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
 .ws-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .ws-scroll { overflow-x: auto; }
+
+/* The reveal screen is built for a projector, but a facilitator may hold it on a
+   phone or a tablet in portrait, where its two badges, the language switch and
+   three long button labels do not fit on one line. Wrap them rather than let the
+   page scroll sideways. */
+@media (max-width: 620px) {
+  .ws-topbar { flex-wrap: wrap; }
+  .ws-actions { flex-wrap: wrap; }
+  /* two per row rather than one, so the sticky bar does not eat the screen */
+  .ws-actions .ws-btn { flex: 1 1 40%; }
+  .ws-filter__date { flex: 1 1 8rem; }
+}
 
 .ws-hidden { display: none !important; }
 

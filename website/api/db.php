@@ -8,11 +8,12 @@
  *   require_once __DIR__ . '/db.php';
  *   $pdo = ws_db();
  *   ws_json(['ok' => true]);
+ *
+ * There is no session and no facilitator credential: a group belongs to a topic,
+ * and the reveal screen selects which groups to show by date. See the README.
  */
 declare(strict_types=1);
 
-const WS_CODE_ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';  // no O/0/I/1/L
-const WS_CODE_LENGTH = 4;
 const WS_MAX_BODY = 8192;
 
 /**
@@ -163,31 +164,6 @@ function ws_id($value, string $field): string
     return $value;
 }
 
-function ws_code($value): string
-{
-    $value = strtoupper(trim((string) ($value ?? '')));
-    if (!preg_match('/^[' . WS_CODE_ALPHABET . ']{' . WS_CODE_LENGTH . ',8}$/', $value)) {
-        ws_fail('invalid_code', 400);
-    }
-    return $value;
-}
-
-/** A workshop slug: lowercase, hyphenated, human-readable, unique. */
-function ws_slug($value, bool $required = true): ?string
-{
-    $value = strtolower(trim((string) ($value ?? '')));
-    if ($value === '') {
-        if ($required) {
-            ws_fail('missing_field', 400, ['field' => 'slug']);
-        }
-        return null;
-    }
-    if (!preg_match('/^[a-z0-9][a-z0-9-]{1,63}$/', $value)) {
-        ws_fail('invalid_slug', 400);
-    }
-    return $value;
-}
-
 function ws_number($value, string $field): float
 {
     if (!is_int($value) && !is_float($value) &&
@@ -199,6 +175,35 @@ function ws_number($value, string $field): float
         ws_fail('invalid_field', 400, ['field' => $field]);
     }
     return $number;
+}
+
+/**
+ * A results-window bound, in UTC, as 'Y-m-d H:i:s'.
+ *
+ * Accepts 'Y-m-d' and 'Y-m-d H:i[:s]' (an ISO 'T' and a trailing 'Z' are
+ * tolerated, because that is what a browser hands over). A bare date means
+ * midnight, or the last second of the day for an upper bound, so that a
+ * hand-typed ?from=2026-09-03&to=2026-09-03 means "that whole day".
+ */
+function ws_stamp($value, string $field, bool $endOfDay = false): ?string
+{
+    $value = trim((string) ($value ?? ''));
+    if ($value === '') {
+        return null;
+    }
+    $value = str_replace(['T', 'Z'], [' ', ''], $value);
+    if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value, $m)) {
+        $time = $endOfDay ? '23:59:59' : '00:00:00';
+    } elseif (preg_match('/^(\d{4})-(\d{2})-(\d{2})[ ](\d{2}):(\d{2})(?::(\d{2}))?$/',
+                         $value, $m)) {
+        $time = sprintf('%s:%s:%s', $m[4], $m[5], $m[6] ?? '00');
+    } else {
+        ws_fail('invalid_field', 400, ['field' => $field]);
+    }
+    if (!checkdate((int) $m[2], (int) $m[3], (int) $m[1])) {
+        ws_fail('invalid_field', 400, ['field' => $field]);
+    }
+    return sprintf('%s-%s-%s %s', $m[1], $m[2], $m[3], $time);
 }
 
 /* ---------------------------------------------------------------- credentials */
@@ -213,66 +218,30 @@ function ws_hash(string $token): string
     return hash('sha256', $token);
 }
 
-function ws_new_code(PDO $pdo): string
-{
-    $alphabet = WS_CODE_ALPHABET;
-    $n = strlen($alphabet);
-    for ($attempt = 0; $attempt < 40; $attempt++) {
-        $code = '';
-        for ($i = 0; $i < WS_CODE_LENGTH; $i++) {
-            $code .= $alphabet[random_int(0, $n - 1)];
-        }
-        $stmt = $pdo->prepare('SELECT 1 FROM ws_sessions WHERE code = ?');
-        $stmt->execute([$code]);
-        if (!$stmt->fetchColumn()) {
-            return $code;
-        }
-    }
-    ws_fail('code_space_exhausted', 503);
-}
-
 function ws_now(): string
 {
     return gmdate('Y-m-d H:i:s');
 }
 
-/** Load a session by code, or stop with 404. */
-function ws_session(PDO $pdo, string $code): array
+/**
+ * Load the group this request claims to be, or stop.
+ *
+ * The group token is the only credential in the whole API. It exists so that one
+ * device cannot overwrite another group's answers — not to keep the results
+ * private, which they are not (see the README).
+ */
+function ws_group(PDO $pdo, $groupId, $token): array
 {
-    $stmt = $pdo->prepare('SELECT * FROM ws_sessions WHERE code = ?');
-    $stmt->execute([$code]);
+    $groupId = (int) ($groupId ?? 0);
+    $token = ws_str($token, 96, 'token');
+    $stmt = $pdo->prepare('SELECT * FROM ws_groups WHERE id = ?');
+    $stmt->execute([$groupId]);
     $row = $stmt->fetch();
     if (!$row) {
-        ws_fail('unknown_session', 404);
+        ws_fail('unknown_group', 404);
+    }
+    if (!hash_equals((string) $row['token_hash'], ws_hash((string) $token))) {
+        ws_fail('bad_token', 403);
     }
     return $row;
-}
-
-/**
- * Load a session from whichever identifier the caller has.
- *
- * Participants arrive from a link carrying the slug and never see the code;
- * someone reading a projector types the code. Both must work everywhere.
- */
-function ws_session_by(PDO $pdo, ?string $code, ?string $slug): array
-{
-    if ($slug !== null && $slug !== '') {
-        $stmt = $pdo->prepare('SELECT * FROM ws_sessions WHERE slug = ?');
-        $stmt->execute([$slug]);
-        $row = $stmt->fetch();
-        if (!$row) {
-            ws_fail('unknown_session', 404);
-        }
-        return $row;
-    }
-    if ($code === null || $code === '') {
-        ws_fail('missing_field', 400, ['field' => 'code or slug']);
-    }
-    return ws_session($pdo, $code);
-}
-
-function ws_is_admin(array $session, ?string $token): bool
-{
-    return $token !== null && $token !== ''
-        && hash_equals($session['admin_token_hash'], ws_hash($token));
 }

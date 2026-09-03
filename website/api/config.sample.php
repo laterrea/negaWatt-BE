@@ -16,7 +16,5 @@ return [
         'pass'    => 'CHANGE_ME',
         'charset' => 'utf8mb4',
     ],
-    // Unlocks cross-session aggregation (results.php?topic=…) on the reveal page.
-    'admin_key' => 'CHANGE_ME_TO_RANDOM_HEX',
     'base_url'  => 'https://negawatt.squoilin.eu',
 ];

@@ -34,55 +34,50 @@ window.NW_WS_CONTENT = {
       "nl": "Bouw zelf het scenario",
       "en": "You build the scenario"
     },
-    "join.title": {
-      "fr": "Rejoindre un atelier",
-      "nl": "Neem deel aan een workshop",
-      "en": "Join a workshop"
+    "start.title": {
+      "fr": "Commencer l'atelier",
+      "nl": "De workshop starten",
+      "en": "Start the workshop"
     },
-    "join.lead": {
-      "fr": "Entrez le code affiché par l'animateur, puis donnez un nom à votre groupe.",
-      "nl": "Voer de code in die de begeleider toont en geef je groep een naam.",
-      "en": "Enter the code shown by the facilitator, then give your group a name."
+    "start.lead": {
+      "fr": "Donnez un nom à votre groupe si vous voulez, puis lancez-vous. Il n'y a rien d'autre à saisir.",
+      "nl": "Geef je groep een naam als je wil, en begin. Er is niets anders in te vullen.",
+      "en": "Give your group a name if you like, then go. There is nothing else to fill in."
     },
-    "join.codeLabel": {
-      "fr": "Code de session",
-      "nl": "Sessiecode",
-      "en": "Session code"
+    "start.topicLabel": {
+      "fr": "Thème",
+      "nl": "Thema",
+      "en": "Topic"
     },
-    "join.groupLabel": {
-      "fr": "Nom de votre groupe",
-      "nl": "Naam van je groep",
-      "en": "Your group's name"
+    "start.groupLabel": {
+      "fr": "Nom de votre groupe (facultatif)",
+      "nl": "Naam van je groep (optioneel)",
+      "en": "Your group's name (optional)"
     },
-    "join.groupPlaceholder": {
-      "fr": "p. ex. Table 3, Les cyclistes…",
-      "nl": "bv. Tafel 3, De fietsers…",
-      "en": "e.g. Table 3, The cyclists…"
+    "start.groupPlaceholder": {
+      "fr": "p. ex. Table 3 — ou laissez vide",
+      "nl": "bv. Tafel 3 — of laat leeg",
+      "en": "e.g. Table 3 — or leave it empty"
     },
-    "join.start": {
+    "start.go": {
       "fr": "Commencer",
       "nl": "Beginnen",
       "en": "Start"
     },
-    "join.badCode": {
-      "fr": "Ce code ne correspond à aucune session ouverte.",
-      "nl": "Deze code hoort bij geen enkele open sessie.",
-      "en": "That code does not match any open session."
+    "start.facilitator": {
+      "fr": "Pour l'animateur",
+      "nl": "Voor de begeleider",
+      "en": "For the facilitator"
     },
-    "join.needName": {
-      "fr": "Donnez d'abord un nom à votre groupe.",
-      "nl": "Geef je groep eerst een naam.",
-      "en": "Give your group a name first."
+    "start.openReveal": {
+      "fr": "Écran de mise en commun",
+      "nl": "Gezamenlijk scherm",
+      "en": "The reveal screen"
     },
-    "join.solo": {
-      "fr": "Essayer seul",
-      "nl": "Alleen uitproberen",
-      "en": "Try it on your own"
-    },
-    "join.soloHint": {
-      "fr": "Crée une session privée, exclue des résultats collectifs.",
-      "nl": "Maakt een privésessie, niet meegerekend in de gezamenlijke resultaten.",
-      "en": "Creates a private session, excluded from the collective results."
+    "start.printCards": {
+      "fr": "Imprimer les fiches",
+      "nl": "Kaarten afdrukken",
+      "en": "Print the fact cards"
     },
     "group.autoPrefix": {
       "fr": "Groupe",
@@ -100,44 +95,9 @@ window.NW_WS_CONTENT = {
       "en": "Your group's name"
     },
     "group.renameFailed": {
-      "fr": "Ce nom est déjà pris.",
-      "nl": "Die naam is al in gebruik.",
-      "en": "That name is already taken."
-    },
-    "join.badLink": {
-      "fr": "Ce lien ne correspond à aucun atelier ouvert. Demandez le lien à l'animateur.",
-      "nl": "Deze link hoort bij geen enkele open workshop. Vraag de begeleider om de link.",
-      "en": "This link does not match any open workshop. Ask the facilitator for the link."
-    },
-    "facil.workshopName": {
-      "fr": "Nom de l'atelier (dans le lien)",
-      "nl": "Naam van de workshop (in de link)",
-      "en": "Workshop name (used in the link)"
-    },
-    "facil.shareLink": {
-      "fr": "Lien à partager avec les participants",
-      "nl": "Link om met de deelnemers te delen",
-      "en": "Link to share with participants"
-    },
-    "facil.copyLink": {
-      "fr": "Copier le lien",
-      "nl": "Link kopiëren",
-      "en": "Copy the link"
-    },
-    "facil.copied": {
-      "fr": "Copié",
-      "nl": "Gekopieerd",
-      "en": "Copied"
-    },
-    "facil.codeFallback": {
-      "fr": "Ou, à taper depuis l'écran",
-      "nl": "Of, om over te typen van het scherm",
-      "en": "Or, to type from the screen"
-    },
-    "facil.slugTaken": {
-      "fr": "Ce nom d'atelier est déjà utilisé, choisissez-en un autre.",
-      "nl": "Deze workshopnaam bestaat al, kies een andere.",
-      "en": "That workshop name is already in use, pick another."
+      "fr": "Le changement de nom n'a pas pu être enregistré.",
+      "nl": "De naamswijziging kon niet worden opgeslagen.",
+      "en": "The new name could not be saved."
     },
     "play.progress": {
       "fr": "Question {n} sur {total}",
@@ -329,16 +289,6 @@ window.NW_WS_CONTENT = {
       "nl": "groepen",
       "en": "groups"
     },
-    "reveal.sessionsLabel": {
-      "fr": "sessions",
-      "nl": "sessies",
-      "en": "sessions"
-    },
-    "reveal.sessions": {
-      "fr": "{n} sessions",
-      "nl": "{n} sessies",
-      "en": "{n} sessions"
-    },
     "reveal.mean": {
       "fr": "Moyenne des groupes",
       "nl": "Gemiddelde van de groepen",
@@ -399,6 +349,36 @@ window.NW_WS_CONTENT = {
       "nl": "gelijk",
       "en": "same"
     },
+    "reveal.filter.label": {
+      "fr": "Réponses du",
+      "nl": "Antwoorden van",
+      "en": "Answers from"
+    },
+    "reveal.filter.from": {
+      "fr": "Date de début",
+      "nl": "Begindatum",
+      "en": "Start date"
+    },
+    "reveal.filter.to": {
+      "fr": "Date de fin",
+      "nl": "Einddatum",
+      "en": "End date"
+    },
+    "reveal.filter.today": {
+      "fr": "Aujourd'hui",
+      "nl": "Vandaag",
+      "en": "Today"
+    },
+    "reveal.filter.all": {
+      "fr": "Tout depuis le début",
+      "nl": "Alles vanaf het begin",
+      "en": "Everything so far"
+    },
+    "reveal.filter.allLabel": {
+      "fr": "depuis le début",
+      "nl": "vanaf het begin",
+      "en": "everything so far"
+    },
     "reveal.next": {
       "fr": "Levier suivant",
       "nl": "Volgende hefboom",
@@ -424,70 +404,10 @@ window.NW_WS_CONTENT = {
       "nl": "Meest ambitieuze groep",
       "en": "Boldest group"
     },
-    "reveal.needKey": {
-      "fr": "Clé d'animateur requise pour agréger plusieurs sessions.",
-      "nl": "Begeleiderssleutel nodig om meerdere sessies samen te voegen.",
-      "en": "A facilitator key is needed to aggregate several sessions."
-    },
-    "facil.title": {
-      "fr": "Console d'animation",
-      "nl": "Begeleiderspaneel",
-      "en": "Facilitator console"
-    },
-    "facil.create": {
-      "fr": "Créer une session",
-      "nl": "Sessie aanmaken",
-      "en": "Create a session"
-    },
-    "facil.label": {
-      "fr": "Nom de l'atelier",
-      "nl": "Naam van de workshop",
-      "en": "Workshop name"
-    },
-    "facil.topic": {
-      "fr": "Thème",
-      "nl": "Thema",
-      "en": "Topic"
-    },
-    "facil.code": {
-      "fr": "Code à communiquer",
-      "nl": "Code om te delen",
-      "en": "Code to share"
-    },
-    "facil.openReveal": {
-      "fr": "Ouvrir l'écran de mise en commun",
-      "nl": "Open het gezamenlijke scherm",
-      "en": "Open the reveal screen"
-    },
-    "facil.printCards": {
-      "fr": "Imprimer les fiches",
-      "nl": "Print de kaarten",
-      "en": "Print the fact cards"
-    },
-    "facil.progress": {
-      "fr": "Avancement des groupes",
-      "nl": "Voortgang van de groepen",
-      "en": "Group progress"
-    },
-    "facil.answers": {
-      "fr": "{done}/{total} réponses",
-      "nl": "{done}/{total} antwoorden",
-      "en": "{done}/{total} answers"
-    },
-    "facil.keyLabel": {
-      "fr": "Clé d'animateur",
-      "nl": "Begeleiderssleutel",
-      "en": "Facilitator key"
-    },
     "cards.title": {
       "fr": "Fiches de discussion",
       "nl": "Discussiekaarten",
       "en": "Discussion cards"
-    },
-    "cards.scan": {
-      "fr": "Scannez pour répondre",
-      "nl": "Scan om te antwoorden",
-      "en": "Scan to answer"
     },
     "cards.source": {
       "fr": "Source",

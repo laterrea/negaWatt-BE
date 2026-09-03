@@ -155,21 +155,19 @@ PY
 
 The card site above tells visitors what the scenario assumes. The **workshop module**
 turns that around: in groups, participants set the *upstream* behavioural assumptions
-themselves — how many people per car, what share of car traffic shifts, how many tonnes
-on the average truck — without seeing négaWatt's answer, helped by factual anchors. Their
-values are collected live, and a reveal screen then shows the group spread next to
-négaWatt's value and its written justification, one lever at a time.
+themselves — how many people per car, how many tonnes on the average truck — without
+seeing négaWatt's answer, helped by factual anchors. Values are collected live, and a
+reveal screen then shows the group spread next to négaWatt's value and its written
+justification, one lever at a time.
 
-Live at **https://negawatt.squoilin.eu/workshop/** (unlisted: no link from the public
-site). Trilingual FR / NL / EN. The proof of concept covers **inland mobility** (8 levers);
-international mobility and the two buildings topics are scaffolded but not written.
+Live at **https://negawatt.squoilin.eu/workshop/** (unlisted, trilingual FR/NL/EN).
+Inland mobility is written in full (8 levers); the other three topics are scaffolded.
 
 ```
 website/workshop/
-  index.html        join by code, or try it solo
+  index.html        pick a topic, name the group if you want, start
   play.html         participant UI — one lever per screen
   reveal.html       the projector: live group answers, then the negaWatt value
-  facilitator.html  create a session, watch the groups, open the projector
   cards.html        printable A5 discussion cards (two per A4 page)
   content/*.yaml    HAND-EDITED wording, facts and justifications (FR/NL/EN)
 website/api/*.php   PHP 8.3 + PDO/MySQL value collection
@@ -190,6 +188,25 @@ website/data/
   the build refuses to put them on a card. Facts that *do* describe the scenario are
   flagged `reveal: true` and appear only on the reveal screen.
 
+### No sessions: a group, a topic, a date
+
+These workshops are small and never run in parallel, so there is **no session, no code and
+no facilitator console**. A group belongs to a topic and carries the moment it started;
+the reveal screen decides what to show with a **date filter**, which opens on today and,
+widened, summarises every sitting ever run on the topic. Consequences worth knowing:
+
+- Five endpoints, and the group token is the only credential — it stops one device
+  overwriting another group's answers. **`results.php` is ungated**, so anyone with the
+  reveal URL can read the answers. That is deliberate for slider values on an unlisted
+  page; do not put anything else in `condition`.
+- A stored identity expires after 12 h (`api.js`). Without that, a device returning next
+  month would file its answers under a group today's filter no longer shows.
+- Group names are optional and need not be unique. Left empty, the server names the group
+  after its rank in the day ("Groupe 3"); the reveal numbers any duplicate labels.
+- An existing database needs `api/migrations/002_drop_sessions.sql` (guarded, re-runnable,
+  keeps the answers). Tested against MySQL on legacy data; `setup-negawatt-workshop-db.sh`
+  applies `schema.sql` and then the migration, in that order.
+
 ### Working on it
 
 ```bash
@@ -207,10 +224,10 @@ python scripts/dev_api.py --port 8787 &
 
 # 4. Tests
 python scripts/test_workshop_helpers.py       # the export helpers
-python scripts/verify_workshop_export.py      # the notebook output (210 checks)
+python scripts/verify_workshop_export.py      # the notebook output (295 checks)
 python scripts/build_workshop_content.py --check
-python scripts/test_workshop_api.py --base http://127.0.0.1:8787          # 49 checks
-python scripts/test_workshop_api.py --base https://negawatt.squoilin.eu/api --admin-key <key>
+python scripts/test_workshop_api.py --base http://127.0.0.1:8787            # 59 checks
+python scripts/test_workshop_api.py --base https://negawatt.squoilin.eu/api
 
 # 5. Publish (no root; no --delete, so intervec/ and RFNBO_final_results/ survive)
 rsync -avz --no-perms --omit-dir-times -e "ssh -i ~/.ssh/rsa_nopasswd" \
@@ -218,42 +235,30 @@ rsync -avz --no-perms --omit-dir-times -e "ssh -i ~/.ssh/rsa_nopasswd" \
 ```
 
 `scripts/dev_api.py` is not only a test fixture: it is a complete stand-in for the PHP
-API, so a workshop can be run from a laptop with no internet at all.
+API, so a workshop can be run from a laptop with no internet at all. The contract test
+runs against both, which is what keeps them from drifting apart.
 
 ### One-time server setup
 
-Creating the MySQL database needs root, so it is the only step that cannot be automated
-from here. The script is already staged on the server and is safe to re-run:
+Creating the MySQL database needs root — the only step that cannot be automated from
+here. The script is staged on the server and is safe to re-run; it writes
+`api/config.php` (640, `negawatt:www-data`) and `~/.negawatt_ws.cnf` so later schema
+work needs no root, and applies `schema.sql` then the migration.
 
 ```bash
 ssh sylvain@negawatt.squoilin.eu 'sudo bash /home/sylvain/scripts/setup-negawatt-workshop-db.sh'
-```
-
-It creates the `negawatt_ws` database and user, writes `website/api/config.php` (mode 640,
-`negawatt:www-data`) and `~/.negawatt_ws.cnf` so that later schema work needs no root, and
-prints the facilitator key used by the reveal screen's topic-wide view. Then:
-
-```bash
-ssh sylvain@negawatt.squoilin.eu 'mysql --defaults-file=~/.negawatt_ws.cnf < /home/negawatt/public_html/api/schema.sql'
 curl https://negawatt.squoilin.eu/api/selftest.php     # expect {"ok":true,...}
 ```
 
 ### Running a workshop
 
-1. Open `workshop/facilitator.html`, pick the topic, give the workshop a name
-   ("Atelier Namur 2026") and create it. You get back **a link to share** —
-   `…/workshop/play.html?w=atelier-namur-2026` — plus a four-character code as a
-   fallback for reading off a projector.
-2. Print `workshop/cards.html` (the same facts, on paper) and hand them out.
-3. **Participants just open the link.** No code, no sign-up: the server names their
-   group ("Groupe 1", "Groupe 2", …) and they land on question 1. In a room they can
-   rename themselves to "Table 3" in one tap. Answers autosave, and the network can
-   drop without anyone losing work.
-4. Open the reveal screen and walk the levers: group dots first, then négaWatt's value,
-   its justification and the objections to it.
-
-Re-opening the same link returns a participant to their own group and their own answers.
-Opening a *different* workshop's link starts them cleanly, without inheriting anything.
+1. Print `workshop/cards.html` and hand the cards out.
+2. **Share `…/workshop/` — that is the whole invitation.** Participants type nothing and
+   land on question 1; a group that wants to be "Table 3" renames itself in one tap.
+   Answers autosave, and the network can drop without anyone losing work.
+3. Open `workshop/reveal.html?topic=…` on the projector: today's groups, walked with the
+   arrow keys — group dots first, then négaWatt's value and the objections to it.
+4. Widen the date filter to review a past workshop, or all of them together.
 
 ## Environment setup
 

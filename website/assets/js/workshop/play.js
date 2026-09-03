@@ -485,36 +485,27 @@
       message.replace(/</g, "&lt;") + "</div></main>";
   }
 
-  /* A link of the form play.html?w=<slug> joins the workshop by itself: the
-     server hands out a group name and the participant lands on question 1
-     without typing anything. Re-opening the same link keeps the same group. */
-  function ensureJoined() {
-    var slug = param("w");
-    if (!slug) return Promise.resolve(null);
-    var identity = API.identity();
-    if (identity && identity.slug === slug) return Promise.resolve(identity);
-    return API.joinAuto({ slug: slug }, T.t("group.autoPrefix"))
-      .catch(function (err) {
-        // Offline, or the facilitator has not created it yet: fall through and
-        // let the page work locally rather than blocking on the network.
-        if (err && err.status === 404) throw err;
-        return null;
-      });
+  /* Which topic this device is answering. The link decides; a group created
+     earlier today decides if the link says nothing. */
+  function decideTopic(content) {
+    var id = API.identity();
+    return param("topic") ||
+           (API.fresh(id) ? id.topic : null) ||
+           Object.keys(content.topics)[0];
+  }
+
+  /* This device answers as a group, created on first load — the participant types
+     nothing. Offline the page still works: answers are kept on the device and
+     pushed as soon as a group can be created (see api.js). */
+  function ensureIdentity() {
+    return API.ensure(state.topic, T.t("group.autoPrefix"))
+      .then(function (id) { renderIdentity(); return id; })
+      .catch(function () { return null; });
   }
 
   function init() {
-    var content = window.NW_WS_CONTENT;
-    if (!content) return fail("workshop_content.js is missing — run scripts/build_workshop_content.py");
-
-    var identity = API.identity();
-    state.topic = param("topic") || (identity && identity.topic) || Object.keys(content.topics)[0];
-    var topic = content.topics[state.topic];
-    if (!topic) return fail("Unknown workshop topic: " + state.topic);
-    state.sector = topic.sector;
-    state.order = (topic.order || []).filter(function (id) { return !!levers()[id]; });
-    if (!state.order.length) return fail("No levers to play for topic " + state.topic);
-
-    // restore anything this device already answered (reload, or offline session)
+    // read the local answers only once the identity is settled: joining as a new
+    // group clears them, and a new sitting must start from a blank slider
     var stored = API.localAnswers();
     Object.keys(stored).forEach(function (id) {
       if (state.order.indexOf(id) !== -1) state.answers[id] = stored[id];
@@ -522,29 +513,27 @@
     var first = state.order.findIndex(function (id) { return !state.answers[id]; });
     state.index = first === -1 ? 0 : first;
 
-    buildLangSwitch();
-    applyStaticText();
     wire();
     render();
     API.flush();
+    // a late join, for a device that started the workshop with no network
+    window.addEventListener("online", ensureIdentity);
   }
 
   function boot() {
-    ensureJoined()
-      .then(function (identity) {
-        if (identity && identity.topic) {
-          // the link decides the topic; a stale ?topic= must not override it
-          var url = new URL(window.location.href);
-          if (!url.searchParams.get("topic")) state.topic = identity.topic;
-        }
-        init();
-      })
-      .catch(function (err) {
-        if (err && err.status === 404) {
-          return fail(T.t("join.badLink"));
-        }
-        init();
-      });
+    var content = window.NW_WS_CONTENT;
+    if (!content) return fail("workshop_content.js is missing — run scripts/build_workshop_content.py");
+
+    state.topic = decideTopic(content);
+    var topic = content.topics[state.topic];
+    if (!topic) return fail("Unknown workshop topic: " + state.topic);
+    state.sector = topic.sector;
+    state.order = (topic.order || []).filter(function (id) { return !!levers()[id]; });
+    if (!state.order.length) return fail("No levers to play for topic " + state.topic);
+
+    buildLangSwitch();
+    applyStaticText();
+    ensureIdentity().then(init, init);
   }
 
   if (document.readyState === "loading") {

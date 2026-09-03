@@ -30,7 +30,7 @@ AddDefaultCharset UTF-8
   <FilesMatch "\.(html|php)$">
     Header set X-Content-Type-Options "nosniff"
   </FilesMatch>
-  <FilesMatch "^(play|reveal|facilitator|cards|index)\.html$">
+  <FilesMatch "^(play|reveal|cards|index)\.html$">
     Header set X-Robots-Tag "noindex, nofollow"
   </FilesMatch>
 </IfModule>

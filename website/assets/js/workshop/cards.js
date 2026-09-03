@@ -42,7 +42,6 @@
     var topicId = param("topic") || Object.keys(content.topics)[0];
     var topic = content.topics[topicId];
     var levers = (window.NW_LEVERS[topic.sector] || {}).levers || {};
-    var code = param("code");
     var box = document.getElementById("cards");
     box.innerHTML = "";
 
@@ -115,12 +114,7 @@
       left.textContent = T.pick(topic.title);
       foot.appendChild(left);
       var right = document.createElement("span");
-      if (code) {
-        right.innerHTML = T.t("cards.scan") + ' <span class="ws-card__code">' +
-                          code.replace(/[^A-Z0-9]/gi, "") + "</span>";
-      } else {
-        right.textContent = T.pick(text.short) || "";
-      }
+      right.textContent = T.pick(text.short) || "";
       foot.appendChild(right);
       card.appendChild(foot);
 

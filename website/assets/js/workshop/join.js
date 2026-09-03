@@ -1,6 +1,9 @@
 /* ==========================================================================
    negaWatt Belgium — workshop entry page (index.html)
-   Join a facilitator's session by code, or create a private solo session.
+   --------------------------------------------------------------------------
+   Pick a topic, optionally name the group, start. Nothing else: no code to type,
+   no session to create, no solo mode. The group name is a nicety for a room with
+   tables — left empty, the server names the group "Groupe 3".
    ========================================================================== */
 (function () {
   "use strict";
@@ -14,7 +17,7 @@
     document.querySelectorAll("[data-ui]").forEach(function (node) {
       node.textContent = T.t(node.getAttribute("data-ui"));
     });
-    $("name").placeholder = T.t("join.groupPlaceholder");
+    $("name").placeholder = T.t("start.groupPlaceholder");
   }
 
   function buildLangSwitch() {
@@ -31,6 +34,7 @@
         buildLangSwitch();
         applyStaticText();
         buildTopics();
+        refreshLinks();
       });
       box.appendChild(b);
     });
@@ -41,17 +45,29 @@
     return (c && c.topics) || {};
   }
 
+  function topic() { return $("topic").value || Object.keys(topics())[0]; }
+
   function buildTopics() {
-    var select = $("solo-topic");
+    var select = $("topic");
     var keep = select.value;
+    var ids = Object.keys(topics());
     select.innerHTML = "";
-    Object.keys(topics()).forEach(function (id) {
+    ids.forEach(function (id) {
       var option = document.createElement("option");
       option.value = id;
       option.textContent = T.pick(topics()[id].title) || id;
       select.appendChild(option);
     });
     if (keep) select.value = keep;
+    $("topic-field").classList.toggle("ws-hidden", ids.length < 2);
+  }
+
+  /* The two facilitator destinations follow the topic and the language. */
+  function refreshLinks() {
+    var query = "?topic=" + encodeURIComponent(topic()) +
+                "&lang=" + encodeURIComponent(T.lang());
+    $("link-reveal").href = "reveal.html" + query;
+    $("link-cards").href = "cards.html" + query;
   }
 
   function fail(message) {
@@ -62,44 +78,18 @@
 
   function clearError() { $("error").classList.add("ws-hidden"); }
 
-  function goPlay(topic) {
-    window.location.href = "play.html?topic=" + encodeURIComponent(topic) +
-                           "&lang=" + encodeURIComponent(T.lang());
-  }
-
-  function join() {
+  function begin() {
     clearError();
-    var code = $("code").value.trim().toUpperCase();
-    var name = $("name").value.trim();
-    if (!code) return fail(T.t("join.badCode"));
-    if (!name) return fail(T.t("join.needName"));
-
-    $("btn-join").disabled = true;
-    API.getSession(code)
-      .then(function (session) {
-        if (session.closed) throw new Error("closed");
-        return API.joinGroup(code, name).then(function () { goPlay(session.topic); });
+    var chosen = topic();
+    if (!chosen) return;
+    $("btn-start").disabled = true;
+    API.start(chosen, $("name").value.trim(), T.t("group.autoPrefix"))
+      .then(function () {
+        window.location.href = "play.html?topic=" + encodeURIComponent(chosen) +
+                               "&lang=" + encodeURIComponent(T.lang());
       })
       .catch(function (err) {
-        $("btn-join").disabled = false;
-        if (err && err.status === 404) return fail(T.t("join.badCode"));
-        if (err && err.message === "closed") return fail(T.t("join.badCode"));
-        fail(T.t("common.error") + " (" + ((err && err.message) || "network") + ")");
-      });
-  }
-
-  function solo() {
-    clearError();
-    var topic = $("solo-topic").value;
-    if (!topic) return;
-    $("btn-solo").disabled = true;
-    API.createSession({ topic: topic, label: "solo", mode: "solo" })
-      .then(function (session) {
-        return API.joinGroup(session.code, T.t("join.solo"))
-          .then(function () { goPlay(topic); });
-      })
-      .catch(function (err) {
-        $("btn-solo").disabled = false;
+        $("btn-start").disabled = false;
         fail(T.t("common.error") + " (" + ((err && err.message) || "network") + ")");
       });
   }
@@ -115,17 +105,14 @@
     applyStaticText();
     buildTopics();
 
-    var prefill = /[?&]code=([A-Za-z0-9]+)/.exec(window.location.search);
-    if (prefill) $("code").value = prefill[1].toUpperCase();
+    var wanted = /[?&]topic=([A-Za-z0-9_-]+)/.exec(window.location.search);
+    if (wanted && topics()[wanted[1]]) $("topic").value = wanted[1];
+    refreshLinks();
 
-    $("code").addEventListener("input", function () {
-      this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
-      clearError();
-    });
+    $("topic").addEventListener("change", refreshLinks);
     $("name").addEventListener("input", clearError);
-    $("name").addEventListener("keydown", function (e) { if (e.key === "Enter") join(); });
-    $("btn-join").addEventListener("click", join);
-    $("btn-solo").addEventListener("click", solo);
+    $("name").addEventListener("keydown", function (e) { if (e.key === "Enter") begin(); });
+    $("btn-start").addEventListener("click", begin);
 
     $("api-note").textContent = "API: " + API.base();
   }

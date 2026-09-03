@@ -1,6 +1,7 @@
 <!-- negaWatt Belgium — workshop reveal screen (the projector).
      Group answers appear live; the negaWatt value drops in on demand, one lever
-     at a time, with its written justification. -->
+     at a time, with its written justification. The date filter picks which
+     sitting is shown — today by default, everything if you widen it. -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
@@ -17,9 +18,21 @@
       <span data-ui="reveal.title"></span>
     </span>
     <span class="ws-topbar__spacer"></span>
-    <span class="ws-badge" id="scope-badge"></span>
+    <span class="ws-badge" id="window-badge"></span>
     <span class="ws-badge ws-badge--quiet" id="live-badge"></span>
     <div class="ws-lang" id="lang-switch" role="group"></div>
+  </div>
+
+  <!-- Facilitator control, deliberately small: which answers are on screen. -->
+  <div class="ws-filter" id="filter">
+    <span class="ws-filter__label" data-ui="reveal.filter.label"></span>
+    <input class="ws-input ws-filter__date" type="date" id="from">
+    <span class="ws-filter__dash">–</span>
+    <input class="ws-input ws-filter__date" type="date" id="to">
+    <button class="ws-btn ws-btn--ghost ws-filter__preset" id="preset-today"
+            data-ui="reveal.filter.today"></button>
+    <button class="ws-btn ws-btn--ghost ws-filter__preset" id="preset-all"
+            data-ui="reveal.filter.all"></button>
   </div>
 
   <main class="ws-main" id="screen-lever">
@@ -68,27 +81,8 @@
     <div class="ws-stat" id="awards" style="margin-top:18px"></div>
   </main>
 
-  <main class="ws-main ws-hidden" id="screen-setup">
-    <div class="ws-panel">
-      <h1 data-ui="reveal.title"></h1>
-      <p class="ws-help" id="setup-help"></p>
-      <div class="ws-field" style="margin-top:12px">
-        <label for="setup-code" data-ui="facil.code"></label>
-        <input class="ws-input ws-code" id="setup-code" maxlength="8" style="text-align:center">
-      </div>
-      <div class="ws-field" style="margin-top:12px">
-        <label for="setup-token">admin_token</label>
-        <input class="ws-input" id="setup-token" autocomplete="off">
-      </div>
-      <div class="ws-field" style="margin-top:12px">
-        <label for="setup-key" data-ui="facil.keyLabel"></label>
-        <input class="ws-input" id="setup-key" autocomplete="off">
-        <p class="ws-help" data-ui="reveal.needKey"></p>
-      </div>
-      <p class="ws-note ws-note--warn ws-hidden" id="setup-error" style="margin-top:12px"></p>
-      <button class="ws-btn" id="setup-go" style="margin-top:16px;width:100%"
-              data-ui="reveal.show"></button>
-    </div>
+  <main class="ws-main ws-hidden" id="screen-error">
+    <div class="ws-note ws-note--warn" id="error-text"></div>
   </main>
 
   <div class="ws-actions" id="actions">

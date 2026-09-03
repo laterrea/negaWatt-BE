@@ -4,39 +4,27 @@
 -- Apply with (no root needed once setup-negawatt-workshop-db.sh has run):
 --     mysql --defaults-file=~/.negawatt_ws.cnf < schema.sql
 --
--- Every statement is IF NOT EXISTS, so re-running is safe.
+-- Every statement is IF NOT EXISTS, so re-running is safe. To upgrade a database
+-- created before the sessions were removed, apply migrations/002_drop_sessions.sql
+-- first.
 --
 -- Table names carry a ws_ prefix because both `groups` and `condition` are
 -- reserved words in MySQL 8.
+--
+-- There is no session table: a group belongs to a topic and carries the moment it
+-- started, which is all the reveal screen needs to select one workshop or a whole
+-- series. See the README.
 -- =============================================================================
 
-CREATE TABLE IF NOT EXISTS ws_sessions (
-  code             VARCHAR(8)   NOT NULL,
-  slug             VARCHAR(64)  NULL,      -- human-readable name used in join links
-  topic            VARCHAR(64)  NOT NULL,
-  label            VARCHAR(160) NOT NULL DEFAULT '',
-  mode             VARCHAR(16)  NOT NULL DEFAULT 'group',   -- group | solo
-  results_public   TINYINT(1)   NOT NULL DEFAULT 0,
-  reveal_step      INT          NOT NULL DEFAULT -1,        -- -1 = nothing revealed
-  admin_token_hash CHAR(64)     NOT NULL,
-  created_at       DATETIME     NOT NULL,
-  closed_at        DATETIME     NULL,
-  PRIMARY KEY (code),
-  UNIQUE KEY uq_slug (slug),
-  KEY idx_topic_open (topic, closed_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 CREATE TABLE IF NOT EXISTS ws_groups (
-  id           INT          NOT NULL AUTO_INCREMENT,
-  session_code VARCHAR(8)   NOT NULL,
-  name         VARCHAR(80)  NOT NULL,
-  token_hash   CHAR(64)     NOT NULL,
-  created_at   DATETIME     NOT NULL,
-  updated_at   DATETIME     NOT NULL,
+  id         INT          NOT NULL AUTO_INCREMENT,
+  topic      VARCHAR(64)  NOT NULL,
+  name       VARCHAR(80)  NOT NULL,
+  token_hash CHAR(64)     NOT NULL,
+  created_at DATETIME     NOT NULL,
+  updated_at DATETIME     NOT NULL,
   PRIMARY KEY (id),
-  UNIQUE KEY uq_session_name (session_code, name),
-  CONSTRAINT fk_group_session FOREIGN KEY (session_code)
-    REFERENCES ws_sessions (code) ON DELETE CASCADE
+  KEY idx_topic_created (topic, created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Current state: exactly one row per group and lever.

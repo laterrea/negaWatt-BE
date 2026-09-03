@@ -1,7 +1,7 @@
 <?php
 /**
  * POST /api/answer.php
- *   {code, group_id, token, lever_id, value, confidence?, condition?}
+ *   {group_id, token, lever_id, value, confidence?, condition?}
  *
  * Upserts the group's current answer and appends a row to the trace log, so the
  * history of a group's thinking survives the workshop.
@@ -13,9 +13,8 @@ ws_require_method(['POST']);
 $pdo = ws_db();
 
 $body = ws_body();
-$code = ws_code($body['code'] ?? null);
-$groupId = (int) ($body['group_id'] ?? 0);
-$token = ws_str($body['token'] ?? null, 96, 'token');
+$group = ws_group($pdo, $body['group_id'] ?? null, $body['token'] ?? null);
+$groupId = (int) $group['id'];
 $leverId = ws_id($body['lever_id'] ?? null, 'lever_id');
 $value = ws_number($body['value'] ?? null, 'value');
 
@@ -27,21 +26,6 @@ if (isset($body['confidence']) && $body['confidence'] !== null) {
     }
 }
 $condition = ws_str($body['condition'] ?? null, 280, 'condition', false);
-
-$session = ws_session($pdo, $code);
-if ($session['closed_at'] !== null) {
-    ws_fail('session_closed', 409);
-}
-
-$stmt = $pdo->prepare('SELECT token_hash FROM ws_groups WHERE id = ? AND session_code = ?');
-$stmt->execute([$groupId, $code]);
-$hash = $stmt->fetchColumn();
-if (!$hash) {
-    ws_fail('unknown_group', 404);
-}
-if (!hash_equals((string) $hash, ws_hash((string) $token))) {
-    ws_fail('bad_token', 403);
-}
 
 $now = ws_now();
 $pdo->beginTransaction();

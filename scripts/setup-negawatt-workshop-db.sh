@@ -86,7 +86,6 @@ fi
 if [[ -f "$CONFIG" ]]; then
     log "$CONFIG already exists — left untouched"
 else
-    ADMIN_KEY="$(openssl rand -hex 24)"
     cat > "$CONFIG" <<PHP
 <?php
 /**
@@ -101,24 +100,28 @@ return [
         'pass'    => '${DB_PASS}',
         'charset' => 'utf8mb4',
     ],
-    // Unlocks cross-session results (results.php?topic=...) on the reveal page.
-    'admin_key' => '${ADMIN_KEY}',
     'base_url'  => 'https://negawatt.squoilin.eu',
 ];
 PHP
     chown "${SITE_USER}:www-data" "$CONFIG"
     chmod 640 "$CONFIG"
     log "wrote $CONFIG (mode 640, ${SITE_USER}:www-data)"
-    printf '\n  >>> Reveal-page admin key (needed to aggregate across sessions):\n'
-    printf '      %s\n' "$ADMIN_KEY"
 fi
 
 # --- 5. schema ----------------------------------------------------------------
 step "Schema"
 SCHEMA="${API_DIR}/schema.sql"
+MIGRATIONS="${API_DIR}/migrations"
 if [[ -f "$SCHEMA" ]]; then
     mysql "$DB_NAME" < "$SCHEMA"
     log "applied $SCHEMA"
+    # Then the migration, which is a no-op on a database schema.sql just created
+    # and reshapes one that still carries the sessions. Order matters: the
+    # migration alters ws_groups, so the table has to exist first.
+    if [[ -f "${MIGRATIONS}/002_drop_sessions.sql" ]]; then
+        mysql "$DB_NAME" < "${MIGRATIONS}/002_drop_sessions.sql" >/dev/null
+        log "applied ${MIGRATIONS}/002_drop_sessions.sql"
+    fi
     mysql "$DB_NAME" -e "SHOW TABLES;" | sed 's/^/    /'
 else
     log "no $SCHEMA yet — it will be applied after the first deployment with:"

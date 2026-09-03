@@ -21,7 +21,7 @@ $out = [
 $pdo = ws_db();
 $out['database'] = 'reachable';
 
-$expected = ['ws_sessions', 'ws_groups', 'ws_answers', 'ws_answer_log'];
+$expected = ['ws_groups', 'ws_answers', 'ws_answer_log'];
 $out['tables'] = [];
 $missing = [];
 foreach ($expected as $table) {
