@@ -540,6 +540,7 @@ levers:
             of the same year needed {kwhPerKmBev2019} kWh/km — the energy equivalent of
             {litresPetrolEqBev2019} litres of petrol per 100 km.
         source: "JRC-IDEES-2023 ; essence à 9,7 kWh/litre (PCI)"
+        url: https://joint-research-centre.ec.europa.eu/potencia/jrc-idees_en
       - kind: benchmark
         text:
           fr: >
@@ -857,6 +858,20 @@ levers:
             share is 78.1% and rising.
         source: "Eurostat tran_hv_frmod, 2023"
         url: https://ec.europa.eu/eurostat/databrowser/view/tran_hv_frmod/default/table?lang=en
+        chart:
+          kind: bars
+          unit: "% of tonne-km"
+          decimals: 1
+          highlight: 2
+          labels:
+            - {fr: Suisse, nl: Zwitserland, en: Switzerland}
+            - {fr: Autriche, nl: Oostenrijk, en: Austria}
+            - {fr: Belgique, nl: België, en: Belgium}
+          y: [34.3, 29.3, 11.7]
+          caption:
+            fr: Part du rail dans les tonnes-kilomètres intérieures, 2023
+            nl: Aandeel van het spoor in de binnenlandse tonkilometers, 2023
+            en: Rail share of inland tonne-kilometres, 2023
       - kind: caution
         text:
           fr: >

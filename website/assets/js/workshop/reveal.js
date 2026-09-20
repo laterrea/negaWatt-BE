@@ -241,6 +241,7 @@
         var card = document.createElement("article");
         card.className = "ws-fact";
         card.dataset.kind = fact.kind || "structure";
+        extra.appendChild(card);          // attached first, so a chart can size itself
         var kind = document.createElement("span");
         kind.className = "ws-fact__kind";
         kind.textContent = T.t("play.facts.kind." + (fact.kind || "structure"));
@@ -249,13 +250,13 @@
         text.className = "ws-fact__text";
         T.rich(text, T.pick(fact.text));
         card.appendChild(text);
+        if (fact.chart) window.NW_SPARK.factChart(card, fact.chart);
         if (fact.source) {
           var src = document.createElement("p");
           src.className = "ws-fact__source";
           src.textContent = T.t("common.source") + ": " + fact.source;
           card.appendChild(src);
         }
-        extra.appendChild(card);
       });
 
       var verdict = "";

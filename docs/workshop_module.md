@@ -415,6 +415,13 @@ any of these, so you cannot get them wrong quietly:
 - every string carries all three languages (`fr`, `nl`, `en`);
 - every fact has a `kind` from {trend, structure, benchmark, tangible, caution}
   and a `source`; a `url` must look like one;
+- a fact that quotes a figure has a `url` that opens the source of it — unless the
+  figure is the model's own, cited as `nW-BE §x.y`;
+- a fact's optional `chart:` block (`kind: bars | line`) is well formed: one label
+  or x per value, a trilingual `caption`, a source that can be opened, and no
+  plotted value equal to the target unless the fact is `reveal: true`. It renders
+  on the play screen, the printed card and the reveal from that one declaration —
+  see the README for the field list;
 - every `{placeholder}` resolves against that lever's `facts` block (or
   `refValue`, `targetValue`, `refYear`, `targetYear`, `unit`);
 - lever ids match both ways between the module and the YAML;

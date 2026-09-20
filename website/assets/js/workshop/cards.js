@@ -52,6 +52,7 @@
 
       var card = document.createElement("article");
       card.className = "ws-card";
+      box.appendChild(card);              // attached first, so a chart can size itself
 
       var head = document.createElement("div");
       head.className = "ws-card__head";
@@ -89,24 +90,27 @@
 
       var facts = document.createElement("div");
       facts.className = "ws-card__facts";
+      card.appendChild(facts);
       // reveal-only facts state negaWatt's answer: they must not be printed
       (text.facts || []).filter(function (f) { return !f.reveal; }).forEach(function (fact) {
-        var p = document.createElement("p");
+        var p = document.createElement("div");
         p.className = "ws-card__fact";
+        facts.appendChild(p);
         var kind = document.createElement("b");
         kind.textContent = T.t("play.facts.kind." + (fact.kind || "structure"));
         p.appendChild(kind);
         var span = document.createElement("span");
         T.rich(span, T.pick(fact.text));
         p.appendChild(span);
+        if (fact.chart) {
+          window.NW_SPARK.factChart(p, fact.chart, { className: "ws-card__chart" });
+        }
         if (fact.source) {
           var cite = document.createElement("cite");
           cite.textContent = T.t("cards.source") + ": " + fact.source;
           p.appendChild(cite);
         }
-        facts.appendChild(p);
       });
-      card.appendChild(facts);
 
       var foot = document.createElement("div");
       foot.className = "ws-card__foot";
@@ -117,8 +121,6 @@
       right.textContent = T.pick(text.short) || "";
       foot.appendChild(right);
       card.appendChild(foot);
-
-      box.appendChild(card);
     });
   }
 

@@ -21,6 +21,8 @@ can never drift from the model. See docs/workshop_module.md.
 The build fails — rather than warns — on any of:
   * a string missing one of the declared languages;
   * a fact without a `kind` or a `source`, or with an unknown `kind`;
+  * a fact that quotes a figure without a `url` opening the source of it;
+  * a malformed `chart:` block (unknown kind, ragged x/y/labels, no caption);
   * a {placeholder} that does not resolve;
   * lever ids that disagree between the YAML and the notebook export;
   * a lever whose history series can be neither resolved nor explicitly
@@ -42,6 +44,12 @@ DATA_DIR = os.path.join(ROOT, "website", "data")
 OUT = os.path.join(DATA_DIR, "workshop_content.js")
 
 FACT_KINDS = {"trend", "structure", "benchmark", "tangible", "caution"}
+CHART_KINDS = {"bars", "line"}
+# A figure quoted on a card has to be checkable by the participant who doubts it,
+# so it needs a link that opens the source. The one exception is the model's own
+# arithmetic, which cites an nW-BE section — the reveal links the notebook itself.
+INTERNAL_SOURCE_RE = re.compile(r"nW-BE", re.I)
+QUOTES_A_FIGURE_RE = re.compile(r"[0-9]|\{[A-Za-z]")
 # Placeholders the *page* fills in at run time, so the build must leave them alone.
 RUNTIME_PLACEHOLDERS = {"value", "valuePerDay", "valuePerYear",
                         "n", "total", "twh", "delta", "year", "done"}
@@ -217,6 +225,78 @@ def check_multilang(node, languages, where, errors, values=None, decimals_by_key
     return out
 
 
+def check_chart(chart, languages, where, errors, values, decimals_by_key):
+    """Validate a fact's optional `chart:` block and return it ready to draw.
+
+    A plot is data, so it is held to the same rule as the sentence beside it: it
+    says what it shows (`caption`) and where it comes from (its own `source` +
+    `url`, or the fact's).
+    """
+    if not isinstance(chart, dict):
+        errors.append(f"{where}: 'chart' must be a block, got {type(chart).__name__}")
+        return None
+
+    kind = chart.get("kind")
+    if kind not in CHART_KINDS:
+        errors.append(f"{where}: chart kind {kind!r} is not one of {sorted(CHART_KINDS)}")
+
+    ys = chart.get("y")
+    if not isinstance(ys, list) or not ys:
+        errors.append(f"{where}: 'y' must be a non-empty list of numbers")
+        ys = []
+    for i, value in enumerate(ys):
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            errors.append(f"{where}: y[{i}] = {value!r} is not a number")
+
+    xs = chart.get("x")
+    if kind == "line":
+        if not isinstance(xs, list) or len(xs) != len(ys):
+            errors.append(f"{where}: a line chart needs an 'x' with one value per 'y'")
+            xs = None
+    elif xs is not None:
+        errors.append(f"{where}: 'x' only means something for a line chart")
+
+    raw_labels = chart.get("labels")
+    if kind == "bars" and (not isinstance(raw_labels, list) or len(raw_labels) != len(ys)):
+        errors.append(f"{where}: a bar chart needs 'labels' with one entry per 'y'")
+        raw_labels = []
+    labels = []
+    # A label is either language-neutral (a year, "BE") or a {fr, nl, en} block.
+    for i, label in enumerate(raw_labels or []):
+        if isinstance(label, dict):
+            labels.append(check_multilang(label, languages, f"{where}.labels[{i}]",
+                                          errors, values, decimals_by_key))
+        else:
+            labels.append(str(label))
+
+    highlight = chart.get("highlight")
+    for index in (highlight if isinstance(highlight, list) else
+                  [] if highlight is None else [highlight]):
+        if not isinstance(index, int) or isinstance(index, bool) \
+                or not 0 <= index < len(ys):
+            errors.append(f"{where}: highlight {index!r} is not an index into 'y'")
+
+    decimals = chart.get("decimals")
+    if decimals is not None and (not isinstance(decimals, int) or not 0 <= decimals <= 4):
+        errors.append(f"{where}: 'decimals' must be an integer between 0 and 4")
+
+    if "caption" not in chart:
+        errors.append(f"{where}: 'caption' is required — say what the plot shows, "
+                      f"it is also what a screen reader announces")
+    caption = check_multilang(chart.get("caption") or {}, languages,
+                              f"{where}.caption", errors, values, decimals_by_key)
+
+    out = {"kind": kind, "y": ys, "caption": caption}
+    if xs is not None:
+        out["x"] = xs
+    if labels:
+        out["labels"] = labels
+    for key in ("unit", "decimals", "highlight", "height", "source", "url"):
+        if chart.get(key) is not None:
+            out[key] = chart[key]
+    return out
+
+
 def build(check_only=False):
     errors, warnings = [], []
 
@@ -315,7 +395,8 @@ def build(check_only=False):
                 kind = fact.get("kind")
                 if kind not in FACT_KINDS:
                     errors.append(f"{fwhere}: kind {kind!r} is not one of {sorted(FACT_KINDS)}")
-                if not fact.get("source"):
+                source = fact.get("source")
+                if not source:
                     errors.append(f"{fwhere}: every fact needs a 'source'")
                 url = fact.get("url")
                 if url and not str(url).startswith(("http://", "https://")):
@@ -324,15 +405,41 @@ def build(check_only=False):
                          "text": check_multilang(fact.get("text"), languages,
                                                  f"{fwhere}.text", errors, values,
                                                  decimals_by_key),
-                         "source": fact.get("source")}
+                         "source": source}
+                # A card that quotes a figure has to let the reader check it.
+                quoted = "".join(str(v) for v in (fact.get("text") or {}).values())
+                if (not url and QUOTES_A_FIGURE_RE.search(quoted)
+                        and not INTERNAL_SOURCE_RE.search(str(source or ""))):
+                    errors.append(f"{fwhere}: quotes a figure but has no 'url' — give the "
+                                  f"link that opens {source!r} itself, or cite the nW-BE "
+                                  f"section if the model computes the figure")
                 if url:
                     entry["url"] = url
+                if "chart" in fact:
+                    chart = check_chart(fact["chart"], languages, f"{fwhere}.chart",
+                                        errors, values, decimals_by_key)
+                    if chart:
+                        entry["chart"] = chart
+                        chart_source = chart.get("source", source)
+                        if (not chart.get("url", url if "source" not in chart else None)
+                                and not INTERNAL_SOURCE_RE.search(str(chart_source or ""))):
+                            errors.append(f"{fwhere}.chart: plotted data needs a 'url' "
+                                          f"opening {chart_source!r}")
                 if fact.get("reveal"):
                     entry["reveal"] = True      # held back until the reveal screen
                 else:
                     for lang, text in entry["text"].items():
                         spoiler_check(raw_text(fact.get("text"), lang), text, lang,
                                       f"{fwhere}.text.{lang}", lv, errors)
+                    # a plotted bar sitting exactly on negaWatt's value gives the
+                    # answer away as surely as printing it
+                    places = lv.get("decimals", 1)
+                    for i, value in enumerate(entry.get("chart", {}).get("y") or []):
+                        if isinstance(value, (int, float)) and not isinstance(value, bool) \
+                                and round(value, places) == round(lv["targetValue"], places):
+                            errors.append(f"{fwhere}.chart: y[{i}] is negaWatt's own value "
+                                          f"for this lever — flag the fact 'reveal: true' "
+                                          f"or leave the point out")
                 rec["facts"].append(entry)
 
             # --- the historical curve ---------------------------------------
@@ -397,9 +504,11 @@ def build(check_only=False):
 
     n_levers = sum(len(t["levers"]) for t in topics.values())
     n_facts = sum(len(l["facts"]) for t in topics.values() for l in t["levers"].values())
+    n_charts = sum(1 for t in topics.values() for l in t["levers"].values()
+                   for f in l["facts"] if f.get("chart"))
     print(f"ui strings   {len(ui_strings)} x {len(languages)} languages")
     print(f"topics       {len(topics)} ({', '.join(topics)})")
-    print(f"levers       {n_levers} with {n_facts} facts")
+    print(f"levers       {n_levers} with {n_facts} facts ({n_charts} carrying a plot)")
 
     if check_only:
         print("\nvalidation only — nothing written")

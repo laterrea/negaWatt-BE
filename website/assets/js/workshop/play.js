@@ -234,6 +234,8 @@
       var card = document.createElement("article");
       card.className = "ws-fact";
       card.dataset.kind = fact.kind || "structure";
+      // attached before it is filled: a chart measures the box it lands in
+      box.appendChild(card);
 
       var kind = document.createElement("span");
       kind.className = "ws-fact__kind";
@@ -244,6 +246,9 @@
       text.className = "ws-fact__text";
       T.rich(text, T.pick(fact.text));
       card.appendChild(text);
+
+      // a fact may carry its own small plot (`chart:` in the content YAML)
+      if (fact.chart) window.NW_SPARK.factChart(card, fact.chart);
 
       if (fact.source) {
         var src = document.createElement("p");
@@ -261,7 +266,6 @@
         }
         card.appendChild(src);
       }
-      box.appendChild(card);
     });
   }
 

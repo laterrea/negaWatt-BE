@@ -678,3 +678,26 @@
   cursor: pointer;
 }
 .ws-linkbtn:hover { color: var(--nw-teal-dark); }
+
+/* ------------------------------------------------- a plot inside a fact card */
+/* Declared as a fact's `chart:` block in the content YAML and drawn by
+   spark.js, so it appears on the screen, on the printed card and on the reveal
+   from the one declaration. */
+.ws-fact__chart {
+  margin: 10px 0 0;
+  padding: 0;
+}
+.ws-fact__chart figcaption {
+  margin-top: 4px;
+  font-size: .7rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+.ws-fact__chart figcaption a { color: var(--nw-teal-dark); }
+.ws-card__chart { margin-top: 6px; }
+.ws-card__chart figcaption { font-size: .66rem; }
+
+@media print {
+  .ws-card__chart { margin-top: 4px; break-inside: avoid; }
+  .ws-card__chart figcaption { font-size: 6.5pt; }
+}
