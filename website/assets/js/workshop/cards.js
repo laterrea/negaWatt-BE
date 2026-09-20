@@ -97,7 +97,8 @@
         p.className = "ws-card__fact";
         facts.appendChild(p);
         var kind = document.createElement("b");
-        kind.textContent = T.t("play.facts.kind." + (fact.kind || "structure"));
+        kind.textContent = T.pick(fact.label)
+          || T.t("play.facts.kind." + (fact.kind || "structure"));
         p.appendChild(kind);
         var span = document.createElement("span");
         T.rich(span, T.pick(fact.text));

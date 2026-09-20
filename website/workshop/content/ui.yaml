@@ -117,9 +117,13 @@ strings:
     nl: Belgische context
     en: Belgian context
   play.facts.kind.benchmark:
-    fr: Ailleurs en Europe
-    nl: Elders in Europa
-    en: Elsewhere in Europe
+    fr: Comparaison internationale
+    nl: Internationale vergelijking
+    en: International comparison
+  play.facts.kind.lever:
+    fr: Un levier, chiffré
+    nl: Eén hefboom, becijferd
+    en: One lever, quantified
   play.facts.kind.tangible:
     fr: Concrètement
     nl: Concreet
@@ -208,6 +212,23 @@ strings:
     fr: Revoir nos réponses
     nl: Onze antwoorden bekijken
     en: Review our answers
+  # The +/- effects chart on the summary screen (opt-in per topic).
+  play.effects.title:
+    fr: L'effet de vos réponses
+    nl: Het effect van jullie antwoorden
+    en: What your answers do
+  play.effects.zero:
+    fr: niveau de {year}
+    nl: niveau van {year}
+    en: "{year} level"
+  play.effects.totalSaves:
+    fr: "Ensemble, vos réponses retirent {twh} par rapport au maintien des niveaux actuels."
+    nl: "Samen halen jullie antwoorden {twh} weg tegenover het behoud van de huidige niveaus."
+    en: "Together, your answers take away {twh} against keeping today's levels."
+  play.effects.totalCosts:
+    fr: "Ensemble, vos réponses ajoutent {twh} par rapport au maintien des niveaux actuels."
+    nl: "Samen voegen jullie antwoorden {twh} toe tegenover het behoud van de huidige niveaus."
+    en: "Together, your answers add {twh} against keeping today's levels."
   play.saved:
     fr: Enregistré
     nl: Opgeslagen

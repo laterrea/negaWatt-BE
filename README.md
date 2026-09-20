@@ -184,6 +184,23 @@ observed curve, and it starts unset — a default value would anchor the group. 
 come from the notebook, prose from the YAML, and the build keeps them honest about each
 other (rationale in `docs/workshop_module.md`).
 
+**The summary screen** can close with a diverging ± bar chart — one bar per lever, showing what
+that single answer does to the sector's 2050 final demand against keeping today's level. It is
+opt-in per topic, because it needs every lever to carry a usable `impact` response:
+
+```yaml
+summaryChart:
+  enabled: true
+  unit: TWh
+  decimals: 2
+  caption: {fr: …, nl: …, en: …}     # what the chart shows
+  note:    {fr: …, nl: …, en: …}     # the single-lever caveat
+```
+
+Deliberately not a cumulative waterfall: the levers compound multiplicatively, so their
+single-lever effects do not add up across 2019 → 2050, and a chart anchored where they do
+would print négaWatt's own total before the reveal. See D40.
+
 ### Editing the cards
 
 Two kinds of card, both written in `website/workshop/content/<topic>.yaml`. (Not to be
@@ -241,8 +258,8 @@ levers:
 `facts:` — nothing else to touch, and no notebook run. Aim for four pre-answer facts
 (the build notes anything under three); they are also what gets printed on the paper
 card. Keep one of each kind where the material allows: `trend` how it moved, `structure`
-how Belgium is built, `benchmark` elsewhere in Europe, `tangible` what it feels like,
-`caution` what the number hides.
+how Belgium is built, `benchmark` how elsewhere compares, `lever` one mechanism quantified on
+its own, `tangible` what it feels like, `caution` what the number hides.
 
 **Adding or removing a question card.** A question card is half notebook, half YAML, and
 the build refuses to let the two disagree:
@@ -282,6 +299,10 @@ printed card and on the reveal.
 
 A `line` chart takes `x:` (the years) instead of `labels:`, the same length as `y:`.
 Working example: the second fact of `truck-share` in `inland-mobility.yaml`.
+
+A plotted value the notebook computes is written `"{key}"`, exactly like one quoted in a
+sentence — `y: ["{carKmDay2019}", "{busKmDay2019}", 8.7]` — so rule 3 holds for charts too.
+Literal numbers stay allowed, for external data the model does not compute.
 
 A plot is data, so it obeys the same rules as the sentence beside it. The caption is
 trilingual; the numbers are sourced — the chart inherits the fact's `source`/`url`, or

@@ -231,6 +231,9 @@ Each decision records *why*, so it can be revisited on purpose rather than by ac
 | D38 | Group names are optional, and no longer unique | The name only labels a dot on the reveal, so demanding one before question 1 was a barrier for nothing, and refusing a duplicate mid-workshop ("Table 3 is taken") was worse. Empty means the server names the group after its rank in the day; the reveal numbers any labels that collide. |
 | D39 | `results.php` needs no credential | The reveal screen is meant to be opened on a projector without anyone typing a key, and the payload is slider values plus a one-line condition on an unlisted, `noindex` page. The group token stays, because it does real work: it stops one device overwriting another group's answers. See Q9. |
 | D35 | A topic may declare its own interface strings in its YAML | So a new topic needs no edit to the shared `ui.yaml`. A key already defined elsewhere is an error, not a silent override. |
+| D40 | **The summary screen's chart is a diverging ± bar per lever, not a cumulative waterfall**, and it is opt-in per topic | Asked for as "a bar chart with pluses and minuses, showing the effect of the measures on the sector's final consumption against 2019". A true waterfall was tested first and rejected on measurement: the levers compound multiplicatively, so single-lever effects do not add up over a span as wide as 2019 → 2050 — summing the eight "back to 2019" effects gives 33.9 TWh where the notebook gives 39.3, a 14% residual bar. Around négaWatt's own point the interaction is only ~3% (all seven levers pushed hard together: −0.18 TWh on a +5.92 TWh joint change), but a chart anchored *there* would print the scenario's 2050 total on the participant's screen before the reveal, which D17 forbids. So each bar is instead `contribution()` — the very number already shown under each question — exact on its own, with the sum labelled an order of magnitude. Opt-in because a topic whose levers lack a usable `impact` response cannot draw it; the build refuses `summaryChart: enabled` in that case (residential and tertiary heat both fail today, on `district-heat`). |
+| D41 | A fact's `chart:` may write its `y:` values as `"{placeholder}"` | Rule 3 said no model number is typed by hand, but charts were exempt by omission — the first plots of model quantities had their numbers copied into the YAML, free to drift. A lone `"{key}"` in `y:` now resolves from the lever's `facts` block exactly like one in a sentence, and the spoiler check still runs on the resolved value. Literal numbers remain allowed, for external data the model does not compute. |
+| D42 | A `lever` fact kind, beside trend / structure / benchmark / tangible / caution | `car-energy` bundles three mechanisms into one number, and the review asked for each to be quantified and sourced on its own card. Three consecutive "Contexte belge" labels would have read as one repeated card; "Un levier, chiffré" names what the card actually is. |
 
 ---
 
@@ -371,7 +374,111 @@ Found while fixing the above:
 
 ---
 
-## 12. Adding a topic
+## 12. Review round, 2026-09-20 — inland mobility
+
+Second run-through by Sylvain, nine sets of comments on the inland-mobility topic. The
+content changes are in `website/workshop/content/inland-mobility.yaml`; what follows is
+what is worth remembering about *why*.
+
+The topic went from 39 facts and 1 chart to **44 facts and 10 charts**, across 8 levers.
+
+| Lever | What changed |
+|---|---|
+| `ground-km-day` | The subtitle now names the modes that "motorised" covers. The Belgian card became the full per-mode split (25.8 car / 3.3 bus / 2.9 train / 0.35 tram / 0.42 two-wheeler km per person per day) with a bar chart, and states bike, walking and air as excluded. The benchmark moved from pkm/year to km/person/day and gained a second card with Japan (29.4) and the US (62.5) on the *same* scope, plus the world average (21.7) and Sub-Saharan Africa (~5.7) explicitly flagged as all-modes. |
+| `car-share` | Three new cards: car ownership by income, rural car dependence, and the vicinal tramways. |
+| `car-occupancy` | A benchmark card: Romania 1.87 and Latvia 1.74 against Belgium 1.28 and Italy 1.17. |
+| `car-energy` | The indicator is restated as the energy to *move the vehicle*; three `lever` cards quantify speed, eco-driving and mass separately; a trend card covers the growth of new cars. |
+| `bike-km-day` | A Flemish OVG series 2007–2020 as a line chart; Denmark; the regional split; a cycle-infrastructure card. |
+| `truck-share` | The discordant-sources caution removed; the energy-per-tkm card now ranks four modes including air freight, with a chart. |
+| `truck-load` | The 100%-load ceiling, with its own caution about what that ceiling assumes. |
+
+**Findings worth keeping, because they are counter-intuitive and a facilitator will be asked
+about them:**
+
+- **Denmark cycles *less* than Belgium** — 1.5 km/person/day (DTU, 2024) against Belgium's
+  1.68. Denmark's reputation rests on trip share (14.7% of journeys), not distance. Only the
+  Netherlands (2.9) is a genuine outlier. A group reasoning "let us be like Denmark" would be
+  aiming *below* today's Belgian level.
+- **Flemish cycling volume has no trend.** Eleven OVG waves from 2007 to 2020 wobble between
+  1.3 and 1.9 km/person/day with no direction. What rises is cycling's *share*, because total
+  distance travelled is falling. Thirteen years of policy did not move the kilometres.
+- **The Belgian cycling average hides two countries**: Flanders 2.5 km/day, Brussels 0.4,
+  Wallonia 0.2. A national 2050 target is mostly a question about regional convergence.
+- **High car occupancy comes from car scarcity, not carpooling.** Latvia reaches 1.74 with
+  381 cars per 1 000 inhabitants against Belgium's 510 at an identical household size; Italy,
+  the most car-equipped country in the set, has the lowest occupancy of all. This made the
+  existing "flat at 1.2–1.5 across the EU" card wrong on its own screen, so it was rescoped to
+  western Europe and now carries the real flatness evidence instead (England 1.6 every year
+  2002–2019; France flat since 2008, with 3% of passengers ever having carpooled).
+- **Air freight is 8× a truck per tonne-kilometre** (0.89 vs 0.111 kWh/tkm in 2050), so the
+  road-share lever only helps if the tonnes go to rail or water. §3.1.1 sends them 15 points to
+  rail and 10 to inland waterways and nothing to air; the reveal card now says so explicitly.
+- **Today's truck payload is under half the legal ceiling.** 44 t gross minus ~15 t of vehicle
+  leaves 29 t of payload; with one vehicle-km in five run empty the all-trips average tops out
+  near 23 t, against 12.65 t today.
+
+**Two sourcing rules were applied harder than before.** Figures that could not be opened were
+dropped even where they are widely repeated: the ADEME "110 instead of 130 km/h = −20%"; the
+"IEA: 10 km/h slower = −5 to −10% per driver" attribution (not in the 10-Point Plan — the real
+IEA figure is a national total); the "5 200 km of vicinal tramway in 1925" (the openable
+sources put 1925 at ~3 940 km non-electrified); the "trucks run at ~50% of capacity" claim (no
+primary source; the EEA load-factor indicator is discontinued and defines load factor
+differently). And **one card was refused outright**: a four-way cycle-path comparison of the
+Netherlands, Denmark, Flanders and Wallonia. The available figures count incompatible objects
+— 153 000 km of "roads where cyclists are allowed" in NL, 7 712 km along *regional roads only*
+in Flanders, 1 557 km of largely recreational RAVeL in Wallonia, nothing openable for Denmark
+— and charting them would tell a room that the Netherlands has a hundred times Flanders'
+infrastructure. The card that replaced it names the Flemish and Walloon networks while saying
+they are different things, and carries the quality figure that actually makes the point: 40.8%
+of cycle paths along Flemish regional roads score inadequate on design.
+
+**Two model changes came out of the review**, both in
+`nW_BE_demand_model_transports.ipynb`:
+
+- **Section 2.3.5 no longer lists powertrain efficiency among the ingredients of the −25%.**
+  `redu_fuel_PM_car` multiplies the kWh/km of each propulsion type *separately*, so it carries
+  the energy needed to move the vehicle — speed, mass, aerodynamics, driving style — while the
+  choice of propulsion is section 2.2.5's business. The old fourth bullet ("more efficient
+  power trains, including regenerative braking") straddled both and made the workshop question
+  unanswerable. The −25% value is unchanged; the section now also quotes orders of magnitude
+  from the literature for each of the three remaining ingredients.
+- **A removable division by zero in cell 27 is fixed.** `rem_dlt_PM_abs` was computed as
+  `(1 - dlt_PM_spe_avi_lng/dlt_PM_spe) * dlt_PM_spe`, which is algebraically
+  `dlt_PM_spe - dlt_PM_spe_avi_lng` but goes 0/0 when `pro_PM_spe == 0`. The model then
+  returned 11.2 TWh instead of ~24.5 with no error raised, so it could not be run with no
+  overall mobility reduction — the obvious first point of a sensitivity sweep. Found while
+  checking the waterfall arithmetic. The fix is behaviour-neutral: the négaWatt point is
+  23.076 TWh before and after, and `pro_PM_spe = 0` now gives 24.503, matching the limit.
+
+**The leverage arithmetic was verified against the notebook**, which had not been done before.
+Re-running the transport notebook with each assumption overridden and comparing the resulting
+2050 inland total against `impact.js`:
+
+| lever | value tested | notebook | impact.js | error |
+|---|---|---|---|---|
+| ground-km-day | 23.157 km/day | 20.220 | 20.250 | +0.030 |
+| car-share | 68.44 % | 23.782 | 23.653 | −0.129 |
+| car-occupancy | 1.500 | 25.392 | 25.391 | −0.001 |
+| car-energy | 95 % | 24.914 | 24.928 | +0.014 |
+| freight-tkm | 7 715 tkm | 25.564 | 25.564 | +0.000 |
+| truck-share | 63.50 % | 23.200 | 23.200 | +0.000 |
+| truck-load | 16.45 t | 22.242 | 22.242 | −0.000 |
+
+Worst error 0.13 TWh on a 23.08 TWh total. **A modal-shift lever cannot be moved on its own**
+in such a test: its destination splits must be rescaled to keep summing to the shift, or the
+notebook prints *"There is an error in the modal shift"* and the comparison is meaningless.
+
+**Known consequence, accepted:** the printed A5 deck no longer fits two cards to an A4 page
+for five of the eight levers, and grows from 4 pages to about 7. Nothing is clipped —
+`break-inside: avoid` lets a long card grow (D21).
+
+**Independent confirmation of a model input, worth recording:** Eurostat `road_go_ta_tott` for
+Belgium 2019, on exactly the lever's definition (tkm ÷ all vehicle-km), gives 12.41 t against
+JRC-IDEES' 12.65 t — within 2%.
+
+---
+
+## 13. Adding a topic
 
 This is the whole recipe. It is deliberately narrow: a new topic is **two new
 files**, and nothing else. Everything shared is either generic already or
@@ -480,7 +587,7 @@ sibling's notebook run makes one momentarily odd; re-run yours.
 
 ---
 
-## 13. Simplification round, 2026-09-03
+## 14. Simplification round, 2026-09-03
 
 The session layer is gone. It had cost the participant a code to type and the
 facilitator a console to open, a workshop name to invent and a key to paste — all

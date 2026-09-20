@@ -89,6 +89,19 @@
       <div class="ws-scroll">
         <table class="ws-table" id="summary-table"></table>
       </div>
+
+      <!-- Opt-in per topic: `summaryChart:` in the topic YAML. One diverging bar
+           per lever, showing what that answer alone does to the sector's 2050
+           final demand against keeping today's level. -->
+      <figure class="ws-effects ws-hidden" id="effects">
+        <figcaption>
+          <span class="ws-effects__title" id="effects-title"></span>
+          <span class="ws-effects__caption" id="effects-caption"></span>
+        </figcaption>
+        <div id="effects-plot"></div>
+        <p class="ws-effects__total" id="effects-total"></p>
+        <p class="ws-effects__note" id="effects-note"></p>
+      </figure>
     </div>
   </main>
 

@@ -485,6 +485,105 @@
     return fig;
   }
 
-  window.NW_SPARK = { history: history, dots: dots, mini: mini,
+  /* ------------------------------------------------------ the effects chart */
+  /* One diverging bar per lever on the summary screen: how much that single
+     answer moves the sector's 2050 final demand, against keeping today's level
+     of the same indicator. Positive is more energy, negative is less, and the
+     zero line is today.
+
+     Deliberately NOT a cumulative waterfall. The levers compound
+     multiplicatively, so single-lever effects do not add up across a span as
+     wide as 2019 -> 2050 (measured: 33.9 TWh against the notebook's 39.3), and
+     a chart anchored near negaWatt's own value instead would print the answer
+     on the participant's screen before the reveal. Each bar here is exact on
+     its own, which is the same contract as the per-question readout.
+
+     opts: {items: [{label, value, unanswered}], unit, decimals} */
+  function effects(node, opts) {
+    responsive(node, function () { drawEffects(node, opts); });
+  }
+
+  function drawEffects(node, o) {
+    var items = (o.items || []);
+    if (!items.length) { node.innerHTML = ""; return; }
+    var W = Math.max(240, node.clientWidth || 320);
+    // On a phone there is no room for a name column beside the bar, and the
+    // lever names are sentences, not country codes -- so below this width the
+    // name moves onto its own line above its bar. Participants read this page
+    // on their own phone; an unreadable chart there is no chart at all.
+    var narrow = W < 430;
+    var rowH = narrow ? 16 : 20;
+    var nameH = narrow ? 15 : 0;
+    var gap = narrow ? 12 : 9;
+    var H = items.length * (rowH + nameH + gap) + 16;
+    var labW = narrow ? 0 : Math.min(Math.max(W * 0.34, 82), 168);
+    // A value sits at the far end of its own bar, so both ends of the plotting
+    // area need room for one -- otherwise the longest negative bar's label lands
+    // on top of the lever names.
+    var pad = narrow ? 40 : 48;
+    var left = labW + pad, right = W - pad;
+    var iw = Math.max(30, right - left);
+    var vals = items.map(function (it) {
+      return isFinite(it.value) ? it.value : 0;
+    });
+    var hi = Math.max.apply(null, vals.concat([0]));
+    var lo = Math.min.apply(null, vals.concat([0]));
+    var span = (hi - lo) || 1;
+    var zero = left + (-lo / span) * iw;
+
+    var svg = el("svg", {
+      viewBox: "0 0 " + W + " " + H, width: "100%", height: H,
+      role: "img", "aria-label": o.srLabel || "effects"
+    });
+
+    // the zero line IS today's level, so it gets a label of its own
+    svg.appendChild(el("line", {
+      x1: zero, x2: zero, y1: 0, y2: H - 13, stroke: MUTED, "stroke-width": 1
+    }));
+    if (o.zeroLabel) {
+      svg.appendChild(el("text", {
+        x: Math.min(Math.max(zero, labW + 24), W - 24), y: H - 2,
+        "text-anchor": "middle", "font-size": 9.5, fill: MUTED
+      }, o.zeroLabel));
+    }
+
+    items.forEach(function (it, i) {
+      var top = i * (rowH + nameH + gap) + 4;
+      var y = top + nameH;
+      var v = isFinite(it.value) ? it.value : null;
+
+      svg.appendChild(el("text", narrow
+        ? { x: 1, y: top + 10, "text-anchor": "start", "font-size": 10.5,
+            fill: v === null ? MUTED : INK }
+        : { x: labW - 8, y: y + rowH - 6, "text-anchor": "end", "font-size": 10.5,
+            fill: v === null ? MUTED : INK },
+        it.label === undefined ? "" : String(it.label)));
+
+      if (v === null) {
+        svg.appendChild(el("text", {
+          x: zero + 6, y: y + rowH - 4, "text-anchor": "start", "font-size": 10,
+          "font-style": "italic", fill: MUTED
+        }, o.unansweredLabel || "\u2014"));
+        return;
+      }
+      var w = Math.abs(v) / span * iw;
+      var x = v < 0 ? zero - w : zero;
+      // amber = this answer costs energy, teal = it saves energy
+      svg.appendChild(el("rect", {
+        x: x, y: y, width: Math.max(w, 1.5), height: rowH, rx: 2,
+        fill: v > 0 ? AMBER : TEAL, "fill-opacity": 0.85
+      }));
+      svg.appendChild(el("text", {
+        x: v < 0 ? x - 5 : x + w + 5, y: y + rowH - 4,
+        "text-anchor": v < 0 ? "end" : "start", "font-size": 10.5,
+        "font-weight": 700, fill: v > 0 ? AMBER : TEAL_DARK
+      }, (v > 0 ? "+" : "\u2212") + fmt(Math.abs(v), o.decimals)));
+    });
+
+    node.innerHTML = "";
+    node.appendChild(svg);
+  }
+
+  window.NW_SPARK = { history: history, dots: dots, mini: mini, effects: effects,
                       factChart: factChart, fmt: fmt, domain: domain };
 })();

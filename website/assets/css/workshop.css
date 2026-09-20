@@ -344,6 +344,7 @@
 }
 .ws-fact[data-kind="trend"] .ws-fact__kind { background: #e3edfa; color: #2d5b8e; }
 .ws-fact[data-kind="benchmark"] .ws-fact__kind { background: #eae6f8; color: #55418f; }
+.ws-fact[data-kind="lever"] .ws-fact__kind { background: #fae7e3; color: #8d3a28; }
 .ws-fact[data-kind="tangible"] .ws-fact__kind { background: #e5f5ec; color: #17724a; }
 .ws-fact[data-kind="caution"] .ws-fact__kind { background: #fbf0dd; color: #8a5b12; }
 .ws-fact__text { margin: 0; font-size: .9rem; color: var(--ink-soft); }
@@ -700,4 +701,29 @@
 @media print {
   .ws-card__chart { margin-top: 4px; break-inside: avoid; }
   .ws-card__chart figcaption { font-size: 6.5pt; }
+}
+
+/* --------------------------------------------------------------------------
+   The +/- effects chart on the summary screen (opt-in per topic). One bar per
+   lever: what that answer alone does to the sector's 2050 final demand against
+   keeping today's level. Amber bars cost energy, teal bars save it.
+   -------------------------------------------------------------------------- */
+.ws-effects {
+  margin: 20px 0 0;
+  padding: 14px 14px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper-soft, #fbfcfc);
+}
+.ws-effects figcaption { display: flex; flex-direction: column; gap: 2px; margin-bottom: 10px; }
+.ws-effects__title {
+  font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink-soft);
+}
+.ws-effects__caption { font-size: .85rem; color: var(--ink-soft); }
+.ws-effects__total { margin: 8px 0 0; font-size: .88rem; font-weight: 600; color: var(--ink); }
+.ws-effects__note { margin: 4px 0 0; font-size: .76rem; color: var(--muted, #768584); }
+
+@media print {
+  .ws-effects { break-inside: avoid; }
 }

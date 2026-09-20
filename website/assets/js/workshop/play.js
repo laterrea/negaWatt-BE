@@ -239,7 +239,8 @@
 
       var kind = document.createElement("span");
       kind.className = "ws-fact__kind";
-      kind.textContent = T.t("play.facts.kind." + (fact.kind || "structure"));
+      kind.textContent = T.pick(fact.label)
+        || T.t("play.facts.kind." + (fact.kind || "structure"));
       card.appendChild(kind);
 
       var text = document.createElement("p");
@@ -413,8 +414,53 @@
       cell.textContent = answer.value === undefined ? "—"
         : T.num(answer.value, lever.decimals) + " " + T.unit(lever.unit);
     });
+    drawEffects();
     $("btn-back").disabled = false;
     $("btn-next").classList.add("ws-hidden");
+  }
+
+  /* One diverging bar per lever: what that single answer does to the sector's
+     2050 final demand, against keeping today's level of the same indicator —
+     the very number the group saw under each question, gathered in one picture.
+
+     Opt-in per topic (`summaryChart:` in the topic YAML), because it only makes
+     sense where every lever has a usable single-lever response. See D40. */
+  function drawEffects() {
+    var box = $("effects");
+    if (!box) return;
+    var conf = (topicContent() || {}).summaryChart;
+    var plot = $("effects-plot");
+    if (!conf) { box.classList.add("ws-hidden"); return; }
+    box.classList.remove("ws-hidden");
+
+    var items = state.order.map(function (id) {
+      var lever = levers()[id];
+      var answer = state.answers[id] || {};
+      var value = answer.value === undefined ? null : answer.value;
+      return {
+        label: T.pick(leverContent(id).short) || lever.name,
+        value: value === null ? null
+             : window.NW_IMPACT.contribution(lever.impact, value, lever.refValue)
+      };
+    });
+
+    $("effects-title").textContent = T.t("play.effects.title");
+    $("effects-caption").textContent = T.pick(conf.caption);
+    $("effects-note").textContent = T.pick(conf.note);
+    window.NW_SPARK.effects(plot, {
+      items: items,
+      decimals: conf.decimals,
+      zeroLabel: T.t("play.effects.zero", { year: (levers()[state.order[0]] || {}).refYear }),
+      unansweredLabel: T.t("play.unanswered"),
+      srLabel: T.pick(conf.caption)
+    });
+
+    var answered = items.filter(function (it) { return it.value !== null; });
+    var sum = answered.reduce(function (a, it) { return a + it.value; }, 0);
+    $("effects-total").textContent = answered.length
+      ? T.t(sum < 0 ? "play.effects.totalSaves" : "play.effects.totalCosts",
+            { twh: T.num(Math.abs(sum), 1) + " " + conf.unit })
+      : "";
   }
 
   /* ----------------------------------------------------------------- updates */

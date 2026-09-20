@@ -1,4 +1,4 @@
-# generated from nW_BE.py; refresh from notebooks to detect transcription drift
+# generated from nW_BE demand-model notebooks; CI compares nW_BE.py to this file
 source,sector,key,year,value_twh
 buildings,residential,distributed heat residential,2019,0.150987
 buildings,residential,distributed heat residential,2030,2.33057

@@ -244,7 +244,8 @@
         extra.appendChild(card);          // attached first, so a chart can size itself
         var kind = document.createElement("span");
         kind.className = "ws-fact__kind";
-        kind.textContent = T.t("play.facts.kind." + (fact.kind || "structure"));
+        kind.textContent = T.pick(fact.label)
+          || T.t("play.facts.kind." + (fact.kind || "structure"));
         card.appendChild(kind);
         var text = document.createElement("p");
         text.className = "ws-fact__text";

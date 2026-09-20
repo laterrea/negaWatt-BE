@@ -2,7 +2,7 @@
 window.NW_LEVERS = window.NW_LEVERS || {};
 window.NW_LEVERS["transport"] = {
   "title": "Mobility & transport",
-  "generated": "2026-09-03",
+  "generated": "2026-09-20",
   "levers": {
     "ground-km-day": {
       "topic": "inland-mobility",
@@ -35,6 +35,15 @@ window.NW_LEVERS["transport"] = {
       "facts": {
         "pkmYear2019": 11927,
         "pkmYearTarget": 11127,
+        "carKmDay2019": 25.8,
+        "busKmDay2019": 3.3,
+        "railKmDay2019": 2.9,
+        "tramKmDay2019": 0.35,
+        "motoKmDay2019": 0.42,
+        "bikeKmDay2019": 1.68,
+        "walkKmDay2019": 0.72,
+        "peetersMinKmDay": 13.7,
+        "peetersMaxKmDay": 41.1,
         "changePct": -6.7,
         "totalIntensityChangePct": -10.0,
         "aviationChangePct": -45.6,
@@ -303,7 +312,9 @@ window.NW_LEVERS["transport"] = {
         "truckKwhPerTkm": 0.1112,
         "bargeKwhPerTkm": 0.2033,
         "railKwhPerTkm": 0.0299,
-        "truckKwhPerTkm2019": 0.4573
+        "truckKwhPerTkm2019": 0.4573,
+        "airKwhPerTkm": 0.893,
+        "airShareTkm2019": 5.0
       },
       "spoilers": [
         "shiftPct",

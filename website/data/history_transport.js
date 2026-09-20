@@ -2,7 +2,7 @@
 window.NW_HISTORY = window.NW_HISTORY || {};
 window.NW_HISTORY["transport"] = {
   "title": "Mobility & transport — observed",
-  "generated": "2026-09-02",
+  "generated": "2026-09-20",
   "series": {
     "ground_km_day": {
       "label": "Motorised ground travel per person",

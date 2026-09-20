@@ -2,7 +2,7 @@
 window.NW_HISTORY = window.NW_HISTORY || {};
 window.NW_HISTORY["buildings"] = {
   "title": "Buildings — observed",
-  "generated": "2026-09-02",
+  "generated": "2026-09-20",
   "series": {
     "res_m2_per_person": {
       "label": "Residential floor area per person",

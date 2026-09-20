@@ -208,6 +208,16 @@ def build(ctx):
                         "with aviation in section 2.1.1"},
          history="ground_km_day",
          facts={"pkmYear2019": round(_mot_pkm[_Y0]), "pkmYearTarget": round(_mot_pkm[_Y1]),
+                "carKmDay2019":  round(_act(df_PM, "car", "pkm/person", _Y0) / 365.0, 1),
+                "busKmDay2019":  round(_act(df_PM, "bus&coach", "pkm/person", _Y0) / 365.0, 1),
+                "railKmDay2019": round((_act(df_PM, "train-conventional", "pkm/person", _Y0)
+                                        + _act(df_PM, "train-high speed", "pkm/person", _Y0)) / 365.0, 1),
+                "tramKmDay2019": round(_act(df_PM, "tram&metro", "pkm/person", _Y0) / 365.0, 2),
+                "motoKmDay2019": round(_act(df_PM, "two-wheeler", "pkm/person", _Y0) / 365.0, 2),
+                "bikeKmDay2019": round(_act(df_PM, "bicycle", "pkm/person", _Y0) / 365.0, 2),
+                "walkKmDay2019": round(_act(df_PM, "pedestrian", "pkm/person", _Y0) / 365.0, 2),
+                "peetersMinKmDay": round(ref_pm_spe_ground_min / 365.0, 1),
+                "peetersMaxKmDay": round(ref_pm_spe_ground_max / 365.0, 1),
                 "changePct": round(100 * (_mot_km_d[_Y1] / _mot_km_d[_Y0] - 1), 1),
                 "totalIntensityChangePct": round(pro_PM_spe * 100, 1),
                 "aviationChangePct": round(100 * (_act(df_PM, "plane-extra EU", "pkm/person", _Y1)
@@ -317,7 +327,17 @@ def build(ctx):
                 "truckKwhPerTkm": round(_intensity(_ft_twh, df_FT, "truck-heavy duty", "Gtkm", _Y1), 4),
                 "bargeKwhPerTkm": round(_intensity(_ft_twh, df_FT, "navigation-inland", "Gtkm", _Y1), 4),
                 "railKwhPerTkm": round(_intensity(_ft_twh, df_FT, "train", "Gtkm", _Y1), 4),
-                "truckKwhPerTkm2019": round(_intensity(_ft_twh, df_FT, "truck-heavy duty", "Gtkm", _Y0), 4)},
+                "truckKwhPerTkm2019": round(_intensity(_ft_twh, df_FT, "truck-heavy duty", "Gtkm", _Y0), 4),
+                # Air freight is in the denominator of this share but is never a
+                # destination of the shift -- section 3.1.1 sends heavy-truck tonne-km
+                # to rail and inland waterways only. Exported so the card can say why.
+                "airKwhPerTkm": round((_twh(_ft_twh, "plane-intra EU", _Y1)
+                                       + _twh(_ft_twh, "plane-extra EU", _Y1))
+                                      / (_act(df_FT, "plane-intra EU", "Gtkm", _Y1)
+                                         + _act(df_FT, "plane-extra EU", "Gtkm", _Y1)), 3),
+                "airShareTkm2019": round(100 * (_act(df_FT, "plane-intra EU", "tkm/person", _Y0)
+                                                + _act(df_FT, "plane-extra EU", "tkm/person", _Y0))
+                                         / _ft_spe[_Y0], 1)},
          spoilers=["shiftPct", "toRailPct", "toWaterPct"],
          notebook=_NB + "#section_3", reference="nW-BE §3.1")
 

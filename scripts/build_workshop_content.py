@@ -43,7 +43,7 @@ CONTENT_DIR = os.path.join(ROOT, "website", "workshop", "content")
 DATA_DIR = os.path.join(ROOT, "website", "data")
 OUT = os.path.join(DATA_DIR, "workshop_content.js")
 
-FACT_KINDS = {"trend", "structure", "benchmark", "tangible", "caution"}
+FACT_KINDS = {"trend", "structure", "benchmark", "lever", "tangible", "caution"}
 CHART_KINDS = {"bars", "line"}
 # A figure quoted on a card has to be checkable by the participant who doubts it,
 # so it needs a link that opens the source. The one exception is the model's own
@@ -56,6 +56,8 @@ RUNTIME_PLACEHOLDERS = {"value", "valuePerDay", "valuePerYear",
 NO_GROUPING = {"refYear", "targetYear"}
 # {key}, {key:abs} (drop the sign), {key:d2} (force two decimals)
 PLACEHOLDER_RE = re.compile(r"\{([A-Za-z][A-Za-z0-9_]*)(?::(abs|d[0-4]))?\}")
+# A chart value written as a lone "{key}" — the plotted equivalent of the above.
+BARE_PLACEHOLDER_RE = re.compile(r"\{([A-Za-z][A-Za-z0-9_]*)\}")
 NBSP = "\u00a0"
 
 TRANSLATABLE_FIELDS = ("question", "short", "subtitle", "tangible", "justification",
@@ -65,6 +67,12 @@ TRANSLATABLE_FIELDS = ("question", "short", "subtitle", "tangible", "justificati
 # choice, or the exercise hands over its answer. `justification`, `debate` and any
 # fact flagged `reveal: true` are exempt — they are the reveal.
 PRE_ANSWER_FIELDS = ("question", "short", "subtitle", "tangible")
+
+# `*stars*` become <em> only where the page calls NW_I18N.rich(): a fact's text,
+# the justification and the debate. Anywhere else they reach the screen as literal
+# asterisks, which is how a subtitle once shipped reading "*move the vehicle*".
+EMPHASIS_FIELDS = ("justification", "debate")
+EMPHASIS_RE = re.compile(r"\*[^*]+\*")
 
 
 class BuildError(Exception):
@@ -225,7 +233,7 @@ def check_multilang(node, languages, where, errors, values=None, decimals_by_key
     return out
 
 
-def check_chart(chart, languages, where, errors, values, decimals_by_key):
+def check_chart(chart, languages, where, errors, values, decimals_by_key, history=None):
     """Validate a fact's optional `chart:` block and return it ready to draw.
 
     A plot is data, so it is held to the same rule as the sentence beside it: it
@@ -240,11 +248,57 @@ def check_chart(chart, languages, where, errors, values, decimals_by_key):
     if kind not in CHART_KINDS:
         errors.append(f"{where}: chart kind {kind!r} is not one of {sorted(CHART_KINDS)}")
 
+    # An observed curve is never typed out: `series:` names one of the measured
+    # series of history_<sector>.js, and the years and values are read from it at
+    # build time. A lever whose own history is absent can still show the closest
+    # measured curve this way -- with `from:`/`to:` to window it. Same rule 3 as a
+    # "{placeholder}" value, applied to a whole series.
+    series_key = chart.get("series")
+    if series_key is not None:
+        series = ((history or {}).get("series") or {}).get(series_key)
+        if series is None:
+            known = ", ".join(sorted((history or {}).get("series") or {})) or "none"
+            errors.append(f"{where}: series {series_key!r} is not in the generated "
+                          f"history file (available: {known})")
+        elif kind != "line":
+            errors.append(f"{where}: 'series' is a measured curve, so the chart must "
+                          f"be a line")
+        elif chart.get("y") is not None or chart.get("x") is not None:
+            errors.append(f"{where}: 'series' already supplies 'x' and 'y' — remove them")
+        else:
+            lo, hi = chart.get("from"), chart.get("to")
+            pairs = [(x, y) for x, y in zip(series["x"], series["y"])
+                     if (lo is None or x >= lo) and (hi is None or x <= hi)]
+            if not pairs:
+                errors.append(f"{where}: the {series_key!r} window {lo}-{hi} is empty")
+            chart["x"] = [p[0] for p in pairs]
+            chart["y"] = [p[1] for p in pairs]
+            if chart.get("unit") is None and series.get("unit"):
+                chart["unit"] = series["unit"]
+            if chart.get("source") is None and series.get("source"):
+                chart["source"] = series["source"]
+
     ys = chart.get("y")
     if not isinstance(ys, list) or not ys:
         errors.append(f"{where}: 'y' must be a non-empty list of numbers")
         ys = []
+    # A plotted value the notebook computes is written "{key}", exactly like one
+    # quoted in a sentence, so a chart of model quantities cannot drift either.
     for i, value in enumerate(ys):
+        if isinstance(value, str):
+            match = BARE_PLACEHOLDER_RE.fullmatch(value.strip())
+            key = match.group(1) if match else None
+            if key is None:
+                errors.append(f"{where}: y[{i}] = {value!r} is neither a number nor a "
+                              f"single {{placeholder}}")
+            elif key not in values:
+                errors.append(f"{where}: y[{i}] uses unknown placeholder {{{key}}} "
+                              f"(available: {', '.join(sorted(values)) or 'none'})")
+            elif isinstance(values[key], bool) or not isinstance(values[key], (int, float)):
+                errors.append(f"{where}: y[{i}] placeholder {{{key}}} resolves to "
+                              f"{values[key]!r}, which is not a number")
+            else:
+                ys[i] = value = values[key]
         if isinstance(value, bool) or not isinstance(value, (int, float)):
             errors.append(f"{where}: y[{i}] = {value!r} is not a number")
 
@@ -285,13 +339,17 @@ def check_chart(chart, languages, where, errors, values, decimals_by_key):
                       f"it is also what a screen reader announces")
     caption = check_multilang(chart.get("caption") or {}, languages,
                               f"{where}.caption", errors, values, decimals_by_key)
+    for lang, text in caption.items():
+        if EMPHASIS_RE.search(text):
+            errors.append(f"{where}.caption.{lang}: a caption is plain text, so the "
+                          f"asterisks would show on screen. Reword it.")
 
     out = {"kind": kind, "y": ys, "caption": caption}
     if xs is not None:
         out["x"] = xs
     if labels:
         out["labels"] = labels
-    for key in ("unit", "decimals", "highlight", "height", "source", "url"):
+    for key in ("unit", "decimals", "highlight", "height", "source", "url", "series"):
         if chart.get(key) is not None:
             out[key] = chart[key]
     return out
@@ -354,6 +412,32 @@ def build(check_only=False):
             "levers": {},
         }
 
+        # Optional: the +/- effects chart on the summary screen. Off unless the
+        # topic asks for it, because it only makes sense where every lever has a
+        # usable single-lever response function (`impact.kind` other than
+        # "negligible"). Declared per topic rather than globally for exactly that
+        # reason -- see docs/workshop_module.md, D40.
+        summary = doc.get("summaryChart")
+        if summary is not None:
+            if not isinstance(summary, dict):
+                errors.append(f"{name}.summaryChart: expected a block with 'enabled', "
+                              f"'caption' and 'note'")
+            elif summary.get("enabled"):
+                blind = sorted(lid for lid, lv in exported.items()
+                               if (lv.get("impact") or {}).get("kind") in (None, "negligible"))
+                if blind:
+                    errors.append(f"{name}.summaryChart: lever(s) {blind} have no usable "
+                                  f"impact response, so their bar would be blank -- give "
+                                  f"them an impact or turn the chart off")
+                topic["summaryChart"] = {
+                    "unit": summary.get("unit", "TWh"),
+                    "decimals": summary.get("decimals", 2),
+                    "caption": check_multilang(summary.get("caption"), languages,
+                                               f"{name}.summaryChart.caption", errors),
+                    "note": check_multilang(summary.get("note"), languages,
+                                            f"{name}.summaryChart.note", errors),
+                }
+
         for lid, content in yaml_levers.items():
             lv = exported.get(lid)
             if lv is None:
@@ -376,6 +460,13 @@ def build(check_only=False):
                     rec[field] = check_multilang(content[field], languages,
                                                  f"{where}.{field}", errors, values,
                                                  decimals_by_key)
+                    if field not in EMPHASIS_FIELDS:
+                        for lang, text in rec[field].items():
+                            if EMPHASIS_RE.search(text):
+                                errors.append(
+                                    f"{where}.{field}.{lang}: *emphasis* is only rendered in a "
+                                    f"fact's text, the justification and the debate — here the "
+                                    f"asterisks would show on screen. Reword it.")
                     if field in PRE_ANSWER_FIELDS:
                         for lang, text in rec[field].items():
                             spoiler_check(raw_text(content[field], lang), text, lang,
@@ -406,6 +497,20 @@ def build(check_only=False):
                                                  f"{fwhere}.text", errors, values,
                                                  decimals_by_key),
                          "source": source}
+                # A fact may retitle itself: the kind still sets the colour and
+                # the printed order, but the heading says what *this* card is
+                # about ("Décarbonation de l'aviation" rather than the generic
+                # "Comparaison internationale"). Trilingual like every other
+                # string, and plain text — the heading does not render emphasis.
+                if "label" in fact:
+                    label = check_multilang(fact.get("label"), languages,
+                                            f"{fwhere}.label", errors, values,
+                                            decimals_by_key)
+                    for lang, text in label.items():
+                        if EMPHASIS_RE.search(text):
+                            errors.append(f"{fwhere}.label.{lang}: a fact heading is plain "
+                                          f"text, so the asterisks would show on screen.")
+                    entry["label"] = label
                 # A card that quotes a figure has to let the reader check it.
                 quoted = "".join(str(v) for v in (fact.get("text") or {}).values())
                 if (not url and QUOTES_A_FIGURE_RE.search(quoted)
@@ -417,7 +522,7 @@ def build(check_only=False):
                     entry["url"] = url
                 if "chart" in fact:
                     chart = check_chart(fact["chart"], languages, f"{fwhere}.chart",
-                                        errors, values, decimals_by_key)
+                                        errors, values, decimals_by_key, history_doc)
                     if chart:
                         entry["chart"] = chart
                         chart_source = chart.get("source", source)
@@ -431,6 +536,9 @@ def build(check_only=False):
                     for lang, text in entry["text"].items():
                         spoiler_check(raw_text(fact.get("text"), lang), text, lang,
                                       f"{fwhere}.text.{lang}", lv, errors)
+                    for lang, text in entry.get("label", {}).items():
+                        spoiler_check(raw_text(fact.get("label"), lang), text, lang,
+                                      f"{fwhere}.label.{lang}", lv, errors)
                     # a plotted bar sitting exactly on negaWatt's value gives the
                     # answer away as surely as printing it
                     places = lv.get("decimals", 1)
