@@ -420,11 +420,28 @@ def build(check_only=False):
             "levers": {},
         }
 
+        # Optional: the "how sure are you?" question under each lever. Off
+        # unless the topic asks for it -- the screen already carries the slider,
+        # the facts and the condition, and the extra question is only worth its
+        # room where the facilitator plans to use the certainty spread.
+        confidence = doc.get("confidence", False)
+        if isinstance(confidence, dict):
+            confidence = confidence.get("enabled", False)
+        if not isinstance(confidence, bool):
+            errors.append(f"{name}.confidence: expected true/false (or a block "
+                          f"with 'enabled')")
+        elif confidence:
+            topic["confidence"] = True
+
         # Optional: the +/- effects chart on the summary screen. Off unless the
-        # topic asks for it, because it only makes sense where every lever has a
-        # usable single-lever response function (`impact.kind` other than
-        # "negligible"). Declared per topic rather than globally for exactly that
-        # reason -- see docs/workshop_module.md, D40.
+        # topic asks for it -- see docs/workshop_module.md, D40.
+        #
+        # A lever declaring `impact.kind: "negligible"` is allowed: it is a lever
+        # that provably cannot move this demand (a carrier split), and the chart
+        # prints "no effect on this demand" on its row instead of a bar (D50). A
+        # lever with *no* impact record at all is still refused -- that is a lever
+        # whose response was never worked out, and its blank row would be a lie
+        # of the same shape as a zero.
         summary = doc.get("summaryChart")
         if summary is not None:
             if not isinstance(summary, dict):
@@ -432,11 +449,12 @@ def build(check_only=False):
                               f"'caption' and 'note'")
             elif summary.get("enabled"):
                 blind = sorted(lid for lid, lv in exported.items()
-                               if (lv.get("impact") or {}).get("kind") in (None, "negligible"))
+                               if not (lv.get("impact") or {}).get("kind"))
                 if blind:
-                    errors.append(f"{name}.summaryChart: lever(s) {blind} have no usable "
-                                  f"impact response, so their bar would be blank -- give "
-                                  f"them an impact or turn the chart off")
+                    errors.append(f"{name}.summaryChart: lever(s) {blind} carry no impact "
+                                  f"record at all, so their bar would be blank -- give them "
+                                  f"an impact (use kind 'negligible' if the lever really "
+                                  f"cannot move this demand) or turn the chart off")
                 topic["summaryChart"] = {
                     "unit": summary.get("unit", "TWh"),
                     "decimals": summary.get("decimals", 2),

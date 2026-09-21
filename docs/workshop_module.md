@@ -155,8 +155,10 @@ make_lever("car-occupancy", topic="inland-mobility",
 
 produces `window.NW_LEVERS["transport"] = {generated, title, levers: {...}, model: {...}}`.
 
-`impact.kind` is one of `proportional | inverse | linear-shift | negligible`, evaluated
-client-side by `impact.js` against the exported per-mode 2050 TWh and energy intensities.
+`impact.kind` is one of `proportional | inverse | linear-shift | renovation | negligible`,
+evaluated client-side by `impact.js` against the exported per-mode 2050 TWh and energy
+intensities. `renovation` additionally carries `axis` ("rate" or "depth") and `other`, the
+companion lever's value — see D52.
 
 ### 4.2 Backend
 
@@ -239,6 +241,12 @@ Each decision records *why*, so it can be revisited on purpose rather than by ac
 | D45 | **One question may drive two model parameters — when the merge is exact.** `plane-fuel` replaces `long-haul-fuel` and `short-haul-fuel` | Asked for as "these two questions are almost the same one", and they were: both start within 3 % of each other (69.1 and 67.3 kWh per aircraft-km) and both ask how much energy an aeroplane needs to fly a kilometre. The merge is exact rather than approximate, which is what makes it admissible: energy is aircraft-km × fuel per aircraft-km, so the aircraft-km-weighted average *is* total kerosene energy over total kerosene aircraft-km, and the topic's demand stays exactly proportional to the merged value however the scenario splits it. The split it does make — long-haul −16 %, intra-EU +5 % — is not lost: it is a `reveal: true` fact. The module asserts that the merged value lies between the two it averages. |
 | D46 | The **aviation detail of JRC-IDEES-2023 entered the project**, and three levers stopped being history-less | Until this round every aviation lever declared `historyAbsent`, on the grounds that the JRC-IDEES *Transport* workbook was not available — so the workshop's central gesture, extending a measured curve to 2050, did not work on this topic at all. The workbook was found; `nW_BE_demand_data_aux.ipynb` now carries the occupancy and fuel-per-aircraft-km series for both haul types, 2000–2023, plus air-freight tonne-km. Its 2019 values reproduce the four anchors section 2.3 projects from, to the third decimal, and the notebook asserts it. `long-haul-load`, `short-haul-load`, `plane-fuel` and `air-freight` now extend a real line. |
 | D47 | **Air freight became a question, and section 3.1.4 gained the two parameters it reads** — both set to zero | The topic's own module documented air freight as "context, no lever of its own", and it is 3.5 TWh of the topic's 10.9 TWh in 2050 — a third of it, untouched, because the scenario makes no assumption about it and the notebook said so in a comment ("we should maybe consider reductions of aviation intensity, and other modal shifts"). Writing the assumption down as `pro_FT_spe_avi = 0` and `sft_FT_rel_avi_to_trn = 0` changes no number — verified byte-identical exports — and turns an omission into a visible choice that the workshop can ask about and the reveal can defend or attack. The destination of shifted tonne-km is rail, because deep-sea shipping, the real alternative, is not in the demand model at all; the card says so. |
+| D48 | **"How sure are you?" became opt-in per topic, and is off by default** | The question shipped on every screen from M3, under the slider and above the condition. Nothing consumes it except the radius of the reveal's dots, which already falls back to the middle value when it is null, and no session so far has used the certainty spread for anything. On a phone it costs a third field on a screen that already carries the slider, the readout, four fact cards and the condition — the one field of the three that no discussion turns on. A topic that wants it writes `confidence: true` in its YAML; the build refuses anything but a boolean (or a `{enabled: …}` block, like `summaryChart`). The API, the schema and the stored answers are untouched: `confidence` stays nullable and every endpoint already accepted a null. |
+| D49 | **The ± summary chart was turned on for both heat topics** | It had been declared for the mobility topics only, and the heat YAML that asked for it was refused by the build — see D50. Residential and tertiary heat now close on the same chart, which was the point of D40 in the first place. |
+| D50 | **`impact.kind: "negligible"` is an answer, not a missing one** | The rule written for the mobility topics was "every lever must have a usable response, or no chart", which cost six levers their picture because of one that is *provably* flat: `district-heat` and `ter-district-heat` are carrier splits, and `share_heat_dhn` + `share_heat_ihs` add to 1 in cell 57, so by construction they move no end-use demand at all. The build now refuses only a lever with **no impact record at all** — a response nobody worked out. `play.js` marks a negligible lever `neutral` instead of passing a null the chart would have drawn as "not answered", and `spark.js` prints "no effect on this demand" on its row, so the flat lever teaches something instead of looking like a hole. |
+| D51 | **One model assumption, two questions: `insulation` became `renovation-rate` × `renovation-depth`** | The review's verdict on the old question was that kWh/m² of stock average does not reach participants — a usability fact, and the one thing the desk analysis behind D19/D30 could not see. The resolution is not to re-base the lever on a renovation rate (that was rightly rejected: the 3 %/year of §2.1.1 is a *renewal* rate whose renovation component is a JRC booking constant) but to ask for **both halves of the same product**. Renovating a constant share `r` of the stock each year at a constant depth `d` makes the stock average fall *linearly* — exactly the shape §2.1.1 assumes — so `d × r` is pinned by the trajectory and the pair is exact. Only their product is observed, which is why it takes one assumption to split it: the notebook sets the **depth** at 60 %, the European Commission's own threshold for a "deep" renovation (Recommendation (EU) 2019/786), and the **rate** follows at 2.24 %/year. `trg_RS_tes_sht` and everything downstream of it are numerically unchanged — `buildings.js` moved by nothing but its generation date. The reveal's punchline is the decomposition itself: négaWatt does not renovate *more* homes than Belgium does today, it renovates them about two and a half times more deeply. |
+| D52 | **A fourth impact kind, `renovation`** | The two levers of D51 are neither `proportional` nor `linear-shift`: `I(N) = I(0)·[1 − depth·min(rate·N, 1)]` is linear in each one separately but carries the other lever's value as a coefficient, and it saturates where every dwelling has been renovated once. `impact.js` takes an `axis` ("rate" or "depth") and the companion's value in `other`, and returns the ratio of that factor to its value at négaWatt's pair — exact for a single lever, like every other kind, and the cap is a real teaching point rather than a fudge: past ~3.2 %/year, more speed buys nothing at a fixed depth. |
+| D53 | **Neither renovation lever extends an observed curve, and the two reasons are opposite** | The JRC renovation series is flat *by construction* (2.261 %/year, standard deviation 0.008 points over twenty-three years) — a booking convention, so drawing it as "observed" would assert a stability nobody measured; and the depth of the average Belgian renovation is measured nowhere at all. Both declare `historyAbsent` with a `historyNote` saying which of the two reasons applies. What the round did instead was split the mislabelled series in `nW_BE_demand_data_aux.ipynb`: `res_renewal_rate` (the old numbers, correctly named), `res_renovation_rate` (renewal minus net new build) and `res_new_build_rate`, same for tertiary. The renewal curve — the one that actually moves — is plotted on a fact card, where the caveat can be written beside it. |
 
 ---
 
@@ -675,3 +683,77 @@ are now on cards:
   recovery year. Stopping at 2019 instead would make the fuel targets more demanding and the
   occupancy targets less so. The `debate` blocks now say this.
 
+
+---
+
+## 16. Review round, 2026-09-21 — residential heat
+
+Sylvain reviewed the seven screens of *Chaleur des logements*. The working tracker, with
+the original comments verbatim and what was decided against each, is
+`notes_workshop_buildings.md` at the repository root. This section records the two
+structural changes; the wording changes are in the tracker.
+
+### The summary chart was refused, not broken (D49, D50)
+
+Both heat topics carry a lever whose response is *provably* flat — `district-heat` and
+`ter-district-heat` split space heating plus hot water between a network and individual
+boilers, and `share_heat_dhn + share_heat_ihs = 1` in cell 57, so the end-use total does
+not move. The build's rule was "every lever must carry a usable `impact`, or no chart",
+which cost the other six levers their picture because of one that cannot move anything by
+construction. `negligible` is now accepted as an answer, and the chart prints *"sans effet
+sur cette demande"* on that row.
+
+### Q2 split in two, and the notebook gained a renovation reading (D51, D52, D53)
+
+The old `insulation` lever asked for the 2050 stock average in kWh/m². Exact, with a real
+observed curve — and, the review found, not a quantity anyone at the table has a feel for,
+nor the form any renovation policy takes. The fix is **two questions on the same
+assumption**, which is admissible because they are the same arithmetic:
+
+> Renovate a constant share `r` of the stock each year, each renovation cutting a fraction
+> `d` off that dwelling's heating need, and the stock average falls **linearly**:
+> `I(t) = I(0)·[1 − d·r·t]` — which is the shape §2.1.1 already assumes. So `d × r` is
+> pinned by the trajectory, and fixing either one fixes the other.
+
+Only the *product* is observed, so splitting it costs exactly one assumption. Section 2.1.1
+of the buildings notebook now sets the **depth** at **60 %** — the European Commission's own
+threshold for calling a renovation "deep", Recommendation (EU) 2019/786, Annex 2.3.1.3 — and
+derives the **rate**, 2.24 %/year, which renovates 69.4 % of the stock by 2050. The same
+reading applied backwards sizes the choice: at the JRC renovation rate of 2.261 %/year, the
+observed −0.458 kWh/m²/year implies an average depth of about **25 %**. So the scenario's
+"doubling of the improvement rate" reads, in renovation terms, as *the same number of
+renovations, each about two and a half times deeper*.
+
+**Nothing downstream moved.** `trg_RS_tes_sht` is unchanged to the last digit and
+`website/data/buildings.js` differs from its committed version only in its generation date.
+The model's own input is still `acc_RS_tes_sht_ren = 2`; the new variables are a reading of
+it, and `workshop_levers/residential_heat.py` asserts that the pair reproduces both the 2050
+intensity and the observed improvement.
+
+**What the cards now carry**, all fetched and read before being written:
+
+| card | figure | source |
+|---|---|---|
+| rate · trend | the kWh/m² curve itself, now a *fact* with its plot rather than the question | JRC-IDEES-2023 |
+| rate · structure | renewal 3.0 %/year = renovation 2.261 + new build 0.746, with the curve that moves | decomposition in `nW_BE_demand_data_aux.ipynb` |
+| rate · benchmark | Wallonia 2023: 15 743 grant-backed renovations = 0.88 %/year (light 0.60, medium 0.18, deep 0.09); 3 %/year needed now, >5 %/year after 2040 | Plan wallon de Rénovation Énergétique des Bâtiments, *projet* (nov. 2025), Tableaux 2 and 20 |
+| rate · benchmark | Flanders: >3 %/year = >95 000 dwellings a year to reach label A in one job, against 0.6 %/year of permits | Vlaamse langetermijnrenovatiestrategie gebouwen 2050, pp. 5, 11-12 |
+| depth · structure | only the product is observed — and at today's depth, renovating *every* dwelling by 2050 cuts the average by just 25 % | nW-BE §2.1.1 |
+| depth · benchmark | the only Belgian measurement of depth: 20 % of final energy, averaged over Wallonia's 2023 renovations — and *modelled from the works done*, because no region holds before/after consumption | Plan wallon (projet, nov. 2025), Tableaux 2-3 p. 35 |
+| depth · caution | prebound: 30 % less than calculated on 3 400 German dwellings, reversing below 50 kWh/m²; comprehensive retrofits really save 25-35 %, not 70-80 % | Sunikka-Blank & Galvin (2012), *Building Research & Information* 40(3) |
+| depth · caution | the calculation vs the meter, here: 47 082 Flemish houses, EPB overestimates real gas use by 103 % and explains a quarter of the variance | Van Hove et al., Building Simulation 2021 (IBPSA) — Ghent University & VEKA |
+
+**A correction worth recording.** The paper the review pointed at for the rebound effect
+(`bs2021_30245`) is *not* a prebound/rebound study: it is a calculated-versus-metered study
+of new and thoroughly renovated Flemish houses, and the words "rebound" and "prebound" do
+not appear in its body. It is kept — it makes the reviewer's point better than a rebound
+paper would, and it is Belgian — but the actual prebound and rebound quantifications had to
+be sourced separately, from Sunikka-Blank & Galvin (2012) for prebound and, on the reveal
+side, from Aydin, Kok & Brounen (2017) for rebound after a subsidised retrofit programme
+(about 56 % of the expected saving taken back).
+
+**One unit trap, flagged on the cards rather than papered over.** The model's kWh/m² is a
+*useful heat* demand; Wallonia's 20 % is a cut in *final* energy; every regional label
+threshold (Flanders 100, Wallonia 85, Brussels 100 kWh/m²·year) is *primary* energy, and the
+same numeric value is label A in Flanders and class C in Brussels. The cards say which
+quantity each figure is; they do not convert between them.

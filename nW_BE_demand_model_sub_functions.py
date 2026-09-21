@@ -511,7 +511,8 @@ def write_hypotheses_js(sector_key, hypotheses, plots=None, title=None,
 # here: they live in website/workshop/content/<topic>.yaml and are merged in the
 # browser by lever id. See docs/workshop_module.md.
 
-LEVER_IMPACT_KINDS = ("proportional", "inverse", "linear-shift", "negligible")
+LEVER_IMPACT_KINDS = ("proportional", "inverse", "linear-shift", "renovation",
+                      "negligible")
 
 # Anti-anchoring guard (docs/workshop_module.md, decision D4): if the négaWatt
 # target sits at an end of the slider range, the range itself gives the answer

@@ -221,6 +221,10 @@ strings:
     fr: niveau de {year}
     nl: niveau van {year}
     en: "{year} level"
+  play.effects.neutral:
+    fr: sans effet sur cette demande
+    nl: zonder effect op deze vraag
+    en: no effect on this demand
   play.effects.totalSaves:
     fr: "Ensemble, vos réponses retirent {twh} par rapport au maintien des niveaux actuels."
     nl: "Samen halen jullie antwoorden {twh} weg tegenover het behoud van de huidige niveaus."
@@ -411,3 +415,19 @@ strings:
     fr: Réessayer
     nl: Opnieuw proberen
     en: Try again
+
+  # Chart axis units. A chart's raw `unit:` string is looked up here as
+  # `unit.<raw>` (i18n.js) and falls back to the raw string when absent, so a
+  # unit only needs an entry where the raw spelling would read wrong in FR/NL.
+  unit.rooms/person:
+    fr: pièces par personne
+    nl: kamers per persoon
+    en: rooms per person
+  "unit.kWh/m²/year":
+    fr: kWh/m² par an
+    nl: kWh/m² per jaar
+    en: kWh/m² per year
+  "unit.% of the stock per year":
+    fr: "% du parc par an"
+    nl: "% van het bestand per jaar"
+    en: "% of the stock per year"

@@ -269,6 +269,11 @@ window.NW_WS_CONTENT = {
       "nl": "niveau van {year}",
       "en": "{year} level"
     },
+    "play.effects.neutral": {
+      "fr": "sans effet sur cette demande",
+      "nl": "zonder effect op deze vraag",
+      "en": "no effect on this demand"
+    },
     "play.effects.totalSaves": {
       "fr": "Ensemble, vos réponses retirent {twh} par rapport au maintien des niveaux actuels.",
       "nl": "Samen halen jullie antwoorden {twh} weg tegenover het behoud van de huidige niveaus.",
@@ -494,6 +499,21 @@ window.NW_WS_CONTENT = {
       "nl": "Opnieuw proberen",
       "en": "Try again"
     },
+    "unit.rooms/person": {
+      "fr": "pièces par personne",
+      "nl": "kamers per persoon",
+      "en": "rooms per person"
+    },
+    "unit.kWh/m²/year": {
+      "fr": "kWh/m² par an",
+      "nl": "kWh/m² per jaar",
+      "en": "kWh/m² per year"
+    },
+    "unit.% of the stock per year": {
+      "fr": "% du parc par an",
+      "nl": "% van het bestand per jaar",
+      "en": "% of the stock per year"
+    },
     "unit.long-haul return trips per lifetime": {
       "fr": "voyages/vie",
       "nl": "reizen/leven",
@@ -574,10 +594,15 @@ window.NW_WS_CONTENT = {
       "nl": "m² woning/pers.",
       "en": "m² of home per person"
     },
-    "unit.kWh/m²/year of heating need": {
-      "fr": "kWh de chaleur/m²/an",
-      "nl": "kWh warmte/m²/jaar",
-      "en": "kWh of heat/m²/year"
+    "unit.% of homes renovated per year": {
+      "fr": "% du parc/an",
+      "nl": "% van het bestand/jaar",
+      "en": "% of the stock/year"
+    },
+    "unit.% of the heating need cut": {
+      "fr": "% du besoin en moins",
+      "nl": "% minder warmtevraag",
+      "en": "% less heating need"
     },
     "unit.°C less on the home thermostat": {
       "fr": "°C en moins",
@@ -3218,13 +3243,14 @@ window.NW_WS_CONTENT = {
         "en": "Heating, cooling, washing and cooking in Belgian homes. Non-residential buildings are the subject of a separate workshop."
       },
       "intro": {
-        "fr": "Vous allez fixer sept hypothèses de comportement et de politique publique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour le logement. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Chaque question tient sur un écran, avec quelques repères factuels pour nourrir la discussion.",
-        "nl": "Jullie stellen zeven gedrags- en beleidsveronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario voor woningen *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Elke vraag past op één scherm, met een paar feitelijke referentiepunten voor de discussie.",
-        "en": "You are going to set seven behavioural and policy assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures for housing. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. Each question fits on one screen, with a few factual anchors to feed the discussion."
+        "fr": "Vous allez fixer huit hypothèses de comportement et de politique publique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour le logement. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Chaque question tient sur un écran, avec quelques repères factuels pour nourrir la discussion.",
+        "nl": "Jullie stellen acht gedrags- en beleidsveronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario voor woningen *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Elke vraag past op één scherm, met een paar feitelijke referentiepunten voor de discussie.",
+        "en": "You are going to set eight behavioural and policy assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures for housing. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. Each question fits on one screen, with a few factual anchors to feed the discussion."
       },
       "order": [
         "floor-area",
-        "insulation",
+        "renovation-rate",
+        "renovation-depth",
         "thermostat",
         "hot-water",
         "cooling",
@@ -3286,21 +3312,96 @@ window.NW_WS_CONTENT = {
             {
               "kind": "benchmark",
               "text": {
-                "fr": "Sur une base voisine — les pièces, pas les mètres carrés — la Belgique est largement au-dessus de la moyenne : 2,1 pièces par personne en 2024, contre 1,7 dans l'UE27, 1,7 en Allemagne et 1,8 en France. Et 57,9 % des Belges vivent dans un logement jugé sous-occupé, contre 33,1 % dans l'UE27 — 74,9 % chez les 65 ans et plus.",
-                "nl": "Op een verwante basis — kamers, niet vierkante meters — zit België ruim boven het gemiddelde: 2,1 kamers per persoon in 2024, tegenover 1,7 in de EU27, 1,7 in Duitsland en 1,8 in Frankrijk. En 57,9 % van de Belgen woont in een als onderbezet beschouwde woning, tegenover 33,1 % in de EU27 — 74,9 % bij de 65-plussers.",
-                "en": "On a neighbouring basis — rooms, not square metres — Belgium sits well above the average: 2.1 rooms per person in 2024, against 1.7 in the EU27, 1.7 in Germany and 1.8 in France. And 57.9% of Belgians live in a dwelling counted as under-occupied, against 33.1% in the EU27 — 74.9% among people aged 65 and over."
+                "fr": "Sur une base voisine — les pièces, pas les mètres carrés — la Belgique est largement au-dessus de la moyenne : 2,1 pièces par personne en 2024, contre 1,7 dans l'UE27, 1,7 en Allemagne et 1,8 en France.",
+                "nl": "Op een verwante basis — kamers, niet vierkante meters — zit België ruim boven het gemiddelde: 2,1 kamers per persoon in 2024, tegenover 1,7 in de EU27, 1,7 in Duitsland en 1,8 in Frankrijk.",
+                "en": "On a neighbouring basis — rooms, not square metres — Belgium sits well above the average: 2.1 rooms per person in 2024, against 1.7 in the EU27, 1.7 in Germany and 1.8 in France."
               },
-              "source": "Eurostat, ilc_lvho03 (rooms per person) and ilc_lvho50a (under-occupation), 2024",
-              "url": "https://ec.europa.eu/eurostat/databrowser/view/ilc_lvho03/default/table"
+              "source": "Eurostat, ilc_lvho03 (average number of rooms per person), 2024",
+              "url": "https://ec.europa.eu/eurostat/databrowser/view/ilc_lvho03/default/table",
+              "chart": {
+                "kind": "bars",
+                "y": [
+                  1.7,
+                  1.7,
+                  1.8,
+                  2.1
+                ],
+                "caption": {
+                  "fr": "Nombre moyen de pièces par personne, 2024",
+                  "nl": "Gemiddeld aantal kamers per persoon, 2024",
+                  "en": "Average number of rooms per person, 2024"
+                },
+                "labels": [
+                  {
+                    "fr": "UE27",
+                    "nl": "EU27",
+                    "en": "EU27"
+                  },
+                  {
+                    "fr": "Allemagne",
+                    "nl": "Duitsland",
+                    "en": "Germany"
+                  },
+                  {
+                    "fr": "France",
+                    "nl": "Frankrijk",
+                    "en": "France"
+                  },
+                  {
+                    "fr": "Belgique",
+                    "nl": "België",
+                    "en": "Belgium"
+                  }
+                ],
+                "unit": "rooms/person",
+                "decimals": 1,
+                "highlight": 3
+              }
             },
             {
-              "kind": "tangible",
+              "kind": "lever",
               "text": {
-                "fr": "Le parc belge compte 625 millions de m² de plancher habitable : environ 2 % de la superficie du pays (30 689 km²), à chauffer chaque hiver.",
-                "nl": "Het Belgische woningbestand telt 625 miljoen m² woonvloer: ongeveer 2 % van de oppervlakte van het land (30.689 km²), elke winter te verwarmen.",
-                "en": "The Belgian stock holds 625 million m² of living floor: about 2% of the country's surface (30,689 km²), to be heated every winter."
+                "fr": "Au recensement 2021, 46,6 % des logements occupés en Belgique — 2,3 millions — offrent trois pièces ou plus par occupant. En Wallonie, l'IWEPS isole 233 617 maisons occupées par un propriétaire de 65 ans ou plus : 99,6 % n'y abritent qu'une ou deux personnes, et 89 % comptent cinq pièces ou plus. Accueillir quelqu'un sous le même toit, ou couper la maison en deux logements (habitat kangourou, colocation, division), fait baisser la surface par personne sans poser une brique. Le frein est réglementaire plutôt que technique : diviser demande un permis communal, et le *statut de cohabitant* ampute les allocations de ceux qui s'installent ensemble.",
+                "nl": "Bij de census 2021 telde 46,6 % van de bewoonde woningen in België — 2,3 miljoen — drie kamers of meer per bewoner. In Wallonië zondert het IWEPS 233 617 huizen af die bewoond worden door een eigenaar van 65 jaar of ouder: 99,6 % daarvan huisvest maar één of twee personen, en 89 % telt vijf kamers of meer. Iemand onder hetzelfde dak opnemen, of het huis in twee woningen opdelen (kangoeroewonen, samenhuizen, opdeling), verlaagt de oppervlakte per persoon zonder één steen te leggen. De rem is eerder regelgevend dan technisch: opdelen vergt een gemeentelijke vergunning, en het *statuut van samenwonende* snijdt in de uitkeringen van wie samen gaat wonen.",
+                "en": "At the 2021 census, 46.6% of occupied dwellings in Belgium — 2.3 million — had three rooms or more per occupant. In Wallonia, IWEPS singles out 233,617 houses occupied by an owner aged 65 or over: 99.6% of them hold only one or two people, and 89% have five rooms or more. Taking someone in under the same roof, or splitting the house into two dwellings (kangaroo housing, house-sharing, subdivision), lowers floor area per person without laying a brick. The obstacle is regulatory rather than technical: subdividing needs a municipal permit, and the *cohabitant status* cuts the benefits of people who move in together."
               },
-              "source": "nW-BE §1.2.1 (JRC-IDEES-2023); country area Statbel"
+              "source": "IWEPS, Décryptage n°10 — maisons occupées par leur propriétaire de 65 ans et plus (2026); Statbel, Census 2021, table T04_DRM",
+              "label": {
+                "fr": "Le gisement, chiffré",
+                "nl": "Het potentieel, becijferd",
+                "en": "The pool, quantified"
+              },
+              "url": "https://www.iweps.be/wp-content/uploads/2026/05/D10.pdf"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "Le parc comprend des logements que personne n'habite à l'année. La côte belge compte à elle seule plus de 106 000 résidences secondaires (2023), occupées en moyenne 87 nuits par an, dont 74 par leurs propriétaires. Ces mètres carrés pèsent toute l'année dans la surface par personne ; leur chauffage, lui, ne suit pas — sans pour autant tomber à zéro, puisqu'on les tient hors gel l'hiver.",
+                "nl": "Het bestand bevat woningen waar niemand het hele jaar woont. Alleen al de Belgische kust telt ruim 106 000 tweede verblijven (2023), gemiddeld 87 nachten per jaar bewoond, waarvan 74 door de eigenaars zelf. Die vierkante meters tellen het hele jaar mee in de oppervlakte per persoon; hun verwarming volgt niet — zonder daarom op nul te vallen, want ze worden vorstvrij gehouden in de winter.",
+                "en": "The stock includes dwellings nobody lives in year-round. The Belgian coast alone counts more than 106,000 second homes (2023), occupied on average 87 nights a year, 74 of them by the owners themselves. Those square metres weigh on the floor area per person all year; their heating does not follow — without falling to zero either, since they are kept frost-free through the winter."
+              },
+              "source": "Westtoer, Onderzoek tweede verblijfstoerisme aan de Kust, 2024",
+              "label": {
+                "fr": "Résidences secondaires",
+                "nl": "Tweede verblijven",
+                "en": "Second homes"
+              },
+              "url": "https://www.westtoer.be/over-ons/persmedia/persberichten/resultaten-onderzoek-tweede-verblijfstoerisme"
+            },
+            {
+              "kind": "caution",
+              "text": {
+                "fr": "Les logements vides comptent aussi — et ils sont moins nombreux que le débat ne le laisse croire. Bruxelles a croisé le cadastre, le Registre national et les faibles consommations d'eau de Vivaqua : 4 500 logements présumés inoccupés, moins de 2 % du parc régional, en dessous des prévisions. Les remettre sur le marché ne fait pas baisser la surface par personne — ni le parc ni la population ne changent — mais loge des habitants sans rien construire.",
+                "nl": "Leegstaande woningen tellen ook mee — en het zijn er minder dan het debat doet vermoeden. Brussel kruiste het kadaster, het Rijksregister en de lage waterverbruiken van Vivaqua: 4 500 vermoedelijk leegstaande woningen, minder dan 2 % van het gewestelijke bestand, onder de verwachtingen. Ze terug op de markt brengen verlaagt de oppervlakte per persoon niet — bestand noch bevolking veranderen — maar huisvest mensen zonder te bouwen.",
+                "en": "Empty dwellings count too — and there are fewer of them than the debate suggests. Brussels cross-checked the cadastre, the national register and Vivaqua's low-water-consumption records: 4,500 presumed-vacant dwellings, under 2% of the regional stock, below what had been expected. Putting them back on the market does not lower floor area per person — neither the stock nor the population moves — but it houses people without building."
+              },
+              "source": "Bruxelles Logement / Brussels Studies Institute (BRIO-VUB, IGEAT-ULB), logements inoccupés (2024-11-22)",
+              "label": {
+                "fr": "Logements inoccupés",
+                "nl": "Leegstaande woningen",
+                "en": "Vacant dwellings"
+              },
+              "url": "https://be.brussels/en/housing/4500-presumed-unoccupied-homes-brussels-capital-region"
             },
             {
               "kind": "structure",
@@ -3314,94 +3415,430 @@ window.NW_WS_CONTENT = {
             }
           ]
         },
-        "insulation": {
+        "renovation-rate": {
           "question": {
-            "fr": "Quel besoin de chauffage par mètre carré est un objectif 2050 réaliste pour le logement moyen ?",
-            "nl": "Welke warmtevraag per vierkante meter is een realistisch doel voor 2050 voor de gemiddelde woning?",
-            "en": "What heating need per square metre is a realistic 2050 objective for the average home?"
+            "fr": "Quelle part du parc de logements faut-il rénover chaque année d'ici 2050 ?",
+            "nl": "Welk aandeel van het woningbestand moet er elk jaar gerenoveerd worden tot 2050?",
+            "en": "What share of the dwelling stock should be renovated every year to 2050?"
           },
           "short": {
-            "fr": "Isolation du parc",
-            "nl": "Isolatie van het bestand",
-            "en": "Insulation of the stock"
+            "fr": "Rythme de rénovation",
+            "nl": "Renovatietempo",
+            "en": "Renovation rate"
           },
           "subtitle": {
-            "fr": "Chaleur utile à apporter aux pièces, par m² et par an, moyenne sur tout le parc. Avant les pertes de chaudière et de distribution, et à comportement de chauffage inchangé.",
-            "nl": "Nuttige warmte die de kamers moeten krijgen, per m² per jaar, gemiddeld over het hele bestand. Vóór ketel- en distributieverliezen, en bij ongewijzigd stookgedrag.",
-            "en": "Useful heat that has to reach the rooms, per m² per year, averaged over the whole stock. Before boiler and distribution losses, and at unchanged heating behaviour."
+            "fr": "En part de la surface habitable, et au sens des données du projet : une rénovation y est comptée quelle que soit sa profondeur, et la construction neuve est comptée à part. La profondeur fait l'objet de la question suivante.",
+            "nl": "Als aandeel van de woonoppervlakte, en in de zin van de projectdata: een renovatie telt er mee ongeacht haar diepte, en nieuwbouw wordt apart geteld. De diepte is het onderwerp van de volgende vraag.",
+            "en": "As a share of floor area, and on the project's data's count: a renovation is counted there whatever its depth, and new construction is counted separately. The depth is the next question."
           },
           "tangible": {
-            "fr": "{value} kWh de chaleur par m² et par an, pour le logement belge moyen.",
-            "nl": "{value} kWh warmte per m² per jaar, voor de gemiddelde Belgische woning.",
-            "en": "{value} kWh of heat per m² per year, for the average Belgian home."
+            "fr": "{value} % du parc rénové chaque année.",
+            "nl": "{value} % van het bestand elk jaar gerenoveerd.",
+            "en": "{value}% of the stock renovated every year."
           },
           "justification": {
-            "fr": "négaWatt juge le rythme d'amélioration observé « trop faible pour atteindre les objectifs climatiques » et le double : 2 × 0,458 = 0,916 kWh/m² par an, ce qui amène le parc de 68,2 kWh/m² en 2019 à 39,8 kWh/m² en 2050 par la seule efficacité — et à 34,2 kWh/m² une fois le thermostat pris en compte. Le modèle ne distingue pas parc existant, parc rénové et parc neuf : il suit la performance moyenne de l'ensemble. C'est le levier le plus puissant du logement, et le seul qui ne demande aucun changement de confort.",
-            "nl": "negaWatt vindt het waargenomen verbeteringsritme \"te laag om de klimaatdoelstellingen te halen\" en verdubbelt het: 2 × 0,458 = 0,916 kWh/m² per jaar, wat het bestand van 68,2 kWh/m² in 2019 naar 39,8 kWh/m² in 2050 brengt door efficiëntie alleen — en naar 34,2 kWh/m² zodra de thermostaat wordt meegerekend. Het model onderscheidt bestaand, gerenoveerd en nieuw bestand niet: het volgt de gemiddelde prestatie van het geheel. Dit is de krachtigste hefboom van de woning, en de enige die geen enkele comfortwijziging vraagt.",
-            "en": "negaWatt judges the observed rate of improvement \"too low to meet the climate objectives\" and doubles it: 2 × 0.458 = 0.916 kWh/m² a year, which takes the stock from 68.2 kWh/m² in 2019 to 39.8 kWh/m² in 2050 through efficiency alone — and to 34.2 kWh/m² once the thermostat is counted in. The model does not separate existing, renovated and new stock: it tracks the average performance of the whole. This is housing's most powerful lever, and the only one that asks for no change of comfort."
+            "fr": "Le modèle ne suit pas trois parcs distincts (existant, rénové, neuf) : il suit la performance moyenne de l'ensemble, et l'hypothèse porte sur le rythme d'amélioration de cette moyenne, doublé par rapport à l'observation. Or rénover chaque année une part constante du parc, à une profondeur constante, fait précisément baisser cette moyenne de façon linéaire : c'est la même arithmétique, lue autrement. Le produit *rythme × profondeur* est donc fixé par la trajectoire, et une seule des deux valeurs est un choix. C'est la profondeur qui est posée (60 %, voir la question suivante) ; le rythme suit, et tombe à 2,24 % par an. Autrement dit : *pas plus de chantiers, mais des chantiers sérieux*.",
+            "nl": "Het model volgt geen drie aparte bestanden (bestaand, gerenoveerd, nieuw): het volgt de gemiddelde prestatie van het geheel, en de veronderstelling gaat over het verbeteringsritme van dat gemiddelde, verdubbeld ten opzichte van de waarneming. Maar elk jaar een constant deel van het bestand renoveren, op een constante diepte, laat dat gemiddelde precies lineair dalen: dezelfde rekensom, anders gelezen. Het product *tempo × diepte* ligt dus vast door het traject, en slechts één van de twee waarden is een keuze. Het is de diepte die gesteld wordt (60 %, zie de volgende vraag); het tempo volgt, en komt uit op 2,24 % per jaar. Met andere woorden: *niet meer werven, maar ernstige werven*.",
+            "en": "The model does not track three separate stocks (existing, renovated, new): it tracks the average performance of the whole, and the assumption is about the rate at which that average improves, doubled against the observation. But renovating a constant share of the stock every year, at a constant depth, makes that average fall linearly: the same arithmetic, read differently. The product *rate × depth* is therefore pinned by the trajectory and only one of the two is a choice. The depth is the one that is set (60%, see the next question); the rate follows, and comes to 2.24% a year. In other words: *not more building sites, but serious ones*."
           },
           "debate": {
-            "fr": "Doubler un rythme qui n'a pas changé en vingt-trois ans est une hypothèse, pas une politique : ni le coût, ni la main-d'œuvre, ni la montée en charge ne sont chiffrés. Le rapport attribue par ailleurs toute l'amélioration passée à l'isolation, tout en reconnaissant qu'une partie venait de baisses de chauffage pendant les crises énergétiques — donc de sobriété déjà comptée ailleurs. Et parce que le modèle suit la moyenne du parc, il ne dit rien des logements les plus mauvais, qui sont aussi ceux des ménages les plus précaires.",
-            "nl": "Een ritme verdubbelen dat in drieëntwintig jaar niet veranderd is, is een veronderstelling, geen beleid: noch de kostprijs, noch de arbeidskrachten, noch de opschaling zijn becijferd. Het rapport schrijft de hele voorbije verbetering bovendien toe aan isolatie, maar erkent dat een deel kwam van minder stoken tijdens de energiecrisissen — dus van soberheid die elders al geteld is. En omdat het model het gemiddelde van het bestand volgt, zegt het niets over de slechtste woningen, die ook die van de meest kwetsbare huishoudens zijn.",
-            "en": "Doubling a rate that has not changed in twenty-three years is an assumption, not a policy: neither the cost, nor the workforce, nor the ramp-up is quantified. The report also attributes the whole past improvement to insulation while conceding that part of it came from turning the heating down during the energy crises — that is, from sufficiency already counted elsewhere. And because the model tracks the stock average, it says nothing about the worst dwellings, which are also those of the most precarious households."
+            "fr": "Garder le rythme actuel en rendant chaque chantier profond n'est pas plus facile que de rénover davantage : c'est un autre métier, d'autres coûts, d'autres artisans — et la Wallonie chiffre à elle seule le besoin d'investissement à 110 milliards d'euros pour le logement d'ici 2050. Le rythme de référence lui-même est fragile : 2,261 % est une constante de calcul, pas une mesure ; en comptant les primes, la Wallonie n'observe que 0,88 % par an, et la Flandre 0,6 % en comptant les permis. Selon ce qu'on appelle « une rénovation », la même observation se lit comme un rythme élevé et superficiel ou comme un rythme faible et sérieux. Le modèle ne tranche pas : il ne voit que le produit des deux.",
+            "nl": "Het huidige tempo behouden maar elke werf diep maken is niet makkelijker dan méér renoveren: het is een ander vak, andere kosten, andere vaklui — en Wallonië alleen al becijfert de investeringsbehoefte op 110 miljard euro voor woningen tegen 2050. Het referentietempo zelf is wankel: 2,261 % is een rekenconstante, geen meting; door de premies te tellen ziet Wallonië maar 0,88 % per jaar, en Vlaanderen 0,6 % door de vergunningen te tellen. Naargelang wat men \"een renovatie\" noemt, leest dezelfde waarneming als een hoog en oppervlakkig tempo of als een laag en ernstig tempo. Het model beslist niet: het ziet alleen het product van beide.",
+            "en": "Keeping today's rate while making every job a deep one is no easier than renovating more: it is a different trade, different costs, different craftspeople — and Wallonia alone puts the investment need at 110 billion euros for housing by 2050. The reference rate itself is fragile: 2.261% is a computing constant, not a measurement; counting grants, Wallonia observes only 0.88% a year, and Flanders 0.6% counting permits. Depending on what you call \"a renovation\", the same observation reads as a high and shallow rate or as a low and serious one. The model does not decide: it only sees the product of the two."
+          },
+          "historyNote": {
+            "fr": "Pas de courbe observée ici : la composante rénovation des données du projet est une constante de calcul (écart-type de 0,008 point sur vingt-trois ans), pas une mesure d'activité. La courbe qui bouge — rénovation plus construction neuve — est sur la fiche « Ce que compte un taux de rénovation ».",
+            "nl": "Geen waargenomen curve hier: het renovatiedeel van de projectdata is een rekenconstante (standaardafwijking van 0,008 punt over drieëntwintig jaar), geen meting van activiteit. De curve die wel beweegt — renovatie plus nieuwbouw — staat op de fiche \"Wat een renovatietempo telt\".",
+            "en": "No observed curve here: the renovation component of the project's data is a computing constant (a standard deviation of 0.008 points over twenty-three years), not a measurement of activity. The curve that does move — renovation plus new construction — is on the card \"What a renovation rate counts\"."
           },
           "facts": [
             {
               "kind": "trend",
               "text": {
-                "fr": "En baisse, mais irrégulière : 82,1 kWh/m² en 2000, 68,2 en 2019, 70,7 en 2023. Le creux de 61,2 (2014) et le pic de 86,8 (2001) sont un hiver doux et un hiver froid : la météo fait bouger cette courbe autant que l'isolation.",
-                "nl": "Dalend, maar onregelmatig: 82,1 kWh/m² in 2000, 68,2 in 2019, 70,7 in 2023. Het dal van 61,2 (2014) en de piek van 86,8 (2001) zijn een zachte en een koude winter: het weer beweegt deze curve even sterk als de isolatie.",
-                "en": "Falling, but unevenly: 82.1 kWh/m² in 2000, 68.2 in 2019, 70.7 in 2023. The trough of 61.2 (2014) and the peak of 86.8 (2001) are a mild and a cold winter: the weather moves this curve as much as insulation does."
+                "fr": "C'est le résultat que la rénovation doit produire, et il descend lentement : le besoin de chauffage du logement moyen passe de 79,5 kWh/m² en 2000 à 68,2 en 2019 sur la tendance ajustée, soit 0,458 kWh/m² par an — une baisse de 13,3 % en vingt-trois ans. Les dents de scie sont la météo, pas l'isolation : le creux de 61,2 (2014) et le pic de 86,8 (2001) sont un hiver doux et un hiver froid.",
+                "nl": "Dat is het resultaat dat renovatie moet opleveren, en het daalt traag: de warmtevraag van de gemiddelde woning gaat van 79,5 kWh/m² in 2000 naar 68,2 in 2019 op de aangepaste trend, ofwel 0,458 kWh/m² per jaar — een daling van 13,3 % in drieëntwintig jaar. De zaagtanden zijn het weer, niet de isolatie: het dal van 61,2 (2014) en de piek van 86,8 (2001) zijn een zachte en een koude winter.",
+                "en": "This is the result renovation has to produce, and it falls slowly: the average home's heating need goes from 79.5 kWh/m² in 2000 to 68.2 in 2019 on the fitted trend, that is 0.458 kWh/m² a year — a fall of 13.3% over twenty-three years. The saw-teeth are the weather, not insulation: the trough of 61.2 (2014) and the peak of 86.8 (2001) are a mild and a cold winter."
               },
               "source": "JRC-IDEES-2023 (Belgium), floor areas from the EU Building Observatory",
-              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f"
+              "label": {
+                "fr": "Ce que la rénovation a produit jusqu'ici",
+                "nl": "Wat renovatie tot nu toe heeft opgeleverd",
+                "en": "What renovation has delivered so far"
+              },
+              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f",
+              "chart": {
+                "kind": "line",
+                "y": [
+                  82.0815,
+                  86.7875,
+                  81.5101,
+                  86.2972,
+                  76.8113,
+                  75.2198,
+                  71.043,
+                  64.8058,
+                  76.2105,
+                  71.8121,
+                  82.3388,
+                  64.9555,
+                  71.0108,
+                  79.7751,
+                  61.1663,
+                  70.6041,
+                  72.3191,
+                  72.6881,
+                  73.1221,
+                  68.154,
+                  71.1492,
+                  80.6577,
+                  70.0862,
+                  70.6742
+                ],
+                "caption": {
+                  "fr": "Besoin de chauffage du parc résidentiel belge, kWh/m² et par an, 2000-2023.",
+                  "nl": "Warmtevraag van het Belgische woningbestand, kWh/m² per jaar, 2000-2023.",
+                  "en": "Heating need of the Belgian dwelling stock, kWh/m² per year, 2000-2023."
+                },
+                "x": [
+                  2000,
+                  2001,
+                  2002,
+                  2003,
+                  2004,
+                  2005,
+                  2006,
+                  2007,
+                  2008,
+                  2009,
+                  2010,
+                  2011,
+                  2012,
+                  2013,
+                  2014,
+                  2015,
+                  2016,
+                  2017,
+                  2018,
+                  2019,
+                  2020,
+                  2021,
+                  2022,
+                  2023
+                ],
+                "unit": "kWh/m²/year",
+                "decimals": 1,
+                "series": "res_heat_per_m2"
+              }
             },
             {
               "kind": "structure",
               "text": {
-                "fr": "Ce qu'on appelle « taux de rénovation » dépend de ce qu'on compte. Les données du projet enregistrent 3 % du parc renouvelé chaque année, mais c'est 2,3 % de rénovation *toutes profondeurs confondues* plus 0,8 % de construction neuve — et la part rénovation y est une constante du jeu de données, pas une mesure. Ce qui est réellement observé, c'est l'amélioration de la demande : 0,458 kWh/m² par an.",
-                "nl": "Wat men \"renovatietempo\" noemt hangt af van wat men meetelt. De projectdata boeken 3 % van het bestand dat elk jaar vernieuwd wordt, maar dat is 2,3 % renovatie *van elke diepte* plus 0,8 % nieuwbouw — en het renovatiedeel is daarin een constante van de dataset, geen meting. Wat werkelijk waargenomen wordt, is de verbetering van de vraag: 0,458 kWh/m² per jaar.",
-                "en": "What counts as a \"renovation rate\" depends on what you count. The project's data book 3% of the stock renewed each year, but that is 2.3% of renovation *at any depth* plus 0.8% of new construction — and the renovation part of it is a constant of the dataset, not a measurement. What is actually observed is the improvement in demand: 0.458 kWh/m² a year."
+                "fr": "Le mot recouvre plusieurs choses. Les données du projet enregistrent 3,0 % du parc *renouvelé* chaque année : 2,261 % de rénovation, à toute profondeur, plus 0,7 % de construction neuve. Attention : la part rénovation y est une constante de calcul du jeu de données, pas une mesure d'activité — toutes les oscillations de la courbe ci-dessous viennent du neuf. C'est cette part rénovation que la question vous demande.",
+                "nl": "Het woord dekt verschillende dingen. De projectdata boeken 3,0 % van het bestand dat elk jaar *vernieuwd* wordt: 2,261 % renovatie, van elke diepte, plus 0,7 % nieuwbouw. Let op: het renovatiedeel is daarin een rekenconstante van de dataset, geen meting van activiteit — alle schommelingen van de curve hieronder komen van de nieuwbouw. Het is dat renovatiedeel waar de vraag over gaat.",
+                "en": "The word covers several things. The project's data book 3.0% of the stock *renewed* each year: 2.261% of renovation, at any depth, plus 0.7% of new construction. Careful: the renovation part of it is a computing constant of the dataset, not a measurement of activity — every wiggle in the curve below comes from new building. It is that renovation part the question asks you about."
               },
-              "source": "nW-BE §2.1.1; decomposition of the JRC-IDEES-2023 floor-area series used in nW_BE_demand_data_aux.ipynb",
-              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f"
+              "source": "nW-BE §2.1.1, decomposition of the JRC-IDEES-2023 floor-area series",
+              "label": {
+                "fr": "Ce que compte un « taux de rénovation »",
+                "nl": "Wat een \"renovatietempo\" telt",
+                "en": "What a \"renovation rate\" counts"
+              },
+              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f",
+              "chart": {
+                "kind": "line",
+                "y": [
+                  2.8584,
+                  3.064,
+                  3.0586,
+                  3.0221,
+                  3.1785,
+                  2.741,
+                  3.0587,
+                  3.1789,
+                  3.503,
+                  3.1209,
+                  3.8824,
+                  2.6585,
+                  2.6245,
+                  2.6247,
+                  2.9511,
+                  2.5884,
+                  2.5547,
+                  2.9003,
+                  3.0673,
+                  2.8515,
+                  3.241,
+                  3.1984,
+                  3.235
+                ],
+                "caption": {
+                  "fr": "Surface rénovée ou construite chaque année, en % du parc, 2001-2023.",
+                  "nl": "Jaarlijks gerenoveerde of gebouwde oppervlakte, in % van het bestand, 2001-2023.",
+                  "en": "Floor area renovated or newly built each year, as % of the stock, 2001-2023."
+                },
+                "x": [
+                  2001,
+                  2002,
+                  2003,
+                  2004,
+                  2005,
+                  2006,
+                  2007,
+                  2008,
+                  2009,
+                  2010,
+                  2011,
+                  2012,
+                  2013,
+                  2014,
+                  2015,
+                  2016,
+                  2017,
+                  2018,
+                  2019,
+                  2020,
+                  2021,
+                  2022,
+                  2023
+                ],
+                "unit": "% of the stock per year",
+                "decimals": 1,
+                "series": "res_renewal_rate"
+              }
             },
             {
               "kind": "benchmark",
               "text": {
-                "fr": "À l'échelle européenne, la Commission mesure un taux de rénovation *énergétique* d'environ 1 % par an et s'est donné pour objectif de le doubler. En Belgique, la fédération du secteur (Embuild) estime qu'il faudrait rénover trois fois plus vite en Flandre, et quatre fois plus vite en Wallonie et à Bruxelles, pour tenir 2050.",
-                "nl": "Op Europese schaal meet de Commissie een *energetisch* renovatietempo van ongeveer 1 % per jaar en wil ze dat verdubbelen. In België schat de sectorfederatie (Embuild) dat er drie keer sneller gerenoveerd zou moeten worden in Vlaanderen, en vier keer sneller in Wallonië en Brussel, om 2050 te halen.",
-                "en": "At European level the Commission measures an *energy* renovation rate of about 1% a year and has set itself the goal of doubling it. In Belgium the sector federation (Embuild) reckons renovation would have to run three times faster in Flanders, and four times faster in Wallonia and Brussels, to meet 2050."
+                "fr": "Le projet de plan wallon de rénovation compte, pour 2023, 15 743 logements aidés par une prime énergie, soit 0,88 % du parc wallon : 0,60 point de rénovations *légères* (3 à 30 % d'énergie économisée), 0,18 point de *moyennes* (30 à 60 %) et 0,09 point de *profondes* (plus de 60 %). Pour tenir 2050, le même plan estime qu'il faut passer à 3 % par an dès maintenant et à plus de 5 % par an après 2040 — dont 1,8 point de rénovations profondes aujourd'hui et 3,6 points à la fin.",
+                "nl": "Het ontwerp van Waals renovatieplan telt voor 2023 15 743 woningen met een energiepremie, ofwel 0,88 % van het Waalse bestand: 0,60 punt *lichte* renovaties (3 tot 30 % bespaarde energie), 0,18 punt *middelmatige* (30 tot 60 %) en 0,09 punt *diepe* (meer dan 60 %). Om 2050 te halen schat hetzelfde plan dat er nu al 3 % per jaar nodig is en meer dan 5 % per jaar na 2040 — waarvan vandaag 1,8 punt diepe renovaties en 3,6 punten op het einde.",
+                "en": "Wallonia's draft renovation plan counts, for 2023, 15,743 dwellings supported by an energy grant, that is 0.88% of the Walloon stock: 0.60 point of *light* renovations (3 to 30% of energy saved), 0.18 point of *medium* ones (30 to 60%) and 0.09 point of *deep* ones (more than 60%). To meet 2050 the same plan reckons the rate has to reach 3% a year now and over 5% a year after 2040 — of which 1.8 point of deep renovations today and 3.6 points at the end."
               },
-              "source": "European Commission, DG Energy — Energy renovation of buildings (Renovation Wave, revised EPBD 2024); Embuild, via KBC Economics (2024)",
-              "url": "https://energy.ec.europa.eu/topics/energy-efficiency/energy-performance-buildings/energy-performance-buildings-directive/energy-renovation-buildings_en"
+              "source": "Service public de Wallonie, Plan wallon de Rénovation Énergétique des Bâtiments — projet de plan (novembre 2025), Tableau 2 p. 35 and Tableau 20 p. 221",
+              "label": {
+                "fr": "Ce que la Wallonie a chiffré",
+                "nl": "Wat Wallonië becijferd heeft",
+                "en": "What Wallonia has quantified"
+              },
+              "url": "https://energie.wallonie.be/files/strat%C3%A9gies%20et%20politiques/Plan%20Wallon%20de%20R%C3%A9novation%20Energ%C3%A9tique%20des%20B%C3%A2timents%20-%20Novembre%202025/20251201%20Rapport_Plan_Reno_v4_avec%20annexes.pdf",
+              "chart": {
+                "kind": "bars",
+                "y": [
+                  0.88,
+                  0.09,
+                  3.0,
+                  5.22
+                ],
+                "caption": {
+                  "fr": "Wallonie, rythme de rénovation résidentielle observé en 2023 et rythme jugé nécessaire.",
+                  "nl": "Wallonië, waargenomen residentieel renovatietempo in 2023 en het nodig geachte tempo.",
+                  "en": "Wallonia, residential renovation rate observed in 2023 and the rate judged necessary."
+                },
+                "labels": [
+                  {
+                    "fr": "Observé 2023",
+                    "nl": "Waargenomen 2023",
+                    "en": "Observed 2023"
+                  },
+                  {
+                    "fr": "…dont profondes",
+                    "nl": "…waarvan diep",
+                    "en": "…of which deep"
+                  },
+                  {
+                    "fr": "Nécessaire 2024-30",
+                    "nl": "Nodig 2024-30",
+                    "en": "Needed 2024-30"
+                  },
+                  {
+                    "fr": "Nécessaire 2046-50",
+                    "nl": "Nodig 2046-50",
+                    "en": "Needed 2046-50"
+                  }
+                ],
+                "unit": "% of the stock per year",
+                "decimals": 2,
+                "highlight": [
+                  0,
+                  1
+                ]
+              }
             },
             {
-              "kind": "tangible",
+              "kind": "benchmark",
               "text": {
-                "fr": "68,2 kWh/m² sur les 126,4 m² du logement belge moyen, cela fait 8 612 kWh de chaleur utile par an et par ménage — avant les pertes de la chaudière et de la distribution, qui s'y ajoutent. Le chauffage pèse 42,6 TWh sur 51,7, soit 82,4 % de l'énergie thermique du logement.",
-                "nl": "68,2 kWh/m² op de 126,4 m² van de gemiddelde Belgische woning geeft 8.612 kWh nuttige warmte per jaar per huishouden — vóór de ketel- en distributieverliezen, die daar bovenop komen. Verwarming weegt 42,6 TWh op 51,7, ofwel 82,4 % van de thermische energie van de woning.",
-                "en": "68.2 kWh/m² over the 126.4 m² of the average Belgian home gives 8,612 kWh of useful heat per household per year — before boiler and distribution losses, which come on top. Space heating weighs 42.6 TWh out of 51.7, or 82.4% of the home's thermal energy."
+                "fr": "La stratégie flamande de rénovation à long terme vise le label A pour chaque logement en 2050. Pour y arriver d'un seul chantier par logement, elle chiffre le besoin à plus de 3 % du parc par an, soit *plus de 95 000 logements chaque année* — contre 0,6 % observé si l'on compte les permis, et 3,5 % du parc seulement qui atteignait déjà l'objectif au moment de la rédaction. À l'échelle belge, un point de pourcentage représente environ 49 500 logements par an, sur un parc d'environ 4,95 millions.",
+                "nl": "De Vlaamse langetermijnrenovatiestrategie mikt op label A voor elke woning in 2050. Om daar met één werf per woning te komen, becijfert ze de nood op meer dan 3 % van het bestand per jaar, ofwel *meer dan 95 000 woningen per jaar* — tegenover 0,6 % waargenomen als men de vergunningen telt, en amper 3,5 % van het bestand dat de doelstelling bij het schrijven al haalde. Op Belgische schaal staat één procentpunt voor ongeveer 49.500 woningen per jaar, op een bestand van ongeveer 4,95 miljoen.",
+                "en": "Flanders' long-term renovation strategy aims at label A for every dwelling in 2050. To get there in a single job per dwelling it puts the need at more than 3% of the stock a year, that is *more than 95,000 dwellings every year* — against 0.6% observed if you count planning permits, and only 3.5% of the stock already meeting the objective when it was written. On the Belgian scale, one percentage point is about 49,500 dwellings a year, out of a stock of some 4.95 million."
               },
-              "source": "nW-BE §2.1.1, arithmetic on the 2019 values"
+              "source": "Vlaamse Regering, Langetermijnstrategie voor de renovatie van Vlaamse gebouwen — Vlaamse langetermijnrenovatiestrategie gebouwen 2050 (2020), pp. 5 and 11-12",
+              "label": {
+                "fr": "Ce que la Flandre a chiffré",
+                "nl": "Wat Vlaanderen becijferd heeft",
+                "en": "What Flanders has quantified"
+              },
+              "url": "https://assets.vlaanderen.be/image/upload/v1666067048/Vlaamse_langetermijnrenovatiestrategie_gebouwen_2050_asqdbs.pdf"
             },
             {
               "kind": "structure",
               "text": {
-                "fr": "Le scénario double le rythme d'amélioration observé (2 × 0,458 = 0,916 kWh/m² par an), ce qui amène le parc à 39,8 kWh/m² en 2050 par la seule efficacité, et à 34,2 kWh/m² une fois le thermostat pris en compte.",
-                "nl": "Het scenario verdubbelt het waargenomen verbeteringsritme (2 × 0,458 = 0,916 kWh/m² per jaar), wat het bestand op 39,8 kWh/m² brengt in 2050 door efficiëntie alleen, en op 34,2 kWh/m² zodra de thermostaat wordt meegerekend.",
-                "en": "The scenario doubles the observed rate of improvement (2 × 0.458 = 0.916 kWh/m² a year), which takes the stock to 39.8 kWh/m² in 2050 through efficiency alone, and to 34.2 kWh/m² once the thermostat is counted in."
+                "fr": "Le scénario retient 2,24 % du parc par an — soit 69,4 % du parc rénové au moins une fois d'ici 2050, environ 111 000 logements par an — avec une profondeur de 60 % à chaque chantier. Le rythme est donc à peu de chose près celui enregistré aujourd'hui ; c'est la profondeur qui change.",
+                "nl": "Het scenario houdt 2,24 % van het bestand per jaar aan — dus 69,4 % van het bestand minstens één keer gerenoveerd tegen 2050, ongeveer 111.000 woningen per jaar — met een diepte van 60 % per werf. Het tempo is dus zowat dat van vandaag; het is de diepte die verandert.",
+                "en": "The scenario keeps 2.24% of the stock a year — that is 69.4% of it renovated at least once by 2050, about 111,000 dwellings a year — at a depth of 60% per job. The rate is therefore close to the one booked today; what changes is the depth."
               },
-              "source": "nW-BE §2.1.1 and §2.1.2",
+              "source": "nW-BE §2.1.1",
               "reveal": true
             }
-          ]
+          ],
+          "historyAbsent": true
+        },
+        "renovation-depth": {
+          "question": {
+            "fr": "De combien une rénovation doit-elle réduire le besoin de chauffage du logement qu'elle touche ?",
+            "nl": "Met hoeveel moet een renovatie de warmtevraag verlagen van de woning die ze aanpakt?",
+            "en": "By how much should a renovation cut the heating need of the home it touches?"
+          },
+          "short": {
+            "fr": "Profondeur des rénovations",
+            "nl": "Diepte van de renovaties",
+            "en": "Depth of renovations"
+          },
+          "subtitle": {
+            "fr": "En moyenne sur toutes les rénovations comptées à la question précédente. 0 % : les travaux ne changent rien à la facture de chauffage. 100 % : le logement n'a plus besoin d'être chauffé du tout.",
+            "nl": "Gemiddeld over alle renovaties die in de vorige vraag geteld worden. 0 %: de werken veranderen niets aan de verwarmingsfactuur. 100 %: de woning hoeft helemaal niet meer verwarmd te worden.",
+            "en": "Averaged over every renovation counted in the previous question. 0%: the works change nothing on the heating bill. 100%: the home needs no heating at all any more."
+          },
+          "tangible": {
+            "fr": "{value} % du besoin de chauffage en moins, à chaque rénovation.",
+            "nl": "{value} % minder warmtevraag, bij elke renovatie.",
+            "en": "{value}% less heating need, at every renovation."
+          },
+          "justification": {
+            "fr": "C'est ici que se loge le seul choix neuf de cette lecture. Le rapport juge le rythme d'amélioration observé « trop faible pour atteindre les objectifs climatiques » et le double, ce qui amène le parc de 68,2 kWh/m² en 2019 à 39,8 kWh/m² en 2050 par la seule efficacité. Traduit en rénovation, ce doublement peut venir du nombre de chantiers ou de leur profondeur ; c'est la profondeur qui est retenue, et elle est calée sur le seuil européen de la rénovation « profonde », 60 %. Le rythme, 2,24 % par an, en découle. La logique est celle du modèle lui-même : il ne distingue pas parc existant, parc rénové et parc neuf, il suit la moyenne — et une moyenne ne descend pas en multipliant les chantiers superficiels.",
+            "nl": "Hier zit de enige nieuwe keuze van deze lezing. Het rapport vindt het waargenomen verbeteringsritme \"te laag om de klimaatdoelstellingen te halen\" en verdubbelt het, wat het bestand van 68,2 kWh/m² in 2019 naar 39,8 kWh/m² in 2050 brengt door efficiëntie alleen. Vertaald naar renovatie kan die verdubbeling van het aantal werven of van hun diepte komen; het is de diepte die gekozen wordt, en ze wordt geijkt op de Europese drempel voor een \"diepe\" renovatie, 60 %. Het tempo, 2,24 % per jaar, volgt daaruit. De logica is die van het model zelf: het onderscheidt bestaand, gerenoveerd en nieuw bestand niet, het volgt het gemiddelde — en een gemiddelde daalt niet door oppervlakkige werven te vermenigvuldigen.",
+            "en": "This is where the one new choice of this reading sits. The report judges the observed rate of improvement \"too low to meet the climate objectives\" and doubles it, which takes the stock from 68.2 kWh/m² in 2019 to 39.8 kWh/m² in 2050 through efficiency alone. Translated into renovation, that doubling can come from the number of jobs or from their depth; the depth is the one chosen, and it is set on the European threshold for a \"deep\" renovation, 60%. The rate, 2.24% a year, follows. The logic is the model's own: it does not separate existing, renovated and new stock, it tracks the average — and an average does not fall by multiplying shallow jobs."
+          },
+          "debate": {
+            "fr": "Le modèle compte la profondeur *calculée*, pas celle qui arrive au compteur, et les deux diffèrent beaucoup : l'écart mesuré en Flandre est d'un facteur deux, et sur un programme néerlandais de rénovation subventionnée l'effet rebond a repris environ 56 % de l'économie attendue (26,7 % chez les propriétaires, 41,3 % chez les locataires, sur 563 000 logements). Une profondeur affichée sur le papier peut donc valoir beaucoup moins en pratique. Deuxième réserve : le rapport attribue toute l'amélioration passée à l'isolation, tout en reconnaissant qu'une partie venait de baisses de chauffage pendant les crises énergétiques — donc de sobriété déjà comptée ailleurs. Troisième : parce que le modèle suit la moyenne du parc, il ne dit rien des logements les plus mauvais, qui sont aussi ceux des ménages les plus précaires, alors que la directive européenne de 2024 vise précisément les 43 % les moins performants.",
+            "nl": "Het model telt de *berekende* diepte, niet die van de meter, en de twee verschillen sterk: de in Vlaanderen gemeten kloof is een factor twee, en bij een Nederlands gesubsidieerd renovatieprogramma nam het rebound-effect ongeveer 56 % van de verwachte besparing terug (26,7 % bij eigenaars, 41,3 % bij huurders, op 563 000 woningen). Een op papier aangekondigde diepte kan dus veel minder waard zijn in de praktijk. Tweede bedenking: het rapport schrijft de hele voorbije verbetering toe aan isolatie, terwijl het erkent dat een deel kwam van minder stoken tijdens de energiecrisissen — dus van soberheid die elders al geteld is. Derde: omdat het model het gemiddelde van het bestand volgt, zegt het niets over de slechtste woningen, die ook die van de meest kwetsbare huishoudens zijn, terwijl de Europese richtlijn van 2024 juist de 43 % slechtst presterende viseert.",
+            "en": "The model counts *calculated* depth, not the depth that reaches the meter, and the two differ widely: the gap measured in Flanders is a factor of two, and on a Dutch subsidised retrofit programme the rebound effect took back about 56% of the expected saving (26.7% among owners, 41.3% among tenants, across 563,000 dwellings). A depth announced on paper may therefore be worth far less in practice. Second reservation: the report attributes the whole past improvement to insulation while conceding that part of it came from turning the heating down during the energy crises — that is, from sufficiency already counted elsewhere. Third: because the model tracks the stock average, it says nothing about the worst dwellings, which are also those of the most precarious households, while the 2024 European directive targets precisely the 43% worst-performing."
+          },
+          "historyNote": {
+            "fr": "Aucune courbe observée : la profondeur des rénovations n'est mesurée nulle part en Belgique. Seul le produit rythme × profondeur l'est, à travers la baisse du besoin de chauffage du parc — la courbe de la question précédente.",
+            "nl": "Geen waargenomen curve: de diepte van renovaties wordt nergens in België gemeten. Alleen het product tempo × diepte wordt gemeten, via de daling van de warmtevraag van het bestand — de curve van de vorige vraag.",
+            "en": "No observed curve: the depth of renovations is measured nowhere in Belgium. Only the product rate × depth is, through the fall in the stock's heating need — the curve on the previous question."
+          },
+          "facts": [
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "Ce qui est observé, c'est le *produit* de vos deux réponses, pas chacune séparément : 2,261 % du parc par an à 25,5 % chacun reproduisent exactement la baisse mesurée de 0,458 kWh/m² par an — mais 1 % par an à 57,6 % la reproduisent tout aussi bien. Conséquence directe : à la profondeur déduite d'aujourd'hui, rénover *tout* le parc d'ici 2050 ne ferait baisser la moyenne que de 25,5 %. Diviser le besoin par deux exige au minimum 50 % à chaque chantier — et de n'oublier aucun logement.",
+                "nl": "Wat waargenomen wordt is het *product* van jullie twee antwoorden, niet elk afzonderlijk: 2,261 % van het bestand per jaar aan 25,5 % elk geeft exact de gemeten daling van 0,458 kWh/m² per jaar — maar 1 % per jaar aan 57,6 % geeft die net zo goed. Rechtstreeks gevolg: op de uit vandaag afgeleide diepte zou *het hele* bestand renoveren tegen 2050 het gemiddelde maar met 25,5 % doen dalen. De vraag halveren vergt minstens 50 % per werf — en geen enkele woning overslaan.",
+                "en": "What is observed is the *product* of your two answers, not either one on its own: 2.261% of the stock a year at 25.5% each reproduces the measured fall of 0.458 kWh/m² a year exactly — but 1% a year at 57.6% reproduces it just as well. A direct consequence: at the depth implied by today, renovating *the whole* stock by 2050 would bring the average down by only 25.5%. Halving the need requires at least 50% at every job — and missing no dwelling."
+              },
+              "source": "nW-BE §2.1.1, arithmetic on the observed series",
+              "label": {
+                "fr": "Ce qui est mesuré, et ce qui ne l'est pas",
+                "nl": "Wat gemeten wordt, en wat niet",
+                "en": "What is measured, and what is not"
+              }
+            },
+            {
+              "kind": "benchmark",
+              "text": {
+                "fr": "Une seule région a chiffré la profondeur de ses rénovations. Sur les 15 743 logements wallons aidés en 2023, la réduction moyenne de consommation est estimée à *20 % d'énergie finale* — et l'essentiel du volume est léger : 0,60 % du parc en rénovations légères, 0,18 % en moyennes, 0,09 % en profondes. Le plan précise que ce chiffre est reconstitué à partir des travaux réalisés, faute de données de consommation avant et après ; aucune région belge ne mesure aujourd'hui l'écart réel, et la Wallonie propose de créer un observatoire pour cela.",
+                "nl": "Slechts één gewest heeft de diepte van zijn renovaties becijferd. Voor de 15 743 Waalse woningen die in 2023 steun kregen, wordt de gemiddelde verbruiksdaling geraamd op *20 % eindenergie* — en het grootste deel van het volume is licht: 0,60 % van het bestand in lichte renovaties, 0,18 % in middelmatige, 0,09 % in diepe. Het plan preciseert dat dit cijfer gereconstrueerd is uit de uitgevoerde werken, bij gebrek aan verbruiksgegevens voor en na; geen enkel Belgisch gewest meet vandaag het werkelijke verschil, en Wallonië stelt voor daar een observatorium voor op te richten.",
+                "en": "Only one region has quantified the depth of its renovations. Across the 15,743 Walloon dwellings supported in 2023, the average cut in consumption is estimated at *20% of final energy* — and most of the volume is light: 0.60% of the stock in light renovations, 0.18% in medium ones, 0.09% in deep ones. The plan is explicit that this figure is reconstructed from the works carried out, for want of before-and-after consumption data; no Belgian region measures the real gap today, and Wallonia proposes creating an observatory to do so."
+              },
+              "source": "Service public de Wallonie, Plan wallon de Rénovation Énergétique des Bâtiments — projet de plan (novembre 2025), Tableaux 2 et 3, p. 35",
+              "label": {
+                "fr": "La seule mesure belge",
+                "nl": "De enige Belgische meting",
+                "en": "The only Belgian measurement"
+              },
+              "url": "https://energie.wallonie.be/files/strat%C3%A9gies%20et%20politiques/Plan%20Wallon%20de%20R%C3%A9novation%20Energ%C3%A9tique%20des%20B%C3%A2timents%20-%20Novembre%202025/20251201%20Rapport_Plan_Reno_v4_avec%20annexes.pdf",
+              "chart": {
+                "kind": "bars",
+                "y": [
+                  0.6,
+                  0.18,
+                  0.09
+                ],
+                "caption": {
+                  "fr": "Wallonie 2023, rénovations aidées par profondeur, en % du parc par an.",
+                  "nl": "Wallonië 2023, gesteunde renovaties per diepte, in % van het bestand per jaar.",
+                  "en": "Wallonia 2023, grant-supported renovations by depth, as % of the stock per year."
+                },
+                "labels": [
+                  {
+                    "fr": "Légères",
+                    "nl": "Licht",
+                    "en": "Light"
+                  },
+                  {
+                    "fr": "Moyennes",
+                    "nl": "Middelmatig",
+                    "en": "Medium"
+                  },
+                  {
+                    "fr": "Profondes",
+                    "nl": "Diep",
+                    "en": "Deep"
+                  }
+                ],
+                "unit": "% of the stock per year",
+                "decimals": 2,
+                "highlight": 2
+              }
+            },
+            {
+              "kind": "caution",
+              "text": {
+                "fr": "La baisse de consommation n'est pas proportionnelle à l'isolation posée. Sur 3 400 logements allemands, l'occupant consomme en moyenne *30 % de moins* que ce que dit le calcul : c'est l'effet *prebound* — on ne chauffe pas tout, pas partout, pas à 19 °C. L'écart s'annule vers 50 kWh/m² par an et s'inverse en dessous : dans les logements très performants, la consommation réelle *dépasse* le calcul, d'environ 65 % pour ceux notés sous 75 kWh/m² par an. Les auteurs en concluent qu'une rénovation lourde économise réellement 25 à 35 %, et non les 70 à 80 % annoncés. Une étude belge citée dans le même article, sur 964 logements, trouve la même courbe.",
+                "nl": "De daling van het verbruik is niet evenredig met de geplaatste isolatie. Bij 3 400 Duitse woningen verbruikt de bewoner gemiddeld *30 % minder* dan wat de berekening zegt: dat is het *prebound*-effect — men verwarmt niet alles, niet overal, niet tot 19 °C. Het verschil verdwijnt rond 50 kWh/m² per jaar en keert daaronder om: in zeer performante woningen *overstijgt* het echte verbruik de berekening, met ongeveer 65 % voor die onder 75 kWh/m² per jaar. De auteurs besluiten dat een zware renovatie werkelijk 25 tot 35 % bespaart, en niet de aangekondigde 70 tot 80 %. Een Belgische studie die in hetzelfde artikel wordt aangehaald, over 964 woningen, vindt dezelfde curve.",
+                "en": "The fall in consumption is not proportional to the insulation installed. Across 3,400 German dwellings the occupant uses on average *30% less* than the calculation says: the *prebound* effect — people do not heat everything, everywhere, to 19 °C. The gap vanishes around 50 kWh/m² a year and reverses below it: in very efficient dwellings real consumption *exceeds* the calculation, by around 65% for those rated under 75 kWh/m² a year. The authors conclude that a comprehensive retrofit really saves 25 to 35%, not the 70 to 80% claimed. A Belgian study cited in the same paper, on 964 dwellings, finds the same curve."
+              },
+              "source": "Sunikka-Blank, M. & Galvin, R. (2012), \"Introducing the prebound effect: the gap between performance and actual energy consumption\", Building Research & Information 40(3), pp. 260-273",
+              "label": {
+                "fr": "Prebound et rebond",
+                "nl": "Prebound en rebound",
+                "en": "Prebound and rebound"
+              },
+              "url": "https://www.tandfonline.com/doi/full/10.1080/09613218.2012.690952"
+            },
+            {
+              "kind": "caution",
+              "text": {
+                "fr": "Le même écart a été mesuré ici. L'Université de Gand et l'agence flamande de l'énergie (VEKA) ont croisé le certificat PEB de 47 082 maisons flamandes construites ou lourdement rénovées depuis 2006 avec leur consommation de gaz réelle : le calcul réglementaire *surestime* la consommation de 103 % en moyenne, avec un écart allant de 14 à 214 % selon le niveau E, et n'explique qu'un quart de la variation d'une maison à l'autre. La profondeur calculée d'un chantier prédit donc mal l'énergie qu'il fera réellement économiser.",
+                "nl": "Dezelfde kloof is hier gemeten. De Universiteit Gent en het Vlaams Energie- en Klimaatagentschap (VEKA) koppelden het EPB-certificaat van 47 082 Vlaamse woningen die sinds 2006 gebouwd of grondig gerenoveerd zijn aan hun werkelijke gasverbruik: de regelgevende berekening *overschat* het verbruik met gemiddeld 103 %, met een afwijking van 14 tot 214 % naargelang het E-peil, en verklaart maar een kwart van de variatie tussen woningen. De berekende diepte van een werf voorspelt dus slecht hoeveel energie ze werkelijk zal besparen.",
+                "en": "The same gap has been measured here. Ghent University and the Flemish energy agency (VEKA) matched the EPB certificate of 47,082 Flemish houses built or thoroughly renovated since 2006 with their actual gas consumption: the regulatory calculation *overestimates* consumption by 103% on average, with errors running from 14 to 214% depending on the E-level, and explains only a quarter of the variation from one house to the next. The calculated depth of a job is therefore a poor predictor of the energy it will really save."
+              },
+              "source": "Van Hove, M. Y. C. et al. (2021), \"Data-driven statistical modelling of real energy use for spatial heating and DHW in modern Flemish single-family houses\", Building Simulation 2021 (IBPSA), pp. 1295-1302 — Ghent University & VEKA",
+              "label": {
+                "fr": "Le calcul et le compteur, en Flandre",
+                "nl": "De berekening en de meter, in Vlaanderen",
+                "en": "The calculation and the meter, in Flanders"
+              },
+              "url": "https://publications.ibpsa.org/proceedings/bs/2021/papers/bs2021_30245.pdf"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "Le scénario retient 60 % à chaque rénovation — le seuil au-delà duquel la Commission européenne parle d'une rénovation « profonde » (recommandation (UE) 2019/786). Avec 2,24 % du parc par an, cela rénove 69,4 % du parc d'ici 2050. C'est environ deux fois et demie la profondeur qui se déduit de l'observation, 25,5 %, et le triple de la moyenne wallonne mesurée en 2023.",
+                "nl": "Het scenario houdt 60 % per renovatie aan — de drempel waarboven de Europese Commissie van een \"diepe\" renovatie spreekt (aanbeveling (EU) 2019/786). Met 2,24 % van het bestand per jaar renoveert dat 69,4 % van het bestand tegen 2050. Dat is ongeveer twee en een half keer de diepte die uit de waarneming volgt, 25,5 %, en het drievoud van het in 2023 gemeten Waalse gemiddelde.",
+                "en": "The scenario takes 60% at every renovation — the threshold above which the European Commission calls a renovation \"deep\" (Recommendation (EU) 2019/786). At 2.24% of the stock a year, that renovates 69.4% of the stock by 2050. It is about two and a half times the depth implied by the observation, 25.5%, and three times the Walloon average measured in 2023."
+              },
+              "source": "nW-BE §2.1.1; Commission Recommendation (EU) 2019/786, Annex 2.3.1.3",
+              "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32019H0786",
+              "reveal": true
+            }
+          ],
+          "historyAbsent": true
         },
         "thermostat": {
           "question": {
-            "fr": "De combien de degrés la sobriété peut-elle abaisser le thermostat des logements d'ici 2050 ?",
-            "nl": "Met hoeveel graden kan soberheid de thermostaat in woningen tegen 2050 verlagen?",
-            "en": "By how many degrees can sufficiency bring the home thermostat down by 2050?"
+            "fr": "Quel niveau moyen de thermostat est raisonnable en 2050, sans perte de confort ?",
+            "nl": "Welk gemiddeld thermostaatniveau is in 2050 redelijk, zonder comfortverlies?",
+            "en": "What average thermostat level is reasonable in 2050, without a loss of comfort?"
           },
           "short": {
             "fr": "Thermostat",
@@ -3409,9 +3846,9 @@ window.NW_WS_CONTENT = {
             "en": "Thermostat"
           },
           "subtitle": {
-            "fr": "Écart moyen de la température de consigne par rapport à 2019, sur l'ensemble du parc. Zéro = on ne change rien, négatif = on chauffe davantage.",
-            "nl": "Gemiddeld verschil van de ingestelde temperatuur tegenover 2019, over het hele bestand. Nul = niets verandert, negatief = warmer stoken.",
-            "en": "Average setpoint change against 2019, across the whole stock. Zero = nothing changes, negative = heating more."
+            "fr": "Répondez en degrés en moins par rapport à 2019, en moyenne sur tout le parc : personne ne mesure la consigne absolue des logements belges, seul l'écart est modélisable. Zéro = on ne change rien, négatif = on chauffe davantage.",
+            "nl": "Antwoord in graden minder dan in 2019, gemiddeld over het hele bestand: niemand meet de absolute instelling van Belgische woningen, alleen het verschil is modelleerbaar. Nul = niets verandert, negatief = warmer stoken.",
+            "en": "Answer in degrees less than in 2019, averaged over the whole stock: nobody measures the absolute setpoint of Belgian homes, only the change can be modelled. Zero = nothing changes, negative = heating more."
           },
           "tangible": {
             "fr": "{value} °C de moins sur le thermostat, en moyenne, pendant toute la saison de chauffe.",
@@ -3535,15 +3972,6 @@ window.NW_WS_CONTENT = {
               },
               "source": "Eurostat, nrg_d_hhq (disaggregated household final energy consumption), 2023; population Eurostat demo_pjan",
               "url": "https://ec.europa.eu/eurostat/databrowser/view/nrg_d_hhq/default/table"
-            },
-            {
-              "kind": "tangible",
-              "text": {
-                "fr": "63,7 litres par jour et par personne, cela fait environ 23 250 litres par an — un conteneur de 23 m³ d'eau chaude, pour chaque habitant, chaque année.",
-                "nl": "63,7 liter per dag per persoon is ongeveer 23.250 liter per jaar — een container van 23 m³ warm water, voor elke inwoner, elk jaar.",
-                "en": "63.7 litres a day per person is about 23,250 litres a year — a 23 m³ container of hot water, for every inhabitant, every year."
-              },
-              "source": "nW-BE, arithmetic on the 2019 value"
             },
             {
               "kind": "structure",
@@ -3706,15 +4134,6 @@ window.NW_WS_CONTENT = {
               "url": "https://ec.europa.eu/eurostat/databrowser/view/nama_10_cp18/default/table"
             },
             {
-              "kind": "tangible",
-              "text": {
-                "fr": "0,62 kWh par jour et par ménage, en 2019 : l'équivalent d'une vingtaine de minutes de four électrique de 2 kW, ou d'une demi-heure de plaque de cuisson à mi-puissance. Tout le reste de l'assiette — produire, transporter, conserver les aliments — est ailleurs, et le modèle de demande ne le voit pas.",
-                "nl": "0,62 kWh per dag per huishouden, in 2019: het equivalent van een twintig minuten elektrische oven van 2 kW, of een half uur kookplaat op halve kracht. Al de rest van het bord — produceren, vervoeren, bewaren van voedsel — zit elders, en het vraagmodel ziet het niet.",
-                "en": "0.62 kWh a day per household, in 2019: about twenty minutes of a 2 kW electric oven, or half an hour of a hob at half power. Everything else on the plate — producing, transporting and storing food — sits elsewhere, and the demand model does not see it."
-              },
-              "source": "nW-BE, arithmetic on the 2019 value"
-            },
-            {
               "kind": "structure",
               "text": {
                 "fr": "C'est le seul poste que le scénario fait *monter* : 15 %, au nom d'une cuisine plus maison et de produits moins transformés. En parallèle, la part du gaz tombe de 26,8 % à 2 %, par électrification.",
@@ -3804,6 +4223,20 @@ window.NW_WS_CONTENT = {
             }
           ],
           "historyAbsent": true
+        }
+      },
+      "summaryChart": {
+        "unit": "TWh",
+        "decimals": 2,
+        "caption": {
+          "fr": "Ce que chacune de vos réponses fait, à elle seule, à la demande d'énergie thermique des logements belges en 2050 — chauffage, froid, eau chaude et cuisson — par rapport au maintien du niveau d'aujourd'hui pour le même indicateur.",
+          "nl": "Wat elk van jullie antwoorden op zichzelf doet met de thermische energievraag van de Belgische woningen in 2050 — verwarming, koeling, warm water en koken — vergeleken met het behoud van het huidige niveau voor dezelfde indicator.",
+          "en": "What each of your answers does, on its own, to the thermal energy demand of Belgian homes in 2050 — heating, cooling, hot water and cooking — compared with keeping today's level of the same indicator."
+        },
+        "note": {
+          "fr": "Chaque barre est exacte pour son levier pris seul, les sept autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur. Les réseaux de chaleur ne déplacent aucune barre : ils changent la source de la chaleur, pas la quantité.",
+          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de zeven andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde. Warmtenetten verplaatsen geen enkele balk: ze veranderen de bron van de warmte, niet de hoeveelheid.",
+          "en": "Each bar is exact for its own lever taken alone, with the other seven left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only. District heating moves no bar at all: it changes where the heat comes from, not how much of it is needed."
         }
       }
     },
@@ -4406,6 +4839,20 @@ window.NW_WS_CONTENT = {
             }
           ],
           "historyAbsent": true
+        }
+      },
+      "summaryChart": {
+        "unit": "TWh",
+        "decimals": 2,
+        "caption": {
+          "fr": "Ce que chacune de vos réponses fait, à elle seule, à la demande d'énergie thermique des bâtiments tertiaires belges en 2050 — chauffage, froid, eau chaude et restauration collective — par rapport au maintien du niveau d'aujourd'hui pour le même indicateur.",
+          "nl": "Wat elk van jullie antwoorden op zichzelf doet met de thermische energievraag van de Belgische tertiaire gebouwen in 2050 — verwarming, koeling, warm water en grootkeukens — vergeleken met het behoud van het huidige niveau voor dezelfde indicator.",
+          "en": "What each of your answers does, on its own, to the thermal energy demand of Belgian service-sector buildings in 2050 — heating, cooling, hot water and catering — compared with keeping today's level of the same indicator."
+        },
+        "note": {
+          "fr": "Chaque barre est exacte pour son levier pris seul, les six autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur. Les réseaux de chaleur ne déplacent aucune barre : ils changent la source de la chaleur, pas la quantité.",
+          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de zes andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde. Warmtenetten verplaatsen geen enkele balk: ze veranderen de bron van de warmte, niet de hoeveelheid.",
+          "en": "Each bar is exact for its own lever taken alone, with the other six left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only. District heating moves no bar at all: it changes where the heat comes from, not how much of it is needed."
         }
       }
     }

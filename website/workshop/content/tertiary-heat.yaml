@@ -93,6 +93,46 @@ strings:
     nl: "% van de warmte in diensten"
     en: "% of service-building heat"
 
+# The +/- effects chart on the summary screen. Opt-in per topic (D40). Every
+# lever here carries an `impact` response; `ter-district-heat` declares its as
+# "negligible", so its row says so in words instead of drawing a bar (D50).
+summaryChart:
+  enabled: true
+  unit: TWh
+  decimals: 2
+  caption:
+    fr: >
+      Ce que chacune de vos réponses fait, à elle seule, à la demande d'énergie thermique
+      des bâtiments tertiaires belges en 2050 — chauffage, froid, eau chaude et
+      restauration collective — par rapport au maintien du niveau d'aujourd'hui pour le
+      même indicateur.
+    nl: >
+      Wat elk van jullie antwoorden op zichzelf doet met de thermische energievraag van de
+      Belgische tertiaire gebouwen in 2050 — verwarming, koeling, warm water en
+      grootkeukens — vergeleken met het behoud van het huidige niveau voor dezelfde
+      indicator.
+    en: >
+      What each of your answers does, on its own, to the thermal energy demand of Belgian
+      service-sector buildings in 2050 — heating, cooling, hot water and catering —
+      compared with keeping today's level of the same indicator.
+  note:
+    fr: >
+      Chaque barre est exacte pour son levier pris seul, les six autres restant à leur
+      valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme
+      n'est qu'un ordre de grandeur. Les réseaux de chaleur ne déplacent aucune barre : ils
+      changent la source de la chaleur, pas la quantité.
+    nl: >
+      Elke balk is exact voor zijn eigen hefboom alleen, met de zes andere op hun
+      scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een
+      grootteorde. Warmtenetten verplaatsen geen enkele balk: ze veranderen de bron van de
+      warmte, niet de hoeveelheid.
+    en: >
+      Each bar is exact for its own lever taken alone, with the other six left at their
+      scenario value. The levers compound multiplicatively, so their sum is an order of
+      magnitude only. District heating moves no bar at all: it changes where the heat comes
+      from, not how much of it is needed.
+
+
 # -----------------------------------------------------------------------------
 levers:
 

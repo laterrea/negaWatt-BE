@@ -32,6 +32,31 @@
         return fixed + scaled * (impact.vTarget / value);
       case "linear-shift":
         return total + (value - impact.vTarget) * (impact.slope || 0);
+      case "renovation": {
+        /* Two levers, one arithmetic. Renovate a constant share `rate` of the
+           stock every year, each renovation cutting `depth` off that dwelling's
+           heating need, and the stock average falls linearly:
+               I(N) = I(0) * [1 - depth * min(rate*N, 1)]
+           Moving one lever with the other held at negaWatt's value scales space
+           heating by the ratio of that factor to its value at negaWatt's pair.
+           `other` is the companion lever's value, in the same percent units as
+           the slider; `axis` says which of the two this lever is. */
+        var n = impact.years || 31;
+        var other = (impact.other || 0) / 100;
+        var here = value / 100;
+        var target = (impact.vTarget || 0) / 100;
+        var f, f0;
+        if (impact.axis === "depth") {
+          var share = Math.min(other * n, 1);   // `other` is the rate, per year
+          f = 1 - here * share;
+          f0 = 1 - target * share;
+        } else {
+          f = 1 - other * Math.min(here * n, 1);   // `other` is the depth
+          f0 = 1 - other * Math.min(target * n, 1);
+        }
+        if (!f0) return null;
+        return fixed + scaled * Math.max(f, 0) / f0;
+      }
       case "negligible":
         return null;
       default:

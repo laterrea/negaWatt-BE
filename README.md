@@ -161,8 +161,8 @@ reveal screen then shows the group spread next to négaWatt's value and its writ
 justification, one lever at a time.
 
 Live at **https://negawatt.squoilin.eu/workshop/** (unlisted, trilingual FR/NL/EN).
-Four topics, 29 questions: inland mobility (8), international mobility (7),
-residential heat (7), tertiary heat (7).
+Four topics, 30 questions: inland mobility (8), international mobility (7),
+residential heat (8), tertiary heat (7).
 
 ```
 website/workshop/
@@ -200,6 +200,17 @@ summaryChart:
 Deliberately not a cumulative waterfall: the levers compound multiplicatively, so their
 single-lever effects do not add up across 2019 → 2050, and a chart anchored where they do
 would print négaWatt's own total before the reveal. See D40.
+
+**The certainty question** ("How sure are you?", under the slider) is opt-in per topic and
+**off by default** — one line in the topic YAML turns it on:
+
+```yaml
+confidence: true        # or {enabled: true}; anything else fails the build
+```
+
+Only the reveal's dot radius reads it, and that falls back to the middle value, so a topic
+can leave it off without losing anything. The API and the schema are unchanged — `confidence`
+has always been nullable. See D48.
 
 ### Editing the cards
 
@@ -360,7 +371,7 @@ python scripts/dev_api.py --port 8787 &
 
 # 4. tests
 python scripts/test_workshop_helpers.py       # the export helpers
-python scripts/verify_workshop_export.py      # the notebook output (295 checks)
+python scripts/verify_workshop_export.py      # the notebook output (327 checks)
 python scripts/build_workshop_content.py --check
 python scripts/test_workshop_api.py --base http://127.0.0.1:8787            # 59 checks
 

@@ -70,7 +70,9 @@
       <div class="ws-facts__grid" id="facts"></div>
     </section>
 
-    <div class="ws-field">
+    <!-- Opt-in per topic: `confidence: true` in the topic YAML. Off by default,
+         so a session asks for the value and the condition only. -->
+    <div class="ws-field ws-hidden" id="field-confidence">
       <span class="ws-field__label" data-ui="play.confidence.label"></span>
       <div class="ws-segmented" id="confidence" role="group"></div>
     </div>

@@ -2,7 +2,7 @@
 window.NW_LEVERS = window.NW_LEVERS || {};
 window.NW_LEVERS["buildings"] = {
   "title": "Buildings",
-  "generated": "2026-09-03",
+  "generated": "2026-09-21",
   "levers": {
     "floor-area": {
       "topic": "residential-heat",
@@ -53,44 +53,111 @@ window.NW_LEVERS["buildings"] = {
       "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_1",
       "reference": "nW-BE §1.2.1"
     },
-    "insulation": {
+    "renovation-rate": {
       "topic": "residential-heat",
-      "name": "Heating need of the average home",
-      "unit": "kWh/m²/year of heating need",
+      "name": "Energy renovation rate of the dwelling stock",
+      "unit": "% of homes renovated per year",
       "refYear": 2019,
-      "refValue": 68.1549,
+      "refValue": 2.261,
       "targetYear": 2050,
-      "targetValue": 39.7589,
+      "targetValue": 2.24,
       "slider": {
-        "min": 20.0,
-        "max": 75.0,
-        "step": 0.5
+        "min": 0.0,
+        "max": 6.0,
+        "step": 0.1
       },
-      "better": "down",
+      "better": "up",
       "decimals": 1,
       "shown": true,
       "impact": {
-        "kind": "proportional",
-        "vTarget": 39.7589,
+        "kind": "renovation",
+        "axis": "rate",
+        "vTarget": 2.24,
+        "other": 60.0,
+        "years": 31,
         "total": 30.359,
         "scaled": 21.209
       },
       "model": {
-        "var": "acc_RS_tes_sht_ren",
+        "var": "rat_RS_tes_sht_ren",
         "section": "2.1.1",
-        "prose": "the model input is the multiplier on the observed -0.458 kWh/m²/year improvement quoted in section 2.1.1; this lever is the 2050 intensity it produces",
-        "note": "efficiency only, before the suf_RS_tes_sht thermostat multiplier, so it sits on the same basis as the observed kWh/m² series"
+        "prose": "derived in section 2.1.1 from the -0.916 kWh/m²/year trajectory and the assumed renovation depth; the model's own input remains acc_RS_tes_sht_ren",
+        "note": "the reference value is the renovation component of the JRC-IDEES floor-area series, renewal minus net new build, and the depth lever is defined on the same basis so that the pair reproduces the observed improvement"
       },
-      "history": "res_heat_per_m2",
       "facts": {
-        "accTarget": 2,
+        "renoRateObs": 2.261,
+        "newBuildRateObs": 0.746,
+        "renewalRateObs": 3.007,
         "improvementHist": -0.458,
-        "improvementTarget": -0.916,
-        "intensityEffTarget": 39.8,
-        "intensityTarget": 34.2,
-        "renewalRateJrc": 3.0,
-        "renoRateJrc": 2.261,
-        "newBuildRateJrc": 0.751,
+        "intensity2000": 79.5,
+        "intensity2019": 68.2,
+        "intensityDropPct": 13.3,
+        "depthObs": 25.5,
+        "dwellingsM": 4.95,
+        "homesPerPoint": 49500.0,
+        "homesPerYearObs": 112000.0,
+        "homesPerYearTarget": 111000.0,
+        "rateTarget": 2.24,
+        "shareTarget": 69.4,
+        "depthTarget": 60.0,
+        "m2PerHousehold": 126.4,
+        "heatKwhPerHousehold": 8612,
+        "heatTwh": 42.6,
+        "heatSharePct": 82.4,
+        "thermalTwh": 51.7
+      },
+      "spoilers": [
+        "depthTarget",
+        "homesPerYearTarget",
+        "rateTarget",
+        "shareTarget"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_2",
+      "reference": "nW-BE §2.1.1"
+    },
+    "renovation-depth": {
+      "topic": "residential-heat",
+      "name": "Depth of one energy renovation",
+      "unit": "% of the heating need cut",
+      "refYear": 2019,
+      "refValue": 25.4863,
+      "targetYear": 2050,
+      "targetValue": 60.0,
+      "slider": {
+        "min": 0.0,
+        "max": 100.0,
+        "step": 5.0
+      },
+      "better": "up",
+      "decimals": 0,
+      "shown": true,
+      "impact": {
+        "kind": "renovation",
+        "axis": "depth",
+        "vTarget": 60.0,
+        "other": 2.24,
+        "years": 31,
+        "total": 30.359,
+        "scaled": 21.209
+      },
+      "model": {
+        "var": "dep_RS_tes_sht_ren",
+        "section": "2.1.1",
+        "prose": "the one assumption section 2.1.1's renovation reading adds; the rate follows from it and the trajectory",
+        "note": "inferred, not measured: only the product of rate and depth is observed, so the reference value is the depth implied by the JRC renovation rate"
+      },
+      "facts": {
+        "depthObs": 25.5,
+        "renoRateObs": 2.261,
+        "improvementHist": -0.458,
+        "intensity2000": 79.5,
+        "intensity2019": 68.2,
+        "intensityDropPct": 13.3,
+        "depthIfOnePct": 57.6,
+        "depthHalveAll": 50.0,
+        "rateTarget": 2.24,
+        "shareTarget": 69.4,
+        "depthTarget": 60.0,
         "heatKwhPerHousehold": 8612,
         "m2PerHousehold": 126.4,
         "heatTwh": 42.6,
@@ -98,10 +165,9 @@ window.NW_LEVERS["buildings"] = {
         "thermalTwh": 51.7
       },
       "spoilers": [
-        "accTarget",
-        "improvementTarget",
-        "intensityEffTarget",
-        "intensityTarget"
+        "depthTarget",
+        "rateTarget",
+        "shareTarget"
       ],
       "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_2",
       "reference": "nW-BE §2.1.1"

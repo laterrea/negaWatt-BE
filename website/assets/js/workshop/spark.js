@@ -498,7 +498,13 @@
      on the participant's screen before the reveal. Each bar here is exact on
      its own, which is the same contract as the per-question readout.
 
-     opts: {items: [{label, value, unanswered}], unit, decimals} */
+     A lever whose answer cannot move this demand at all -- a carrier split, for
+     instance -- carries `neutral: true` and no value. It still gets a row, with
+     a word instead of a bar: leaving it out would suggest the group forgot to
+     answer, and dropping the whole chart because one lever is flat would cost
+     the other six their picture. See D40.
+
+     opts: {items: [{label, value, neutral}], unit, decimals} */
   function effects(node, opts) {
     responsive(node, function () { drawEffects(node, opts); });
   }
@@ -563,7 +569,7 @@
         svg.appendChild(el("text", {
           x: zero + 6, y: y + rowH - 4, "text-anchor": "start", "font-size": 10,
           "font-style": "italic", fill: MUTED
-        }, o.unansweredLabel || "\u2014"));
+        }, (it.neutral ? o.neutralLabel : o.unansweredLabel) || "\u2014"));
         return;
       }
       var w = Math.abs(v) / span * iw;

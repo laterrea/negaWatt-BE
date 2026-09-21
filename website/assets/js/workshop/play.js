@@ -271,15 +271,27 @@
   }
 
   /* ------------------------------------------------------------- confidence */
+  /* Asking "how sure are you?" is opt-in per topic (`confidence: true` in the
+     topic YAML) and off by default: one screen already carries a slider, the
+     facts and the condition, and the extra question earns its place only where
+     a facilitator plans to use the spread of certainty. */
   var CONFIDENCE = [
     { value: 1, key: "play.confidence.hunch" },
     { value: 2, key: "play.confidence.fairly" },
     { value: 3, key: "play.confidence.confident" }
   ];
 
+  function confidenceEnabled() {
+    return !!(topicContent() || {}).confidence;
+  }
+
   function drawConfidence(id) {
+    var field = $("field-confidence");
     var box = $("confidence");
+    var on = confidenceEnabled();
+    if (field) field.classList.toggle("ws-hidden", !on);
     box.innerHTML = "";
+    if (!on) return;
     var answer = state.answers[id] || {};
     CONFIDENCE.forEach(function (opt) {
       var b = document.createElement("button");
@@ -437,9 +449,13 @@
       var lever = levers()[id];
       var answer = state.answers[id] || {};
       var value = answer.value === undefined ? null : answer.value;
+      // A carrier split moves no end-use demand by construction, so its bar is
+      // not missing, it is flat. Say so rather than let it read as unanswered.
+      var neutral = ((lever.impact || {}).kind || "negligible") === "negligible";
       return {
         label: T.pick(leverContent(id).short) || lever.name,
-        value: value === null ? null
+        neutral: neutral,
+        value: neutral || value === null ? null
              : window.NW_IMPACT.contribution(lever.impact, value, lever.refValue)
       };
     });
@@ -452,6 +468,7 @@
       decimals: conf.decimals,
       zeroLabel: T.t("play.effects.zero", { year: (levers()[state.order[0]] || {}).refYear }),
       unansweredLabel: T.t("play.unanswered"),
+      neutralLabel: T.t("play.effects.neutral"),
       srLabel: T.pick(conf.caption)
     });
 

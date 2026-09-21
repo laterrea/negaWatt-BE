@@ -1,16 +1,18 @@
 """Residential heat: heating, cooling, hot water and cooking in Belgian homes.
 
-Seven levers, all of them genuine degrees of freedom of the buildings notebook's
-residential block, so the reveal is exact and no group can enter a
-self-inconsistent scenario:
+Eight levers over seven degrees of freedom of the buildings notebook's residential
+block, so the reveal is exact and no group can enter a self-inconsistent scenario.
+The one pair sharing a degree of freedom is `renovation-rate` x `renovation-depth`:
+section 2.1.1 pins their product, never either one alone (D51).
 
-    floor-area       m² of dwelling per person        (pro_RS_sur_spe)
-    insulation       kWh/m² of heating need per year  (acc_RS_tes_sht_ren)
-    thermostat       °C off the heating setpoint      (suf_RS_tes_sht)
-    hot-water        kWh/person/year                  (trg_RS_tes_shw)
-    cooling          kWh/m²/year                      (acc_RS_tes_scl_ren)
-    cooking          kWh/household/year               (pro_RS_tes_cok)
-    district-heat    % of home heat from a network    (trg_RS_tes_dhn)
+    floor-area        m² of dwelling per person       (pro_RS_sur_spe)
+    renovation-rate   % of the stock renovated a year (rat_RS_tes_sht_ren)
+    renovation-depth  % of the heating need one cuts  (dep_RS_tes_sht_ren)
+    thermostat        °C off the heating setpoint     (suf_RS_tes_sht)
+    hot-water         kWh/person/year                 (trg_RS_tes_shw)
+    cooling           kWh/m²/year                     (acc_RS_tes_scl_ren)
+    cooking           kWh/household/year              (pro_RS_tes_cok)
+    district-heat     % of home heat from a network   (trg_RS_tes_dhn)
 
 The tertiary sector is a separate topic (`tertiary_heat.py`) out of the same
 notebook, so nothing here reads a `*_TS_*` variable.
@@ -29,13 +31,14 @@ Two traps in the notebook's namespace, both handled below:
     numbers. The residential setpoint drop is therefore recovered from
     `suf_RS_tes_sht`, and the carrier split from `ref_RS_tes_dhn` /
     `trg_RS_tes_dhn`, never from the shared names.
-  * the notebook never computes the observed renovation rate, only the
-    improvement in kWh/m²/year it is attributed to. The 3 %/year quoted in the
-    prose of section 2.1.1 is a *renewal* rate -- renovation at any depth plus new
-    construction -- and its renovation component turns out to be a constant booked
-    by JRC-IDEES, not an observation. It is named here as a reference constant,
-    with its decomposition, and used only on the fact cards: the `insulation`
-    lever is defined on the kWh/m² the model actually moves.
+  * "renovation rate" means three different things in the same paragraph. The
+    3 %/year of section 2.1.1 is a *renewal* rate -- renovation at any depth plus
+    new construction; its renovation component (2.261 %/year) is a constant booked
+    by JRC-IDEES rather than an observation; and the ~1 %/year the Commission
+    measures counts *energy* renovation only. Section 2.1.1 now decomposes the
+    first two in code, and the two levers below are defined on the JRC renovation
+    component together with the depth that goes with it, so that their product
+    reproduces the observed -0.458 kWh/m²/year exactly.
 
 See docs/workshop_module.md for the design, and
 website/workshop/content/residential-heat.yaml for the wording.
@@ -57,6 +60,9 @@ def build(ctx):
      ref_RS_sur_spe, ref_RS_sur_hld, pro_RS_sur_spe,
      ref_RS_tes_sht, trg_RS_tes_sht, suf_RS_tes_sht,
      acc_RS_tes_sht_ren, cur_RS_tes_sht_ren,
+     dep_RS_tes_sht_ren, shr_RS_tes_sht_ren, rat_RS_tes_sht_ren,
+     obs_RS_tes_sht_2000, obs_RS_tes_sht_dep,
+     obs_RS_sht_rat_ren, obs_RS_sht_rat_new, obs_RS_sht_rat_all,
      ref_RS_tes_scl, trg_RS_tes_scl, acc_RS_tes_scl_ren, cur_RS_tes_scl_ren,
      ref_RS_tes_shw, trg_RS_tes_shw, pro_RS_tes_shw,
      shower_duration, shower_flow_rate, shower_temperature,
@@ -79,6 +85,14 @@ def build(ctx):
         'suf_RS_tes_sht',
         'acc_RS_tes_sht_ren',
         'cur_RS_tes_sht_ren',
+        'dep_RS_tes_sht_ren',
+        'shr_RS_tes_sht_ren',
+        'rat_RS_tes_sht_ren',
+        'obs_RS_tes_sht_2000',
+        'obs_RS_tes_sht_dep',
+        'obs_RS_sht_rat_ren',
+        'obs_RS_sht_rat_new',
+        'obs_RS_sht_rat_all',
         'ref_RS_tes_scl',
         'trg_RS_tes_scl',
         'acc_RS_tes_scl_ren',
@@ -110,19 +124,10 @@ def build(ctx):
     # Named here so the workshop can export them, and so that editing either the
     # text or the model trips the assertions below instead of drifting silently.
     # Section numbers refer to the markdown headings of the buildings notebook.
-    # The rate quoted in section 2.1.1 is a *renewal* rate: renovation plus new
-    # construction, at any depth. Decomposing the JRC-IDEES floor-area series it
-    # is built from (nW_BE_demand_data_aux.ipynb cell 17) shows the renovation
-    # component is a constant booked by JRC-IDEES -- 2.261 %/year with a standard
-    # deviation of 0.008 points over 2001-2023 -- and that every visible wiggle in
-    # the series is net new construction. It is therefore NOT an observation of
-    # renovation activity, and it is not what "renovation rate" means in policy
-    # (the EU counts ~1 %/year of *energy* renovation). Kept here for the fact
-    # cards and for the assertion below; the lever itself is defined on the
-    # intensity the model actually moves. See docs/workshop_module.md.
-    ref_RS_renewal_rate    = 3.0    # % of floor area renewed per year, 2000-2023  -- §2.1.1
-    ref_RS_reno_rate_jrc   = 2.261  # of which renovation, a JRC-IDEES constant [1,2]
-    ref_RS_new_build_rate  = 0.751  # of which net new construction, observed [1,2]
+    # The renewal / renovation / new-build decomposition now lives in the notebook
+    # (section 2.1.1) together with the renovation reading of the efficiency
+    # assumption, because the two renovation levers are defined on it. Read from
+    # there rather than restated here: obs_RS_sht_rat_all / _ren / _new.
     ref_RS_cook_trend      = -1.6   # kWh/household/year, 2000-2023 average        -- §2.1.2
     ref_slowheat_ok_degc   = 15.0   # average indoor temperature judged liveable [3] -- §2.1.2
     ref_slowheat_min_degc  = 12.0   # vigilance threshold [3]                      -- §2.1.2
@@ -197,11 +202,26 @@ def build(ctx):
         f"deployment of section 2.1.2 from {ref_RS_tes_scl:.4f}")
 
     # The renewal rate quoted in the prose is the sum of its two components.
-    assert abs(ref_RS_reno_rate_jrc + ref_RS_new_build_rate
-               - ref_RS_renewal_rate) < 0.02, (
-        f"the renovation ({ref_RS_reno_rate_jrc}) and new-build "
-        f"({ref_RS_new_build_rate}) components no longer add up to the renewal "
-        f"rate of {ref_RS_renewal_rate} % quoted in section 2.1.1")
+    assert abs(obs_RS_sht_rat_ren + obs_RS_sht_rat_new
+               - obs_RS_sht_rat_all) < 0.02, (
+        f"the renovation ({obs_RS_sht_rat_ren}) and new-build "
+        f"({obs_RS_sht_rat_new}) components no longer add up to the renewal "
+        f"rate of {obs_RS_sht_rat_all} % quoted in section 2.1.1")
+
+    # The two renovation levers are exact only if their product reproduces the
+    # intensity trajectory they are read from, and if the observed pair
+    # reproduces the observed improvement. Both are arithmetic, so both must hold
+    # to the last digit.
+    assert abs(ref_RS_tes_sht * (1 - dep_RS_tes_sht_ren * rat_RS_tes_sht_ren
+                                 * (_Y1 - _Y0)) - trg_RS_tes_sht) < 1e-9, (
+        f"the renovation rate x depth pair of section 2.1.1 no longer lands on "
+        f"trg_RS_tes_sht = {trg_RS_tes_sht:.4f} kWh/m2")
+    assert abs(obs_RS_tes_sht_dep * obs_RS_sht_rat_ren / 100 * obs_RS_tes_sht_2000
+               + cur_RS_tes_sht_ren) < 1e-9, (
+        f"the observed renovation pair no longer reproduces the observed "
+        f"{cur_RS_tes_sht_ren} kWh/m2/year improvement")
+    assert 0 < shr_RS_tes_sht_ren <= 1, (
+        f"section 2.1.1 renovates {shr_RS_tes_sht_ren:.0%} of the stock by 2050")
 
     # --- Derived lever quantities ----------------------------------------------
     _litres_40c = {y: v / (rho_h2o * cp_h2o * (40.0 - 15.0)) / 365.0
@@ -228,6 +248,18 @@ def build(ctx):
     # What one degree is worth on today's housing stock, for the tangible card.
     _degc_twh_2019 = (ref_pct_per_degc / 100.0) * _tes[_Y0]["space heating"]
 
+    # --- Renovation levers: volumes, in dwellings a year -------------------------
+    # The model counts floor area, not dwellings, so a rate in % of the stock is
+    # turned into homes a year through the average dwelling size -- which gives
+    # 4.9 million dwellings against 5.0 million households, close enough for the
+    # order of magnitude a card is quoting and stated as such on the card.
+    _dwellings = _sur_tot[_Y0] * 1e6 / _sur_hld[_Y0]
+    _homes_per_year = {"obs": obs_RS_sht_rat_ren / 100.0 * _dwellings,
+                       "trg": rat_RS_tes_sht_ren * _dwellings}
+    # How far the observed trend took the stock over the whole measured period,
+    # on the fitted line rather than on two weather-dependent endpoints.
+    _intensity_drop_pct = -cur_RS_tes_sht_ren * 23.0 / obs_RS_tes_sht_2000 * 100.0
+
     def _impact(kind, v_target, scaled=0.0, slope=None):
         """Leverage record read by website/assets/js/workshop/impact.js.
 
@@ -240,6 +272,29 @@ def build(ctx):
         if slope is not None:
             rec["slope"] = round(float(slope), 6)
         return rec
+
+    def _impact_ren(axis, v_target, other, scaled):
+        """Leverage record for the two renovation levers (impact.js, kind
+        "renovation").
+
+        Renovate a constant share `rate` of the stock every year, each renovation
+        cutting a fraction `depth` off that dwelling's heating need, and the stock
+        average falls linearly -- the shape section 2.1.1 assumes:
+
+            I(N) = I(0) * [1 - depth * min(rate*N, 1)]
+
+        Moving one of the two on its own, with the other held at négaWatt's value,
+        scales space heating by the ratio of that factor to its value at
+        négaWatt's pair. `other` carries the companion lever's value in the same
+        percent units as the slider, `axis` says which of the two this lever is.
+        Exact for a single lever, like every other kind; the cap at 1 is the point
+        where every dwelling has been renovated once and more speed buys nothing.
+        """
+        return {"kind": "renovation", "axis": axis,
+                "vTarget": round(float(v_target), 4),
+                "other": round(float(other), 4),
+                "years": _Y1 - _Y0,
+                "total": round(_TOT, 4), "scaled": round(float(scaled), 4)}
 
     def _pct(part, whole):
         return round(100.0 * part / whole, 1) if whole else 0.0
@@ -274,49 +329,111 @@ def build(ctx):
          spoilers=["changePct", "m2PerHouseholdTarget", "householdChangePct"],
          notebook=_NB + "#section_1", reference="nW-BE §1.2.1")
 
-    # The model's degree of freedom here is acc_RS_tes_sht_ren, a multiplier on the
-    # observed -0.458 kWh/m²/year improvement. Two ways to put that to a group:
-    #   * as a renovation rate in % of the stock per year -- rejected. The prose's
-    #     3 % is a *renewal* rate (renovation of any depth + new build) whose
-    #     renovation component is a JRC-IDEES constant, so the exported series is
-    #     not an observation of renovation activity, and "renovation rate" means
-    #     ~1 %/year of *energy* renovation in policy. Question, curve and unit
-    #     would all have sat on different bases (D19, D30).
-    #   * as the 2050 heating need per m² that the multiplier produces -- taken.
-    #     It is the same degree of freedom (bijective with acc_RS_tes_sht_ren, so
-    #     the reveal stays exact), it has a real observed curve to extend, and
-    #     kWh/m² is the unit the demand is actually measured in.
-    # This value is the efficiency-only intensity, on the same basis as the observed
-    # series: both carry 2019 heating behaviour. The thermostat lever multiplies it.
-    _add("insulation", _T, "Heating need of the average home",
-         "kWh/m²/year of heating need",
-         ref_RS_tes_sht, trg_RS_tes_sht, ref_year=_Y0, target_year=_Y1,
-         slider={"min": 20, "max": 75, "step": 0.5},
-         impact=_impact("proportional", trg_RS_tes_sht,
-                        scaled=_tes[_Y1]["space heating"]),
-         model={"var": "acc_RS_tes_sht_ren", "section": "2.1.1",
-                "prose": "the model input is the multiplier on the observed "
-                         "-0.458 kWh/m²/year improvement quoted in section 2.1.1; "
-                         "this lever is the 2050 intensity it produces",
-                "note": "efficiency only, before the suf_RS_tes_sht thermostat "
-                        "multiplier, so it sits on the same basis as the observed "
-                        "kWh/m² series"},
-         history="res_heat_per_m2",
-         facts={"accTarget": acc_RS_tes_sht_ren,
+    # Section 2.1.1 has one degree of freedom, acc_RS_tes_sht_ren, a multiplier on
+    # the observed -0.458 kWh/m²/year improvement of the stock average. Two ways to
+    # put that to a group, and the first round of this workshop took the wrong one:
+    #   * as the 2050 kWh/m² the multiplier produces -- exact, with a real observed
+    #     curve, but a stock average in kWh/m² is not a quantity anyone at the table
+    #     has a feel for, and it is not the form any renovation policy takes.
+    #   * as renovation activity: how many dwellings a year, and how deep. That is
+    #     the form the question is asked in everywhere, and it is the same
+    #     arithmetic -- a constant share of the stock renovated each year at a
+    #     constant depth gives exactly the linear fall in the stock average that
+    #     section 2.1.1 assumes, so depth x rate is pinned by the trajectory.
+    # The second is taken here, as two levers. Only the *product* of the pair is
+    # observed, so the split needs one assumption; it is made in the notebook (the
+    # depth, set at the European Commission's threshold for a "deep" renovation)
+    # and the rate follows, leaving trg_RS_tes_sht and everything downstream of it
+    # numerically unchanged. See docs/workshop_module.md, D51.
+    #
+    # Neither lever gets an observed curve, and for opposite reasons: the JRC
+    # renovation series is flat by construction (a booking constant, 2.261 %/year
+    # with a standard deviation of 0.008 points), and nobody measures the depth of
+    # the average Belgian renovation at all. The renewal series that *does* move is
+    # plotted on a fact card instead, where the caveat can be written next to it.
+    _add("renovation-rate", _T, "Energy renovation rate of the dwelling stock",
+         "% of homes renovated per year",
+         obs_RS_sht_rat_ren, rat_RS_tes_sht_ren * 100,
+         ref_year=_Y0, target_year=_Y1,
+         # 0-6 rather than 0-4: the Walloon draft renovation plan asks for 3 %/year
+         # now and 5 %/year by 2050, and a slider a group cannot push that far
+         # would contradict the card quoting it.
+         slider={"min": 0, "max": 6, "step": 0.1}, better="up",
+         impact=_impact_ren("rate", rat_RS_tes_sht_ren * 100,
+                            dep_RS_tes_sht_ren * 100,
+                            scaled=_tes[_Y1]["space heating"]),
+         model={"var": "rat_RS_tes_sht_ren", "section": "2.1.1",
+                "prose": "derived in section 2.1.1 from the -0.916 kWh/m²/year "
+                         "trajectory and the assumed renovation depth; the model's "
+                         "own input remains acc_RS_tes_sht_ren",
+                "note": "the reference value is the renovation component of the "
+                        "JRC-IDEES floor-area series, renewal minus net new build, "
+                        "and the depth lever is defined on the same basis so that "
+                        "the pair reproduces the observed improvement"},
+         facts={"renoRateObs": round(obs_RS_sht_rat_ren, 3),
+                "newBuildRateObs": round(obs_RS_sht_rat_new, 3),
+                "renewalRateObs": round(obs_RS_sht_rat_all, 3),
                 "improvementHist": cur_RS_tes_sht_ren,
-                "improvementTarget": round(acc_RS_tes_sht_ren * cur_RS_tes_sht_ren, 3),
-                "intensityEffTarget": round(trg_RS_tes_sht, 1),
-                "intensityTarget": round(trg_RS_tes_sht * suf_RS_tes_sht, 1),
-                "renewalRateJrc": ref_RS_renewal_rate,
-                "renoRateJrc": ref_RS_reno_rate_jrc,
-                "newBuildRateJrc": ref_RS_new_build_rate,
+                "intensity2000": round(obs_RS_tes_sht_2000, 1),
+                "intensity2019": round(ref_RS_tes_sht, 1),
+                "intensityDropPct": round(_intensity_drop_pct, 1),
+                "depthObs": round(obs_RS_tes_sht_dep * 100, 1),
+                "dwellingsM": round(_dwellings / 1e6, 2),
+                "homesPerPoint": round(_dwellings / 100.0, -2),
+                "homesPerYearObs": round(_homes_per_year["obs"], -3),
+                "homesPerYearTarget": round(_homes_per_year["trg"], -3),
+                "rateTarget": round(rat_RS_tes_sht_ren * 100, 2),
+                "shareTarget": round(shr_RS_tes_sht_ren * 100, 1),
+                "depthTarget": round(dep_RS_tes_sht_ren * 100, 1),
+                "m2PerHousehold": round(_sur_hld[_Y0], 1),
+                "heatKwhPerHousehold": round(_heat_kwh_per_household),
+                "heatTwh": round(_tes[_Y0]["space heating"], 1),
+                "heatSharePct": _pct(_tes[_Y0]["space heating"], _tes_tot[_Y0]),
+                "thermalTwh": round(_tes_tot[_Y0], 1)},
+         spoilers=["rateTarget", "shareTarget", "depthTarget",
+                   "homesPerYearTarget"],
+         notebook=_NB + "#section_2", reference="nW-BE §2.1.1")
+
+    # The depth is the half nobody measures. What the observed period fixes is the
+    # *product*: 2.261 %/year of floor area renovated at 25.5 % each reproduces the
+    # -0.458 kWh/m²/year exactly, and so would 1 %/year at 58 %. The reference value
+    # below is therefore "the depth that goes with the JRC rate", and the cards say
+    # so -- it is the honest form of a quantity that is inferred, not measured.
+    _add("renovation-depth", _T, "Depth of one energy renovation",
+         "% of the heating need cut",
+         obs_RS_tes_sht_dep * 100, dep_RS_tes_sht_ren * 100,
+         ref_year=_Y0, target_year=_Y1,
+         slider={"min": 0, "max": 100, "step": 5}, better="up",
+         impact=_impact_ren("depth", dep_RS_tes_sht_ren * 100,
+                            rat_RS_tes_sht_ren * 100,
+                            scaled=_tes[_Y1]["space heating"]),
+         model={"var": "dep_RS_tes_sht_ren", "section": "2.1.1",
+                "prose": "the one assumption section 2.1.1's renovation reading "
+                         "adds; the rate follows from it and the trajectory",
+                "note": "inferred, not measured: only the product of rate and "
+                        "depth is observed, so the reference value is the depth "
+                        "implied by the JRC renovation rate"},
+         facts={"depthObs": round(obs_RS_tes_sht_dep * 100, 1),
+                "renoRateObs": round(obs_RS_sht_rat_ren, 3),
+                "improvementHist": cur_RS_tes_sht_ren,
+                "intensity2000": round(obs_RS_tes_sht_2000, 1),
+                "intensity2019": round(ref_RS_tes_sht, 1),
+                "intensityDropPct": round(_intensity_drop_pct, 1),
+                # the depth implied by the ~1 %/year of *energy* renovation the
+                # Commission measures, on the same observed improvement: the same
+                # arithmetic, a different count of what a renovation is.
+                "depthIfOnePct": round(-cur_RS_tes_sht_ren
+                                       / (1.0 / 100 * obs_RS_tes_sht_2000) * 100, 1),
+                "depthHalveAll": 50.0,
+                "rateTarget": round(rat_RS_tes_sht_ren * 100, 2),
+                "shareTarget": round(shr_RS_tes_sht_ren * 100, 1),
+                "depthTarget": round(dep_RS_tes_sht_ren * 100, 1),
                 "heatKwhPerHousehold": round(_heat_kwh_per_household),
                 "m2PerHousehold": round(_sur_hld[_Y0], 1),
                 "heatTwh": round(_tes[_Y0]["space heating"], 1),
                 "heatSharePct": _pct(_tes[_Y0]["space heating"], _tes_tot[_Y0]),
                 "thermalTwh": round(_tes_tot[_Y0], 1)},
-         spoilers=["accTarget", "improvementTarget", "intensityEffTarget",
-                   "intensityTarget"],
+         spoilers=["rateTarget", "shareTarget", "depthTarget"],
          notebook=_NB + "#section_2", reference="nW-BE §2.1.1")
 
     _add("thermostat", _T, "Degrees off the heating setpoint",
