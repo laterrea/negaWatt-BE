@@ -234,6 +234,11 @@ Each decision records *why*, so it can be revisited on purpose rather than by ac
 | D40 | **The summary screen's chart is a diverging ± bar per lever, not a cumulative waterfall**, and it is opt-in per topic | Asked for as "a bar chart with pluses and minuses, showing the effect of the measures on the sector's final consumption against 2019". A true waterfall was tested first and rejected on measurement: the levers compound multiplicatively, so single-lever effects do not add up over a span as wide as 2019 → 2050 — summing the eight "back to 2019" effects gives 33.9 TWh where the notebook gives 39.3, a 14% residual bar. Around négaWatt's own point the interaction is only ~3% (all seven levers pushed hard together: −0.18 TWh on a +5.92 TWh joint change), but a chart anchored *there* would print the scenario's 2050 total on the participant's screen before the reveal, which D17 forbids. So each bar is instead `contribution()` — the very number already shown under each question — exact on its own, with the sum labelled an order of magnitude. Opt-in because a topic whose levers lack a usable `impact` response cannot draw it; the build refuses `summaryChart: enabled` in that case (residential and tertiary heat both fail today, on `district-heat`). |
 | D41 | A fact's `chart:` may write its `y:` values as `"{placeholder}"` | Rule 3 said no model number is typed by hand, but charts were exempt by omission — the first plots of model quantities had their numbers copied into the YAML, free to drift. A lone `"{key}"` in `y:` now resolves from the lever's `facts` block exactly like one in a sentence, and the spoiler check still runs on the resolved value. Literal numbers remain allowed, for external data the model does not compute. |
 | D42 | A `lever` fact kind, beside trend / structure / benchmark / tangible / caution | `car-energy` bundles three mechanisms into one number, and the review asked for each to be quantified and sourced on its own card. Three consecutive "Contexte belge" labels would have read as one repeated card; "Un levier, chiffré" names what the card actually is. |
+| D43 | **A fact may retitle itself** with a trilingual `label:`, the kind keeping only the colour and the order | Two review comments needed it and neither could be met by changing the shared kind label: a benchmark card quoting *world* figures should not be headed "Comparaison internationale", and the IATA card on the fuel question is about "Décarbonation de l'aviation", not about comparing countries. Changing `ui.yaml` would have retitled the kind in all four topics. The label is held to the same rules as every other string — three languages, no `*emphasis*` (it is not rendered there), no spoiler. |
+| D44 | **A fact's `chart:` may plot a measured series by name**: `series: <key of history_<sector>.js>`, windowed with `from:`/`to:` | "Put a graph there instead of the text" was asked for on two cards whose curve is 24 annual points. Typing 24 numbers into the YAML would have broken rule 3 in the one place where drift is least visible. `series:` reads the generated history file at build time, so the plot cannot disagree with the notebook. The chart deliberately does *not* inherit the series' `source`: a chart that declares one stops inheriting the fact's `url`, and the generated series carries no url of its own. |
+| D45 | **One question may drive two model parameters — when the merge is exact.** `plane-fuel` replaces `long-haul-fuel` and `short-haul-fuel` | Asked for as "these two questions are almost the same one", and they were: both start within 3 % of each other (69.1 and 67.3 kWh per aircraft-km) and both ask how much energy an aeroplane needs to fly a kilometre. The merge is exact rather than approximate, which is what makes it admissible: energy is aircraft-km × fuel per aircraft-km, so the aircraft-km-weighted average *is* total kerosene energy over total kerosene aircraft-km, and the topic's demand stays exactly proportional to the merged value however the scenario splits it. The split it does make — long-haul −16 %, intra-EU +5 % — is not lost: it is a `reveal: true` fact. The module asserts that the merged value lies between the two it averages. |
+| D46 | The **aviation detail of JRC-IDEES-2023 entered the project**, and three levers stopped being history-less | Until this round every aviation lever declared `historyAbsent`, on the grounds that the JRC-IDEES *Transport* workbook was not available — so the workshop's central gesture, extending a measured curve to 2050, did not work on this topic at all. The workbook was found; `nW_BE_demand_data_aux.ipynb` now carries the occupancy and fuel-per-aircraft-km series for both haul types, 2000–2023, plus air-freight tonne-km. Its 2019 values reproduce the four anchors section 2.3 projects from, to the third decimal, and the notebook asserts it. `long-haul-load`, `short-haul-load`, `plane-fuel` and `air-freight` now extend a real line. |
+| D47 | **Air freight became a question, and section 3.1.4 gained the two parameters it reads** — both set to zero | The topic's own module documented air freight as "context, no lever of its own", and it is 3.5 TWh of the topic's 10.9 TWh in 2050 — a third of it, untouched, because the scenario makes no assumption about it and the notebook said so in a comment ("we should maybe consider reductions of aviation intensity, and other modal shifts"). Writing the assumption down as `pro_FT_spe_avi = 0` and `sft_FT_rel_avi_to_trn = 0` changes no number — verified byte-identical exports — and turns an omission into a visible choice that the workshop can ask about and the reveal can defend or attack. The destination of shifted tonne-km is rail, because deep-sea shipping, the real alternative, is not in the demand model at all; the card says so. |
 
 ---
 
@@ -244,7 +249,7 @@ Each decision records *why*, so it can be revisited on purpose rather than by ac
 | Q1 | Should reveal results persist as a public archive page per workshop, or stay ephemeral? | open — the `answer_log` table keeps the trace either way |
 | Q2 | Add a rebound-effect follow-up prompt on `car-energy` (review §6.3)? | open |
 | Q3 | **Car occupancy definition conflict.** 1.18 (unweighted mean over powertrain columns, what `transport.js` currently exports), 1.22 (pkm-weighted fleet average, the prose value in cell 21), ~1.78 (travel-survey figure over all trips). | decided for now: the workshop uses the **pkm-weighted fleet** definition and shows the conflict as one of the four facts, because the question "how many people in the average car" is otherwise ambiguous |
-| Q4 | Transport notebook cells 28 (prose) and 29 (code) disagree on the intra-EU aviation shift split: prose says 25% to high-speed / 20% to conventional rail, the code does the reverse. | **noted, not fixed** — outside the PoC's eight levers. Belongs to a separate notebook-correctness pass. |
+| Q4 | Transport notebook cells 28 (prose) and 29 (code) disagree on the intra-EU aviation shift split: prose says 25% to high-speed / 20% to conventional rail, the code does the reverse. | **closed 2026-09-21 — the code was corrected to the prose, on evidence.** The average intra-European flight out of Belgium is 1,150 km (JRC-IDEES-2023), and at that distance what decides is speed, not the existence of a line: the EEA's own city-pair table has every large rail win on a high-speed corridor (Paris–Lyon 3.4M rail against 0.64M air; Madrid–Barcelona 3.9M against 2.47M) and every conventional-track pair losing outright at comparable distance (Berlin–Vienna, 603 km: 1.05M air against 20–50k rail). High speed therefore takes 25 points. Conventional keeps 20 for three reasons that argue against going further: the ECA finds the EU high-speed network an "ineffective patchwork" running at ~45% of design speed (which is why Barcelona–Paris, 945 km and nominally TGV, is still 2.5M air against 20k rail); the binding TEN-T target for 2040 is 160 km/h, not true high speed; and Belgium's own *Vision Rail 2040* has 214 km of high-speed line out of 3,615 km and hedges its future links across TGV, classic trains and night trains. Full citations in notebook cell 28. Worth 0.004 TWh on the 2050 inland total (23.076 → 23.072) and four rows of `data/energy_totals_overrides.csv`. **The three PyPSA-Eur forks still carry the old pair at `scripts/nW_BE.py:103-104` and need the same swap**, or their consistency check will fail on the rail rows. |
 | Q5 | Dutch translation quality | **needs native review** before any real workshop |
 | Q6 | No occupancy time series exists anywhere in the repo, and the JRC-IDEES *Transport* workbook is not downloaded (only EnergyBalance and Industry). | `car-occupancy`'s "past evolution" fact is hand-curated with a source URL and flagged as such |
 | Q7 | No QR code on the entry page or the printed cards | deferred: it means either vendoring an unreviewed library or writing a Reed–Solomon encoder. Since D36 the invitation is a bare `…/workshop/` URL, which is short enough to read off a projector. Worth adding before a large public session |
@@ -630,3 +635,43 @@ presets, and the négaWatt value staying hidden until the button is pressed.
 statements were checked by running each prepared query against MySQL 5.7 directly
 and the endpoint logic by its SQLite twin. `curl …/api/selftest.php` after the
 next deploy remains the real check; §10 is the cautionary tale.
+
+---
+
+## 15. Review round, 2026-09-21 — international mobility
+
+Third run-through by Sylvain, this time on the aviation topic. Comments in
+`notes_workshop_international_mobility.md`, which also carries the progress table. The
+content changes are in `website/workshop/content/international-mobility.yaml`; what follows
+is what changed *outside* it.
+
+**Three new capabilities**, all in the build and all rule-enforced (D43, D44, D45).
+
+**One thing that unblocked half the round.** The JRC-IDEES-2023 *Transport* workbook for
+Belgium turned out to carry, year by year from 2000 to 2023, exactly the four quantities
+this topic projects: passenger-km and aircraft-km (hence passengers per flight) and the
+effective vehicle efficiency in kgoe per 100 aircraft-km, separately for intra- and
+extra-EEA flights. Its 2019 values reproduce section 2.3's four starting constants to the
+third decimal. Six series were added to `nW_BE_demand_data_aux.ipynb` and asserted against
+those constants, so three levers stopped declaring `historyAbsent` and now extend a
+measured curve (D46).
+
+**Two model-side changes, both behaviour-neutral and both verified byte-identical:**
+
+| Change | Why |
+|---|---|
+| §3.1.4 gained `pro_FT_spe_avi` and `sft_FT_rel_avi_to_trn`, both zero | Air freight had no assumption of its own and is a third of the topic's 2050 energy. The notebook already said in a comment that it should probably have one. Writing the zero down turns an omission into a question (D47). |
+| §2.1's prose on the intra-EU aviation modal shift was corrected to the code | Cells 28 and 29 disagreed on which of high-speed and conventional rail gets 25 % and which gets 20 % (Q4, open since the first round). The prose was moved to the code, which leaves the scenario untouched; a note says which two values to swap if the intent was the reverse. |
+
+**Two things the round measured rather than asserted.** Both are in the notes file, and both
+are now on cards:
+
+* The model treats *passengers per flight* and *fuel per aircraft-km* as independent, which
+  is right if extra passengers fill empty seats and wrong if they need bigger aircraft. Over
+  2000–2019, Belgian long-haul gained 22 % passengers per flight while fuel per aircraft-km
+  fell 38 %, and intra-European gained 39 % for +2.6 %. The approximation is small on the
+  observed path, and the card says so with those numbers.
+* Every technical aviation target is calibrated as "half the 2000→2023 trend", and 2023 is a
+  recovery year. Stopping at 2019 instead would make the fuel targets more demanding and the
+  occupancy targets less so. The `debate` blocks now say this.
+

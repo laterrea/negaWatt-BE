@@ -8350,8 +8350,13 @@ Thus, of the 1.364 pkm/person travelled by intra-European flights in 2019, 1.280
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Calculation of reductions in mobility intensity</span>
 <span class="n">dlt_PM_spe_avi_lng</span> <span class="o">=</span> <span class="n">pro_PM_spe_avi_lng</span><span class="o">*</span><span class="n">ref_PM_mod_spe</span><span class="p">[</span><span class="s1">'plane-extra EU'</span><span class="p">]</span> <span class="c1"># [pkm/person]</span>
 <span class="n">dlt_PM_spe</span>         <span class="o">=</span> <span class="n">pro_PM_spe</span>        <span class="o">*</span><span class="n">ref_PM_spe</span>                       <span class="c1"># [pkm/person]</span>
-<span class="n">rem_dlt_PM_rel</span>     <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">dlt_PM_spe_avi_lng</span><span class="o">/</span><span class="n">dlt_PM_spe</span>                   <span class="c1"># [-]</span>
-<span class="n">rem_dlt_PM_abs</span>     <span class="o">=</span> <span class="n">rem_dlt_PM_rel</span>        <span class="o">*</span><span class="n">dlt_PM_spe</span>                   <span class="c1"># [pkm/person]</span>
+<span class="c1"># The reduction left for every mode other than long-haul aviation. Written as a</span>
+<span class="c1"># difference rather than as (1 - a/d)*d: the two are algebraically identical, but</span>
+<span class="c1"># the ratio form is 0/0 when pro_PM_spe == 0 and silently turns the whole 2050</span>
+<span class="c1"># projection into NaN -- so the model could not be run with no overall mobility</span>
+<span class="c1"># reduction at all, which a sensitivity sweep will want to do.</span>
+<span class="n">rem_dlt_PM_abs</span>     <span class="o">=</span> <span class="n">dlt_PM_spe</span> <span class="o">-</span> <span class="n">dlt_PM_spe_avi_lng</span>                     <span class="c1"># [pkm/person]</span>
+<span class="n">rem_dlt_PM_rel</span>     <span class="o">=</span> <span class="n">rem_dlt_PM_abs</span><span class="o">/</span><span class="n">dlt_PM_spe</span> <span class="k">if</span> <span class="n">dlt_PM_spe</span> <span class="k">else</span> <span class="mf">1.0</span>    <span class="c1"># [-] reporting only</span>
 <span class="n">red_PM_rel</span>      <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">rem_dlt_PM_abs</span><span class="o">/</span><span class="p">(</span><span class="n">ref_PM_spe</span><span class="o">-</span><span class="n">ref_PM_mod_spe</span><span class="p">[</span><span class="s1">'plane-extra EU'</span><span class="p">]))</span> <span class="c1"># [-]</span>
 <span class="n">trg_PM_mod_spe_ped</span>     <span class="o">=</span> <span class="n">red_PM_rel</span><span class="o">*</span><span class="n">ref_PM_mod_spe</span><span class="p">[</span><span class="s1">'pedestrian'</span><span class="p">]</span>         <span class="c1"># [pkm/person]</span>
 <span class="n">trg_PM_mod_spe_bic</span>     <span class="o">=</span> <span class="n">red_PM_rel</span><span class="o">*</span><span class="n">ref_PM_mod_spe</span><span class="p">[</span><span class="s1">'bicycle'</span><span class="p">]</span>            <span class="c1"># [pkm/person]</span>
@@ -8386,8 +8391,66 @@ Thus, of the 1.364 pkm/person travelled by intra-European flights in 2019, 1.280
 </blockquote>
 <p><br>
 $\textcolor{Orange}{\textbf{Sufficiency Assumption}}$</br></p>
-<p>As introduced above, we aim to achieve a <strong>modal shift</strong> for <strong>50%</strong> of these inta-Europe trips (total 1.280 pkm/person in 2050). Only <strong>640 pkm/person</strong> therefore remain allocated to <strong>intra-European flights</strong>.
-Of this 50% modal shift, <strong>25%</strong> is allocated to <strong>high-speed tains</strong> (320 pkm/person), <strong>20%</strong> to <strong>conventional</strong> (256 pkm/person), and finally <strong>5%</strong> to <strong>coaches</strong> (64 pkm/person).</p>
+<p>As introduced above, we aim to achieve a <strong>modal shift</strong> for <strong>50%</strong> of these intra-Europe trips (total 1.280 pkm/person in 2050). Only <strong>640 pkm/person</strong> therefore remain allocated to <strong>intra-European flights</strong>.
+Of this 50% modal shift, <strong>25%</strong> is allocated to <strong>high-speed rail</strong> (320 pkm/person), <strong>20%</strong> to <strong>conventional trains</strong> (256 pkm/person), and finally <strong>5%</strong> to <strong>coaches</strong> (64 pkm/person).</p>
+<blockquote>
+<p><strong>Why the larger share goes to high-speed rail.</strong> The average intra-European flight departing
+Belgium covered <strong>1.150 km</strong> in 2019, and 1.216 km in 2023 (JRC-IDEES-2023, <em>Transport</em> workbook
+for Belgium, sheet <code>TrAvia_act</code>, row "Distance travelled per flight", International -
+Intra-EEAwCHUK). At that distance the question is not whether a rail connection exists but how
+fast it is. The evidence is one-sided: reviewing the literature, the EEA reports that rail
+dominates below 2,5 hours of journey time, competes between 2,5 and 4,5 hours, and that
+high-speed rail can hold 50% or more of the combined market <strong>up to about 3,5 hours</strong>; and its
+own city-pair table shows every large rail win on a genuine high-speed corridor - Paris-Lyon
+0,64 million air passengers against 3,4 million by rail, Madrid-Barcelona 2,47 against 3,9,
+Amsterdam-Paris 1,40 against 2,0 - while comparable distances served by <em>conventional</em> track
+lose outright: Berlin-Vienna (603 km) 1,05 million by air against 20-50 thousand by rail, and
+Budapest-Frankfurt (917 km) 0,66 million against 1-5 thousand
+[EEA, <em>Transport and Environment Report 2020: Train or plane?</em>, p. 17 and tabl. 5.1 p. 50:
+<a href="https://www.eea.europa.eu/en/analysis/publications/transport-and-environment-report-2020/transport-and-environment-report-2020/@@download/file">https://www.eea.europa.eu/en/analysis/publications/transport-and-environment-report-2020/transport-and-environment-report-2020/@@download/file</a>].
+Conventional rail does not take passengers off aircraft at these distances; fast rail does.
+On energy per passenger there is no penalty to fear: the newest high-speed stock (Alstom AGV,
+300 km/h) comes out at 0,033 kWh per seat-km, the same as a 200 km/h Pendolino and better than
+the 1990s TGV and Eurostar sets, because lower mass and more seats offset the speed
+[ATOC for Greengauge21, <em>Energy consumption and CO2 impacts of high speed rail</em>, tabl. 1:
+<a href="https://www.greengauge21.net/wp-content/uploads/Energy-Consumption-and-CO2-impacts.pdf">https://www.greengauge21.net/wp-content/uploads/Energy-Consumption-and-CO2-impacts.pdf</a>].
+That is consistent with the 0,0704 kWh/pkm this model gives high-speed rail in 2050 against
+0,0764 for conventional.</p>
+</blockquote>
+<blockquote>
+<p><strong>And why conventional rail still keeps 20 points.</strong> Three reasons, all of them arguments
+against pushing the high-speed share higher than 25. First, delivery risk: the European Court
+of Auditors found the EU high-speed network to be "not a reality but an ineffective patchwork",
+with trains running at about <strong>45% of the line's design speed</strong> on average and the cross-border
+Figueres-Perpignan link at 36% - which is why Barcelona-Paris (945 km), nominally a TGV
+corridor, still carries 2,5 million passengers by air against 20 thousand by rail
+[ECA, <em>Special Report 19/2018</em>, §VI and §40-48:
+<a href="https://www.eca.europa.eu/Lists/ECADocuments/SR18_19/SR_HIGH_SPEED_RAIL_EN.pdf">https://www.eca.europa.eu/Lists/ECADocuments/SR18_19/SR_HIGH_SPEED_RAIL_EN.pdf</a>].
+Second, what the EU has actually legislated is more modest than high speed: the revised TEN-T
+regulation requires <strong>160 km/h</strong> on the core and extended-core passenger network by 2040, and
+the connection of every airport above 12 million passengers to long-distance rail
+[European Parliament Research Service, briefing on Regulation (EU) 2024/1679:
+<a href="https://www.europarl.europa.eu/RegData/etudes/ATAG/2025/769545/EPRS_ATA(2025)769545_EN.pdf">https://www.europarl.europa.eu/RegData/etudes/ATAG/2025/769545/EPRS_ATA(2025)769545_EN.pdf</a>].
+Third, Belgium's own federal <em>Vision Rail 2040</em> has 3.615 km of main line and only <strong>214 km</strong> of
+high-speed line, and when it describes the international offer it deliberately hedges across
+"TGV relations, classic international trains, or night trains", naming Berlin, Hamburg, Zurich,
+Basel, Copenhagen, Rome and Milan - distances of 600 to 1.200 km, exactly the band where the
+outcome is uncertain
+[SPF Mobilité et Transports, <em>Vision Rail 2040</em>, 6 May 2022, p. 9 and p. 16:
+<a href="https://mobilit.belgium.be/sites/default/files/publicaties%20en%20statistieken/20220506_vision_rail_2040_-_versionlongue_fr.pdf">https://mobilit.belgium.be/sites/default/files/publicaties%20en%20statistieken/20220506_vision_rail_2040_-_versionlongue_fr.pdf</a>].
+The 20 points on conventional rail are where the night trains and the legs no fast line serves
+belong.</p>
+</blockquote>
+<blockquote>
+<p><strong>Note:</strong> until 2026-09-21 the sentence above and the cell below disagreed - the text named
+high-speed rail for the 25% and conventional rail for the 20%, the code did the reverse. The
+code was corrected to the text on the evidence quoted above. In energy the choice is nearly
+neutral - the two destinations differ by 0,006 kWh/pkm in 2050, so the swap moves the 2050
+inland demand by about 0,004 TWh, from 23,076 to 23,072 TWh - but the assumption is now
+coherent and defensible. The same pair still has to be swapped in <code>scripts/nW_BE.py</code> (lines
+103-104) of the PyPSA-Eur forks, or their consistency check will fail on the rail rows of
+<code>data/energy_totals_overrides.csv</code>.</p>
+</blockquote>
 </div>
 </div>
 </div>
@@ -8401,8 +8464,8 @@ Of this 50% modal shift, <strong>25%</strong> is allocated to <strong>high-speed
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Inputs - Define Sufficiency Scenario Data (SUF)</span>
 <span class="n">pro_PM_spe_avi_srt</span>            <span class="o">=</span> <span class="o">-</span><span class="mf">0.50</span>
-<span class="n">sft_PM_rel_avi_srt_to_trn_cnv</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.25</span>
-<span class="n">sft_PM_rel_avi_srt_to_trn_spd</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.20</span>
+<span class="n">sft_PM_rel_avi_srt_to_trn_cnv</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.20</span> <span class="c1"># conventional rail: the shorter legs and the night trains</span>
+<span class="n">sft_PM_rel_avi_srt_to_trn_spd</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.25</span> <span class="c1"># high speed: the 1 150 km average intra-EU flight -- see above</span>
 <span class="n">sft_PM_rel_avi_srt_to_cch</span>     <span class="o">=</span> <span class="o">+</span><span class="mf">0.05</span>
 <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pro_PM_spe_avi_srt</span><span class="o">+</span><span class="n">sft_PM_rel_avi_srt_to_trn_cnv</span><span class="o">+</span><span class="n">sft_PM_rel_avi_srt_to_trn_spd</span><span class="o">+</span><span class="n">sft_PM_rel_avi_srt_to_cch</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-15</span><span class="p">:</span> 
     <span class="nb">print</span><span class="p">(</span><span class="s2">"There is an error in the modal shift for the 2050 intra-Europe flights!"</span><span class="p">)</span>
@@ -10328,14 +10391,28 @@ The occucpancy ratio is defined as the ratio between the specific fuel consumpti
 <p>Accoring to JRC-IDEES [1,2], the share of electricity as a primary energy source in plug-in hybrid vehicles increased from around 40% in 2012 to nearly 60% in 2023. In this work, we therefore assume a 50/50 split to convert energy consumption into equivalent amounts of gasoline and electricity.</p>
 <p><br>
 $\textcolor{Orange}{\textbf{Sufficiency and Efficiency Assumptions}}$</br></p>
+<p><code>redu_fuel_PM_car</code> multiplies the 2050 kWh/km of <strong>each propulsion type separately</strong>, so it
+carries the energy needed to <em>move the vehicle itself</em> — speed, mass, aerodynamics, driving
+style. The choice of propulsion is counted elsewhere, in the powertrain shares of section
+2.2.5; this parameter is what comes on top of it.</p>
 <p>Overal, -25% fuel consumption thanks to:</p>
 <ul>
 <li>reduced speed limit and eco-driving behavior: reduce aero drag, mass of cars (safety)</li>
 <li>smaller cars: reduce aero drag, mass of cars</li>
-<li>more efficient power trains (including regenerative braking for electric cars, non-plug-in hybrid for thermal)</li>
 </ul>
 <blockquote>
-<p><strong>Comment:</strong> Although these improvements implicitly account for the effects of reduced speed and vehicle weight, they are not modelled separately. Future work could aim to link these effects more transparently to this parameter.</p>
+<p><strong>Comment:</strong> the three effects are bundled into one figure and are not modelled separately.
+Orders of magnitude from the literature, for scale: lowering a motorway limit to 90 km/h cuts
+car energy per km by 4-10% (KiM, 2023); eco-driving gives 5-15% immediately but only 2-5%
+durably, unless assistance is permanently fitted (Xu et al., <em>Sensors</em>, 2021); a 10% cut in
+vehicle mass is worth 6-7% of fuel when the engine is downsized with it (ICCT, 2017). Future
+work could aim to link these effects more transparently to this parameter.</p>
+</blockquote>
+<blockquote>
+<p><strong>Note:</strong> earlier versions of this section also listed "more efficient power trains
+(including regenerative braking, non-plug-in hybrid)" among the ingredients of the -25%.
+That is removed: powertrain efficiency belongs with the propulsion mix, not with the energy
+required to move the car, and the workshop asks the two questions separately.</p>
 </blockquote>
 <p><br>
 $\textcolor{Orange}{\textbf{Sufficiency Assumption}}$</br></p>
@@ -10356,6 +10433,18 @@ $\textcolor{Orange}{\textbf{Sufficiency Assumption}}$</br></p>
 <span class="n">share_elec_plug_in</span> <span class="o">=</span> <span class="mf">0.50</span>
 <span class="n">redu_fuel_PM_car</span> <span class="o">=</span> <span class="mf">0.75</span>
 <span class="n">occu_trgt_PM_car</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="c1"># -&gt; 2019 occupancy per powertrain [persons/car], from JRC-IDEES [1,2].</span>
+<span class="c1">#    Named (instead of inlined below) so the workshop module can export them</span>
+<span class="c1">#    and cross-check them against the fleet average quoted in section 2.1.</span>
+<span class="c1">#    See docs/workshop_module.md.</span>
+<span class="n">ref_occu_PM_car</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'liquid-diesel'</span><span class="p">:</span>   <span class="mf">1.242</span><span class="p">,</span>
+    <span class="s1">'liquid-gasoline'</span><span class="p">:</span> <span class="mf">1.188</span><span class="p">,</span>
+    <span class="s1">'gas-LPG'</span><span class="p">:</span>         <span class="mf">1.184</span><span class="p">,</span>
+    <span class="s1">'gas-NG'</span><span class="p">:</span>          <span class="mf">1.184</span><span class="p">,</span>
+    <span class="s1">'hybrid-plug-in'</span><span class="p">:</span>  <span class="mf">1.194</span><span class="p">,</span>
+    <span class="s1">'electrical'</span><span class="p">:</span>      <span class="mf">1.099</span><span class="p">,</span>
+<span class="p">}</span>
 <span class="c1"># -&gt; Projections of efficiency and occupancy</span>
 <span class="n">cons_fuel_PM_car</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
     <span class="s1">'liquid-diesel'</span><span class="p">:</span>   <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mf">5.523</span><span class="o">/</span><span class="mi">100</span><span class="o">*</span><span class="n">kgoe_to_kWh</span><span class="p">,</span> <span class="mi">2050</span><span class="p">,</span> <span class="mf">5.523</span><span class="o">/</span><span class="mi">100</span><span class="o">*</span><span class="n">kgoe_to_kWh</span><span class="o">*</span><span class="n">redu_fuel_PM_car</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [kWh/km] -&gt; sta = JRC-IDEES, end = nW-BE</span>
@@ -10365,13 +10454,9 @@ $\textcolor{Orange}{\textbf{Sufficiency Assumption}}$</br></p>
     <span class="s1">'hybrid-plug-in'</span><span class="p">:</span>  <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mf">3.735</span><span class="o">/</span><span class="mi">100</span><span class="o">*</span><span class="n">kgoe_to_kWh</span><span class="p">,</span> <span class="mi">2050</span><span class="p">,</span> <span class="mf">3.735</span><span class="o">/</span><span class="mi">100</span><span class="o">*</span><span class="n">kgoe_to_kWh</span><span class="o">*</span><span class="n">redu_fuel_PM_car</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [kWh/km] -&gt; sta = JRC-IDEES, end = nW-BE</span>
     <span class="s1">'electrical'</span><span class="p">:</span>      <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mf">1.818</span><span class="o">/</span><span class="mi">100</span><span class="o">*</span><span class="n">kgoe_to_kWh</span><span class="p">,</span> <span class="mi">2050</span><span class="p">,</span> <span class="mf">1.818</span><span class="o">/</span><span class="mi">100</span><span class="o">*</span><span class="n">kgoe_to_kWh</span><span class="o">*</span><span class="n">redu_fuel_PM_car</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [kWh/km] -&gt; sta = JRC-IDEES, end = nW-BE</span>
 <span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="n">years</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-<span class="n">occupancy_PM_car</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">'liquid-diesel'</span><span class="p">:</span>   <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mf">1.242</span><span class="p">,</span> <span class="mi">2050</span><span class="p">,</span> <span class="n">occu_trgt_PM_car</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [p] -&gt; sta = JRC-IDEES, end = nW-BE</span>
-    <span class="s1">'liquid-gasoline'</span><span class="p">:</span> <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mf">1.188</span><span class="p">,</span> <span class="mi">2050</span><span class="p">,</span> <span class="n">occu_trgt_PM_car</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [p] -&gt; sta = JRC-IDEES, end = nW-BE</span>
-    <span class="s1">'gas-LPG'</span><span class="p">:</span>         <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mf">1.184</span><span class="p">,</span> <span class="mi">2050</span><span class="p">,</span> <span class="n">occu_trgt_PM_car</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [p] -&gt; sta = JRC-IDEES, end = nW-BE</span>
-    <span class="s1">'gas-NG'</span><span class="p">:</span>          <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mf">1.184</span><span class="p">,</span> <span class="mi">2050</span><span class="p">,</span> <span class="n">occu_trgt_PM_car</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [p] -&gt; sta = JRC-IDEES, end = nW-BE</span>
-    <span class="s1">'hybrid-plug-in'</span><span class="p">:</span>  <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mf">1.194</span><span class="p">,</span> <span class="mi">2050</span><span class="p">,</span> <span class="n">occu_trgt_PM_car</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [p] -&gt; sta = JRC-IDEES, end = nW-BE</span>
-    <span class="s1">'electrical'</span><span class="p">:</span>      <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mf">1.099</span><span class="p">,</span> <span class="mi">2050</span><span class="p">,</span> <span class="n">occu_trgt_PM_car</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [p] -&gt; sta = JRC-IDEES, end = nW-BE</span>
+<span class="n">occupancy_PM_car</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>  <span class="c1"># [p] -&gt; sta = JRC-IDEES (ref_occu_PM_car), end = nW-BE</span>
+    <span class="n">_pt</span><span class="p">:</span> <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="n">_occ</span><span class="p">,</span> <span class="mi">2050</span><span class="p">,</span> <span class="n">occu_trgt_PM_car</span><span class="p">,</span> <span class="n">years</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_pt</span><span class="p">,</span> <span class="n">_occ</span> <span class="ow">in</span> <span class="n">ref_occu_PM_car</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
 <span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="n">years</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 <span class="c1"># -&gt; Conversion to TWh</span>
 <span class="n">df_PM_car_TWh</span> <span class="o">=</span> <span class="n">df_PM_carrier</span><span class="p">[</span><span class="n">df_PM_carrier</span><span class="p">[</span><span class="s1">'Mode'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'car'</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -11398,7 +11483,24 @@ This tends to confirm that an increase of +20% is entirely realistic, especially
 <hr/>
 <p><font size="3"><b>3.1.4. Aviation</b></font> <a class="anchor" id="section_3_1_4"></a></p>
 <hr/>
-<p>As regards aviation, we do not, at this stage, envisage any modal shift.</p>
+<p>Air freight is small in tonne-kilometres — <strong>5,0%</strong> of the 2019 total — but it is by far the most
+energy-intensive mode of the whole freight system, at about <strong>0,90 kWh/tkm</strong> in 2019 against
+0,46 for a heavy truck, 0,20 for inland navigation and 0,04 for rail. It is also the only freight flow that the scenario leaves
+essentially untouched: with no assumption of its own it simply follows the overall <em>-10%</em>
+reduction in transport intensity, so it still accounts for roughly a third of the international
+mobility energy demand in 2050.</p>
+<p><code>pro_FT_spe_avi</code> is the change in air-freight tonne-kilometres per person <em>on top of</em> that overall
+reduction, and <code>sft_FT_rel_avi_to_trn</code> sends the corresponding tonne-kilometres to <strong>rail</strong> —
+the one alternative the model represents and which exists in practice on the Eurasian corridor
+(the China-Europe rail freight services). Deep-sea shipping, the other real alternative, is not
+represented in the demand model at all, so it cannot be a destination here.</p>
+<p><br>
+$\textcolor{Orange}{\textbf{Sufficiency Assumption}}$</br></p>
+<p><strong>At this stage we envisage no modal shift for air freight</strong>: both parameters are zero, and the
+scenario's numbers are exactly what they were before these parameters existed. They are written
+explicitly rather than left implicit so that the assumption is visible, so that a sensitivity
+run needs one number rather than a rewrite, and so that the interactive workshop can ask the
+question.</p>
 </div>
 </div>
 </div>
@@ -11410,13 +11512,30 @@ This tends to confirm that an increase of +20% is entirely realistic, especially
 <div class="jp-InputPrompt jp-InputArea-prompt">In [45]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Outputs - Sufficiency Scenario Data (SUF)</span>
-<span class="n">trg_FT_mod_spe</span><span class="p">[</span><span class="s1">'plane-intra EU'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">pro_FT_spe</span><span class="p">)</span><span class="o">*</span><span class="n">ref_FT_mod_spe</span><span class="p">[</span><span class="s1">'plane-intra EU'</span><span class="p">]</span> <span class="c1"># [tkm/person]</span>
-<span class="n">trg_FT_mod_abs</span><span class="p">[</span><span class="s1">'plane-intra EU'</span><span class="p">]</span> <span class="o">=</span>                <span class="n">trg_FT_mod_spe</span><span class="p">[</span><span class="s1">'plane-intra EU'</span><span class="p">]</span><span class="o">*</span><span class="n">df_SUF</span><span class="p">[</span><span class="s2">"population [person]"</span><span class="p">][</span><span class="mi">2050</span><span class="p">]</span><span class="o">*</span><span class="mf">1e-9</span> <span class="c1"># [Gtkm]</span>
-<span class="n">trg_FT_mod_rel</span><span class="p">[</span><span class="s1">'plane-intra EU'</span><span class="p">]</span> <span class="o">=</span>                <span class="n">trg_FT_mod_spe</span><span class="p">[</span><span class="s1">'plane-intra EU'</span><span class="p">]</span><span class="o">/</span><span class="n">df_SUF</span><span class="p">[</span><span class="s2">"FT intensity [tkm/person]"</span><span class="p">][</span><span class="mi">2050</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span> <span class="c1"># [%]</span>
-<span class="n">trg_FT_mod_spe</span><span class="p">[</span><span class="s1">'plane-extra EU'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">pro_FT_spe</span><span class="p">)</span><span class="o">*</span><span class="n">ref_FT_mod_spe</span><span class="p">[</span><span class="s1">'plane-extra EU'</span><span class="p">]</span> <span class="c1"># [tkm/person]</span>
-<span class="n">trg_FT_mod_abs</span><span class="p">[</span><span class="s1">'plane-extra EU'</span><span class="p">]</span> <span class="o">=</span>                <span class="n">trg_FT_mod_spe</span><span class="p">[</span><span class="s1">'plane-extra EU'</span><span class="p">]</span><span class="o">*</span><span class="n">df_SUF</span><span class="p">[</span><span class="s2">"population [person]"</span><span class="p">][</span><span class="mi">2050</span><span class="p">]</span><span class="o">*</span><span class="mf">1e-9</span> <span class="c1"># [Gtkm]</span>
-<span class="n">trg_FT_mod_rel</span><span class="p">[</span><span class="s1">'plane-extra EU'</span><span class="p">]</span> <span class="o">=</span>                <span class="n">trg_FT_mod_spe</span><span class="p">[</span><span class="s1">'plane-extra EU'</span><span class="p">]</span><span class="o">/</span><span class="n">df_SUF</span><span class="p">[</span><span class="s2">"FT intensity [tkm/person]"</span><span class="p">][</span><span class="mi">2050</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span> <span class="c1"># [%]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Inputs - Define Sufficiency Scenario Data (SUF)</span>
+<span class="n">pro_FT_spe_avi</span>        <span class="o">=</span> <span class="o">-</span><span class="mf">0.00</span> <span class="c1"># [-] change in air-freight tkm/person, on top of pro_FT_spe</span>
+<span class="n">sft_FT_rel_avi_to_trn</span> <span class="o">=</span> <span class="o">+</span><span class="mf">0.00</span> <span class="c1"># [-] share of it reported to rail</span>
+<span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pro_FT_spe_avi</span><span class="o">+</span><span class="n">sft_FT_rel_avi_to_trn</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-15</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"There is an error in the modal shift for the 2050 air freight!"</span><span class="p">)</span>
+<span class="c1"># Modal shift - Report to other modes</span>
+<span class="n">ref_FT_mod_spe_avi</span>    <span class="o">=</span> <span class="n">ref_FT_mod_spe</span><span class="p">[</span><span class="s1">'plane-intra EU'</span><span class="p">]</span> <span class="o">+</span> <span class="n">ref_FT_mod_spe</span><span class="p">[</span><span class="s1">'plane-extra EU'</span><span class="p">]</span>
+<span class="n">sft_FT_abs_avi_to_trn</span> <span class="o">=</span> <span class="n">sft_FT_rel_avi_to_trn</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">pro_FT_spe</span><span class="p">)</span><span class="o">*</span><span class="n">ref_FT_mod_spe_avi</span>
+<span class="c1"># Outputs - Sufficiency Scenario Data (SUF)</span>
+<span class="k">for</span> <span class="n">mode_FT_avi</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'plane-intra EU'</span><span class="p">,</span> <span class="s1">'plane-extra EU'</span><span class="p">]:</span>
+    <span class="n">trg_FT_mod_spe</span><span class="p">[</span><span class="n">mode_FT_avi</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">pro_FT_spe_avi</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">pro_FT_spe</span><span class="p">)</span><span class="o">*</span><span class="n">ref_FT_mod_spe</span><span class="p">[</span><span class="n">mode_FT_avi</span><span class="p">]</span> <span class="c1"># [tkm/person]</span>
+    <span class="n">trg_FT_mod_abs</span><span class="p">[</span><span class="n">mode_FT_avi</span><span class="p">]</span> <span class="o">=</span>                    <span class="n">trg_FT_mod_spe</span><span class="p">[</span><span class="n">mode_FT_avi</span><span class="p">]</span><span class="o">*</span><span class="n">df_SUF</span><span class="p">[</span><span class="s2">"population [person]"</span><span class="p">][</span><span class="mi">2050</span><span class="p">]</span><span class="o">*</span><span class="mf">1e-9</span> <span class="c1"># [Gtkm]</span>
+    <span class="n">trg_FT_mod_rel</span><span class="p">[</span><span class="n">mode_FT_avi</span><span class="p">]</span> <span class="o">=</span>                    <span class="n">trg_FT_mod_spe</span><span class="p">[</span><span class="n">mode_FT_avi</span><span class="p">]</span><span class="o">/</span><span class="n">df_SUF</span><span class="p">[</span><span class="s2">"FT intensity [tkm/person]"</span><span class="p">][</span><span class="mi">2050</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span> <span class="c1"># [%]</span>
+<span class="c1"># The tonne-kilometres taken off aviation land on rail, whose target was computed in 3.1.2:</span>
+<span class="c1"># it is updated here rather than there so that this assumption stays in one place.</span>
+<span class="n">trg_FT_mod_spe</span><span class="p">[</span><span class="s1">'train'</span><span class="p">]</span> <span class="o">+=</span> <span class="n">sft_FT_abs_avi_to_trn</span> <span class="c1"># [tkm/person]</span>
+<span class="n">trg_FT_mod_abs</span><span class="p">[</span><span class="s1">'train'</span><span class="p">]</span>  <span class="o">=</span> <span class="n">trg_FT_mod_spe</span><span class="p">[</span><span class="s1">'train'</span><span class="p">]</span><span class="o">*</span><span class="n">df_SUF</span><span class="p">[</span><span class="s2">"population [person]"</span><span class="p">][</span><span class="mi">2050</span><span class="p">]</span><span class="o">*</span><span class="mf">1e-9</span> <span class="c1"># [Gtkm]</span>
+<span class="n">trg_FT_mod_rel</span><span class="p">[</span><span class="s1">'train'</span><span class="p">]</span>  <span class="o">=</span> <span class="n">trg_FT_mod_spe</span><span class="p">[</span><span class="s1">'train'</span><span class="p">]</span><span class="o">/</span><span class="n">df_SUF</span><span class="p">[</span><span class="s2">"FT intensity [tkm/person]"</span><span class="p">][</span><span class="mi">2050</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span> <span class="c1"># [%]</span>
+<span class="c1"># The modal shares must still add up to the freight intensity they are shares of.</span>
+<span class="c1"># The tolerance is loose on purpose: the denominator is df_SUF's rounded freight</span>
+<span class="c1"># intensity, so the sum lands a few 1e-6 off 100 even when the shift balances</span>
+<span class="c1"># exactly. A real imbalance would be off by whole percentage points.</span>
+<span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">trg_FT_mod_rel</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">-</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-3</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"The 2050 freight modal shares no longer add up to 100%!"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -11430,7 +11549,7 @@ This tends to confirm that an increase of +20% is entirely realistic, especially
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <blockquote>
-<p><strong>Comment:</strong> Modal shift for fast deliveries seems difficult. However, we could simply reduce intensity of air cargos.</p>
+<p><strong>Comment:</strong> A modal shift for fast deliveries is difficult, which is why the parameters above are written as a <em>reduction in intensity</em> with rail as the destination rather than as a shift between two equivalent modes. The two candidates for a real reduction are the goods that do not need to fly (e-commerce parcels, fresh produce out of season) and the Eurasian rail corridor.</p>
 </blockquote>
 <hr/>
 <p><font size="3"><b>3.1.5. Global data processing</b></font> <a class="anchor" id="section_3_1_5"></a></p>
@@ -11955,8 +12074,8 @@ This tends to confirm that an increase of +20% is entirely realistic, especially
 <p><font size="3"><b>3.2.1. Heavy Duty Trucks </b></font> <a class="anchor" id="section_3_2_1"></a></p>
 <hr/>
 <p>In 2019, diesel (including 5,5% biofuels) is the only propulsion mode used for heavy duty trucks. Among the total 52,437 Gtkm achieved that year, 41,44% were for domestic transport while the remaing 58,56% were for international transport [1,2].</p>
-<p><br>
-$\textcolor{Orange}{\textbf{Efficiency Assumption}}$<br/></br></p>
+<p><br/>
+$\textcolor{Orange}{\textbf{Efficiency Assumption}}$<br/></p>
 <p>To estimate the 2050 fuel mix, this analysis draws on the JRC's 'Decarbonising European heavy-duty transport' report (2025) [9], which indicate that battery electric vehicles have the highest maturity, complemented by hydrogen for long-haul and a minor role for biofuels. Nevertheless, recent opinion surveys indicate that, due to the latest technological advances, the views of freight transport companies have recently shifted from confidence in hydrogen toward electric solutions.</p>
 <p>The electrification of trucks is already well underway, particularly for regional transport. Current models can offer autonomies from 300 km (Volvo FH Electric) to up to more than 500 km (Scania, Renault Trucks E-Tech T, MAN eTGX, DAF XG Electric, Mercedes eACTROS600).
 For long distance transport, manufacturers also develop hydrogen lorries (DAF XF Hydrogen, Zepp Europa with 700 km autonomy), both with fuel cells and internal combustion engines. Hydrogen is also considered for shorter distances (Hyundai XCIENT Fuel Cell, 400 km autonomy). Nevertheless, commercialization is not expected before the end of this decade, at best.</p>
@@ -12803,6 +12922,10 @@ The payload is defined as the ratio between the specific fuel consumption [kWh/k
 <span class="c1"># -&gt; Settings</span>
 <span class="n">redu_fuel_FT_trk_hvy</span> <span class="o">=</span> <span class="mf">0.95</span>
 <span class="n">pyld_trgt_FT_trk_hvy</span> <span class="o">=</span> <span class="mf">1.05</span>
+<span class="c1"># -&gt; 2019 average payload of a loaded heavy truck [t], from JRC-IDEES [1,2];</span>
+<span class="c1">#    identical for every powertrain. Named (instead of inlined below) so the</span>
+<span class="c1">#    workshop module can export it. See docs/workshop_module.md.</span>
+<span class="n">ref_pyld_FT_trk_hvy</span> <span class="o">=</span> <span class="mf">12.654</span>
 <span class="c1"># -&gt; Projections of efficiency and payload</span>
 <span class="n">cons_fuel_FT_trk_hvy</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
     <span class="s1">'liquid-diesel'</span><span class="p">:</span>   <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mf">49.763</span><span class="o">/</span><span class="mi">100</span><span class="o">*</span><span class="n">kgoe_to_kWh</span><span class="p">,</span> <span class="mi">2050</span><span class="p">,</span> <span class="mf">49.763</span><span class="o">/</span><span class="mi">100</span><span class="o">*</span><span class="n">kgoe_to_kWh</span><span class="p">,</span>                      <span class="n">years</span><span class="p">),</span>  <span class="c1"># [kWh/km] -&gt; sta = JRC-IDEES, end = nW-BE</span>
@@ -12817,10 +12940,10 @@ The payload is defined as the ratio between the specific fuel consumption [kWh/k
 <span class="c1"># Zepp Europa          (semitrailer):  8.4 kg/100km (58.8kg for 700km)</span>
 <span class="c1"># Volvo FH Aero LNG    (semitrailer): 22.5 kg/100km (225kg for 1000km) </span>
 <span class="n">payload_FT_trk_hvy</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">'liquid-diesel'</span><span class="p">:</span>   <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mf">12.654</span><span class="p">,</span>           <span class="mi">2050</span><span class="p">,</span>           <span class="mf">12.654</span><span class="o">*</span><span class="n">pyld_trgt_FT_trk_hvy</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [t] -&gt; sta = JRC-IDEES, end = nW-BE</span>
-    <span class="s1">'electrical'</span><span class="p">:</span>      <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mf">12.654</span><span class="p">,</span>           <span class="mi">2050</span><span class="p">,</span>           <span class="mf">12.654</span><span class="o">*</span><span class="n">pyld_trgt_FT_trk_hvy</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [t] -&gt; sta = nW-BE, end = nW-BE</span>
-	<span class="s1">'hydrogen'</span><span class="p">:</span>        <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mf">12.654</span><span class="p">,</span>           <span class="mi">2050</span><span class="p">,</span>           <span class="mf">12.654</span><span class="o">*</span><span class="n">pyld_trgt_FT_trk_hvy</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [t] -&gt; sta = nW-BE, end = nW-BE</span>
-	<span class="s1">'gas-NG'</span><span class="p">:</span>          <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mf">12.654</span><span class="p">,</span>           <span class="mi">2050</span><span class="p">,</span>           <span class="mf">12.654</span><span class="o">*</span><span class="n">pyld_trgt_FT_trk_hvy</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [t] -&gt; sta = nW-BE, end = nW-BE</span>
+    <span class="s1">'liquid-diesel'</span><span class="p">:</span>   <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="n">ref_pyld_FT_trk_hvy</span><span class="p">,</span>           <span class="mi">2050</span><span class="p">,</span>           <span class="n">ref_pyld_FT_trk_hvy</span><span class="o">*</span><span class="n">pyld_trgt_FT_trk_hvy</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [t] -&gt; sta = JRC-IDEES, end = nW-BE</span>
+    <span class="s1">'electrical'</span><span class="p">:</span>      <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="n">ref_pyld_FT_trk_hvy</span><span class="p">,</span>           <span class="mi">2050</span><span class="p">,</span>           <span class="n">ref_pyld_FT_trk_hvy</span><span class="o">*</span><span class="n">pyld_trgt_FT_trk_hvy</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [t] -&gt; sta = nW-BE, end = nW-BE</span>
+	<span class="s1">'hydrogen'</span><span class="p">:</span>        <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="n">ref_pyld_FT_trk_hvy</span><span class="p">,</span>           <span class="mi">2050</span><span class="p">,</span>           <span class="n">ref_pyld_FT_trk_hvy</span><span class="o">*</span><span class="n">pyld_trgt_FT_trk_hvy</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [t] -&gt; sta = nW-BE, end = nW-BE</span>
+	<span class="s1">'gas-NG'</span><span class="p">:</span>          <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="n">ref_pyld_FT_trk_hvy</span><span class="p">,</span>           <span class="mi">2050</span><span class="p">,</span>           <span class="n">ref_pyld_FT_trk_hvy</span><span class="o">*</span><span class="n">pyld_trgt_FT_trk_hvy</span><span class="p">,</span> <span class="n">years</span><span class="p">),</span>  <span class="c1"># [t] -&gt; sta = nW-BE, end = nW-BE</span>
 <span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="n">years</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 <span class="c1"># -&gt; Conversion to TWh</span>
 <span class="n">df_FT_trk_hvy_TWh</span> <span class="o">=</span> <span class="n">df_FT_carrier</span><span class="p">[</span><span class="n">df_FT_carrier</span><span class="p">[</span><span class="s1">'Mode'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'truck-heavy duty'</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -13852,11 +13975,80 @@ data contract.</p>
 
 <span class="n">write_hypotheses_js</span><span class="p">(</span><span class="s2">"transport"</span><span class="p">,</span> <span class="n">_H</span><span class="p">,</span> <span class="n">plots</span><span class="o">=</span><span class="n">_plots</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Mobility &amp; transport"</span><span class="p">)</span>
 
+<span class="c1"># Pin transport energy_totals overrides so CI can compare notebooks vs nW_BE.py.</span>
+<span class="n">_ov_path</span> <span class="o">=</span> <span class="n">make_energy_totals_overrides</span><span class="p">(</span>
+    <span class="n">energy_totals_overrides_from_transport</span><span class="p">(</span><span class="n">df_PM_TWh_all</span><span class="p">,</span> <span class="n">df_FT_TWh_all</span><span class="p">),</span>
+    <span class="n">replace_sources</span><span class="o">=</span><span class="p">[</span><span class="s2">"transport"</span><span class="p">],</span>
+    <span class="n">comment</span><span class="o">=</span><span class="s2">"generated from nW_BE demand-model notebooks; CI compares nW_BE.py to this file"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[energy_totals] wrote transport rows to </span><span class="si">{</span><span class="n">_ov_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
 <span class="c1"># Short summary table (fills the "short list of sufficiency assumptions").</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_pd</span>
 <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([{</span> <span class="s2">"id"</span><span class="p">:</span> <span class="n">h</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span> <span class="s2">"hypothesis"</span><span class="p">:</span> <span class="n">h</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span> <span class="s2">"category"</span><span class="p">:</span> <span class="n">h</span><span class="p">[</span><span class="s2">"category"</span><span class="p">],</span>
                  <span class="s2">"2019"</span><span class="p">:</span> <span class="n">h</span><span class="p">[</span><span class="s2">"refValue"</span><span class="p">],</span> <span class="s2">"2050"</span><span class="p">:</span> <span class="n">h</span><span class="p">[</span><span class="s2">"targetValue"</span><span class="p">],</span> <span class="s2">"unit"</span><span class="p">:</span> <span class="n">h</span><span class="p">[</span><span class="s2">"unit"</span><span class="p">]</span> <span class="p">}</span>
                <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">_H</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ws-592ec688">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<hr/>
+<p><font size="5"><b>7. Upstream Levers for the Interactive Workshop</b></font> <a class="anchor" id="section_7"></a></p>
+<hr/>
+<p>Section 6 above exports the <em>elementary hypotheses</em> shown as read-only cards on the
+public website. This section exports the <strong>upstream levers</strong> used by the interactive
+workshop (<code>website/workshop/</code>), where participants set those assumptions themselves
+before the négaWatt value is revealed.</p>
+<p>Only genuine <strong>model degrees of freedom</strong> are exposed — the quantities this notebook
+actually takes as inputs — so that a group's answers always describe a consistent
+scenario and the reveal can be exact. Every lever is expressed in a unit a
+non-specialist can picture (km per day, people per car, tonnes per truck) rather than
+in the model's internal units.</p>
+<p>The cell also <strong>cross-checks the model against the figures quoted in the prose above</strong>
+(the 1,22 fleet-average car occupancy of section 2.1, and the two modal-shift
+allocations): if the text and the code ever drift apart, the assertions fail here
+rather than silently feeding a wrong number into a workshop.</p>
+<p>Question wording, factual anchors and the written justifications are <em>not</em> here —
+they live in <code>website/workshop/content/inland-mobility.yaml</code>. See
+<code>docs/workshop_module.md</code> for the full design.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=ws-1abc7341">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ===== Workshop export: build website/data/levers_transport.js =====</span>
+<span class="c1"># The levers themselves live one module per topic, under workshop_levers/, so</span>
+<span class="c1"># that inland mobility and international mobility can be written and changed</span>
+<span class="c1"># independently instead of competing for this cell. Each module reads the frames</span>
+<span class="c1"># computed above and adds no assumptions of its own; it also cross-checks the</span>
+<span class="c1"># model against the figures quoted in the prose, and declares which of its</span>
+<span class="c1"># numbers are the scenario's own choice so the workshop cannot leak them.</span>
+<span class="c1">#</span>
+<span class="c1"># See docs/workshop_module.md, and website/workshop/content/&lt;topic&gt;.yaml for the</span>
+<span class="c1"># question wording, the facts and the written justifications.</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">workshop_levers</span><span class="w"> </span><span class="kn">import</span> <span class="n">export_topics</span><span class="p">,</span> <span class="n">topic_modules</span>
+
+<span class="n">_lev_path</span> <span class="o">=</span> <span class="n">export_topics</span><span class="p">(</span><span class="s2">"transport"</span><span class="p">,</span> <span class="nb">globals</span><span class="p">(),</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Mobility &amp; transport"</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_pd</span>
+<span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([{</span><span class="s2">"topic"</span><span class="p">:</span> <span class="n">_m</span><span class="o">.</span><span class="n">TOPIC</span><span class="p">,</span> <span class="s2">"module"</span><span class="p">:</span> <span class="n">_m</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                <span class="s2">"levers"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">_m</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="nb">globals</span><span class="p">())[</span><span class="s2">"levers"</span><span class="p">])}</span>
+               <span class="k">for</span> <span class="n">_m</span> <span class="ow">in</span> <span class="n">topic_modules</span><span class="p">(</span><span class="s2">"transport"</span><span class="p">)])</span>
 </pre></div>
 </div>
 </div>

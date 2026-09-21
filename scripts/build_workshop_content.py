@@ -185,8 +185,13 @@ def spoiler_check(raw, resolved, lang, where, lever, errors):
     decimals = lever.get("decimals", 1)
     renderings = {format_number(lever["targetValue"], lang, decimals=d)
                   for d in {decimals, max(decimals - 1, 1 if decimals else 0)}}
+    # A number carrying a percent sign is a different quantity from a lever
+    # counted in trips, passengers or kWh, and cards quote plenty of percentages.
+    # Only levers that are themselves a percentage keep the check there.
+    tail = r"(?:[^0-9,.\u00a0]|$)" if "%" in (lever.get("unit") or "") \
+        else r"(?:(?![\u00a0 ]?%)[^0-9,.\u00a0]|$)"
     for shown in renderings:
-        pattern = r"(?:^|[^0-9,.\u00a0])" + re.escape(shown) + r"(?:[^0-9,.\u00a0]|$)"
+        pattern = r"(?:^|[^0-9,.\u00a0])" + re.escape(shown) + tail
         if re.search(pattern, resolved or ""):
             errors.append(f"{where}: prints the negaWatt value {shown!r} as a standalone "
                           f"number before the group answers — reword it, or flag the fact "
@@ -275,8 +280,11 @@ def check_chart(chart, languages, where, errors, values, decimals_by_key, histor
             chart["y"] = [p[1] for p in pairs]
             if chart.get("unit") is None and series.get("unit"):
                 chart["unit"] = series["unit"]
-            if chart.get("source") is None and series.get("source"):
-                chart["source"] = series["source"]
+            # The source is deliberately *not* copied from the series: a chart
+            # that declares one no longer inherits the fact's url, and the
+            # generated series carries no url of its own. The fact beside it
+            # cites the same dataset -- that is what the reader has to be able
+            # to open.
 
     ys = chart.get("y")
     if not isinstance(ys, list) or not ys:
@@ -540,9 +548,15 @@ def build(check_only=False):
                         spoiler_check(raw_text(fact.get("label"), lang), text, lang,
                                       f"{fwhere}.label.{lang}", lv, errors)
                     # a plotted bar sitting exactly on negaWatt's value gives the
-                    # answer away as surely as printing it
+                    # answer away as surely as printing it. Only for a chart drawn
+                    # in the lever's own unit: a curve of something else entirely
+                    # (a cumulative share, a count of countries) can land on the
+                    # same number by pure coincidence and gives nothing away.
                     places = lv.get("decimals", 1)
-                    for i, value in enumerate(entry.get("chart", {}).get("y") or []):
+                    chart_unit = entry.get("chart", {}).get("unit")
+                    same_unit = chart_unit in (None, lv.get("unit"))
+                    for i, value in enumerate(
+                            (entry.get("chart", {}).get("y") or []) if same_unit else []):
                         if isinstance(value, (int, float)) and not isinstance(value, bool) \
                                 and round(value, places) == round(lv["targetValue"], places):
                             errors.append(f"{fwhere}.chart: y[{i}] is negaWatt's own value "

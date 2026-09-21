@@ -300,6 +300,16 @@ printed card and on the reveal.
 A `line` chart takes `x:` (the years) instead of `labels:`, the same length as `y:`.
 Working example: the second fact of `truck-share` in `inland-mobility.yaml`.
 
+**Plotting an observed curve.** Never retype one: `series: <key of history_<sector>.js>`
+reads it at build time, optionally windowed with `from:`/`to:`. It is a `line` chart and
+supplies its own `x`, `y` and `unit`. Working example: the first fact of `plane-fuel` in
+`international-mobility.yaml`.
+
+**Retitling one card.** A fact's heading is its `kind` by default; add a trilingual
+`label:` to override it where the generic heading would be wrong ("Ailleurs" on a card of
+world figures, "Décarbonation de l'aviation" on an IATA card). The kind still sets the
+colour and the printed order.
+
 A plotted value the notebook computes is written `"{key}"`, exactly like one quoted in a
 sentence — `y: ["{carKmDay2019}", "{busKmDay2019}", 8.7]` — so rule 3 holds for charts too.
 Literal numbers stay allowed, for external data the model does not compute.

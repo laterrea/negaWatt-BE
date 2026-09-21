@@ -2,7 +2,7 @@
 window.NW_LEVERS = window.NW_LEVERS || {};
 window.NW_LEVERS["transport"] = {
   "title": "Mobility & transport",
-  "generated": "2026-09-20",
+  "generated": "2026-09-21",
   "levers": {
     "ground-km-day": {
       "topic": "inland-mobility",
@@ -23,8 +23,8 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "proportional",
         "vTarget": 30.485,
-        "total": 23.076,
-        "scaled": 11.758
+        "total": 23.072,
+        "scaled": 11.754
       },
       "model": {
         "var": "pro_PM_spe",
@@ -78,7 +78,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "linear-shift",
         "vTarget": 55.4856,
-        "total": 23.076,
+        "total": 23.072,
         "scaled": 0.0,
         "slope": 0.0445
       },
@@ -127,7 +127,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "inverse",
         "vTarget": 2.0,
-        "total": 23.076,
+        "total": 23.072,
         "scaled": 6.946
       },
       "model": {
@@ -169,7 +169,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "proportional",
         "vTarget": 75.0,
-        "total": 23.076,
+        "total": 23.072,
         "scaled": 6.946
       },
       "model": {
@@ -209,7 +209,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "linear-shift",
         "vTarget": 3.2658,
-        "total": 23.076,
+        "total": 23.072,
         "scaled": 0.0,
         "slope": -0.3739
       },
@@ -255,7 +255,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "proportional",
         "vTarget": 6312.268,
-        "total": 23.076,
+        "total": 23.072,
         "scaled": 11.198
       },
       "model": {
@@ -293,7 +293,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "linear-shift",
         "vTarget": 50.417,
-        "total": 23.076,
+        "total": 23.072,
         "scaled": 0.0,
         "slope": 0.0095
       },
@@ -343,7 +343,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "inverse",
         "vTarget": 13.2867,
-        "total": 23.076,
+        "total": 23.072,
         "scaled": 4.339
       },
       "model": {
@@ -380,7 +380,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "inverse",
         "vTarget": 120.0,
-        "total": 23.076,
+        "total": 23.072,
         "scaled": 2.167
       },
       "model": {
@@ -409,8 +409,8 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "inverse",
         "vTarget": 120.0,
-        "total": 23.076,
-        "scaled": 1.812
+        "total": 23.072,
+        "scaled": 1.751
       },
       "model": {
         "var": "occu_trgt_PM_trn_cnv",
@@ -505,7 +505,7 @@ window.NW_LEVERS["transport"] = {
         "vTarget": 23.6137,
         "total": 10.873,
         "scaled": 0.0,
-        "slope": 0.1362
+        "slope": 0.1364
       },
       "model": {
         "var": "pro_PM_spe_avi_srt",
@@ -522,17 +522,18 @@ window.NW_LEVERS["transport"] = {
         "tripKm": 2168.0,
         "lifeYears": 80.0,
         "shiftPct": 50.0,
-        "toRailCnvPct": 25.0,
-        "toRailSpdPct": 20.0,
+        "toRailCnvPct": 20.0,
+        "toRailSpdPct": 25.0,
         "toCoachPct": 5.0,
         "monthsPerTrip2019": 19.1,
         "shareAirPkm2019": 42.9,
         "srtKwhPkm2019": 0.566,
         "carKwhPkm2019": 0.536,
+        "carOccupancy2019": 1.22,
         "srtKwhPkmTarget": 0.474,
         "carKwhPkmTarget": 0.089,
         "ratioTarget": 5.3,
-        "railKwhPkmTarget": 0.075,
+        "railKwhPkmTarget": 0.074,
         "srtTwh": 8.8,
         "srtTwhTarget": 3.82,
         "kwhPerTrip2019": 1228,
@@ -580,6 +581,7 @@ window.NW_LEVERS["transport"] = {
         "section": "2.3",
         "note": "passengers actually carried per flight, so it blends the load factor with the size of the aircraft; the model cannot separate the two"
       },
+      "history": "avia_occupancy_extra",
       "facts": {
         "topicTwh": 19.8,
         "freightTwh": 3.57,
@@ -591,6 +593,13 @@ window.NW_LEVERS["transport"] = {
         "occu2000": 154.0,
         "occu2023": 205.5,
         "histGainPct": 33.4,
+        "histGainPct2019": 22.0,
+        "loadFactor2019": 82.6,
+        "loadFactor2024": 83.4,
+        "seatsImplied2019": 227,
+        "fuelChangePct2019": -38.3,
+        "kwhKm2000": 109.0,
+        "kwhKm2019": 67.3,
         "lngTwh": 7.4,
         "lngTwhTarget": 3.52,
         "lngKwhPkm2019": 0.358,
@@ -601,66 +610,6 @@ window.NW_LEVERS["transport"] = {
         "freightTwhTarget",
         "gainPct",
         "lngTwhTarget",
-        "topicShareTransportTarget"
-      ],
-      "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_2",
-      "reference": "nW-BE §2.3"
-    },
-    "long-haul-fuel": {
-      "topic": "international-mobility",
-      "name": "Fuel per long-haul aircraft-km",
-      "unit": "kWh per long-haul aircraft-km",
-      "refYear": 2019,
-      "refValue": 67.278,
-      "targetYear": 2050,
-      "targetValue": 56.514,
-      "slider": {
-        "min": 40.0,
-        "max": 90.0,
-        "step": 1.0
-      },
-      "better": "down",
-      "decimals": 0,
-      "shown": true,
-      "impact": {
-        "kind": "proportional",
-        "vTarget": 56.514,
-        "total": 10.873,
-        "scaled": 3.524
-      },
-      "model": {
-        "var": "redu_fuel_PM_avi_extra",
-        "section": "2.3",
-        "note": "energy in the tank per aircraft-kilometre, whatever the fuel; which fuel it is (kerosene, SAF, e-fuel) is left to PyPSA"
-      },
-      "facts": {
-        "topicTwh": 19.8,
-        "freightTwh": 3.57,
-        "freightTwhTarget": 3.53,
-        "transportTwh": 122.0,
-        "topicShareTransport": 16.2,
-        "topicShareTransportTarget": 32.0,
-        "reductionPct": 16.0,
-        "kgoe2000": 937.0,
-        "kgoe2023": 629.5,
-        "kwhKm2000": 109.0,
-        "kwhKm2023": 73.2,
-        "histChangePct": -32.8,
-        "occu2019": 188,
-        "lngKwhPkm2019": 0.358,
-        "kwhPerTrip2019": 6447,
-        "litresPerTrip2019": 674,
-        "iataSaf": 65.0,
-        "iataNewTech": 13.0,
-        "iataCcs": 19.0,
-        "iataOps": 3.0,
-        "lngTwh": 7.4,
-        "lngTwhTarget": 3.52
-      },
-      "spoilers": [
-        "freightTwhTarget",
-        "lngTwhTarget",
-        "reductionPct",
         "topicShareTransportTarget"
       ],
       "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_2",
@@ -693,6 +642,7 @@ window.NW_LEVERS["transport"] = {
         "section": "2.3",
         "note": "applies to the kerosene fleet; the hydrogen aircraft of the hydrogen-flights lever is fixed at 100 seats"
       },
+      "history": "avia_occupancy_intra",
       "facts": {
         "topicTwh": 19.8,
         "freightTwh": 3.57,
@@ -704,6 +654,13 @@ window.NW_LEVERS["transport"] = {
         "occu2000": 87.5,
         "occu2023": 130.8,
         "histGainPct": 49.5,
+        "histGainPct2019": 39.3,
+        "loadFactor2019": 82.6,
+        "loadFactor2024": 83.4,
+        "seatsImplied2019": 148,
+        "fuelChangePct2019": 2.6,
+        "kwhKm2000": 67.3,
+        "kwhKm2019": 69.1,
         "srtTwh": 8.8,
         "srtKeroTwhTarget": 3.65,
         "srtKwhPkm2019": 0.566,
@@ -718,33 +675,34 @@ window.NW_LEVERS["transport"] = {
       "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_2",
       "reference": "nW-BE §2.3"
     },
-    "short-haul-fuel": {
+    "plane-fuel": {
       "topic": "international-mobility",
-      "name": "Fuel per short-haul aircraft-km",
-      "unit": "kWh per short-haul aircraft-km",
+      "name": "Fuel per aircraft-km",
+      "unit": "kWh per aircraft-km",
       "refYear": 2019,
-      "refValue": 69.056,
+      "refValue": 68.2327,
       "targetYear": 2050,
-      "targetValue": 72.508,
+      "targetValue": 63.6528,
       "slider": {
         "min": 40.0,
         "max": 95.0,
         "step": 1.0
       },
-      "better": "up",
-      "decimals": 0,
+      "better": "down",
+      "decimals": 1,
       "shown": true,
       "impact": {
         "kind": "proportional",
-        "vTarget": 72.508,
+        "vTarget": 63.6528,
         "total": 10.873,
-        "scaled": 3.645
+        "scaled": 7.169
       },
       "model": {
-        "var": "redu_fuel_PM_avi_intra",
+        "var": "redu_fuel_PM_avi_intra + redu_fuel_PM_avi_extra",
         "section": "2.3",
-        "note": "the one aviation indicator the scenario lets get worse: energy per aircraft-km rises, while energy per passenger-km still falls because occupancy rises faster"
+        "note": "one question for the two model parameters. The value is the aircraft-km-weighted average of the intra- and extra-EU fuel use per aircraft-km, so the topic's kerosene demand is exactly proportional to it whatever the split between the two. Energy in the tank, whatever the fuel: which fuel it is (kerosene, SAF, e-fuel) is left to PyPSA"
       },
+      "history": "avia_fuel_pax",
       "facts": {
         "topicTwh": 19.8,
         "freightTwh": 3.57,
@@ -752,27 +710,120 @@ window.NW_LEVERS["transport"] = {
         "transportTwh": 122.0,
         "topicShareTransport": 16.2,
         "topicShareTransportTarget": 32.0,
-        "changePct": 5.0,
-        "kgoe2000": 578.8,
-        "kgoe2023": 633.0,
-        "kwhKm2000": 67.3,
-        "kwhKm2023": 73.6,
-        "histChangePct": 9.4,
-        "occu2019": 122,
+        "kwhKmAvg2019": 68.2,
+        "kwhKmAvgTarget": 63.7,
+        "avgChangePct": -6.7,
+        "kwhKmIntra2019": 69.1,
+        "kwhKmExtra2019": 67.3,
+        "kwhKmIntra2023": 73.6,
+        "kwhKmExtra2023": 73.2,
+        "kwhKmIntra2000": 67.3,
+        "kwhKmExtra2000": 109.0,
+        "kgoeIntra2000": 578.8,
+        "kgoeIntra2023": 633.0,
+        "kgoeExtra2000": 937.0,
+        "kgoeExtra2023": 629.5,
+        "histChangeIntraPct": 9.4,
+        "histChangeExtraPct": -32.8,
+        "histChangeIntra2019Pct": 2.6,
+        "histChangeExtra2019Pct": -38.3,
+        "changeIntraPct": 5.0,
+        "changeExtraPct": -16.0,
+        "fuelTargetIntra": 72.5,
+        "fuelTargetExtra": 56.5,
+        "occuIntra2019": 122,
+        "occuExtra2019": 188,
+        "lngKwhPkm2019": 0.358,
         "srtKwhPkm2019": 0.566,
-        "kwhPerTrip2019": 1228,
-        "litresPerTrip2019": 128,
+        "kwhPerLngTrip2019": 6447,
+        "litresPerLngTrip2019": 674,
+        "kwhPerSrtTrip2019": 1228,
+        "litresPerSrtTrip2019": 128,
+        "iataSaf": 65.0,
+        "iataNewTech": 13.0,
+        "iataCcs": 19.0,
+        "iataOps": 3.0,
+        "lngTwh": 7.4,
         "srtTwh": 8.8,
-        "srtKeroTwhTarget": 3.65
+        "keroTwh": 16.3,
+        "keroTwhTarget": 7.17
       },
       "spoilers": [
-        "changePct",
+        "avgChangePct",
+        "changeExtraPct",
+        "changeIntraPct",
         "freightTwhTarget",
-        "srtKeroTwhTarget",
+        "fuelTargetExtra",
+        "fuelTargetIntra",
+        "keroTwhTarget",
+        "kwhKmAvgTarget",
         "topicShareTransportTarget"
       ],
       "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_2",
       "reference": "nW-BE §2.3"
+    },
+    "air-freight": {
+      "topic": "international-mobility",
+      "name": "Air freight per person",
+      "unit": "tkm/person/year",
+      "refYear": 2019,
+      "refValue": 348.5398,
+      "targetYear": 2050,
+      "targetValue": 313.6858,
+      "slider": {
+        "min": 0.0,
+        "max": 600.0,
+        "step": 10.0
+      },
+      "better": "down",
+      "decimals": 0,
+      "shown": true,
+      "impact": {
+        "kind": "proportional",
+        "vTarget": 313.6858,
+        "total": 10.873,
+        "scaled": 3.53
+      },
+      "model": {
+        "var": "pro_FT_spe_avi",
+        "section": "3.1.4",
+        "note": "tonne-kilometres flown per inhabitant. The scenario assumes nothing of its own here: air freight simply follows the general freight reduction, so its 2050 value is (1+pro_FT_spe) times 2019. What a group takes off it goes to rail (sft_FT_rel_avi_to_trn), the one alternative the model carries"
+      },
+      "history": "air_freight_tkm_person",
+      "facts": {
+        "topicTwh": 19.8,
+        "freightTwh": 3.57,
+        "freightTwhTarget": 3.53,
+        "transportTwh": 122.0,
+        "topicShareTransport": 16.2,
+        "topicShareTransportTarget": 32.0,
+        "airTkm2019": 348.5,
+        "airTkmTarget": 313.7,
+        "airChangePct": -10.0,
+        "frtTkm2019": 7014,
+        "airShareTkm2019": 5.0,
+        "airShareTkmTarget": 5.0,
+        "airKwhPerTkm2019": 0.9,
+        "truckKwhPerTkm2019": 0.46,
+        "railKwhPerTkm2019": 0.038,
+        "navKwhPerTkm2019": 0.2,
+        "airTonnes2019": 715094.0,
+        "airTPerFlight": 39.4,
+        "airFlights2019": 18148.0,
+        "freightTwhShareTopicTarget": 32.5,
+        "shiftToRailPct": 0.0
+      },
+      "spoilers": [
+        "airChangePct",
+        "airShareTkmTarget",
+        "airTkmTarget",
+        "freightTwhShareTopicTarget",
+        "freightTwhTarget",
+        "shiftToRailPct",
+        "topicShareTransportTarget"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_3",
+      "reference": "nW-BE §3.1.4"
     },
     "hydrogen-flights": {
       "topic": "international-mobility",
@@ -841,15 +892,15 @@ window.NW_LEVERS["transport"] = {
       },
       "inlandTwh": {
         "2019": 102.398,
-        "2050": 23.076
+        "2050": 23.072
       },
       "inlandPassengerTwh": {
         "2019": 63.878,
-        "2050": 11.878
+        "2050": 11.874
       },
       "motorisedPassengerTwh": {
         "2019": 63.861,
-        "2050": 11.758
+        "2050": 11.754
       },
       "inlandFreightTwh": {
         "2019": 38.52,
@@ -860,8 +911,8 @@ window.NW_LEVERS["transport"] = {
         "tram&metro": 0.214,
         "bus&coach": 2.167,
         "car": 6.946,
-        "train-conventional": 1.812,
-        "train-high speed": 0.341,
+        "train-conventional": 1.751,
+        "train-high speed": 0.398,
         "pedestrian": 0.0,
         "bicycle": 0.12
       },
@@ -891,7 +942,7 @@ window.NW_LEVERS["transport"] = {
       }
     },
     "international-mobility": {
-      "scope": "international mobility: intra-EU and extra-EU passenger aviation, plus air freight as context (no lever of its own). Maritime bunkers are not represented in the demand model.",
+      "scope": "international mobility: intra-EU and extra-EU aviation, passengers and freight. Maritime bunkers are not represented in the demand model, so shipping is available neither as a mode nor as a destination for a modal shift.",
       "refYear": 2019,
       "targetYear": 2050,
       "population": {
@@ -912,7 +963,7 @@ window.NW_LEVERS["transport"] = {
       },
       "transportTwh": {
         "2019": 122.221,
-        "2050": 33.949
+        "2050": 33.945
       },
       "airPkmPerPerson": {
         "2019": 3176.0,
@@ -958,7 +1009,7 @@ window.NW_LEVERS["transport"] = {
           "plane-extra EU": 0.2572
         }
       },
-      "shiftBasketIntensityTarget": 0.0747,
+      "shiftBasketIntensityTarget": 0.0741,
       "referenceTrip": {
         "longHaulKm": 18000.0,
         "shortHaulKm": 2168.0,

@@ -161,9 +161,9 @@ strings:
     nl: Wordt na jullie antwoord getoond
     en: Revealed once you answer
   play.leverage.caveat:
-    fr: "Effet de ce seul levier : les sept autres hypothèses restent inchangées."
-    nl: "Effect van deze ene hefboom: de zeven andere veronderstellingen blijven ongewijzigd."
-    en: "This lever alone: the other seven assumptions are left unchanged."
+    fr: "Effet de ce seul levier : toutes les autres hypothèses restent inchangées."
+    nl: "Effect van deze ene hefboom: alle andere veronderstellingen blijven ongewijzigd."
+    en: "This lever alone: every other assumption is left unchanged."
   play.confidence.label:
     fr: Votre degré de certitude
     nl: Hoe zeker zijn jullie?

@@ -2,7 +2,7 @@
 window.NW_DATA = window.NW_DATA || {};
 window.NW_DATA["transport"] = {
   "title": "Mobility & transport",
-  "generated": "2026-09-20",
+  "generated": "2026-09-21",
   "hypotheses": {
     "pm-intensity": {
       "name": "Passenger mobility intensity",
@@ -60,9 +60,9 @@ window.NW_DATA["transport"] = {
       "refYear": 2019,
       "refValue": 5.7,
       "targetYear": 2050,
-      "targetValue": 13.1,
+      "targetValue": 12.6,
       "unit": "% of pkm",
-      "changeLabel": "+7.4 pts",
+      "changeLabel": "+6.9 pts",
       "direction": "up",
       "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_2",
       "reference": "nW-BE §2.1"
@@ -73,9 +73,9 @@ window.NW_DATA["transport"] = {
       "refYear": 2019,
       "refValue": 0.9,
       "targetYear": 2050,
-      "targetValue": 2.7,
+      "targetValue": 3.1,
       "unit": "% of pkm",
-      "changeLabel": "+1.8 pts",
+      "changeLabel": "+2.3 pts",
       "direction": "up",
       "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_2",
       "reference": "nW-BE §2.1"
@@ -455,14 +455,14 @@ window.NW_DATA["transport"] = {
           "name": "Conv. train",
           "y": [
             5.7,
-            13.1
+            12.6
           ]
         },
         {
           "name": "HS train",
           "y": [
             0.9,
-            2.7
+            3.1
           ]
         },
         {

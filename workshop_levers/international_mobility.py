@@ -1,16 +1,27 @@
 """International mobility: intra-EU and extra-EU aviation.
 
-Seven levers, all of them genuine degrees of freedom of the transport notebook's
+Six levers, all of them genuine degrees of freedom of the transport notebook's
 aviation block, so the reveal is exact and no group can enter a
 self-inconsistent scenario:
 
     long-haul-flights   return trips of 18 000 km per lifetime  (pro_PM_spe_avi_lng)
     short-haul-flights  return trips of 2 168 km per lifetime   (pro_PM_spe_avi_srt)
     long-haul-load      passengers per long-haul flight         (occu_trgt_PM_avi_extra)
-    long-haul-fuel      kWh per long-haul aircraft-km           (redu_fuel_PM_avi_extra)
     short-haul-load     passengers per short-haul flight        (occu_trgt_PM_avi_intra)
-    short-haul-fuel     kWh per short-haul aircraft-km          (redu_fuel_PM_avi_intra)
+    plane-fuel          kWh per aircraft-km, fleet average      (redu_fuel_PM_avi_intra
+                                                                 + ..._extra)
     hydrogen-flights    % of intra-EU flights on hydrogen       (end_PM_avi_srt)
+
+`plane-fuel` is one question for two model parameters. The two were asked
+separately until the 2026 review and were very nearly the same question: both
+start within 3 % of each other (69.1 and 67.3 kWh per aircraft-km in 2019) and
+both ask "how much energy does an aeroplane need to fly a kilometre in 2050".
+Merging them is exact rather than approximate, because energy is aircraft-km
+times fuel per aircraft-km: the aircraft-km-weighted average *is* total kerosene
+energy over total kerosene aircraft-km, so the topic's demand is proportional to
+the merged value however the scenario splits it between the two haul types. What
+the merge does hide is that the scenario splits it very unevenly -- intra-EU
++5 %, extra-EU -16 % -- and a reveal-only fact says so.
 
 Inland mobility is a separate topic (`inland_mobility.py`) out of the same
 notebook. Lever ids are unique across the sector by construction.
@@ -30,17 +41,26 @@ represent them and a group will ask:
     discusses the maritime fuel mix, but no international shipping *demand* is
     modelled: freight carries only `navigation-inland` and `navigation-coastal`,
     the latter 0.19 tkm/person. Nothing here invents a maritime lever.
-  * **air freight has no lever of its own.** Its tonne-km follow `pro_FT_spe`,
-    which is inland mobility's `freight-tkm` lever, and its share of tonne-km is
-    held fixed. Exposing it here would double-count. It is in this topic's energy
-    total as context (3.5 of 10.9 TWh in 2050) and named in a caution fact.
+  * **air freight became a lever in the 2026 review** (`air-freight`), because it
+    is 3.5 of this topic's 10.9 TWh in 2050 and nothing in the scenario pointed at
+    it. Its tonne-km per person carry `pro_FT_spe` -- inland mobility's
+    `freight-tkm` lever -- times `pro_FT_spe_avi`, which section 3.1.4 gained for
+    this purpose and which is zero. The two topics therefore overlap on the
+    general freight reduction: a group here moves air freight alone, a group in
+    the inland workshop moves the freight total including air. They are never
+    played together, and neither lever's `scaled` energy includes the other's, so
+    nothing is double-counted.
 
-None of the seven levers has an observed curve. The only measured aviation series
-in the project is total air travel per person (`aviation_km_day`, both haul types
-together), because the JRC-IDEES *Transport* workbook is not in the repository —
-only EnergyBalance and Industry are. Every lever therefore declares
-`historyAbsent` with a reason, and the trend facts quote the combined series with
-its basis named. See docs/workshop_module.md Q6/Q8.
+Three of the six now carry an observed curve. The 2026 review added the aviation
+detail of the JRC-IDEES-2023 *Transport* workbook to `nW_BE_demand_data_aux.ipynb`
+(occupancy and fuel per aircraft-km, intra and extra, 2000-2023), whose 2019
+values reproduce exactly the four anchors section 2.3 projects from. So
+`long-haul-load`, `short-haul-load` and `plane-fuel` extend a measured line, as
+the design intends. The two demand levers still cannot: their unit is trips per
+lifetime, and no measured series splits Belgian flying between the two haul types
+in those terms — they declare `historyAbsent` with that reason, and their trend
+card plots `aviation_km_day`, the combined series, with its basis named.
+See docs/workshop_module.md Q6/Q8.
 
 Everything else is read from quantities the notebook has already computed — this
 module adds no assumptions of its own. It also cross-checks the model against the
@@ -64,8 +84,11 @@ NOTEBOOK = "../notebooks/nW_BE_demand_model_transports.html"
 
 def build(ctx):
     (years, population_dict, df_SUF, df_PM, df_FT,
-     df_PM_TWh_all, df_FT_TWh_all, df_PM_avi_srt_TWh,
+     df_PM_TWh_all, df_FT_TWh_all, df_PM_avi_srt_TWh, df_PM_car,
+     ref_occu_PM_car,
      ref_PM_mod_spe, trg_PM_mod_spe,
+     ref_FT_mod_spe, trg_FT_mod_spe,
+     pro_FT_spe, pro_FT_spe_avi, sft_FT_rel_avi_to_trn,
      pro_PM_spe_avi_lng, pro_PM_spe_avi_srt, red_PM_rel,
      sft_PM_rel_avi_srt_to_trn_cnv, sft_PM_rel_avi_srt_to_trn_spd,
      sft_PM_rel_avi_srt_to_cch,
@@ -83,8 +106,15 @@ def build(ctx):
         'df_PM_TWh_all',
         'df_FT_TWh_all',
         'df_PM_avi_srt_TWh',
+        'df_PM_car',
+        'ref_occu_PM_car',
         'ref_PM_mod_spe',
         'trg_PM_mod_spe',
+        'ref_FT_mod_spe',
+        'trg_FT_mod_spe',
+        'pro_FT_spe',
+        'pro_FT_spe_avi',
+        'sft_FT_rel_avi_to_trn',
         'pro_PM_spe_avi_lng',
         'pro_PM_spe_avi_srt',
         'red_PM_rel',
@@ -138,6 +168,20 @@ def build(ctx):
     # Airbus ZEROe, as described in section 2.3.
     ref_zeroe_seats     = 100.0
     ref_zeroe_range_km  = 1850.0
+    # Air freight volumes, JRC-IDEES-2023 Transport workbook for Belgium, sheet
+    # "TrAvia_act" (2019). Tonnes and tonnes per flight are not computed by the
+    # model -- they are named here so a card can say what the tonne-kilometres
+    # look like in freight terms, and they come from the same workbook as the
+    # tonne-kilometres the model does use.
+    # Passenger load factor, IATA "Industry Statistics" fact sheet: the share of
+    # available seats actually sold. External to the model, and the only bridge
+    # between "passengers per flight", which the model uses, and "how full the
+    # aircraft is", which is what a participant can picture.
+    ref_load_factor_2019 = 82.6   # % of seats, world, full year 2019
+    ref_load_factor_2024 = 83.4   # % of seats, world, full year 2024
+    ref_air_frt_tonnes_2019   = 715094.0   # tonnes carried in departing flights
+    ref_air_frt_t_per_flight  = 39.4       # tonnes per departing freight flight
+    ref_air_frt_flights_2019  = 18148.0    # departing freight flights
 
     # --- Scope ------------------------------------------------------------------
     _AVI = ["plane-intra EU", "plane-extra EU"]
@@ -239,6 +283,16 @@ def build(ctx):
         "the extra-EU 2019 occupancy now equals the 2023 figure quoted in the "
         "comments; one of the two is wrong")
 
+    # 2019 fleet-average car occupancy = total pkm / total vkm, i.e. the pkm-weighted
+    # *harmonic* mean of the per-powertrain occupancies -- the same arithmetic as
+    # inland_mobility.py, repeated here because the short-haul card compares the
+    # plane with the car *per passenger* and has to say on what car it is based.
+    _occ_car_2019 = 100.0 / sum(float(df_PM_car.loc[_pt, _Y0]) / _occ
+                                for _pt, _occ in ref_occu_PM_car.items())
+    assert 1.0 < _occ_car_2019 < 2.0, (
+        f"fleet-average car occupancy came out at {_occ_car_2019:.4f} -- section 2.1 "
+        f"quotes about 1.22; one of the two is wrong")
+
     # --- Derived lever quantities ----------------------------------------------
     def _trips_per_life(pkm_per_year, trip_km):
         return pkm_per_year / trip_km * ref_life_years
@@ -253,6 +307,29 @@ def build(ctx):
     _lng_years_per_trip = {y: ref_trip_lng_km / _lng_pkm[y] for y in (_Y0, _Y1)}
     # Aircraft-kilometres behind the 2019 long-haul flying, for the tangible card.
     _lng_vkm_2019 = _lng_pkm[_Y0] * _pop[_Y0] / _occ_lng[_Y0]
+
+    # --- The fleet average behind the single fuel question ----------------------
+    # Energy = aircraft-km x fuel per aircraft-km, so the aircraft-km-weighted
+    # average of the two haul types is *exactly* the total kerosene energy over
+    # the total kerosene aircraft-km. That is what makes one question out of two
+    # possible without losing anything: whatever the split between intra- and
+    # extra-EU, the topic's kerosene demand is proportional to this average.
+    # Aircraft-km are read back from the model's own TWh, which is the same
+    # arithmetic run backwards (kWh / (kWh/km)), so no new assumption enters.
+    _kero_twh = {y: _twh(_pm_twh, "plane-extra EU", y) + _srt_kero_twh[y]
+                 for y in (_Y0, _Y1)}
+    _kero_vkm = {y: (_twh(_pm_twh, "plane-extra EU", y) * 1e9 / _fuel_lng[y]
+                     + _srt_kero_twh[y] * 1e9 / _fuel_srt[y]) for y in (_Y0, _Y1)}
+    _fuel_avg = {y: _kero_twh[y] * 1e9 / _kero_vkm[y] for y in (_Y0, _Y1)}
+    # It has to sit between the two it averages, or the weights are wrong.
+    for _y in (_Y0, _Y1):
+        assert min(_fuel_lng[_y], _fuel_srt[_y]) - 1e-6 <= _fuel_avg[_y] \
+               <= max(_fuel_lng[_y], _fuel_srt[_y]) + 1e-6, (
+            f"the {_y} fleet average {_fuel_avg[_y]:.3f} kWh/km is outside "
+            f"[{_fuel_srt[_y]:.3f}, {_fuel_lng[_y]:.3f}] -- check the weights")
+    assert abs(_lng_vkm_2019 - _twh(_pm_twh, "plane-extra EU", _Y0) * 1e9
+               / _fuel_lng[_Y0]) < 1e6, (
+        "aircraft-km from pkm/occupancy and from TWh/(kWh per km) disagree")
     # Energy per passenger for one reference return trip, 2019.
     _kwh_per_lng_trip = _intensity(_pm_twh, df_PM, "plane-extra EU", "Gpkm", _Y0) \
         * ref_trip_lng_km
@@ -293,6 +370,26 @@ def build(ctx):
 
     def _pct(part, whole):
         return round(100.0 * part / whole, 1) if whole else 0.0
+
+    # --- Air freight ------------------------------------------------------------
+    # The one freight flow inside this topic. Its tonne-km per person is what the
+    # lever asks about; the 2050 value carries the general freight reduction plus
+    # whatever section 3.1.4 assumes on top of it (nothing, at the time of writing).
+    _air_frt_spe = {_Y0: sum(float(ref_FT_mod_spe[m]) for m in _AVI),
+                    _Y1: sum(float(trg_FT_mod_spe[m]) for m in _AVI)}
+    assert abs(_air_frt_spe[_Y1] - (1 + pro_FT_spe_avi) * (1 + pro_FT_spe)
+               * _air_frt_spe[_Y0]) < 1e-6, (
+        f"air freight is {_air_frt_spe[_Y1]:.3f} tkm/person in {_Y1} but "
+        f"(1{pro_FT_spe_avi:+.2f}) x (1{pro_FT_spe:+.3f}) x {_air_frt_spe[_Y0]:.3f} "
+        f"gives {(1 + pro_FT_spe_avi) * (1 + pro_FT_spe) * _air_frt_spe[_Y0]:.3f} "
+        f"-- section 3.1.4")
+    _frt_tkm_spe = {y: float(df_SUF.loc["FT intensity [tkm/person]", y])
+                    for y in (_Y0, _Y1)}
+    _frt_intensity = {m: _intensity(_ft_twh, df_FT, m, "Gtkm", _Y0)
+                      for m in ("truck-heavy duty", "train", "navigation-inland")}
+    # Air freight as one mode: both haul types together, as the lever asks it.
+    _frt_intensity["air"] = (_frt_twh[_Y0] * 1e9
+                             / (_air_frt_spe[_Y0] * _pop[_Y0]) if _air_frt_spe[_Y0] else 0.0)
 
     # --- The levers -------------------------------------------------------------
     _L = []
@@ -360,6 +457,7 @@ def build(ctx):
              "srtKwhPkm2019": round(_intensity(_pm_twh, df_PM, "plane-intra EU",
                                                "Gpkm", _Y0), 3),
              "carKwhPkm2019": round(_intensity(_pm_twh, df_PM, "car", "Gpkm", _Y0), 3),
+             "carOccupancy2019": round(_occ_car_2019, 2),
              "srtKwhPkmTarget": round(_intensity(_pm_twh, df_PM, "plane-intra EU",
                                                  "Gpkm", _Y1), 3),
              "carKwhPkmTarget": round(_intensity(_pm_twh, df_PM, "car", "Gpkm", _Y1), 3),
@@ -379,6 +477,7 @@ def build(ctx):
          "passengers per long-haul flight",
          _occ_lng[_Y0], _occ_lng[_Y1], ref_year=_Y0, target_year=_Y1,
          slider={"min": 150, "max": 270, "step": 5},
+         history="avia_occupancy_extra",
          impact=_impact("inverse", _occ_lng[_Y1],
                         scaled=_twh(_pm_twh, "plane-extra EU", _Y1)),
          model={"var": "occu_trgt_PM_avi_extra", "section": "2.3",
@@ -389,6 +488,18 @@ def build(ctx):
              "gainPct": round((occu_trgt_PM_avi_extra - 1) * 100, 1),
              "occu2000": ref_extra_occu_2000, "occu2023": ref_extra_occu_2023,
              "histGainPct": round(100 * (ref_extra_occu_2023 / ref_extra_occu_2000 - 1), 1),
+             # The same comparison stopped in 2019, so a card can say what the
+             # trend was before the pandemic distorted both ends of it -- and the
+             # matching change in fuel per aircraft-km, for the card that explains
+             # why the model treats the two as independent.
+             "histGainPct2019": round(100 * (_occ_lng[_Y0] / ref_extra_occu_2000 - 1), 1),
+             "loadFactor2019": ref_load_factor_2019,
+             "loadFactor2024": ref_load_factor_2024,
+             "seatsImplied2019": round(_occ_lng[_Y0] / (ref_load_factor_2019 / 100.0)),
+             "fuelChangePct2019": round(100 * (ref_extra_fuel_2019
+                                               / ref_extra_fuel_2000 - 1), 1),
+             "kwhKm2000": round(ref_extra_fuel_2000 / 100.0 * kgoe_to_kWh, 1),
+             "kwhKm2019": round(_fuel_lng[_Y0], 1),
              "lngTwh": round(_twh(_pm_twh, "plane-extra EU", _Y0), 1),
              "lngTwhTarget": round(_twh(_pm_twh, "plane-extra EU", _Y1), 2),
              "lngKwhPkm2019": round(_intensity(_pm_twh, df_PM, "plane-extra EU",
@@ -399,38 +510,11 @@ def build(ctx):
                    "freightTwhTarget"],
          notebook=_NB + "#section_2", reference="nW-BE §2.3")
 
-    _add("long-haul-fuel", _T, "Fuel per long-haul aircraft-km",
-         "kWh per long-haul aircraft-km",
-         _fuel_lng[_Y0], _fuel_lng[_Y1], ref_year=_Y0, target_year=_Y1,
-         slider={"min": 40, "max": 90, "step": 1},
-         impact=_impact("proportional", _fuel_lng[_Y1],
-                        scaled=_twh(_pm_twh, "plane-extra EU", _Y1)),
-         model={"var": "redu_fuel_PM_avi_extra", "section": "2.3",
-                "note": "energy in the tank per aircraft-kilometre, whatever the fuel; "
-                        "which fuel it is (kerosene, SAF, e-fuel) is left to PyPSA"},
-         facts=dict(_scope_facts, **{
-             "reductionPct": round((1 - redu_fuel_PM_avi_extra) * 100, 1),
-             "kgoe2000": ref_extra_fuel_2000, "kgoe2023": ref_extra_fuel_2023,
-             "kwhKm2000": round(ref_extra_fuel_2000 / 100.0 * kgoe_to_kWh, 1),
-             "kwhKm2023": round(ref_extra_fuel_2023 / 100.0 * kgoe_to_kWh, 1),
-             "histChangePct": round(100 * (ref_extra_fuel_2023 / ref_extra_fuel_2000 - 1), 1),
-             "occu2019": round(_occ_lng[_Y0]),
-             "lngKwhPkm2019": round(_intensity(_pm_twh, df_PM, "plane-extra EU",
-                                               "Gpkm", _Y0), 3),
-             "kwhPerTrip2019": round(_kwh_per_lng_trip),
-             "litresPerTrip2019": round(_kwh_per_lng_trip / ref_kwh_per_l_kero),
-             "iataSaf": ref_iata_saf_pct, "iataNewTech": ref_iata_newtech_pct,
-             "iataCcs": ref_iata_ccs_pct, "iataOps": ref_iata_ops_pct,
-             "lngTwh": round(_twh(_pm_twh, "plane-extra EU", _Y0), 1),
-             "lngTwhTarget": round(_twh(_pm_twh, "plane-extra EU", _Y1), 2)}),
-         spoilers=["reductionPct", "lngTwhTarget", "topicShareTransportTarget",
-                   "freightTwhTarget"],
-         notebook=_NB + "#section_2", reference="nW-BE §2.3")
-
     _add("short-haul-load", _T, "Passengers per short-haul flight",
          "passengers per short-haul flight",
          _occ_srt[_Y0], _occ_srt[_Y1], ref_year=_Y0, target_year=_Y1,
          slider={"min": 85, "max": 190, "step": 5},
+         history="avia_occupancy_intra",
          impact=_impact("inverse", _occ_srt[_Y1], scaled=_srt_kero_twh[_Y1]),
          model={"var": "occu_trgt_PM_avi_intra", "section": "2.3",
                 "note": "applies to the kerosene fleet; the hydrogen aircraft of the "
@@ -439,6 +523,14 @@ def build(ctx):
              "gainPct": round((occu_trgt_PM_avi_intra - 1) * 100, 1),
              "occu2000": ref_intra_occu_2000, "occu2023": ref_intra_occu_2023,
              "histGainPct": round(100 * (ref_intra_occu_2023 / ref_intra_occu_2000 - 1), 1),
+             "histGainPct2019": round(100 * (_occ_srt[_Y0] / ref_intra_occu_2000 - 1), 1),
+             "loadFactor2019": ref_load_factor_2019,
+             "loadFactor2024": ref_load_factor_2024,
+             "seatsImplied2019": round(_occ_srt[_Y0] / (ref_load_factor_2019 / 100.0)),
+             "fuelChangePct2019": round(100 * (ref_intra_fuel_2019
+                                               / ref_intra_fuel_2000 - 1), 1),
+             "kwhKm2000": round(ref_intra_fuel_2000 / 100.0 * kgoe_to_kWh, 1),
+             "kwhKm2019": round(_fuel_srt[_Y0], 1),
              "srtTwh": round(_twh(_pm_twh, "plane-intra EU", _Y0), 1),
              "srtKeroTwhTarget": round(_srt_kero_twh[_Y1], 2),
              "srtKwhPkm2019": round(_intensity(_pm_twh, df_PM, "plane-intra EU",
@@ -448,31 +540,97 @@ def build(ctx):
                    "freightTwhTarget"],
          notebook=_NB + "#section_2", reference="nW-BE §2.3")
 
-    _add("short-haul-fuel", _T, "Fuel per short-haul aircraft-km",
-         "kWh per short-haul aircraft-km",
-         _fuel_srt[_Y0], _fuel_srt[_Y1], ref_year=_Y0, target_year=_Y1,
-         slider={"min": 40, "max": 95, "step": 1},
-         impact=_impact("proportional", _fuel_srt[_Y1], scaled=_srt_kero_twh[_Y1]),
-         model={"var": "redu_fuel_PM_avi_intra", "section": "2.3",
-                "note": "the one aviation indicator the scenario lets get worse: "
-                        "energy per aircraft-km rises, while energy per passenger-km "
-                        "still falls because occupancy rises faster"},
+    _add("plane-fuel", _T, "Fuel per aircraft-km", "kWh per aircraft-km",
+         _fuel_avg[_Y0], _fuel_avg[_Y1], ref_year=_Y0, target_year=_Y1,
+         slider={"min": 40, "max": 95, "step": 1}, decimals=1,
+         history="avia_fuel_pax",
+         impact=_impact("proportional", _fuel_avg[_Y1], scaled=_kero_twh[_Y1]),
+         model={"var": "redu_fuel_PM_avi_intra + redu_fuel_PM_avi_extra",
+                "section": "2.3",
+                "note": "one question for the two model parameters. The value is the "
+                        "aircraft-km-weighted average of the intra- and extra-EU fuel "
+                        "use per aircraft-km, so the topic's kerosene demand is exactly "
+                        "proportional to it whatever the split between the two. Energy "
+                        "in the tank, whatever the fuel: which fuel it is (kerosene, "
+                        "SAF, e-fuel) is left to PyPSA"},
          facts=dict(_scope_facts, **{
-             "changePct": round((redu_fuel_PM_avi_intra - 1) * 100, 1),
-             "kgoe2000": ref_intra_fuel_2000, "kgoe2023": ref_intra_fuel_2023,
-             "kwhKm2000": round(ref_intra_fuel_2000 / 100.0 * kgoe_to_kWh, 1),
-             "kwhKm2023": round(ref_intra_fuel_2023 / 100.0 * kgoe_to_kWh, 1),
-             "histChangePct": round(100 * (ref_intra_fuel_2023 / ref_intra_fuel_2000 - 1), 1),
-             "occu2019": round(_occ_srt[_Y0]),
+             "kwhKmAvg2019": round(_fuel_avg[_Y0], 1),
+             "kwhKmAvgTarget": round(_fuel_avg[_Y1], 1),
+             "avgChangePct": round(100 * (_fuel_avg[_Y1] / _fuel_avg[_Y0] - 1), 1),
+             # the two haul types the average is made of
+             "kwhKmIntra2019": round(_fuel_srt[_Y0], 1),
+             "kwhKmExtra2019": round(_fuel_lng[_Y0], 1),
+             "kwhKmIntra2023": round(ref_intra_fuel_2023 / 100.0 * kgoe_to_kWh, 1),
+             "kwhKmExtra2023": round(ref_extra_fuel_2023 / 100.0 * kgoe_to_kWh, 1),
+             "kwhKmIntra2000": round(ref_intra_fuel_2000 / 100.0 * kgoe_to_kWh, 1),
+             "kwhKmExtra2000": round(ref_extra_fuel_2000 / 100.0 * kgoe_to_kWh, 1),
+             "kgoeIntra2000": ref_intra_fuel_2000, "kgoeIntra2023": ref_intra_fuel_2023,
+             "kgoeExtra2000": ref_extra_fuel_2000, "kgoeExtra2023": ref_extra_fuel_2023,
+             "histChangeIntraPct": round(100 * (ref_intra_fuel_2023
+                                                / ref_intra_fuel_2000 - 1), 1),
+             "histChangeExtraPct": round(100 * (ref_extra_fuel_2023
+                                                / ref_extra_fuel_2000 - 1), 1),
+             "histChangeIntra2019Pct": round(100 * (ref_intra_fuel_2019
+                                                    / ref_intra_fuel_2000 - 1), 1),
+             "histChangeExtra2019Pct": round(100 * (ref_extra_fuel_2019
+                                                    / ref_extra_fuel_2000 - 1), 1),
+             # what the scenario does to each of them separately
+             "changeIntraPct": round((redu_fuel_PM_avi_intra - 1) * 100, 1),
+             "changeExtraPct": round((redu_fuel_PM_avi_extra - 1) * 100, 1),
+             "fuelTargetIntra": round(_fuel_srt[_Y1], 1),
+             "fuelTargetExtra": round(_fuel_lng[_Y1], 1),
+             # per passenger and per trip, 2019
+             "occuIntra2019": round(_occ_srt[_Y0]), "occuExtra2019": round(_occ_lng[_Y0]),
+             "lngKwhPkm2019": round(_intensity(_pm_twh, df_PM, "plane-extra EU",
+                                               "Gpkm", _Y0), 3),
              "srtKwhPkm2019": round(_intensity(_pm_twh, df_PM, "plane-intra EU",
                                                "Gpkm", _Y0), 3),
-             "kwhPerTrip2019": round(_kwh_per_srt_trip),
-             "litresPerTrip2019": round(_kwh_per_srt_trip / ref_kwh_per_l_kero),
+             "kwhPerLngTrip2019": round(_kwh_per_lng_trip),
+             "litresPerLngTrip2019": round(_kwh_per_lng_trip / ref_kwh_per_l_kero),
+             "kwhPerSrtTrip2019": round(_kwh_per_srt_trip),
+             "litresPerSrtTrip2019": round(_kwh_per_srt_trip / ref_kwh_per_l_kero),
+             "iataSaf": ref_iata_saf_pct, "iataNewTech": ref_iata_newtech_pct,
+             "iataCcs": ref_iata_ccs_pct, "iataOps": ref_iata_ops_pct,
+             "lngTwh": round(_twh(_pm_twh, "plane-extra EU", _Y0), 1),
              "srtTwh": round(_twh(_pm_twh, "plane-intra EU", _Y0), 1),
-             "srtKeroTwhTarget": round(_srt_kero_twh[_Y1], 2)}),
-         spoilers=["changePct", "srtKeroTwhTarget", "topicShareTransportTarget",
-                   "freightTwhTarget"],
+             "keroTwh": round(_kero_twh[_Y0], 1),
+             "keroTwhTarget": round(_kero_twh[_Y1], 2)}),
+         spoilers=["kwhKmAvgTarget", "avgChangePct", "changeIntraPct", "changeExtraPct",
+                   "fuelTargetIntra", "fuelTargetExtra", "keroTwhTarget",
+                   "topicShareTransportTarget", "freightTwhTarget"],
          notebook=_NB + "#section_2", reference="nW-BE §2.3")
+
+    _add("air-freight", _T, "Air freight per person", "tkm/person/year",
+         _air_frt_spe[_Y0], _air_frt_spe[_Y1], ref_year=_Y0, target_year=_Y1,
+         slider={"min": 0, "max": 600, "step": 10},
+         history="air_freight_tkm_person",
+         impact=_impact("proportional", _air_frt_spe[_Y1], scaled=_frt_twh[_Y1]),
+         model={"var": "pro_FT_spe_avi", "section": "3.1.4",
+                "note": "tonne-kilometres flown per inhabitant. The scenario assumes "
+                        "nothing of its own here: air freight simply follows the general "
+                        "freight reduction, so its 2050 value is (1+pro_FT_spe) times "
+                        "2019. What a group takes off it goes to rail "
+                        "(sft_FT_rel_avi_to_trn), the one alternative the model carries"},
+         facts=dict(_scope_facts, **{
+             "airTkm2019": round(_air_frt_spe[_Y0], 1),
+             "airTkmTarget": round(_air_frt_spe[_Y1], 1),
+             "airChangePct": round(100 * (_air_frt_spe[_Y1] / _air_frt_spe[_Y0] - 1), 1),
+             "frtTkm2019": round(_frt_tkm_spe[_Y0]),
+             "airShareTkm2019": _pct(_air_frt_spe[_Y0], _frt_tkm_spe[_Y0]),
+             "airShareTkmTarget": _pct(_air_frt_spe[_Y1], _frt_tkm_spe[_Y1]),
+             "airKwhPerTkm2019": round(_frt_intensity["air"], 2),
+             "truckKwhPerTkm2019": round(_frt_intensity["truck-heavy duty"], 2),
+             "railKwhPerTkm2019": round(_frt_intensity["train"], 3),
+             "navKwhPerTkm2019": round(_frt_intensity["navigation-inland"], 2),
+             "airTonnes2019": ref_air_frt_tonnes_2019,
+             "airTPerFlight": ref_air_frt_t_per_flight,
+             "airFlights2019": ref_air_frt_flights_2019,
+             "freightTwhShareTopicTarget": _pct(_frt_twh[_Y1], _topic_twh[_Y1]),
+             "shiftToRailPct": round(sft_FT_rel_avi_to_trn * 100, 1)}),
+         spoilers=["airTkmTarget", "airChangePct", "airShareTkmTarget",
+                   "freightTwhShareTopicTarget", "shiftToRailPct",
+                   "topicShareTransportTarget", "freightTwhTarget"],
+         notebook=_NB + "#section_3", reference="nW-BE §3.1.4")
 
     _add("hydrogen-flights", _T, "Hydrogen share of intra-EU flights",
          "% of intra-EU flights on hydrogen",
@@ -504,9 +662,10 @@ def build(ctx):
 
     # --- Shared model quantities (context + the leverage arithmetic) -------------
     _ws_model = {
-        "scope": "international mobility: intra-EU and extra-EU passenger aviation, "
-                 "plus air freight as context (no lever of its own). Maritime "
-                 "bunkers are not represented in the demand model.",
+        "scope": "international mobility: intra-EU and extra-EU aviation, passengers "
+                 "and freight. Maritime bunkers are not represented in the demand "
+                 "model, so shipping is available neither as a mode nor as a "
+                 "destination for a modal shift.",
         "refYear": _Y0, "targetYear": _Y1,
         "population": {str(y): round(_pop[y]) for y in (_Y0, _Y1)},
         "topicTwh": {str(y): round(_topic_twh[y], 3) for y in (_Y0, _Y1)},
