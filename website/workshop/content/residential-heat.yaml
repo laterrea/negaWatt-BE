@@ -143,9 +143,9 @@ levers:
       nl: "Welke woonoppervlakte per persoon is een realistisch doel voor 2050?"
       en: "What home floor area per person is a realistic 2050 objective?"
     subtitle:
-      fr: "Surface utile de l'ensemble du parc de logements, divisée par la population — nourrissons et centenaires compris."
-      nl: "Nuttige oppervlakte van het hele woningbestand, gedeeld door de bevolking — van baby tot honderdjarige."
-      en: "Useful floor area of the whole dwelling stock, divided by the population — newborns and centenarians included."
+      fr: "Surface utile de l'ensemble du parc de logements, divisée par la population."
+      nl: "Nuttige oppervlakte van het hele woningbestand, gedeeld door de bevolking."
+      en: "Useful floor area of the whole dwelling stock, divided by the population."
     tangible:
       fr: "{value} m² pour chaque personne du ménage, à chauffer tout l'hiver."
       nl: "{value} m² voor elk lid van het huishouden, de hele winter te verwarmen."
