@@ -110,8 +110,8 @@ sections are now filled by these export cells.
 The same export cells also write `data/energy_totals_overrides.csv` (tidy TWh
 totals for 2019/2030/2040/2050, using the same aggregation as `scripts/nW_BE.py`
 in the PyPSA-Eur fork). Re-run the buildings and transport Website-export cells
-to refresh it. CI compares `nW_BE.py` to that committed file
-(`scripts/check_nW_BE_consistency.py`).
+to refresh it. Nothing checks it against `nW_BE.py` automatically — there is no CI
+in this repository — so the comparison is manual, against the fork.
 
 ### Regenerating the site
 
@@ -373,9 +373,13 @@ python scripts/dev_api.py --port 8787 &
 
 # 4. tests
 python scripts/test_workshop_helpers.py       # the export helpers
-python scripts/verify_workshop_export.py      # the notebook output (327 checks)
+python scripts/verify_workshop_export.py      # 327 checks, inland-mobility only
 python scripts/build_workshop_content.py --check
 python scripts/test_workshop_api.py --base http://127.0.0.1:8787            # 59 checks
+#   Coverage note: only `build_workshop_content.py --check` sees all four topics.
+#   `verify_workshop_export.py` reads levers_transport.js / history_transport.js and
+#   is scoped to inland-mobility; nothing yet verifies the buildings export, so a
+#   change to residential- or tertiary-heat is checked by the build and by eye.
 
 # 5. publish — no root, no --delete (intervec/ and RFNBO_final_results/ survive);
 #    the script re-checks a few files against the server afterwards
