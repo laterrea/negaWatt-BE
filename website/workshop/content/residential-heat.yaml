@@ -222,9 +222,9 @@ levers:
             en: Average number of rooms per person, 2024
       - kind: lever
         label:
-          fr: Le gisement, chiffré
-          nl: Het potentieel, becijferd
-          en: The pool, quantified
+          fr: Le gisement
+          nl: Het potentieel
+          en: The pool
         text:
           fr: >
             Au recensement 2021, 46,6 % des logements occupés en Belgique — 2,3 millions —
@@ -1096,9 +1096,9 @@ levers:
       nl: "Welk verbruik van sanitair warm water per persoon is een realistisch doel voor 2050?"
       en: "What domestic hot-water use per person is a realistic 2050 objective?"
     subtitle:
-      fr: "Chaleur utile contenue dans l'eau, par personne et par an. Douches, bains, vaisselle, lavabos."
-      nl: "Nuttige warmte in het water, per persoon per jaar. Douches, baden, afwas, wastafels."
-      en: "Useful heat in the water, per person per year. Showers, baths, washing up, basins."
+      fr: "Chaleur utile contenue dans l'eau, par personne et par an (1 kWh de chaleur correspond à environ 35 litres d'eau à 40°C). Douches, bains, vaisselle, lavabos."
+      nl: "Nuttige warmte in het water, per persoon per jaar (1 kWh warmte komt overeen met ongeveer 35 liter water van 40 °C). Douches, baden, afwas, wastafels."
+      en: "Useful heat in the water, per person per year (1 kWh of heat corresponds to approximately 35 litres of water at 40°C). Showers, baths, washing up, basins."
     tangible:
       fr: "{value} kWh d'eau chaude par personne et par an."
       nl: "{value} kWh warm water per persoon per jaar."
