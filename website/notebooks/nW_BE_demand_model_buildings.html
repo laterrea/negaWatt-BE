@@ -7568,6 +7568,8 @@ Available at: <a href="https://perspective2050.energyville.be/results/main-editi
 <li>[7] European Commission, DG Energy. Energy renovation of buildings — Renovation Wave and revised EPBD [Web Page].<br/>
 Available at: <a href="https://energy.ec.europa.eu/topics/energy-efficiency/energy-performance-buildings/energy-performance-buildings-directive/energy-renovation-buildings_en">https://energy.ec.europa.eu/topics/energy-efficiency/energy-performance-buildings/energy-performance-buildings-directive/energy-renovation-buildings_en</a>
 Retrieved from: <a href="https://circabc.europa.eu/ui/group/418195ae-4919-45fa-a959-3b695c9aab28/library/e2a752ef-c365-41df-8e50-98376e6ca756/details">https://circabc.europa.eu/ui/group/418195ae-4919-45fa-a959-3b695c9aab28/library/e2a752ef-c365-41df-8e50-98376e6ca756/details</a></li>
+<li>[8] European Commission (2019). Commission Recommendation (EU) 2019/786 of 8 May 2019 on building renovation, OJ L 127, 16.5.2019, pp. 34-79. Annex, point 2.3.1.3 defines a deep renovation as one delivering "typically more than 60%" efficiency improvement, in delivered and final energy. [Legal act].<br/>
+Available at: <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32019H0786">https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32019H0786</a></li>
 </ul>
 </div>
 </div>
@@ -7659,8 +7661,8 @@ Retrieved from: <a href="https://circabc.europa.eu/ui/group/418195ae-4919-45fa-a
 <hr/>
 <p>To reduce primary energy consumption in the building sector, the negaWatt-BE approach relies on two complementary strategies: energy sufficiency, acting on usefull energy demand, and energy efficiency, acting on conversion losses. These strategies are implemented through several levers, presented below, which guide the transition towards a low-energy building sector.</p>
 <ul>
-<li>$\textcolor{Orange}{\textbf{Energy Sufficiency}}$ refers to a deliberate, non-imposed reduction in end-use energy demand (energy services). This is achieved through behavioural and systemic changes, including an increased adoption of SlowHeat practices [3].</li>
-<li>$\textcolor{Orange}{\textbf{Energy Efficiency}}$ refers to technical improvements that reduce the amount of primary energy consumed per building (like building insulation), without requiring behavioural or 'comfort' changes.</li>
+<li><font color="#F58137"><b>Energy Sufficiency</b></font> refers to a deliberate, non-imposed reduction in end-use energy demand (energy services). This is achieved through behavioural and systemic changes, including an increased adoption of SlowHeat practices [3].</li>
+<li><font color="#F58137"><b>Energy Efficiency</b></font> refers to technical improvements that reduce the amount of primary energy consumed per building (like building insulation), without requiring behavioural or 'comfort' changes.</li>
 </ul>
 </div>
 </div>
@@ -7711,7 +7713,7 @@ Retrieved from: <a href="https://circabc.europa.eu/ui/group/418195ae-4919-45fa-a
 <p><strong>Comment:</strong> Households do actually not represent proper dwellings. We follow the same approach as JRC-IDEES [2]: we assign them implicitly to households without distinguishing secondary residences or vacant dwellings.</p>
 </blockquote>
 <br>
-$\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
+<font color="#F58137"><b>Sufficiency Assumption</b></font>
 <p>As a global sufficiency assumption, we want to reduce the specific residential surface area in order to reduce the material footprint and the footprint related to heating and cooling. We do not play on the average household size, as this is a demographic projection from Statbel (see <code>nW_BE_demand_model_macro.ipynb</code>). Nevertheless, projections show that the average household size is expected to decrease by -5,5% from 2019 to 2050. As a result, even without changing the available floor area per inhabitant, the average floor area per household will have to decrease.</p>
 <p>In light of this, we project a <strong>-10% reduction</strong> in residential surface area available <strong>per person</strong>. This therefore corresponds to a reduction of <strong>-14,9%</strong> in the average floor area <strong>per household</strong>.</p>
 </br></div>
@@ -7782,7 +7784,7 @@ $\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <br>
-$\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
+<font color="#F58137"><b>Sufficiency Assumption</b></font>
 <p>As a global sufficiency assumption, we want to reduce the specific tertiary surface area in order to reduce the material footprint and the footprint related to heating and cooling. In light of this, we project a <strong>-10% reduction</strong> in tertiary surface area available <strong>per person</strong>.</p>
 </br></div>
 </div>
@@ -8126,12 +8128,18 @@ Energy service for cooking:      226.553 kWh/household
 <p>The energy performance of a building, generally expressed in kWh/m², is a key factor in reducing its total end-use energy demand. While many energy models distinguish this performance according to three categories within the building stock (existing, renovated, and new-built), thus allowing the direct modelling of the effect of the renovation rate of the stock, we favor a simplified approach that evaluates only the average performance of the overall building stock.</p>
 <p>According to figures from JRC-IDEES [1,2], the average annual renewal rate of floor area (renovation + new construction) was around 3% between 2000 and 2023, with the associated reduction in end-use demand averaging -0,458 kWh/m²/year. We mainly attribute this decrease to efficiency measures (insulation), although some episodic reductions may also have been linked to sufficiency measures (reduced heating use during energy crises, etc.).</p>
 <blockquote>
-<p><strong>Caution on this 3%.</strong> It decomposes into about <strong>2,3 points of renovation</strong> and about <strong>0,8 points of net new construction</strong>. The renovation component is <em>not</em> an observation: it is a constant of the JRC-IDEES building-stock model (2,261%/year, with a standard deviation of 0,008 points over 2001-2023), so the whole year-to-year variation of the series comes from new construction. This renewal rate is also <strong>not comparable</strong> with the energy-renovation rate used in European policy, which counts energy renovations only and stands at around 1%/year in the EU, a rate the Commission aims to double [7]. The quantity we calibrate on below is therefore the -0,458 kWh/m²/year improvement in end-use demand, not the renewal rate.</p>
+<p><strong>Caution on this 3%.</strong> It decomposes into about <strong>2,3 points of renovation</strong> and about <strong>0,7 points of net new construction</strong>. The renovation component is <em>not</em> an observation: it is a constant of the JRC-IDEES building-stock model (2,261%/year, with a standard deviation of 0,008 points over 2001-2023), so the whole year-to-year variation of the series comes from new construction. This renewal rate is also <strong>not comparable</strong> with the energy-renovation rate used in European policy, which counts energy renovations only and stands at around 1%/year in the EU, a rate the Commission aims to double [7]. The quantity we calibrate on below is therefore the -0,458 kWh/m²/year improvement in end-use demand, not the renewal rate.</p>
 </blockquote>
 <br>
-$\textcolor{Orange}{\textbf{Efficiency Assumption}}$
+<font color="#F58137"><b>Efficiency Assumption</b></font>
 <p>We believe that the average annual improvement rate over the 2000-2023 period is too low to meet climate objectives. We therefore propose to double <strong>that improvement rate</strong> — the -0,458 kWh/m²/year reduction in end-use demand, not the renewal rate — in order to accelerate the energy transition. With this improvement rate of -0,916 kWh/m²/year, the efficiency-related building performance improves from 68,2 kWh/m² in 2019 to 39,8 kWh/m² in 2050.</p>
-</br></div>
+<br>
+<font color="#F58137"><b>The same assumption, read as renovation activity</b></font>
+<p>A stock average in kWh/m² says nothing about <em>how many</em> dwellings are touched or <em>how deeply</em>, which is the form the question takes in every renovation policy. The two readings are the same arithmetic. If a constant share $r$ of the stock is renovated each year and each renovation cuts that dwelling's heating need by a fraction $d$, the stock average falls <strong>linearly</strong> — the very shape assumed above:</p>
+$$I(t) = I(0)\,\bigl[1 - d\,r\,t\bigr], \qquad r\,t \le 1$$<p>so the product $d \times r$ is fixed by the trajectory and only one of the two is a free choice. We set the <strong>depth</strong> at <strong>60%</strong>, the threshold the European Commission uses to call a renovation <em>deep</em> (Recommendation (EU) 2019/786 [8]): the scenario then reads as <em>every energy renovation from now on is a deep one</em>. The rate follows — <strong>2,24% of the dwelling stock per year</strong>, that is 69% of it renovated at least once by 2050.</p>
+<p>Applied to the observed period, the same reading sizes that choice. JRC-IDEES books 2,261%/year of renovation; attributing the whole -0,458 kWh/m²/year to it — an upper bound, since new construction lowers the average too — the average Belgian renovation has been cutting the heating need by <strong>about a quarter</strong>, a <em>medium</em> renovation in the Commission's classification (30-60%), not a deep one. In renovation terms the scenario is therefore <strong>the same number of renovations, each about 2,4 times deeper</strong>, not more renovations.</p>
+<p>This is a <em>reading</em> of the assumption above, not a new degree of freedom: <code>trg_RS_tes_sht</code> and everything downstream of it are numerically unchanged. It exists so the assumption can be discussed in the units the sector actually uses, and it is the form the workshop module puts to participants.</p>
+</br></br></div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=46352ee0-91c6-47a3-8d95-fca0713d1009">
@@ -8145,6 +8153,49 @@ $\textcolor{Orange}{\textbf{Efficiency Assumption}}$
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">acc_RS_tes_sht_ren</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">cur_RS_tes_sht_ren</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.458</span> <span class="c1"># kWh/m²/year</span>
 <span class="n">trg_RS_tes_sht</span>     <span class="o">=</span> <span class="n">ref_RS_tes_sht</span> <span class="o">+</span> <span class="n">acc_RS_tes_sht_ren</span><span class="o">*</span><span class="n">cur_RS_tes_sht_ren</span><span class="o">*</span><span class="p">(</span><span class="mi">2050</span><span class="o">-</span><span class="mi">2019</span><span class="p">)</span> <span class="c1"># [kWh/m²]</span>
+
+<span class="c1"># --- The same assumption, read as renovation activity -------------------------</span>
+<span class="c1"># The line above moves the stock average without saying how many dwellings are</span>
+<span class="c1"># touched or how deeply. Renovation is what delivers it, so the link is written</span>
+<span class="c1"># down here. If a constant share `rat` of the stock is renovated every year and</span>
+<span class="c1"># each renovation cuts that dwelling's heating need by a fraction `dep`, the</span>
+<span class="c1"># stock average falls *linearly*, which is the shape assumed above:</span>
+<span class="c1">#     I(t) = I(0) * [1 - dep*rat*t]                      for rat*t &lt;= 1</span>
+<span class="c1"># hence dep*rat = -acc*cur/ref, and fixing either one fixes the other. ONE new</span>
+<span class="c1"># assumption enters -- the depth -- and the rate follows from the trajectory, so</span>
+<span class="c1"># trg_RS_tes_sht and everything downstream of it are numerically unchanged.</span>
+<span class="c1">#</span>
+<span class="c1"># The depth is set at the threshold the European Commission uses to call a</span>
+<span class="c1"># renovation "deep" (Recommendation (EU) 2019/786): the scenario then reads as</span>
+<span class="c1"># "every energy renovation from now on is a deep one".</span>
+<span class="n">dep_RS_tes_sht_ren</span> <span class="o">=</span> <span class="mf">0.60</span>                                                    <span class="c1"># [-]      cut in heating need per renovation</span>
+<span class="n">shr_RS_tes_sht_ren</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">trg_RS_tes_sht</span><span class="o">/</span><span class="n">ref_RS_tes_sht</span><span class="p">)</span><span class="o">/</span><span class="n">dep_RS_tes_sht_ren</span>  <span class="c1"># [-]      share of the stock renovated by 2050</span>
+<span class="n">rat_RS_tes_sht_ren</span> <span class="o">=</span> <span class="n">shr_RS_tes_sht_ren</span><span class="o">/</span><span class="p">(</span><span class="mi">2050</span><span class="o">-</span><span class="mi">2019</span><span class="p">)</span>                          <span class="c1"># [1/year] renovation rate it implies</span>
+<span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">shr_RS_tes_sht_ren</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"a renovation depth of </span><span class="si">{</span><span class="n">dep_RS_tes_sht_ren</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2"> is too shallow for this "</span>
+    <span class="sa">f</span><span class="s2">"trajectory: it would need </span><span class="si">{</span><span class="n">shr_RS_tes_sht_ren</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2"> of the stock renovated "</span>
+    <span class="sa">f</span><span class="s2">"by 2050. Deepen the renovations, or slow the intensity target."</span><span class="p">)</span>
+
+<span class="c1"># The same reading applied to the observed period, which is what sizes the choice</span>
+<span class="c1"># of depth above. The JRC-IDEES floor-area series decomposes into a renovation</span>
+<span class="c1"># component and net new construction (nW_BE_demand_data_aux.ipynb, cell 17); the</span>
+<span class="c1"># observed improvement is the -0.458 kWh/m²/year fitted above, on a trend that</span>
+<span class="c1"># starts at 79.5 kWh/m² in 2000. Attributing all of it to renovation is an upper</span>
+<span class="c1"># bound -- new construction lowers the stock average too -- so the depth below is</span>
+<span class="c1"># a ceiling on what the average Belgian renovation has been achieving.</span>
+<span class="n">obs_RS_tes_sht_2000</span> <span class="o">=</span> <span class="mf">79.48</span>    <span class="c1"># [kWh/m²] fitted 2000 value of the -0.458 trend</span>
+<span class="n">obs_RS_sht_rat_ren</span>  <span class="o">=</span> <span class="mf">2.261</span>    <span class="c1"># [%/year] renovated floor area (a JRC-IDEES constant, sd 0.008)</span>
+<span class="n">obs_RS_sht_rat_new</span>  <span class="o">=</span> <span class="mf">0.746</span>    <span class="c1"># [%/year] net new construction (observed, sd 0.314)</span>
+<span class="n">obs_RS_sht_rat_all</span>  <span class="o">=</span> <span class="mf">3.007</span>    <span class="c1"># [%/year] the two together: the "3%" of the prose above</span>
+<span class="n">obs_RS_tes_sht_dep</span>  <span class="o">=</span> <span class="o">-</span><span class="n">cur_RS_tes_sht_ren</span><span class="o">/</span><span class="p">(</span><span class="n">obs_RS_sht_rat_ren</span><span class="o">/</span><span class="mi">100</span><span class="o">*</span><span class="n">obs_RS_tes_sht_2000</span><span class="p">)</span>  <span class="c1"># [-]</span>
+<span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">obs_RS_sht_rat_ren</span> <span class="o">+</span> <span class="n">obs_RS_sht_rat_new</span> <span class="o">-</span> <span class="n">obs_RS_sht_rat_all</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.01</span>
+
+<span class="k">if</span> <span class="n">post_process</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span> <span class="s1">'Renovation reading of the efficiency assumption:'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">' -&gt; depth assumed for each renovation:  </span><span class="si">{</span><span class="n">dep_RS_tes_sht_ren</span><span class="si">:</span><span class="s1">&gt;6.0%</span><span class="si">}</span><span class="s1"> of the heating need'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">' -&gt; stock renovated at least once:      </span><span class="si">{</span><span class="n">shr_RS_tes_sht_ren</span><span class="si">:</span><span class="s1">&gt;6.1%</span><span class="si">}</span><span class="s1"> by 2050'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">' -&gt; renovation rate implied:            </span><span class="si">{</span><span class="n">rat_RS_tes_sht_ren</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">&gt;6.2f</span><span class="si">}</span><span class="s1"> %/year'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">' -&gt; observed 2000-2023, for comparison: </span><span class="si">{</span><span class="n">obs_RS_tes_sht_dep</span><span class="si">:</span><span class="s1">&gt;6.1%</span><span class="si">}</span><span class="s1"> deep at </span><span class="si">{</span><span class="n">obs_RS_sht_rat_ren</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> %/year'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8165,7 +8216,7 @@ $\textcolor{Orange}{\textbf{Efficiency Assumption}}$
 <p>The adoption of <em>SlowHeat</em> [3], which consists of voluntarily lowering heating temperature setpoints in favor of localised heating close to the body (appropriate clothing, electric blankets, heated garments, etc.), makes it possible to significantly reduce heat demand. A study conducted in Belgium indicates that an average indoor temperature of 15°C can be entirely acceptable and desirable, while the vigilance threshold appears to be around 12°C [3].</p>
 <p>This practice nevertheless faces significant social and psychological resistance (in 2022, 19°C often constituted a lower bound), which makes its widespread adoption rather unrealistic.</p>
 <br>
-$\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
+<font color="#F58137"><b>Sufficiency Assumption</b></font>
 <p>We estimate that by 2050, the evolution of social norms will allow average <strong>heating setpoints</strong> to be reduced by <strong>-2°C</strong>. Given that models indicate a -7% reduction in consumption for each -1°C decrease [3], we estimate an additional -14% reduction on top of the efficiency measures described above. This results in a heat demand of <strong>34,2 kWh/m²</strong> in 2050.</p>
 </br></div>
 </div>
@@ -8219,7 +8270,7 @@ $\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
 <p>Cooling demand increased by a factor of x22,5 between 2000 and 2023, rising from 0,035 kWh/m² to 1,010 kWh/m².
 The most striking expansion occurred between 2019 and 2023, during which demand increased by +0,572 kWh/m² in just four years.</p>
 <br>
-$\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
+<font color="#F58137"><b>Sufficiency Assumption</b></font>
 <p>Due to climate change, we acknowledge that the deployment of air conditioning is becoming a necessity to ensure a decent quality of life across a range of applications. However, we believe that its deployment can be controlled and restricted to cases where it is genuinely necessary. The current trend of expanding the use of air conditioning in order to increase self-consumption in buildings equipped with photovoltaic panels does not, in our view, support the energy transition, as this solar potential (already limited in Belgium) could be used for other purposes (such as the production and seasonal storage of heat, etc.).</p>
 <p>As a sufficiency assumption, we project that the rate of <strong>deployment</strong> of residential <strong>air conditioning</strong> over the period 2019-2050 will be the <strong>same</strong> as over the <strong>historical period</strong> (+0,035 kWh/m²/year).</p>
 </br></div>
@@ -8269,8 +8320,11 @@ $\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><strong>Sanitary hot water</strong></p>
 <p>By 2019, the specific annual energy consumption for hot water is of about 675 kWh/person. This is equivalent to about 64 l of 40°C water per day and per person.</p>
+<blockquote>
+<p><strong>Caution on this 2019 anchor.</strong> JRC-IDEES useful-energy DHW falls from 663,4 ktoe in 2019 to 437,7 ktoe in 2023. Eurostat <code>nrg_d_hhq</code> delivered energy for water heating in Belgian households is flat over the same years (43 175 TJ in 2019, 43 510 TJ in 2023, 43 268 TJ in 2024; dataset updated 2026-06-09). The implied conversion efficiency would have to collapse from 64 % to 42 %, which is not a physical change. We therefore keep the 2019 JRC value as the reference — Eurostat shows that year is typical, not a peak — and the workshop observed curve after 2019 is reconstructed from Eurostat delivered energy at the 2019 useful/final ratio. The 2050 target below is built from a shower recipe, not from this series.</p>
+</blockquote>
 <br>
-$\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
+<font color="#F58137"><b>Sufficiency Assumption</b></font>
 <p>We project to limit the hot water consumption for showering to sufficient levels. We therefore assume one shower per day and per person, 5 min long shower (sinking water) with 38°C water at 7 l/min. We also consider a daily use of 10 l of 60°C hot water for other domestic purposes (doing the dish, etc.).</p>
 <p>All in all, the specific energy consumption by 2050 is reduced by <strong>-21%</strong> compared with 2019. This is equivalent to <strong>50 l</strong> of <strong>40°C per day</strong> and <strong>per person</strong>.</p>
 </br></div>
@@ -8329,12 +8383,15 @@ $\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><strong>Cooking</strong></p>
-<p>The historical average trend shows a slight decrease in energy consumption for cooking (-1,6 kWh per household per year between 2000 and 2023). This could be explained by changes in cooking habits and the increased purchase of processed foods.</p>
+<p>The historical average trend shows a slight decrease in energy consumption for cooking (-0,94 kWh per household per year between 2000 and 2019). This could be explained by changes in cooking habits and the increased purchase of processed foods.</p>
+<blockquote>
+<p><strong>Why the trend stops at 2019.</strong> Fitted over 2000-2023 the same series gives -1,6 kWh/household/year, but two thirds of that slope comes from a single step in JRC-IDEES: useful cooking energy holds at 102,0 ktoe in 2021 and drops to 77,1 in 2022, a quarter of the total in one year. Eurostat <code>nrg_d_hhq</code> delivered energy for cooking in Belgian households does not show it — 5 507 TJ in 2021, 5 517 in 2022 — and only falls in 2023-2024 (5 067, then 4 590), which is when the switch away from gas shows up in <em>delivered</em> energy rather than in useful heat. The 2019 reference (<code>ref_RS_tes_cok</code>, 96,395 ktoe) and the +15% assumption below are unaffected: neither reads the post-2019 part of the series. Same JRC sheet, sanitary hot water, has the same kind of break after 2019 (see §2.1.2 above).</p>
+</blockquote>
 <br>
-$\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
+<font color="#F58137"><b>Sufficiency Assumption</b></font>
 <p>In our scenario, we advocate more home cooking using less processed products. We therefore anticipate a +15% increase in energy consumption related to cooking per household.</p>
 <br>
-$\textcolor{Orange}{\textbf{Efficiency Assumption}}$
+<font color="#F58137"><b>Efficiency Assumption</b></font>
 <p>In addition, in order to limit greenhouse gas emissions, we prioritise the use of <strong>electric cookers</strong> and <strong>ovens</strong>. Nevertheless, we retain a <strong>2%</strong> share of <strong>gas cooking</strong> by 2050.</p>
 </br></br></div>
 </div>
@@ -8391,11 +8448,11 @@ $\textcolor{Orange}{\textbf{Efficiency Assumption}}$
 <p><font size="3"><b>2.1.3. Centralisation Degree</b></font> <a class="anchor" id="section_2_1_3"></a></p>
 <hr/>
 <p>District heating networks are a key technological option for the energy transition. They enable effective decarbonisation of the heating sector by providing a large-scale source of sector coupling (use of industrial heat pumps with decarbonised sources such as geothermal energy, waste heat, biomass cogeneration, etc.) and a significant source of flexibility (buffer and seasonal thermal storage).</p>
-<p>Nevertheless, the penetration of district heating networks is currently anecdotal in Belgium, covering less than 1% of total demand.
-Although studies indicate that their techno-economic potential by 2050 could reach up to 45% of total heating demand in the residential sector [4], it is unlikely that this potential will be fully exploited.
+<p>Nevertheless, the penetration of district heating networks is currently anecdotal in Belgium: <strong>0.25%</strong> of residential space heating and hot water in 2019 (JRC-IDEES useful energy). Eurostat delivered energy on the same heat basis (derived heat over space heating plus water heating) is <strong>0.21%</strong> that year, and <strong>0.18%</strong> in 2024.
+The 45% techno-economic potential quoted by Lund et al. [4] is the Heat Roadmap Europe <em>average</em>. Heat Roadmap Belgium (HRE4) retains <strong>37%</strong> of built-environment heat excluding industry by 2050, with an economic range of 20–54%. It is unlikely that even that Belgian potential will be fully exploited.
 For example, the PATHS2050 scenario from EnergyVille assumes a 13% coverage in the building sector (residential and tertiary) [5].</p>
 <br>
-$\textcolor{Orange}{\textbf{Efficiency Assumption}}$
+<font color="#F58137"><b>Efficiency Assumption</b></font>
 <p>In our scenario, we assume a significant deployment of <strong>district heating networks</strong>, covering <strong>15%</strong> of end-use heat demand in buildings by <strong>2050</strong>.</p>
 <p>Also, we exclude district cooling networks from our model.</p>
 </br></div>
@@ -8496,7 +8553,7 @@ Energy service for others:           227.984 kWh/household
 <p>Following projections from the European Commission Ecodesign Impact Accounting 2024 report [6], the specific annual consumption of new housholds refrigeration units should be below 100 kWh/year by 2035. 
 Historical data show that the average consumption associated with refrigeration has decreased almost linearly by -17,0 kWh/household/year from 2000 to 2023 [1,2].</p>
 <br/>
-$\textcolor{Orange}{\textbf{Efficiency Assumption}}$
+<font color="#F58137"><b>Efficiency Assumption</b></font>
 <p>We project an average value of <strong>150 kWh/household</strong> for the entire fleet starting from <strong>2040</strong>.</p>
 </div>
 </div>
@@ -8531,7 +8588,7 @@ $\textcolor{Orange}{\textbf{Efficiency Assumption}}$
 <p>Following projections from the European Commission Ecodesign Impact Accounting 2024 report [6], the specific annual consumption of new housholds washing machines should be below 100 kWh/year by 2025. 
 Historical data show that the average consumption associated with washing machines has decreased almost linearly by -6,3 kWh/household/year from 2000 to 2023 [1,2], mainly driven by a reduction in water consumption per cycle and water temperature (90 l at 56°C in 1990 against 36 l at 40°C in 2020) [6].</p>
 <br/>
-$\textcolor{Orange}{\textbf{Combined Efficiency and Sufficiency Assumption}}$
+<font color="#F58137"><b>Combined Efficiency and Sufficiency Assumption</b></font>
 <p>According to the European Commission Ecodesign Impact Accounting 2024 report [6], the average performance of newsold washing machines should be around 96 kWh/year by 2030.
 In our scenario, we project widespread use of eco programmes (30°C and less water). We therefore estimate that average annual consumption will reach <strong>90 kWh/household</strong> by <strong>2030</strong>.</p>
 </div>
@@ -8567,10 +8624,10 @@ In our scenario, we project widespread use of eco programmes (30°C and less wat
 <p>Following projections from the European Commission Ecodesign Impact Accounting 2024 report [6], the specific annual consumption of new housholds laundry dryers should be around 100 kWh/year by 2030. 
 Historical data show that the average consumption associated with laundry dryers has decreased by -4,2 kWh/household/year from 2000 to 2023 [1,2], mainly driven by (i) the deployement of condensing electrical units and (ii) condensing heat pumps units (from approx. 2010) [6].</p>
 <br/>
-$\textcolor{Orange}{\textbf{Efficiency Assumption}}$
+<font color="#F58137"><b>Efficiency Assumption</b></font>
 <p>We project that the fleet will gradually shift from vented and condensing electric to condensing heat pumps (most efficient).</p>
 <br/>
-$\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
+<font color="#F58137"><b>Sufficiency Assumption</b></font>
 <p>As these are energy intensive units, our scenario also projects to <strong>limit their usage</strong> and priviliege natural passive drying whenever possible.
 We expect to reach an average annual consumption of <strong>80 kWh/household</strong> by <strong>2040</strong>.</p>
 </div>
@@ -8606,7 +8663,7 @@ We expect to reach an average annual consumption of <strong>80 kWh/household</st
 <p>Following projections from the European Commission Ecodesign Impact Accounting 2024 report [6], the specific annual consumption of new housholds dishwashers should be below 160 kWh/year by 2030, mainly driven by a reduction in water consumption per cycle (30 l in 1990 against 9 l in 2030).
 However, historical data show that the average consumption associated with dishwashers has increased by +0,35 kWh/household/year from 2000 to 2023, as the technology continues its deployement (all households are not equiped yet) [1,2].</p>
 <br/>
-$\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
+<font color="#F58137"><b>Sufficiency Assumption</b></font>
 <p>We project that the technology will continue developping as it contributes to increasing the quality of life. We assume a constant (energy) deployement rate. By 2050, we hence project a <strong>150 kWh/household</strong> consumption.</p>
 </div>
 </div>
@@ -8642,7 +8699,7 @@ $\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
 <p>As we do not have any usage data at our disposal, it is difficult to say whether the decline observed since 2015 is due to decoupling (increased usage offset by efficiency gains) or to a coupled effect (stabilisation or even a decrease in usage combined with efficiency gains). 
 Nevertheless, the rate of efficiency gains appears to be much faster than the rate of decline in energy consumption, which seems to reinforce the decoupling hypothesis.</p>
 <br/>
-$\textcolor{Orange}{\textbf{Combined Efficiency and Sufficiency Assumption}}$
+<font color="#F58137"><b>Combined Efficiency and Sufficiency Assumption</b></font>
 <p>Projections from the European Commission Ecodesign Impact Accounting 2024 report [6] indicate that the specific consumption of new screens could be halved between 2020 and 2030.
 We anticipate a slowdown in the growth of demand for TV and multimedia. Combined with efficiency gains, we project that electricity demand for this category could be reduced by <strong>-30%</strong> by <strong>2050</strong>.</p>
 </div>
@@ -8673,7 +8730,7 @@ We anticipate a slowdown in the growth of demand for TV and multimedia. Combined
 <p><strong>ICT equipment</strong></p>
 <p>ICT-related consumption grew until around 2021, but seems to have stabilised since then [1,2].</p>
 <br/>
-$\textcolor{Orange}{\textbf{Combined Efficiency and Sufficiency Assumption}}$
+<font color="#F58137"><b>Combined Efficiency and Sufficiency Assumption</b></font>
 <p>We project that the combined effect of slower demand growth and efficiency gains will stabilise consumption in this area.</p>
 </div>
 </div>
@@ -8703,7 +8760,7 @@ $\textcolor{Orange}{\textbf{Combined Efficiency and Sufficiency Assumption}}$
 <p><strong>Lighting</strong></p>
 <p>Following projections from the European Commission Ecodesign Impact Accounting 2024 report [6], the specific annual consumption of lighting systems should be around 130 kWh/household/year by 2030 in EU27. Historical data show that the average consumption associated with lighting has decreased by -12,9 kWh/household/year from 2000 to 2023 [1,2] despite the rebund effect (from 22 light sources per houshold in 2005 to 29 in 2015 [6]).</p>
 <br/>
-$\textcolor{Orange}{\textbf{Efficiency Assumption}}$
+<font color="#F58137"><b>Efficiency Assumption</b></font>
 <p>Thanks to the continuous technological improvement, we expect to reach a consumption of 130 kWh/household by 2035.</p>
 </div>
 </div>
@@ -9516,7 +9573,7 @@ Energy service for catering:     289.141 kWh/person
 <p><strong>Caution on this 1,7%.</strong> As in the residential sector, it decomposes into about <strong>1,2 points of net new construction</strong> and only about <strong>0,5 points of renovation</strong> (0,46%/year on average, and a constant 0,51%/year from 2017 onwards in the JRC-IDEES building-stock model). New construction therefore dominates the series, and this renewal rate is <strong>not comparable</strong> with the energy-renovation rate used in European policy [7]. The quantity we calibrate on below is the -0,154 kWh/m²/year improvement in end-use demand, not the renewal rate.</p>
 </blockquote>
 <br/>
-$\textcolor{Orange}{\textbf{Efficiency Assumption}}$
+<font color="#F58137"><b>Efficiency Assumption</b></font>
 <p>We believe that the average annual improvement rate over the 2000-2023 period is too low to meet climate objectives. We therefore propose to increase <strong>that improvement rate</strong> — the -0,154 kWh/m²/year reduction in end-use demand, not the renewal rate — fivefold in order to accelerate the energy transition. With this improvement rate of -0,77 kWh/m²/year, the efficiency-related building performance improves from 95,4 kWh/m² in 2019 to 71,5 kWh/m² in 2050.</p>
 </div>
 </div>
@@ -9550,7 +9607,7 @@ $\textcolor{Orange}{\textbf{Efficiency Assumption}}$
 <p><strong>Space heating</strong></p>
 <p>SlowHeat in the service sector has not yet been studied in depth, although research is underway.</p>
 <br/>
-$\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
+<font color="#F58137"><b>Sufficiency Assumption</b></font>
 <p>The adoption of SlowHeat in the tertiary sector seems even more subject to socio-psychological barriers than in the residential sector. The fear of a loss of attractiveness for commercial activities and disagreement among office staff are telling examples of this. We therefore plan to reduce the setpoint by only 1°C (compared to 2°C in the residential sector).
 We hence estimate an additional -7% reduction on top of the efficiency measures described above. This results in a heat demand of 66,5 kWh/m² in 2050.</p>
 </div>
@@ -9614,7 +9671,7 @@ We hence estimate an additional -7% reduction on top of the efficiency measures 
 <p><strong>Space cooling</strong></p>
 <p>Cooling demand increased by a factor of x9,7 between 2000 and 2019, rising from 1,8 kWh/m² to 17,2 kWh/m². From 2019 to 2022, the demand has stabilised and slightly decreased, probably due to the COVID-19 pandemic and the energy crisis.</p>
 <br/>
-$\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
+<font color="#F58137"><b>Sufficiency Assumption</b></font>
 <p>Due to climate change, we acknowledge that the deployment of air conditioning is becoming a necessity to ensure a decent quality of life across a range of applications. However, we believe that its deployment can be controlled and restricted to cases where it is genuinely necessary.</p>
 <p>As a sufficiency assumption, we project that the rate of deployment of residential air conditioning over the period 2019-2050 will be equivalent to <strong>one third</strong> as over the historical period from 2000 to 2023 (+0,743 kWh/m²/year) and reach <strong>24,9 kWh/m²</strong> in <strong>2050</strong>.</p>
 </div>
@@ -9678,7 +9735,7 @@ $\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
 <p><strong>Sanitary hot water</strong></p>
 <p>The demand for sanitary has continuously increased from 2000 to 2023 [1,2].</p>
 <br/>
-$\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
+<font color="#F58137"><b>Sufficiency Assumption</b></font>
 <p>As a sufficiency measure, we propose to contain the sanitary hot water demand to 2019 levels (305,0 kWh/person).</p>
 </div>
 </div>
@@ -9726,9 +9783,9 @@ $\textcolor{Orange}{\textbf{Sufficiency Assumption}}$
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><strong>Catering</strong></p>
-<p>While energy demand related to residential cooking decreased by -0,523 kWh/person/year from 2000 to 2023, it increased continuously by +4,297 kWh/person/year in the tertiary sector [1,2]. We project that this demand will have increased by a further 20% in 2050 compared to 2019.</p>
+<p>While energy demand related to residential cooking decreased by -0,237 kWh/person/year from 2000 to 2019 (-0,523 over 2000-2023, but see the JRC break flagged in §2.1.2), it increased continuously by +4,297 kWh/person/year in the tertiary sector [1,2]. We project that this demand will have increased by a further 20% in 2050 compared to 2019.</p>
 <br/>
-$\textcolor{Orange}{\textbf{Efficiency Assumption}}$
+<font color="#F58137"><b>Efficiency Assumption</b></font>
 <p>In addition, in order to limit greenhouse gas emissions, we prioritise the use of <strong>electric cookers</strong> and <strong>ovens</strong>. Nevertheless, we retain a 5% share of gas cooking by 2050, and we maintain the share of biomass (because we love wood-fired pizzas!).</p>
 </div>
 </div>
@@ -9790,7 +9847,7 @@ $\textcolor{Orange}{\textbf{Efficiency Assumption}}$
 <hr/>
 <p>En 2019, les réseaux de chaleur couvraient environ 2,4% de la demande dans le secteur tertiaire en Belgique.</p>
 <br/>
-$\textcolor{Orange}{\textbf{Efficiency Assumption}}$
+<font color="#F58137"><b>Efficiency Assumption</b></font>
 <p>As with the residential sector, we project that 15% of demand will be covered by district heating networks in 2050.</p>
 </div>
 </div>
