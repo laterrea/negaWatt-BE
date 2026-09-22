@@ -192,7 +192,7 @@ levers:
           fr: >
             Chauffage et climatisation sont les deux postes qui suivent la surface :
             {areaDrivenTwh} TWh sur {thermalTwh}, soit {areaDrivenSharePct} % de l'énergie
-            thermique du tertiaire. L'eau chaude et la cuisine suivent la population. Le
+            thermique du tertiaire. L'eau chaude et la restauration suivent la population. Le
             parc compte {stockMm2} millions de m², un peu plus du tiers de la surface des
             logements.
           nl: >
@@ -304,17 +304,22 @@ levers:
             Très irrégulière, et sans tendance nette pendant vingt ans : 81,6 kWh/m² en 2000,
             un pic à 114,5 en 2004, {refValue} en 2019. Puis une chute franche pendant la crise
             des prix de l'énergie : {sht2021} en 2021, {sht2023} en 2023 — {crisisDropPerYear}
-            kWh/m² par an, en deux ans. Les fluctuations pourraient également s'expliquer par la difficulté à produire ces statistiques (compétence régionale, différentes méthodologies).
+            kWh/m² par an, en deux ans. Les fluctuations pourraient également s'expliquer
+            par la difficulté à produire ces statistiques (compétence régionale,
+            différentes méthodologies).
           nl: >
             Zeer onregelmatig, en twintig jaar zonder duidelijke trend: 81,6 kWh/m² in 2000,
             een piek van 114,5 in 2004, {refValue} in 2019. Daarna een scherpe val tijdens de
             energieprijzencrisis: {sht2021} in 2021, {sht2023} in 2023 —
-            {crisisDropPerYear} kWh/m² per jaar, in twee jaar. De schommelingen zouden ook kunnen worden verklaard door de moeilijkheid om deze statistieken op te stellen (regionale bevoegdheid, verschillende methodologieën).
+            {crisisDropPerYear} kWh/m² per jaar, in twee jaar. De schommelingen zouden ook
+            kunnen worden verklaard door de moeilijkheid om deze statistieken op te stellen
+            (regionale bevoegdheid, verschillende methodologieën).
           en: >
             Highly irregular, and with no clear trend for twenty years: 81.6 kWh/m² in 2000, a
             peak of 114.5 in 2004, {refValue} in 2019. Then a sharp fall through the energy
             price crisis: {sht2021} in 2021, {sht2023} in 2023 — {crisisDropPerYear} kWh/m² a
-            year, over two years. The fluctuations could also be explained by the difficulty of producing these statistics (regional responsibility, different methodologies).
+            year, over two years. The fluctuations could also be explained by the difficulty
+            of producing these statistics (regional responsibility, different methodologies).
         source: JRC-IDEES-2023 (Belgium), floor areas from the EU Building Observatory
         url: http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f
       - kind: structure
@@ -496,17 +501,22 @@ levers:
             La recherche belge sur le chauffage bas — *SlowHeat* — porte presque entièrement
             sur le logement ; le tertiaire est encore peu étudié. Les obstacles n'y sont pas
             les mêmes : crainte d'une perte d'attractivité pour les commerces, et désaccord
-            entre occupants d'un même plateau de bureaux. Une thèse de doctorat entammée en 2024 à l'UCLouvain vise à étudier spécifiquement le *SlowHeat* dans le secteur tertiaire. 
+            entre occupants d'un même plateau de bureaux. Une thèse de doctorat entamée en
+            2024 à l'UCLouvain vise à étudier spécifiquement le *SlowHeat* dans le secteur
+            tertiaire.
           nl: >
             Het Belgische onderzoek naar laag stoken — *SlowHeat* — gaat bijna volledig over
             woningen; de tertiaire sector is nog weinig onderzocht. De obstakels zijn er
             anders: vrees voor verlies van aantrekkelijkheid bij winkels, en onenigheid tussen
-            gebruikers van dezelfde kantoorvloer. Een doctoraatsonderzoek dat in 2024 aan de UCLouvain is gestart, richt zich specifiek op het bestuderen van *SlowHeat* in de tertiaire sector.
+            gebruikers van dezelfde kantoorvloer. Een doctoraatsonderzoek dat in 2024 aan de
+            UCLouvain is gestart, richt zich specifiek op het bestuderen van *SlowHeat* in
+            de tertiaire sector.
           en: >
             Belgian research on low-temperature heating — *SlowHeat* — is almost entirely about
             housing; the service sector is still little studied. The obstacles there are not
             the same: fear of losing commercial appeal, and disagreement between the occupants
-            of a single office floor. A PhD thesis launched at UCLouvain in 2024 aims to specifically study *SlowHeat* in the tertiary sector.
+            of a single office floor. A PhD thesis launched at UCLouvain in 2024 aims to
+            study *SlowHeat* specifically in the service sector.
         source: nW-BE §3.1.2, citing De Grave & Van Moeseke (2024)
         url: https://pul.uclouvain.be/book/?GCOI=29303100724760
       - kind: tangible
@@ -768,16 +778,16 @@ levers:
         text:
           fr: >
             En hausse presque sans interruption : 244 kWh par personne en 2000, 319 en 2018.
-            Puis un creux en 2019-2020 (période COVID), et une remontée à {shw2023} en 2023 — le point le plus
-            haut de toute la série.
+            Puis un creux en 2019-2020 (période COVID), et une remontée à {shw2023} en
+            2023 — le point le plus haut de toute la série.
           nl: >
             Bijna zonder onderbreking gestegen: 244 kWh per persoon in 2000, 319 in 2018.
-            Daarna een dal in 2019-2020 (covidperiode), en een herstel naar {shw2023} in 2023 — het hoogste
-            punt van de hele reeks.
+            Daarna een dal in 2019-2020 (COVID-periode), en een herstel naar {shw2023} in
+            2023 — het hoogste punt van de hele reeks.
           en: >
             Rising almost without interruption: 244 kWh per person in 2000, 319 in 2018. Then a
-            trough in 2019-2020 (COVID period), and a rebound to {shw2023} in 2023 — the highest point of the
-            whole series.
+            trough in 2019-2020 (COVID period), and a rebound to {shw2023} in 2023 — the
+            highest point of the whole series.
         source: JRC-IDEES-2023 (Belgium); population Statbel
         url: http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f
       - kind: structure
