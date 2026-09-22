@@ -825,9 +825,9 @@ levers:
       nl: "Welk warmwaterverbruik van dienstengebouwen per persoon is een realistisch doel voor 2050?"
       en: "What service-building hot-water use per person is a realistic 2050 objective?"
     subtitle:
-      fr: "Chaleur utile dans l'eau chaude des bureaux, écoles, hôpitaux, hôtels et restaurants, rapportée à la population entière."
-      nl: "Nuttige warmte in het warme water van kantoren, scholen, ziekenhuizen, hotels en restaurants, betrokken op de volledige bevolking."
-      en: "Useful heat in the hot water of offices, schools, hospitals, hotels and restaurants, per head of the whole population."
+      fr: "Chaleur utile dans l'eau chaude des bureaux, écoles, hôpitaux, hôtels et restaurants, rapportée à la population entière. 1 kWh de chaleur correspond à environ 35 litres d'eau à 40°C."
+      nl: "Nuttige warmte in het warme water van kantoren, scholen, ziekenhuizen, hotels en restaurants, betrokken op de volledige bevolking. 1 kWh warmte komt overeen met ongeveer 35 liter water van 40 °C."
+      en: "Useful heat in the hot water of offices, schools, hospitals, hotels and restaurants, per head of the whole population. 1 kWh of heat corresponds to approximately 35 litres of water at 40°C."
     tangible:
       fr: "{value} kWh d'eau chaude par personne et par an, hors du domicile."
       nl: "{value} kWh warm water per persoon per jaar, buiten de woning."
