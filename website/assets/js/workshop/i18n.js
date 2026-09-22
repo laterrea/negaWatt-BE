@@ -100,8 +100,13 @@
       d = Math.abs(value) >= 1000 ? 0 : Math.abs(value) >= 10 ? 1 : 2;
     }
     var locale = { fr: "fr-BE", nl: "nl-BE", en: "en-GB" }[lang()] || "en-GB";
+    /* `decimals` is a ceiling, not a padding instruction. A lever needs two of
+       them to print a reference of 0,25 %, and with a fixed minimum the same
+       setting turned every answer on that slider into "7,50 %" and negaWatt's
+       own value into "15,00 %". Trailing zeros carry no information here — the
+       chart axes (spark.js `fmt`) keep theirs, so tick labels stay aligned. */
     return value.toLocaleString(locale, {
-      minimumFractionDigits: d, maximumFractionDigits: d
+      minimumFractionDigits: 0, maximumFractionDigits: d
     });
   }
 

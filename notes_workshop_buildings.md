@@ -15,28 +15,239 @@ Files touched by this round:
 - `nW_BE_demand_model_sub_functions.py`, `website/assets/js/workshop/impact.js` — the new
   `renovation` response kind (Q2)
 - `docs/workshop_module.md` — the "why", as a review-round section (§16) and decisions
-  D49-D53
+  D49-D55
 
 Status legend: ☐ todo · ◐ in progress · ☑ done · ⊘ dropped (with reason)
 
 ---
 
-## State of play — 2026-09-21, end of session
+## Second pass — 2026-09-21, review of the round itself
 
-**Done:** Q1 (all of it), **Q2 (all of it — the deep one)**, Q3, Q8, and the four
-`tangible` removals that were asked for.
-**Next up:** Q4, then Q5, Q6, Q7 in that order. Q4 carries a real modelling problem
-(item A below), Q7 carries two (items B and B-regional).
+Sylvain's instruction: *"some items have not been properly addressed (or too fast) — review
+the last changes and correct what is not correct or too quick and dirty."* This section is
+that pass. It re-derives the figures from the live sources rather than trusting the round,
+lists the six things that were wrong or cut short, and says plainly what is still open.
 
-Nothing is committed. `git status` should show the eight modified files listed above plus
-this tracker. The build is green:
+### What was re-checked against the source, and held
+
+Every load-bearing number of the round was fetched again, not re-read:
+
+| claim | checked against | verdict |
+|---|---|---|
+| Eurostat hot water flat 2016-2024 (the nine TJ figures hard-coded in the aux notebook) | `nrg_d_hhq` API, `FC_OTH_HH_E_WH`/`TOTAL`/TJ | **exact**, all nine |
+| PV concentration, 51,5 % in May-August | `nrg_cb_pem` API, `RA420`, BE, 2025 | **exact**: 5 360,3 of 10 404,1 GWh |
+| District-heat bars BE/FR/DE/EU27/DK/SE 2024 | `nrg_d_hhq`, derived heat ÷ (space heating + water heating) | **exact to two decimals**: 0,18 / 4,41 / 7,91 / 10,97 / 49,63 / 52,17 |
+| The curated 2016-2024 curve, "Eurostat scaled to the JRC 2019 point" | recomputed from the API at factor 0,25010/0,20638 | **all nine points reproduce**, ±0,005 pt |
+| Pipe losses 7,5 % of Belgian derived heat, 2019 | `nrg_bal_c`, `H8000`: DL 1 539,7 TJ over AFC+DL 20 569,6 | **7,49 %**, and the denominator is well chosen |
+| Flanders 908 delivered / 955 injected GWh, 2024 | VEKA *Warmtenetrapportering 2024*, PDF fetched | **exact** (loss 4,9 %) |
+| HRE4 Belgium 37 %, from 2 % in 2015, range 20-54 %, "slightly lower than the overall HRE average, which lies around 45 %" | HRE4 country roadmap, PDF fetched | **exact, and the 45 %-is-the-average reading is the report's own sentence** |
+| Q2's arithmetic (−0,458 kWh/m²/yr from 79,5; JRC rate 2,2610 %/yr sd 0,0084; implied depth 25,49 %; 0,60 × 2,24 = 1,344) | recomputed from `history_buildings.js` | **exact**, and the `renovation` impact response reproduces the summary bars (−2,97 and −4,93 TWh) to the digit |
+| the 21 source URLs of the topic | HTTP | all resolve; only tandfonline 403s to a bot (opens in a browser, but see below) |
+| "nothing downstream moved" | re-ran both notebooks | `buildings.js` and `data/energy_totals_overrides.csv` reproduce **byte for byte** |
+
+That is the good news, and it is most of the round: the bibliography, the arithmetic and the
+Q7 harmonisation are sound. What follows is what was not.
+
+### Fixed in this pass
+
+- ☑ **R1 — A negative floor on charts of a quantity that cannot be negative.**
+      The district-heat screen printed **−0,66** (and −2,22 for a larger answer) as the
+      y-axis minimum. `domain()` in `spark.js` pads the range by 12 % and then tries to snap
+      to a zero baseline, but the guard tested the *padded* minimum: once padding had pushed
+      it below zero the snap could never fire — exactly the case that needs it. Now tested on
+      the unpadded minimum. Also affected `cooling`, `ter-cooling` and `air-freight`; the
+      round exposed it on district-heat by giving the lever an observed curve, where it
+      previously had none. Verified in the browser: the floor now reads 0,00.
+- ☑ **R2 — `decimals: 2` padded every answer on the screen, not just the reveal.**
+      The round set two decimals so the 0,25 % reference would stop rounding to 0,3, and
+      recorded the "15,00 %" on the reveal as *"ugly, but it is what stops 0,25 becoming
+      0,3"*. It was worse than recorded: the play readout and the `tangible` sentence showed
+      **"7,50 %"** for every answer on a 0,5-point slider, and cooling showed "2,70". Fixed
+      at the root, in the three places a number is rendered: `i18n.js num()` (the page),
+      `spark.js fmt()` (chart and dot-plot labels) and `format_number` in
+      `build_workshop_content.py` (the `{placeholder}`s baked into the prose). `decimals` is
+      a **ceiling** in all three now. The third is the one that mattered: *"négaWatt retient
+      15,00 %"* is written into the reveal **at build time**, so the two JS fixes alone left
+      it standing — worth knowing that a formatting change here needs a rebuild, not just a
+      reload. An explicit `{x:d2}` still forces two decimals, which is what it is for
+      (checked: `{airKwhPerTkm2019:d2}` still prints 0,90). Checked across all four topics:
+      0,25 → 15 %, 0 → 2 °C, 1,22 → 2 personnes/voiture, 7,5 – 27 min-max. No figure loses a
+      digit. *Three lines; revert them if the padded style was wanted.*
+- ☑ **R3 — The Flemish 113 GWh was read as an end-use when it is a carrier.**
+      VEKA's Figure 4 splits delivered energy by *fluid* — `Warm water`, `Stoom`, `Koude` —
+      crossed with sector. "Warm water aan residentiële sector 113 GWh" is **all heat piped
+      to homes** (steam goes to industry; residential steam was 0 in 2024), not domestic hot
+      water. The card said *"113 GWh d'eau chaude aux logements"*, which a Flemish reader
+      will hear as sanitary hot water. Now "113 GWh de chaleur aux logements (des réseaux à
+      eau chaude ; la vapeur va à l'industrie)", in the three languages, and the same
+      correction in `docs/workshop_module.md`. The argument it carries is unchanged, and in
+      fact stronger: 113 GWh is *all* of Flemish household network heat against Eurostat's
+      129 GWh for Belgium.
+- ☑ **R4 — The cooking trend was two thirds data break, and the card explained it with
+      behaviour.** `ref_RS_cook_trend = −1,6 kWh/household/year` is a 2000-2023 fit of a JRC
+      series that steps from 102,0 ktoe (2021) to 77,1 (2022) — a quarter of the total in one
+      year. Eurostat cooking is flat across that step (5 507 TJ in 2021, 5 517 in 2022) and
+      falls only in 2023-24, where a gas-to-induction switch belongs, in *delivered* energy.
+      Over the clean window the slope is **−0,94 kWh/household/year (2000-2019)**, barely
+      −4 % in twenty years. The round flagged this and left the number on the card, under the
+      sentence *"l'explication avancée est le changement des habitudes culinaires"* — a data
+      artefact wearing a behavioural story, on a card a participant is invited to check.
+      Now: notebook §2.1.2 restates the trend on 2000-2019 with a note on why it stops there,
+      the tertiary §-cell's companion figure likewise (−0,523 → **−0,237 kWh/person/year**),
+      `ref_RS_cook_trend` follows, and the card and its `historyNote` say the window and the
+      reason. `ref_RS_tes_cok` (the 2019 anchor) and the +15 % assumption read nothing after
+      2019, so **the scenario does not move**: `buildings.js` and
+      `data/energy_totals_overrides.csv` reproduce byte for byte.
+- ☑ **R5 — The Q4 `debate` hand-typed the model's shower recipe.** It read
+      *"la recette (5 min × 7 l/min) fait 35 litres"* while the `justification` three lines
+      above interpolates `{showerMinutes}` and `{showerFlow}` for the same two numbers —
+      rule 3, and the build cannot see it. Now `{showerMinutes} min × {showerFlow} l/min` and
+      a new model fact `showerLitresMixed` (= 35, spoiler-flagged) for the product.
+- ☑ **R6 — The new PV chart cost five sixths of a printed card.** Measured at print width,
+      the twelve monthly bars made one fact **105,7 mm** tall on a 128 mm A5 card — the
+      module's stated budget is ~25 mm a plot. A horizontal bar costs ~6 mm, so the cost is
+      the bar *count*, which the README did not say. Recast as **six two-month bars**
+      (688 / 2 303 / **2 743** / **2 617** / 1 477 / 575 GWh): the seasonal hump survives,
+      and the two amber bars now sum to exactly the 5 360 GWh the sentence quotes. The card
+      drops from 224,5 to 186,4 mm. README's plot-cost rule corrected.
+- ☑ **R7 — Q7's two 2024 figures, reconciled on the card that shows them.**
+      The benchmark bars put Belgium at **0,18 %** (raw Eurostat) while the main curve ends
+      at **0,22 %** (the same series rescaled to the JRC anchor) — the same country, the same
+      year, two numbers on one screen, which is the complaint that opened Q7. Both are right
+      and the trend card explains the splice, but the reader meets the bars first. One clause
+      added to the benchmark card in the three languages.
+
+- ☑ **R8 — "2,3 % du parc rénové chaque année" is right, and reads as wrong.** Sylvain's
+      objection: the renovation rate is *notoriously around 1 %*, so a slider opening at 2,3
+      looks like an error. Checked, and the number is arithmetically exactly what JRC-IDEES
+      books — but it is not a renovation rate in any sense a practitioner would recognise.
+
+      **The check.** `new_ren_households_useful_surface_area` reproduces to within 0,13 Mm²
+      (0,02 % of the stock) over twenty-three years as `ΔStock + 0,02261 × Stock`. The
+      "renovation" component is therefore not a residual of anything observed: JRC-IDEES
+      *books it as a fixed parameter*, 2,261 %/year, sd 0,0084 points — **one pass over the
+      stock every 44,2 years**. The tracker already called it "a convention of the dataset";
+      the reconstruction proves it, and gives the convention a physical meaning.
+
+      **Why 2,3 and 1 are both right.** They count different things. *A Renovation Wave for
+      Europe* (COM(2020) 662) states all three of the numbers in circulation, verbatim:
+      "only **11%** of the EU existing building stock undergoes some level of renovation each
+      year"; "The **weighted annual energy renovation rate** is low at **some 1%**"; "deep
+      renovations that reduce energy consumption by **at least 60%** are carried out only in
+      **0.2%** of the building stock per year". The familiar 1 % is the *energy-weighted*
+      rate; JRC's 2,26 % is a headcount of floor area at any depth. Nothing was wrong — the
+      card simply never said which of the five or six possible rates it meant.
+
+      **The number the split cannot move.** Any (rate, depth) pair on the observed trajectory
+      gives the same product, so the honest invariant is `rate × depth` — the pace expressed
+      as *share of the stock taken to zero heating need each year*. Observed: **0,58 %/year**.
+      That is the like-for-like companion to the Commission's weighted 1 %, and it is a new
+      model fact (`deepEquivObs`), not a hand-computed one.
+
+      **What this does to the reveal, which is the real gain.** The Commission's threshold for
+      a *deep* renovation is ≥ 60 % — numerically the depth this scenario assumes. So
+      négaWatt's pair reads directly as **2,24 % of the stock deep-renovated every year
+      against the 0,2 %/year observed EU-wide**, about ten times more, and **1,34 %/year in
+      full-renovation equivalent against 0,58 % observed, 2,33×**. That is a far stronger and
+      far less complacent punchline than "the same number of renovations, only deeper", which
+      is what the screen said before and which invites exactly Sylvain's reaction in reverse —
+      *"so nothing much has to change"*.
+
+      **Changed:** the subtitle now warns, at the point of contact, that this is not the 1 %
+      figure and says why; the card *Ce que compte un « taux de rénovation »* carries the
+      three Commission figures with the primary source, states the 44-year cycle and the
+      0,58 % invariant, and its plot is now **seven rates on one scale** — 11 / 2,26 / 1 /
+      0,88 / 0,58 / 0,2 / 0,09 — with the project's 2,26 in amber, so a participant sees
+      exactly where the anchor sits among the numbers they have heard. The reveal and the
+      `historyNote` follow. Three new facts: `deepEquivObs`, `deepEquivTarget`,
+      `deepEquivRatio` (the last two spoiler-flagged).
+
+      **Paid for by dropping a chart.** The Walloon four-bar plot went: its 0,88 and 0,09 are
+      now on the seven-rate chart, and its 3 % / 5,22 % remain in its own sentence. The card
+      goes from three plots at 249 mm to two at 263 mm — still the tallest in the topic, and
+      the one to trim first if the printed set has to shrink.
+
+      **Not changed: any model input.** `ref_RS_cook_trend`-style corrections were not needed
+      here — the rate/depth pair still reproduces the observed −0,458 kWh/m²/year exactly, and
+      `buildings.js` and `data/energy_totals_overrides.csv` reproduce byte for byte.
+
+### Print density, finally measured
+
+The tracker twice deferred this ("Sylvain's call", "do that before a session"). Measured at
+print width with the print stylesheet applied, card height in mm (A5 target 128 mm; an A4
+page holds 277 mm of cards):
+
+| card | facts | plots | before | after |
+|---|---|---|---|---|
+| `floor-area` | 6 | 1 | 192 | 192 |
+| `renovation-rate` | 4 | 3 → **2** | 249 | **263** |
+| `renovation-depth` | 4 | 1 | 191 | 191 |
+| `thermostat` | 4 | 0 | **128** | 128 |
+| `hot-water` | 4 | 1 | 172 | 172 |
+| `cooling` | 5 | 1 | 225 | **186** |
+| `cooking` | 4 | 0 | **128** | 134 |
+| `district-heat` | 5 | 1 | 239 | 243 |
+
+Nothing is clipped — the print CSS is `min-height: 128mm; height: auto; break-inside: avoid`,
+so a long card grows rather than losing a fact. But "two A5 cards to an A4 page" is fiction
+for this topic: it needs about **six pages, not four**. Two readings the tracker did not have:
+
+- **Plots, not fact counts, drive the height.** `renovation-rate` is the tallest card in the
+  topic with only four facts, because of its plots. `floor-area`, the card the tracker
+  worried about at six facts, is 71 mm shorter. (R8 later traded one of its three plots for
+  a longer and much more useful one, so it now stands at 263 mm with two.)
+- **Prose length is the other half.** The single longest fact in the topic is
+  district-heat's *Trois Régions* at 60 mm — four regional figures in one paragraph.
+
+Trimming is editorial and is left alone here. The cheapest cuts, if wanted: drop
+`renovation-rate`'s heating-need curve (−35 mm; its four figures are all in the sentence
+beside it), and split or shorten *Trois Régions*.
+
+### Still open, deliberately
+
+- **History series labels are English on the FR and NL pages.** Every main chart prints
+  *"Source: Residential floor area per person — JRC-IDEES-2023…"* in all three languages,
+  because `make_history_series` exports a single English `label`. Systemic and pre-existing
+  — all four topics, every generated series. The curated district-heat block is the only one
+  with a trilingual label, which is what makes the gap visible. Fix route: a trilingual
+  `label` in `make_history_series`, or a `history.<key>` string family in `ui.yaml`. Not done
+  here because it touches the transport topics, which this review does not cover.
+- **The prebound source is paywalled.** Sunikka-Blank & Galvin (2012) is on tandfonline
+  behind a paywall, against rule 2's *"a participant who doubts a figure must be one click
+  from checking it"*. It is the canonical source and the numbers are right; an open mirror or
+  a second, open citation would close it.
+- **Q6's slider still has no observed curve.** With the trend now honest, exporting
+  `res_cooking_per_household` truncated at 2019 would be defensible. Not done: the same
+  Eurostat reconstruction that fixed hot water is *not* valid here, because a gas-to-induction
+  switch moves delivered energy while leaving useful heat alone, so scaling useful by
+  delivered would import the electrification into a series that should not see it. That is
+  the difference between Q4 and Q6, and it is why one was reconstructed and the other stops.
+- **Tertiary.** `ter-district-heat` still quotes Eurostat on an all-energy denominator (the
+  same fault as the old 0,2 %), and `ter-insulation` still asks kWh/m² where residential now
+  asks rate × depth. Both were already recorded as the next topic's work.
+- **The 45 % slider ceiling** is still a literal in `_add("district-heat", …)` rather than
+  `ref_dhn_potential_pct`, so the comment explaining the 45/37 distinction sits next to a
+  constant the slider does not read. Harmless today; worth one line when the lever is next
+  touched.
+- **One aux-notebook cell has no `id`.** Cell 31 (the aviation detail) predates this round —
+  it is already id-less at HEAD — but `nbformat` now warns that this "will become a hard
+  error in future versions". A one-key fix, left alone here only because re-serialising that
+  notebook would churn a file this review did not otherwise touch.
+
+---
+
+## State of play — 2026-09-21, Q7 closed
+
+**Done:** Q1, Q2, Q3, Q4, Q5, Q6, **Q7**, Q8, and the four `tangible` removals.
+The residential-heat tracker is empty.
+
+Nothing is committed. The build is green:
 
 ```bash
 python scripts/build_workshop_content.py --check
 ```
 
-30 levers · 156 facts · 28 plots (the residential topic now has eight questions, not
-seven). The rest of the suite is green too:
+30 levers · 160 facts · 31 plots. The rest of the suite is green too:
 
 ```bash
 python scripts/verify_workshop_export.py    # 327 checks
@@ -264,10 +475,37 @@ print has not been eyeballed — do that before a session, together with Q1's si
 >   bain, ...)
 
 - ☑ **4.1** Remove the `tangible` card — *done*
-- ☐ **4.2** Cross-check the 2019→2023 fall (675 → 435 kWh/person) against independent
-      sources; fix the notebook if the series is wrong
-- ☐ **4.3** Fact card quantifying concrete ways to cut hot water (low-flow head, shower
-      vs bath, shower length, waste-water heat recovery)
+- ☑ **4.2** Cross-check the 2019→2023 fall (675 → 435 kWh/person) — *done, and JRC is
+      wrong.* Eurostat `nrg_d_hhq`, Belgium, water heating, TOTAL, TJ (updated 2026-06-09):
+      43 175 (2019), 43 131 (2020), 43 409 (2021), 43 645 (2022), 43 510 (2023), 43 268
+      (2024). Flat. JRC useful DHW 663,4 → 437,7 ktoe would imply conversion efficiency
+      collapsing from 64 % to 42 %. Cooking from the same Eurostat table is also flat
+      through 2022 (+0,7 %), so the 2020 JRC DHW drop is not "people were home".
+      **Choices:** (1) keep `ref_RS_tes_shw` at the 2019 JRC value — Eurostat shows 2019 is
+      typical, not a peak; rebasing on 2023 JRC would lock the artefact in. (2) reconstruct
+      2020-2023 from Eurostat delivered energy at the 2019 useful/final ratio, rather than
+      truncate — truncating hid four years of a series that is, on the delivered-energy
+      evidence, essentially flat. (3) leave the 2050 target alone — it is a shower recipe,
+      not a reading of this series. Documented in the buildings notebook §2.1.2, the aux
+      notebook next to the DHW array, D54, and `res_hot_water_per_person`'s `note`. The JRC
+      arrays themselves stay as transcribed.
+- ☑ **4.3** Fact card quantifying concrete ways to cut hot water — *done*, `lever` card
+      *Ce qui coupe vraiment les kWh*. Flanders 2023: shower is 26 % of 80 l/person/day of
+      tap water ≈ 21 litres (VMM, URL checked). Drain heat exchanger: up to 40 % of DHW
+      energy on a shower, nothing on a bath, because it needs simultaneous flow; European
+      showers last 4,5–8,5 minutes (Sevela et al., REHVA Journal, URL fetched). Low-flow
+      and shorter showers are stated as proportional cuts, without an unsourced "12 l/min
+      standard" figure.
+      **Not found, do not invent:** a Belgian litre-per-bath volume. The bath point on the
+      card is the one REHVA actually measures (WWHR cannot recover a tub fill).
+      **One URL for two sources**, same pattern as Q1's IWEPS+Statbel: the card opens the
+      VMM indicator (the Belgian number a participant will want to check); REHVA is named
+      in `source:` and recorded here.
+
+      The reveal `debate` now carries the friction this card creates with the scenario:
+      5 min × 7 l/min = 35 litres of mixed water, against 21 litres already used for
+      showers in Flanders. The "sufficient" shower is more generous than today's Flemish
+      average.
 
 ## Q5 — `cooling` · Climatisation
 
@@ -277,8 +515,19 @@ print has not been eyeballed — do that before a session, together with Q1's si
 >   locale avec la production photovoltaïque, ce qui n'est que partiellement pris en compte
 >   dans le modèle negawatt BE
 
-- ☐ **5.1** Fact card: the 2026 Belgian heatwave, the debate, AC sales
-- ☐ **5.2** Fact card: AC demand vs local PV production, and how the model treats it
+- ☑ **5.1** Fact card: the 2026 Belgian heatwave, the debate, AC sales — *done*.
+      Replaces the `tangible` 100 m² arithmetic (the 44 kWh was already implied by the
+      trend number; print space was needed). IRM summer bulletin (PDF, 2026-09-01):
+      20,3 °C at Uccle, first time above 20 °C, three heatwaves, 40,4 °C at Houyet on
+      27 June. Frixis via Belga/De Tijd (2026-08-07): 134 178 fixed ACs in H1, +47 %,
+      740/day, *before* the July and August waves. URL opens the IRM PDF; Frixis is
+      named in `source:` (same dual-citation pattern as 4.3).
+- ☑ **5.2** Fact card: AC vs local PV, and how the model treats it — *done*, `caution`.
+      Eurostat `nrg_cb_pem` 2025: 51,5 % of Belgian PV electricity in May–August
+      (5 360 / 10 404 GWh), with the monthly bars. The demand model only carries an
+      annual kWh/m², so the hourly coincidence is not calculated here; downstream the
+      annual total is shaped into a load curve approximately. The scenario's rejection
+      of "AC to soak up PV" stays on the reveal (justification), not on this card.
 
 ## Q6 — `cooking` · Cuisine domestique
 
@@ -287,8 +536,22 @@ print has not been eyeballed — do that before a session, together with Q1's si
 >   influence, et comment c'est pris en compte dans le modèle
 
 - ☑ **6.1** Remove the `tangible` card — *done*
-- ☐ **6.2** Fact card: cooking electrification (gas vs induction), efficiency, and how the
-      model handles it
+- ☑ **6.2** Fact card: cooking electrification (gas vs induction), efficiency, and how the
+      model handles it — *done*. `lever` card *Gaz ou induction*, before the reveal.
+      ENERGY STAR (Frontier Energy, July 2019, URL checked): ~85 % of induction energy
+      reaches the vessel, vs a third for gas. Eurostat `nrg_d_hhq` cooking, Belgium,
+      electricity / TOTAL (updated 2026-06-09): 67,1 % in 2019 (3 673 / 5 476 TJ),
+      73,8 % in 2024 (3 388 / 4 590 TJ) — written 67 % and 74 %. The slider is useful
+      heat per household; the gas share is a separate carrier assumption
+      (`ref_RS_tes_cok_gas` = 26,8 % of *useful* heat in 2019, not the same as
+      Eurostat's 28,8 % of *delivered* energy). The 2 % 2050 target stays on the
+      reveal (`gasShareTarget` is already a spoiler). URL opens ENERGY STAR; Eurostat
+      is named in `source:` (same dual-citation as 4.3 / 5.1).
+      **Not fixed here:** JRC cooking useful energy still breaks in 2022 (102,0 →
+      77,1 ktoe) while Eurostat cooking is flat through 2022 then drops in 2023–24.
+      The play page already declares `historyAbsent`; the trend card's
+      −1,6 kWh/household/year still uses the contaminated 2000–2023 polyfit. Same
+      stain as item A, recorded rather than spliced.
 
 ## Q7 — `district-heat` · Réseaux de chaleur
 
@@ -309,14 +572,51 @@ print has not been eyeballed — do that before a session, together with Q1's si
 >   les pertes sont non négligeables!
 > Question à revoir en profondeur!
 
-- ☐ **7.1** Fix the 0.3 % / 0.2 % inconsistency; put every figure on a *heat* denominator
-- ☐ **7.2** Bibliographic pass: harmonise the Belgian share, find the regional figures
-      (Flanders ≫ Wallonia) and a historical trend for the main chart
-- ☐ **7.3** GIS potential (Heat Roadmap Europe & co) vs the regional ambitions of
-      Flanders, Wallonia and Brussels
-- ☐ **7.4** Fact card: what a network buys you (central generation, seasonal storage, cold
-      source, waste-heat recovery) — and that in *consumption* terms it is not an
-      advantage, because network losses are real
+- ☑ **7.1** Fix the 0,3 % / 0,2 % inconsistency; put every figure on a *heat* denominator
+      — *done* (D55). The 0,3 % was JRC useful energy 0,25 % rounded by a 1-decimal
+      slider; the 0,2 % was Eurostat derived heat over *all* household energy. On heating
+      + hot water, Eurostat is 0,21 % in 2019 and 0,18 % in 2024, next to JRC 0,25 %.
+      `decimals: 2` so `{refValue}` prints 0,25. International bars are now that same
+      heat basis (BE 0,18 / FR 4,4 / DE 7,9 / EU27 11,0 / DK 49,6 / SE 52,2 in 2024).
+- ☑ **7.2** Bibliographic pass: Belgian share, regional figures, historical trend —
+      *done*. Eurostat `nrg_d_hhq` 2016-2024 is the main-chart series (D15), scaled to
+      the JRC 2019 point so slider and curve meet. Raw delivered shares stay between
+      0,17 and 0,22 %. Regional volumes, all opened:
+      Flanders VEKA 2024: 908 GWh all customers, 113 GWh hot water to homes, 955 GWh
+      injected; Wallonia SPW Art. 25: 237 GWh (2016) → 304 GWh (2021), all sectors;
+      Brussels Environnement 2024: 99 GWh on six networks in 2021, campuses/hospitals.
+      **The recollection of "0,5 % Wallonia and much more Flanders" is this GWh gap,
+      not a household-heat share.** Flanders' 113 GWh is most of Eurostat's 129 GWh
+      (465 TJ) of Belgian household district heat; a Flemish *share* of Flemish
+      household heat is not on the card because no regional household-heat
+      denominator opened. The 0,4 % of Walloon *all-sector* heat in 2016 (237 GWh /
+      ~63 TWh) is the slide that memory comes from; the official 2024 synthesis quotes
+      GWh, not that percentage, so the card quotes GWh.
+- ☑ **7.3** GIS potential vs regional ambitions — *done*. Heat Roadmap Belgium (HRE4)
+      retains **37 %** of built-environment heat excluding industry by 2050 (from ~2 %
+      in 2015), economic range 20–54 %. The notebook's 45 % is the Heat Roadmap
+      *average* (Lund et al.); §2.1.3 now says so. PATHS2050 stays at the notebook's
+      13 % for all buildings. Flanders VEKP: 2 400 GWh delivered by 2030 (all
+      customers, ~2,6× 2024). Wallonia: no share target of its own. Brussels: 70 % of
+      2050 demand in a very-high-density zone, and for ~40 % of that demand a
+      low-temperature network would be the best techno-economic option (évaluation
+      chaleur-froid 2024). Slider max stays 45 %; 15 % target untouched.
+- ☑ **7.4** Fact card: what a network buys you, and the losses — *done*. `caution`,
+      retitled *Ce que le réseau achète*: central generation, seasonal storage, cold
+      source (district cooling excluded). Flanders pipe losses ~5 % (955 injected /
+      908 delivered, 2024); Eurostat national distribution losses 7,5 % of derived
+      heat in 2019 (1 540 / 20 570 TJ). Demand-model blindness kept: the lever does
+      not move useful energy at the dwelling.
+
+      ⚠ **Print density.** Q7 now carries **five** pre-answer cards plus a bar chart,
+      against the four the module aims for. GIS is the densest; on A5 it will wrap.
+      A side effect of `decimals: 2` is the reveal printing **15,00 %**; ugly, but it
+      is what stops 0,25 becoming 0,3 again.
+
+      **Not done / next topic:** `ter-district-heat` still quotes Eurostat on an
+      all-energy denominator (2,2 % of service-sector energy). Same stain as the old
+      0,2 %, left for the tertiary pass. Cooking's JRC 2022 break (Q6) is still
+      flagged, not spliced.
 
 ## Q8 — Summary screen ("C'est envoyé, merci")
 
@@ -353,22 +653,21 @@ Fixed by making that case explicit rather than fatal:
 
 *(inconsistencies in the notebook itself — things the workshop cannot fix by wording)*
 
-**A. The hot-water series has a step the world does not.** (Q4, item 4.2 — confirmed, not yet
-fixed.) JRC-IDEES residential hot water runs **663,4 ktoe (2019) → 570,6 (2020) → 456,8
-(2022)**. A −14 % step in 2020 is the wrong direction: people were at home more that year, and
-the cooking series *from the same dataset* moves **+7 %** over the same step. Something is
-wrong upstream of the model, and the workshop inherits it — the curve the participant extends
-in Q4 falls from 675 to 435 kWh/person for no reason anyone can name at the table. Cross-check
-against Eurostat `nrg_d_hhq` before touching the notebook; if JRC is wrong, the reference year
-choice for `ref_RS_tes_shw` needs revisiting too.
+**A. The hot-water series had a step the world does not.** (Q4, item 4.2 — fixed, D54.)
+JRC-IDEES residential hot water runs **663,4 ktoe (2019) → 570,6 (2020) → 456,8 (2022) →
+437,7 (2023)**. Eurostat `nrg_d_hhq` delivered energy for the same end-use is flat at
+~43 000 TJ every year 2016-2024. The workshop curve keeps JRC through 2019 and
+reconstructs 2020-2023 from Eurostat at the 2019 useful/final ratio; `ref_RS_tes_shw`
+stays the 2019 JRC value; the 2050 target is still the shower recipe. The JRC arrays in
+the aux notebook are unchanged (they are the transcription). Cooking on the same JRC
+sheet has a 2022 break that Eurostat also does not show — later item, Q6.
 
-**B. The two district-heating shares are on two different denominators.** (Q7, item 7.1 —
-diagnosed, not yet fixed.) `ref_RS_tes_dhn = 10.823/(3664.049+663.435)` = 0,25 %, rendered as
+**B. The two district-heating shares were on two different denominators.** (Q7, item 7.1 —
+fixed, D55.) `ref_RS_tes_dhn = 10.823/(3664.049+663.435)` = 0,25 %, formerly rendered as
 "0,3 %", is a share of **heat** (space heating + sanitary hot water). The 0,2 % on the
-international-comparison card is Eurostat derived heat over **all household energy**,
-appliances included. Neither is regional, which is the third problem: your recollection of
-~0,5 % for Wallonia and much more for Flanders is a regional split the model does not carry at
-all. Fixing 7.1 means picking one denominator (heat) and putting every figure on it.
+old international card was Eurostat derived heat over **all household energy**. On a heat
+denominator Eurostat is 0,21 % in 2019. Regional GWh (Flanders 113 GWh to homes, Wallonia
+304 GWh all sectors, Brussels 99 GWh) are volumes, not household-heat shares.
 
 **C. A floor-area unit trap, already handled but worth knowing.** `nW_BE_demand_data_aux.ipynb`
 cell 34 documents it: cell 15's `floor_area` scales the JRC tertiary figures by `1e6` where
@@ -377,6 +676,44 @@ If anything else in the notebooks reads cell 15's `floor_area`, it is six times 
 
 ## Log
 
+- 2026-09-21 — **R8: the renovation rate that looked wrong.** 2,26 %/year is exactly what
+  JRC-IDEES books — proved by reconstructing the series as `ΔStock + 0,02261 × Stock` to
+  0,02 % of the stock, i.e. one pass every 44 years — but it is a headcount at any depth, not
+  the energy-weighted ~1 % everyone quotes. Card now carries the Commission's own three
+  figures (11 % / 1 % / 0,2 % at ≥ 60 %) and a seven-rate plot with the anchor in amber, plus
+  the split-invariant 0,58 %/year full-renovation equivalent. The reveal gains its real
+  punchline: 2,24 %/year *at the EU's own "deep" threshold*, against 0,2 % observed. D59.
+- 2026-09-21 — **Review pass over the round** (R1-R7, see "Second pass" above). Six defects
+  fixed: the negative chart floor in `spark.js domain()`; `decimals` now a ceiling rather
+  than padding, killing "7,50 %" and "15,00 %"; VEKA's 113 GWh re-read as a carrier, not an
+  end-use; the cooking trend rebased on 2000-2019 (−0,94, not −1,6 — the rest was a JRC
+  step); the Q4 debate's shower recipe read from the model instead of typed; the twelve-bar
+  PV plot compacted to six two-month bars after measuring it at 106 mm on a 128 mm card.
+  Every load-bearing figure of the round was re-fetched from Eurostat, VEKA and HRE4 and
+  held. Print density measured at last: the topic needs six A4 pages, not four. Scenario
+  numerically unchanged — `buildings.js` and `energy_totals_overrides.csv` reproduce byte
+  for byte. D56-D58.
+- 2026-09-21 — **Q7 closed.** All district-heat shares sit on heating + hot water.
+  Slider prints 0,25 % (was 0,3). Main chart is Eurostat 2016-2024 scaled to JRC 2019.
+  Regional GWh (Flanders 113 / Wallonia 304 / Brussels 99), HRE4 37 % vs Lund 45 %,
+  losses 5 % Flanders / 7,5 % Eurostat. Reveal now says 4,2 TWh connected, not 27,9.
+  D55. Tertiary sister lever still on an all-energy denominator.
+- 2026-09-21 — **Q6 closed.** New `lever` card on induction vs gas (ENERGY STAR 85 % /
+  one third; Eurostat electricity share of delivered cooking energy 67 % → 74 %). The
+  slider is useful heat; the carrier split is a separate assumption, not spoiled.
+  JRC cooking's 2022 break is flagged, not spliced (`historyAbsent` already).
+- 2026-09-21 — **Q5 closed.** Summer-2026 card (IRM + Frixis via Belga) replaces the
+  cooling `tangible`; AC/PV caution with Eurostat `nrg_cb_pem` 2025 monthly bars
+  (51,5 % of Belgian PV in May–August). Hourly coincidence is not in the demand model.
+- 2026-09-21 — **Q4 curve reconstructed, not truncated.** 2020-2023 useful DHW is now
+  Eurostat `nrg_d_hhq` scaled at the 2019 useful/final ratio (flat ~665–675 kWh/person,
+  against JRC's crash to 435). 2019 JRC reference and 2050 shower recipe unchanged.
+- 2026-09-21 — **Q4 closed.** Eurostat `nrg_d_hhq` is flat 2016-2024 for Belgian water
+  heating; JRC useful-energy DHW after 2019 is an artefact (implied efficiency 64 % → 42 %).
+  Workshop curve reconstructed 2020-2023 from Eurostat at the 2019 useful/final ratio
+  (later correction: not truncated). 2019 reference kept; 2050 recipe untouched. New `lever`
+  card on flow / duration / WWHR (VMM + REHVA). Debate now flags that the recipe's 35 l
+  mixed shower exceeds Flanders' 21 l average. D54.
 - 2026-09-21 — **Q2 closed.** `insulation` split into `renovation-rate` ×
   `renovation-depth`; notebook §2.1.1 gained the renovation reading (one new assumption, the
   60 % depth; the rate derived); `res_renovation_rate` un-mislabelled in the aux notebook;

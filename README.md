@@ -330,8 +330,10 @@ trilingual; the numbers are sourced — the chart inherits the fact's `source`/`
 carries its own pair, and the build refuses a plot whose source cannot be opened. A
 plotted value equal to négaWatt's target is refused too, unless the fact is `reveal:
 true`. Prefer plotting the numbers the sentence already quotes: the chart then adds a
-shape, not a claim. On paper a plot costs roughly 25 mm of an A5 card, so print
-`cards.html` and look before a session.
+shape, not a claim. On paper a `line` plot costs a fixed ~31 mm of an A5 card, but a `bars`
+plot costs about **6 mm per bar** — twelve monthly bars took 106 mm of a 128 mm card — so
+keep a bar chart to about six categories, and print `cards.html` before a session. Measure
+it rather than guess: apply the print stylesheet at 190 mm width and read the card heights.
 
 ### No sessions: a group, a topic, a date
 

@@ -1032,9 +1032,9 @@ window.NW_WS_CONTENT = {
             "en": "{value} people per car, averaged over every trip."
           },
           "justification": {
-            "fr": "négaWatt retient 2,00 personnes par voiture, contre 1,22 en 2019 (+63,8 %), grâce au covoiturage. Cette seule hypothèse fait passer l'énergie des voitures de 57,5 TWh en 2019 à 6,95 TWh en 2050, avec le report modal et l'électrification.",
-            "nl": "negaWatt kiest 2,00 personen per auto, tegenover 1,22 in 2019 (+63,8 %), dankzij carpoolen. Deze ene veronderstelling brengt de auto-energie van 57,5 TWh in 2019 naar 6,95 TWh in 2050, samen met de modale verschuiving en de elektrificatie.",
-            "en": "negaWatt settles on 2.00 people per car, against 1.22 in 2019 (+63.8%), through carpooling. This assumption alone helps take car energy from 57.5 TWh in 2019 to 6.95 TWh in 2050, together with the modal shift and electrification."
+            "fr": "négaWatt retient 2 personnes par voiture, contre 1,22 en 2019 (+63,8 %), grâce au covoiturage. Cette seule hypothèse fait passer l'énergie des voitures de 57,5 TWh en 2019 à 6,95 TWh en 2050, avec le report modal et l'électrification.",
+            "nl": "negaWatt kiest 2 personen per auto, tegenover 1,22 in 2019 (+63,8 %), dankzij carpoolen. Deze ene veronderstelling brengt de auto-energie van 57,5 TWh in 2019 naar 6,95 TWh in 2050, samen met de modale verschuiving en de elektrificatie.",
+            "en": "negaWatt settles on 2 people per car, against 1.22 in 2019 (+63.8%), through carpooling. This assumption alone helps take car energy from 57.5 TWh in 2019 to 6.95 TWh in 2050, together with the modal shift and electrification."
           },
           "debate": {
             "fr": "La revue qualifie cette hypothèse de « la plus déterminante et la moins étayée de tout le modèle » : aucun pays n'a durablement dépassé 1,6 par la seule politique publique, et la ramener à 1,5 augmenterait d'un tiers la consommation des voitures.",
@@ -3427,9 +3427,9 @@ window.NW_WS_CONTENT = {
             "en": "Renovation rate"
           },
           "subtitle": {
-            "fr": "En part de la surface habitable, et au sens des données du projet : une rénovation y est comptée quelle que soit sa profondeur, et la construction neuve est comptée à part. La profondeur fait l'objet de la question suivante.",
-            "nl": "Als aandeel van de woonoppervlakte, en in de zin van de projectdata: een renovatie telt er mee ongeacht haar diepte, en nieuwbouw wordt apart geteld. De diepte is het onderwerp van de volgende vraag.",
-            "en": "As a share of floor area, and on the project's data's count: a renovation is counted there whatever its depth, and new construction is counted separately. The depth is the next question."
+            "fr": "En part de la surface habitable, et au sens des données du projet : une rénovation y est comptée quelle que soit sa profondeur, et la construction neuve est comptée à part. La profondeur fait l'objet de la question suivante. Attention, ce n'est pas le « 1 % » habituellement cité : celui-là pondère chaque chantier par l'énergie qu'il économise. La fiche « Ce que compte un taux de rénovation » met les deux côte à côte.",
+            "nl": "Als aandeel van de woonoppervlakte, en in de zin van de projectdata: een renovatie telt er mee ongeacht haar diepte, en nieuwbouw wordt apart geteld. De diepte is het onderwerp van de volgende vraag. Let op, dit is niet de \"1 %\" die meestal geciteerd wordt: die weegt elke werf met de energie die ze uitspaart. De fiche \"Wat een renovatietempo telt\" zet beide naast elkaar.",
+            "en": "As a share of floor area, and on the project's data's count: a renovation is counted there whatever its depth, and new construction is counted separately. The depth is the next question. Careful, this is not the \"1%\" usually quoted: that one weights every job by the energy it saves. The card \"What a renovation rate counts\" puts the two side by side."
           },
           "tangible": {
             "fr": "{value} % du parc rénové chaque année.",
@@ -3447,9 +3447,9 @@ window.NW_WS_CONTENT = {
             "en": "Keeping today's rate while making every job a deep one is no easier than renovating more: it is a different trade, different costs, different craftspeople — and Wallonia alone puts the investment need at 110 billion euros for housing by 2050. The reference rate itself is fragile: 2.261% is a computing constant, not a measurement; counting grants, Wallonia observes only 0.88% a year, and Flanders 0.6% counting permits. Depending on what you call \"a renovation\", the same observation reads as a high and shallow rate or as a low and serious one. The model does not decide: it only sees the product of the two."
           },
           "historyNote": {
-            "fr": "Pas de courbe observée ici : la composante rénovation des données du projet est une constante de calcul (écart-type de 0,008 point sur vingt-trois ans), pas une mesure d'activité. La courbe qui bouge — rénovation plus construction neuve — est sur la fiche « Ce que compte un taux de rénovation ».",
-            "nl": "Geen waargenomen curve hier: het renovatiedeel van de projectdata is een rekenconstante (standaardafwijking van 0,008 punt over drieëntwintig jaar), geen meting van activiteit. De curve die wel beweegt — renovatie plus nieuwbouw — staat op de fiche \"Wat een renovatietempo telt\".",
-            "en": "No observed curve here: the renovation component of the project's data is a computing constant (a standard deviation of 0.008 points over twenty-three years), not a measurement of activity. The curve that does move — renovation plus new construction — is on the card \"What a renovation rate counts\"."
+            "fr": "Pas de courbe observée ici : la composante rénovation des données du projet est une constante de calcul — 2,26 % chaque année, avec un écart-type de 0,008 point sur vingt-trois ans — et non une mesure d'activité. Une droite parfaitement plate serait une affirmation de stabilité que personne n'a mesurée. La fiche « Ce que compte un taux de rénovation » situe ce chiffre parmi les autres.",
+            "nl": "Geen waargenomen curve hier: het renovatiedeel van de projectdata is een rekenconstante — 2,26 % elk jaar, met een standaardafwijking van 0,008 punt over drieëntwintig jaar — en geen meting van activiteit. Een perfect vlakke lijn zou een stabiliteit beweren die niemand gemeten heeft. De fiche \"Wat een renovatietempo telt\" situeert dat cijfer tussen de andere.",
+            "en": "No observed curve here: the renovation component of the project's data is a computing constant — 2.26% every year, with a standard deviation of 0.008 points over twenty-three years — and not a measurement of activity. A perfectly flat line would assert a stability nobody measured. The card \"What a renovation rate counts\" places that figure among the others."
           },
           "facts": [
             {
@@ -3533,77 +3533,73 @@ window.NW_WS_CONTENT = {
             {
               "kind": "structure",
               "text": {
-                "fr": "Le mot recouvre plusieurs choses. Les données du projet enregistrent 3,0 % du parc *renouvelé* chaque année : 2,261 % de rénovation, à toute profondeur, plus 0,7 % de construction neuve. Attention : la part rénovation y est une constante de calcul du jeu de données, pas une mesure d'activité — toutes les oscillations de la courbe ci-dessous viennent du neuf. C'est cette part rénovation que la question vous demande.",
-                "nl": "Het woord dekt verschillende dingen. De projectdata boeken 3,0 % van het bestand dat elk jaar *vernieuwd* wordt: 2,261 % renovatie, van elke diepte, plus 0,7 % nieuwbouw. Let op: het renovatiedeel is daarin een rekenconstante van de dataset, geen meting van activiteit — alle schommelingen van de curve hieronder komen van de nieuwbouw. Het is dat renovatiedeel waar de vraag over gaat.",
-                "en": "The word covers several things. The project's data book 3.0% of the stock *renewed* each year: 2.261% of renovation, at any depth, plus 0.7% of new construction. Careful: the renovation part of it is a computing constant of the dataset, not a measurement of activity — every wiggle in the curve below comes from new building. It is that renovation part the question asks you about."
+                "fr": "Le mot recouvre plusieurs choses, et les chiffres qui circulent ne parlent pas du même. La Commission en donne trois pour l'UE : *11 %* du parc voit des travaux chaque année ; le « taux de rénovation énergétique *pondéré* », où chaque chantier compte à hauteur de l'énergie qu'il économise, vaut *environ 1 %* ; et la rénovation *profonde* — au moins 60 % de consommation en moins — ne pèse que *0,2 %* par an. Les données du projet, elles, enregistrent 3,0 % du parc *renouvelé* chaque année : 2,3 % de rénovation à toute profondeur, plus 0,7 % de neuf. C'est ce 2,3 % que le curseur affiche, et c'est une constante de calcul du jeu de données — un passage tous les 44 ans — pas une mesure d'activité. Le seul chiffre que le découpage ne déplace pas : sur la période observée, le parc belge a progressé comme si l'on rénovait *entièrement* 0,58 % des logements chaque année.",
+                "nl": "Het woord dekt verschillende dingen, en de cijfers die circuleren gaan niet over hetzelfde. De Commissie geeft er drie voor de EU: *11 %* van het bestand ziet elk jaar werken; het *gewogen* energierenovatietempo, waarin elke werf meetelt naar de energie die ze uitspaart, bedraagt *ongeveer 1 %*; en *diepe* renovatie — minstens 60 % minder verbruik — haalt maar *0,2 %* per jaar. De projectdata boeken 3,0 % van het bestand dat elk jaar *vernieuwd* wordt: 2,3 % renovatie van elke diepte, plus 0,7 % nieuwbouw. Het is die 2,3 % die de schuif toont, en dat is een rekenconstante van de dataset — één beurt om de 44 jaar — geen meting van activiteit. Het enige cijfer dat de opsplitsing niet verschuift: over de waargenomen periode is het Belgische bestand vooruitgegaan alsof men elk jaar 0,58 % van de woningen *volledig* renoveerde.",
+                "en": "The word covers several things, and the figures in circulation are not about the same one. The Commission gives three for the EU: *11%* of the stock sees some works each year; the *weighted* annual energy renovation rate, where each job counts for the energy it saves, is *about 1%*; and *deep* renovation — at least 60% less consumption — runs at only *0.2%* a year. The project's data, for their part, book 3.0% of the stock *renewed* each year: 2.3% of renovation at any depth, plus 0.7% of new building. It is that 2.3% the slider shows, and it is a computing constant of the dataset — one pass every 44 years — not a measurement of activity. The one figure the split cannot move: over the observed period the Belgian stock improved as if 0.58% of homes were renovated *completely* every year."
               },
-              "source": "nW-BE §2.1.1, decomposition of the JRC-IDEES-2023 floor-area series",
+              "source": "European Commission, A Renovation Wave for Europe, COM(2020) 662 final (the 11 %, 1 % and 0,2 % figures); Service public de Wallonie, Plan wallon de Rénovation Énergétique des Bâtiments — projet (novembre 2025), Tableau 2 p. 35 (0,88 % and 0,09 %); nW-BE §2.1.1, decomposition of the JRC-IDEES-2023 floor-area series",
               "label": {
                 "fr": "Ce que compte un « taux de rénovation »",
                 "nl": "Wat een \"renovatietempo\" telt",
                 "en": "What a \"renovation rate\" counts"
               },
-              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f",
+              "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52020DC0662",
               "chart": {
-                "kind": "line",
+                "kind": "bars",
                 "y": [
-                  2.8584,
-                  3.064,
-                  3.0586,
-                  3.0221,
-                  3.1785,
-                  2.741,
-                  3.0587,
-                  3.1789,
-                  3.503,
-                  3.1209,
-                  3.8824,
-                  2.6585,
-                  2.6245,
-                  2.6247,
-                  2.9511,
-                  2.5884,
-                  2.5547,
-                  2.9003,
-                  3.0673,
-                  2.8515,
-                  3.241,
-                  3.1984,
-                  3.235
+                  11,
+                  2.261,
+                  1,
+                  0.88,
+                  0.58,
+                  0.2,
+                  0.09
                 ],
                 "caption": {
-                  "fr": "Surface rénovée ou construite chaque année, en % du parc, 2001-2023.",
-                  "nl": "Jaarlijks gerenoveerde of gebouwde oppervlakte, in % van het bestand, 2001-2023.",
-                  "en": "Floor area renovated or newly built each year, as % of the stock, 2001-2023."
+                  "fr": "Sept « taux de rénovation », tous en % du parc par an. En ambre, celui que le curseur affiche.",
+                  "nl": "Zeven \"renovatietempo's\", alle in % van het bestand per jaar. In amber, het tempo dat de schuif toont.",
+                  "en": "Seven \"renovation rates\", all in % of the stock per year. In amber, the one the slider shows."
                 },
-                "x": [
-                  2001,
-                  2002,
-                  2003,
-                  2004,
-                  2005,
-                  2006,
-                  2007,
-                  2008,
-                  2009,
-                  2010,
-                  2011,
-                  2012,
-                  2013,
-                  2014,
-                  2015,
-                  2016,
-                  2017,
-                  2018,
-                  2019,
-                  2020,
-                  2021,
-                  2022,
-                  2023
+                "labels": [
+                  {
+                    "fr": "UE, tous travaux",
+                    "nl": "EU, alle werken",
+                    "en": "EU, any works"
+                  },
+                  {
+                    "fr": "Données du projet",
+                    "nl": "Projectdata",
+                    "en": "Project data"
+                  },
+                  {
+                    "fr": "UE, pondéré énergie",
+                    "nl": "EU, energiegewogen",
+                    "en": "EU, energy-weighted"
+                  },
+                  {
+                    "fr": "Wallonie, primes 2023",
+                    "nl": "Wallonië, premies 2023",
+                    "en": "Wallonia, 2023 grants"
+                  },
+                  {
+                    "fr": "BE, équivalent complet",
+                    "nl": "BE, volledig equivalent",
+                    "en": "BE, full equivalent"
+                  },
+                  {
+                    "fr": "UE, profonde ≥ 60 %",
+                    "nl": "EU, diep ≥ 60 %",
+                    "en": "EU, deep ≥60%"
+                  },
+                  {
+                    "fr": "Wallonie, profondes",
+                    "nl": "Wallonië, diepe",
+                    "en": "Wallonia, deep"
+                  }
                 ],
                 "unit": "% of the stock per year",
-                "decimals": 1,
-                "series": "res_renewal_rate"
+                "decimals": 2,
+                "highlight": 1
               }
             },
             {
@@ -3619,49 +3615,7 @@ window.NW_WS_CONTENT = {
                 "nl": "Wat Wallonië becijferd heeft",
                 "en": "What Wallonia has quantified"
               },
-              "url": "https://energie.wallonie.be/files/strat%C3%A9gies%20et%20politiques/Plan%20Wallon%20de%20R%C3%A9novation%20Energ%C3%A9tique%20des%20B%C3%A2timents%20-%20Novembre%202025/20251201%20Rapport_Plan_Reno_v4_avec%20annexes.pdf",
-              "chart": {
-                "kind": "bars",
-                "y": [
-                  0.88,
-                  0.09,
-                  3.0,
-                  5.22
-                ],
-                "caption": {
-                  "fr": "Wallonie, rythme de rénovation résidentielle observé en 2023 et rythme jugé nécessaire.",
-                  "nl": "Wallonië, waargenomen residentieel renovatietempo in 2023 en het nodig geachte tempo.",
-                  "en": "Wallonia, residential renovation rate observed in 2023 and the rate judged necessary."
-                },
-                "labels": [
-                  {
-                    "fr": "Observé 2023",
-                    "nl": "Waargenomen 2023",
-                    "en": "Observed 2023"
-                  },
-                  {
-                    "fr": "…dont profondes",
-                    "nl": "…waarvan diep",
-                    "en": "…of which deep"
-                  },
-                  {
-                    "fr": "Nécessaire 2024-30",
-                    "nl": "Nodig 2024-30",
-                    "en": "Needed 2024-30"
-                  },
-                  {
-                    "fr": "Nécessaire 2046-50",
-                    "nl": "Nodig 2046-50",
-                    "en": "Needed 2046-50"
-                  }
-                ],
-                "unit": "% of the stock per year",
-                "decimals": 2,
-                "highlight": [
-                  0,
-                  1
-                ]
-              }
+              "url": "https://energie.wallonie.be/files/strat%C3%A9gies%20et%20politiques/Plan%20Wallon%20de%20R%C3%A9novation%20Energ%C3%A9tique%20des%20B%C3%A2timents%20-%20Novembre%202025/20251201%20Rapport_Plan_Reno_v4_avec%20annexes.pdf"
             },
             {
               "kind": "benchmark",
@@ -3681,11 +3635,12 @@ window.NW_WS_CONTENT = {
             {
               "kind": "structure",
               "text": {
-                "fr": "Le scénario retient 2,24 % du parc par an — soit 69,4 % du parc rénové au moins une fois d'ici 2050, environ 111 000 logements par an — avec une profondeur de 60 % à chaque chantier. Le rythme est donc à peu de chose près celui enregistré aujourd'hui ; c'est la profondeur qui change.",
-                "nl": "Het scenario houdt 2,24 % van het bestand per jaar aan — dus 69,4 % van het bestand minstens één keer gerenoveerd tegen 2050, ongeveer 111.000 woningen per jaar — met een diepte van 60 % per werf. Het tempo is dus zowat dat van vandaag; het is de diepte die verandert.",
-                "en": "The scenario keeps 2.24% of the stock a year — that is 69.4% of it renovated at least once by 2050, about 111,000 dwellings a year — at a depth of 60% per job. The rate is therefore close to the one booked today; what changes is the depth."
+                "fr": "Le scénario retient 2,24 % du parc par an — soit 69,4 % du parc rénové au moins une fois d'ici 2050, environ 111 000 logements par an — avec une profondeur de 60 % à chaque chantier. Le rythme est donc à peu de chose près celui enregistré aujourd'hui ; c'est la profondeur qui change. Dit dans le vocabulaire de la Commission, cela fait 2,24 % de rénovation *profonde* par an, contre 0,2 % observé dans l'UE — une dizaine de fois plus. Et en équivalent rénovation complète, le seul chiffre que le découpage ne déplace pas : 1,34 % par an contre 0,58 % observé, soit 2,33 fois l'effort actuel.",
+                "nl": "Het scenario houdt 2,24 % van het bestand per jaar aan — dus 69,4 % van het bestand minstens één keer gerenoveerd tegen 2050, ongeveer 111.000 woningen per jaar — met een diepte van 60 % per werf. Het tempo is dus zowat dat van vandaag; het is de diepte die verandert. In de woordenschat van de Commissie: 2,24 % *diepe* renovatie per jaar, tegenover 0,2 % waargenomen in de EU — een tiental keer meer. En in equivalent volledige renovatie, het enige cijfer dat de opsplitsing niet verschuift: 1,34 % per jaar tegenover 0,58 % waargenomen, ofwel 2,33 keer de huidige inspanning.",
+                "en": "The scenario keeps 2.24% of the stock a year — that is 69.4% of it renovated at least once by 2050, about 111,000 dwellings a year — at a depth of 60% per job. The rate is therefore close to the one booked today; what changes is the depth. Said in the Commission's own vocabulary, that is 2.24% of *deep* renovation a year against the 0.2% observed across the EU — about ten times more. And in full-renovation equivalent, the one figure the split cannot move: 1.34% a year against 0.58% observed, 2.33 times today's effort."
               },
-              "source": "nW-BE §2.1.1",
+              "source": "nW-BE §2.1.1; European Commission, A Renovation Wave for Europe, COM(2020) 662 final (the 0,2 % EU deep-renovation rate)",
+              "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52020DC0662",
               "reveal": true
             }
           ],
@@ -3856,9 +3811,9 @@ window.NW_WS_CONTENT = {
             "en": "{value} °C less on the thermostat, on average, right through the heating season."
           },
           "justification": {
-            "fr": "négaWatt retient 2,0 °C de moins en moyenne d'ici 2050, en pariant sur une évolution des normes sociales plutôt que sur une contrainte. À 7 % par degré, cela retire 14 % de la demande de chauffage, en plus des gains d'efficacité de la rénovation. C'est le seul levier du logement qui touche directement au confort perçu, et c'est aussi le moins coûteux.",
-            "nl": "negaWatt kiest 2,0 °C minder gemiddeld tegen 2050, met een gok op veranderende sociale normen in plaats van op dwang. Aan 7 % per graad haalt dat 14 % van de warmtevraag weg, bovenop de efficiëntiewinst van de renovatie. Het is de enige hefboom van de woning die het ervaren comfort direct raakt, en ook de goedkoopste.",
-            "en": "negaWatt settles on 2.0 °C less on average by 2050, betting on shifting social norms rather than on a constraint. At 7% per degree that removes 14% of heating demand, on top of the efficiency gains from renovation. It is the only housing lever that touches perceived comfort directly, and also the cheapest one."
+            "fr": "négaWatt retient 2 °C de moins en moyenne d'ici 2050, en pariant sur une évolution des normes sociales plutôt que sur une contrainte. À 7 % par degré, cela retire 14 % de la demande de chauffage, en plus des gains d'efficacité de la rénovation. C'est le seul levier du logement qui touche directement au confort perçu, et c'est aussi le moins coûteux.",
+            "nl": "negaWatt kiest 2 °C minder gemiddeld tegen 2050, met een gok op veranderende sociale normen in plaats van op dwang. Aan 7 % per graad haalt dat 14 % van de warmtevraag weg, bovenop de efficiëntiewinst van de renovatie. Het is de enige hefboom van de woning die het ervaren comfort direct raakt, en ook de goedkoopste.",
+            "en": "negaWatt settles on 2 °C less on average by 2050, betting on shifting social norms rather than on a constraint. At 7% per degree that removes 14% of heating demand, on top of the efficiency gains from renovation. It is the only housing lever that touches perceived comfort directly, and also the cheapest one."
           },
           "debate": {
             "fr": "Le rapport reconnaît lui-même qu'une généralisation de *SlowHeat* est « plutôt irréaliste ». Deux degrés de moins en moyenne sur tout un parc, ce n'est pas deux degrés pour tout le monde : c'est beaucoup plus pour certains ménages, et un risque de précarité énergétique qu'un modèle de demande ne voit pas.",
@@ -3939,20 +3894,85 @@ window.NW_WS_CONTENT = {
             "en": "negaWatt settles on 532 kWh per person per year, i.e. −21.2% against 2019, building the value up from a use judged sufficient rather than applying a percentage: a daily shower of 5 minutes at 38 °C and 7 l/min, plus 10 litres at 60 °C for other domestic uses. That takes the equivalent from 63.7 to 50.2 litres of 40 °C water a day. The service follows population rather than floor area, and population grows by 2050: part of the per-person reduction is therefore absorbed."
           },
           "debate": {
-            "fr": "Une douche par personne et par jour est une norme, pas une mesure : elle vaut pour un adulte sédentaire et pas pour un ouvrier de chantier, un sportif ou un soignant. Le chiffre est aussi le seul du logement à être construit à partir d'un usage prescrit, ce qui le rend précis mais discutable.",
-            "nl": "Eén douche per persoon per dag is een norm, geen meting: ze geldt voor een zittende volwassene en niet voor een bouwarbeider, een sporter of een zorgverlener. Het cijfer is ook het enige van de woning dat opgebouwd is uit een voorgeschreven gebruik, wat het precies maar betwistbaar maakt.",
-            "en": "One shower per person per day is a norm, not a measurement: it fits a sedentary adult and not a building worker, an athlete or a care worker. It is also the only housing figure built up from a prescribed use, which makes it precise but arguable."
+            "fr": "Une douche par personne et par jour est une norme, pas une mesure : elle vaut pour un adulte sédentaire et pas pour un ouvrier de chantier, un sportif ou un soignant. Le chiffre est aussi le seul du logement à être construit à partir d'un usage prescrit, ce qui le rend précis mais discutable. Autre friction : la recette (5 min × 7 l/min) fait 35 litres d'eau mélangée, alors que la Flandre n'en consacre déjà que 21 à la douche (VMM 2023). Le « suffisant » du scénario est plus généreux que la moyenne flamande actuelle — à moins que ces 21 litres ne cachent une minorité de douches longues et un grand nombre de jours sans douche.",
+            "nl": "Eén douche per persoon per dag is een norm, geen meting: ze geldt voor een zittende volwassene en niet voor een bouwarbeider, een sporter of een zorgverlener. Het cijfer is ook het enige van de woning dat opgebouwd is uit een voorgeschreven gebruik, wat het precies maar betwistbaar maakt. Nog een wrijving: het recept (5 min × 7 l/min) maakt 35 liter mengwater, terwijl Vlaanderen er nu al maar 21 aan de douche besteedt (VMM 2023). Het « voldoende » van het scenario is ruimer dan het huidige Vlaamse gemiddelde — tenzij die 21 liter een minderheid van lange douches en veel dagen zonder douche verbergt.",
+            "en": "One shower per person per day is a norm, not a measurement: it fits a sedentary adult and not a building worker, an athlete or a care worker. It is also the only housing figure built up from a prescribed use, which makes it precise but arguable. Another friction: the recipe (5 min × 7 l/min) is 35 litres of mixed water, while Flanders already uses only 21 for showers (VMM 2023). The scenario's \"sufficient\" shower is more generous than today's Flemish average — unless those 21 litres hide a minority of long showers and many days without one."
           },
           "facts": [
             {
               "kind": "trend",
               "text": {
-                "fr": "Montée régulière pendant vingt ans, puis chute brutale : 531 kWh par personne en 2000, 675 en 2019, 577 en 2020, 459 en 2022 et 435 en 2023. La baisse coïncide avec les confinements puis la crise des prix de l'énergie, et rien ne dit encore si elle est durable.",
-                "nl": "Twintig jaar gestaag omhoog, dan een scherpe val: 531 kWh per persoon in 2000, 675 in 2019, 577 in 2020, 459 in 2022 en 435 in 2023. De daling valt samen met de lockdowns en daarna de energieprijzencrisis, en het is nog niet duidelijk of ze duurzaam is.",
-                "en": "Twenty years of steady growth, then a sharp fall: 531 kWh per person in 2000, 675 in 2019, 577 in 2020, 459 in 2022 and 435 in 2023. The drop coincides with the lockdowns and then the energy price crisis, and it is not yet clear whether it lasts."
+                "fr": "De 531 kWh par personne en 2000 à 675 en 2019 : vingt ans de hausse. Au-delà, la série JRC-IDEES de *chaleur utile* s'effondre d'un tiers — mais l'énergie *livrée* à l'eau chaude, mesurée par Eurostat, n'a pas bougé : 43 175 TJ en 2019, 43 510 en 2023, 43 268 en 2024. La courbe après 2019 est donc reconstruite à partir d'Eurostat, en gardant le ratio utile/livré de 2019 ; 2019 n'est pas un pic.",
+                "nl": "Van 531 kWh per persoon in 2000 naar 675 in 2019: twintig jaar stijging. Daarna stort de JRC-IDEES-reeks van *nuttige warmte* met een derde in — maar de *geleverde* energie voor warm water, gemeten door Eurostat, bewoog niet: 43 175 TJ in 2019, 43 510 in 2023, 43 268 in 2024. De curve na 2019 is daarom gereconstrueerd vanuit Eurostat, met de nuttig/geleverd-verhouding van 2019; 2019 is geen piek.",
+                "en": "From 531 kWh per person in 2000 to 675 in 2019: twenty years of growth. After that the JRC-IDEES *useful-heat* series collapses by a third — but the energy *delivered* to water heating, as measured by Eurostat, did not move: 43,175 TJ in 2019, 43,510 in 2023, 43,268 in 2024. The curve after 2019 is therefore reconstructed from Eurostat, holding the 2019 useful/delivered ratio; 2019 is not a peak."
               },
-              "source": "JRC-IDEES-2023 (Belgium); population Statbel",
-              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f"
+              "source": "Eurostat nrg_d_hhq, water heating, Belgium, TOTAL, TJ (updated 2026-06-09); JRC-IDEES-2023 useful energy 2000-2019; population Statbel",
+              "url": "https://ec.europa.eu/eurostat/databrowser/view/nrg_d_hhq/default/table",
+              "chart": {
+                "kind": "line",
+                "y": [
+                  530.5526,
+                  516.1504,
+                  513.719,
+                  514.9126,
+                  568.5001,
+                  586.6297,
+                  606.9818,
+                  594.7658,
+                  606.0824,
+                  625.3526,
+                  609.4002,
+                  591.6278,
+                  621.8644,
+                  619.8725,
+                  641.9672,
+                  639.3414,
+                  653.5476,
+                  648.4686,
+                  652.4455,
+                  674.925,
+                  670.6381,
+                  673.2849,
+                  673.2769,
+                  664.681
+                ],
+                "caption": {
+                  "fr": "Chaleur utile dans l'eau chaude sanitaire, kWh par personne. 2000-2019 observé (JRC) ; 2020-2023 reconstruit (Eurostat).",
+                  "nl": "Nuttige warmte in sanitair warm water, kWh per persoon. 2000-2019 waargenomen (JRC); 2020-2023 gereconstrueerd (Eurostat).",
+                  "en": "Useful heat in domestic hot water, kWh per person. 2000-2019 observed (JRC); 2020-2023 reconstructed (Eurostat)."
+                },
+                "x": [
+                  2000,
+                  2001,
+                  2002,
+                  2003,
+                  2004,
+                  2005,
+                  2006,
+                  2007,
+                  2008,
+                  2009,
+                  2010,
+                  2011,
+                  2012,
+                  2013,
+                  2014,
+                  2015,
+                  2016,
+                  2017,
+                  2018,
+                  2019,
+                  2020,
+                  2021,
+                  2022,
+                  2023
+                ],
+                "unit": "kWh/person/year",
+                "decimals": 0,
+                "source": "JRC-IDEES-2023 (Belgium) through 2019; Eurostat nrg_d_hhq 2020-2023 at the 2019 useful/final ratio; population Statbel",
+                "url": "https://ec.europa.eu/eurostat/databrowser/view/nrg_d_hhq/default/table",
+                "series": "res_hot_water_per_person"
+              }
             },
             {
               "kind": "structure",
@@ -3972,6 +3992,21 @@ window.NW_WS_CONTENT = {
               },
               "source": "Eurostat, nrg_d_hhq (disaggregated household final energy consumption), 2023; population Eurostat demo_pjan",
               "url": "https://ec.europa.eu/eurostat/databrowser/view/nrg_d_hhq/default/table"
+            },
+            {
+              "kind": "lever",
+              "text": {
+                "fr": "En Flandre, en 2023, la *douche* est déjà le premier usage d'eau du robinet : 26 % de 80 litres par personne et par jour, soit environ 21 litres. Couper le débit du pommeau, ou raccourcir la douche, coupe ces litres — et les kWh — à due proportion. Un bain remplit une cuve d'un coup : un échangeur sur la bonde ne récupère rien, parce qu'il faut un écoulement *simultané* d'eau chaude usée et d'eau froide neuve. Sur une douche, le même échangeur récupère jusqu'à 40 % de l'énergie de chauffage, sans la raccourcir (4,5 à 8,5 minutes en moyenne en Europe).",
+                "nl": "In Vlaanderen is de *douche* in 2023 al het grootste kraanwatergebruik: 26 % van 80 liter per persoon per dag, ofwel ongeveer 21 liter. Het debiet van de douchekop verlagen, of de douche inkorten, snijdt die liters — en de kWh — in dezelfde verhouding. Een bad vult in één keer een kuip: een warmtewisselaar op de afvoer recupereert niets, omdat er een *gelijktijdige* stroom van gebruikt warm water en nieuw koud water nodig is. Op een douche recupereert dezelfde wisselaar tot 40 % van de verwarmingsenergie, zonder de douche in te korten (gemiddeld 4,5 tot 8,5 minuten in Europa).",
+                "en": "In Flanders in 2023 the *shower* is already the largest tap-water use: 26% of 80 litres per person per day, about 21 litres. Cutting the head's flow, or shortening the shower, cuts those litres — and the kWh — in proportion. A bath fills a tub in one go: a drain heat exchanger recovers nothing, because it needs *simultaneous* flow of spent hot water and incoming cold. On a shower the same exchanger recovers up to 40% of the heating energy, without shortening it (4.5 to 8.5 minutes on average in Europe)."
+              },
+              "source": "VMM, indicator Waterverbruik huishoudens (Flanders, 2023); Sevela, Frenger, Schnieders & Pfluger, REHVA Journal, Potential of Waste Water Heat Recovery in reducing the EU's energy need",
+              "label": {
+                "fr": "Ce qui coupe vraiment les kWh",
+                "nl": "Wat de kWh echt snijdt",
+                "en": "What actually cuts the kWh"
+              },
+              "url": "https://vmm.vlaanderen.be/feiten-cijfers/water/drinkwater/indicator-waterverbruik-huishoudens"
             },
             {
               "kind": "structure",
@@ -4047,13 +4082,88 @@ window.NW_WS_CONTENT = {
               "url": "https://ec.europa.eu/eurostat/databrowser/view/nrg_chddr2_a/default/table"
             },
             {
-              "kind": "tangible",
+              "kind": "structure",
               "text": {
-                "fr": "À 0,44 kWh/m² et par an, un logement de 100 m² demandait environ 44 kWh de froid sur l'année en 2019. C'est peu — mais la moyenne porte sur tout le parc, climatisé ou non, et un logement réellement équipé consomme plusieurs fois cela.",
-                "nl": "Aan 0,44 kWh/m² per jaar vroeg een woning van 100 m² in 2019 ongeveer 44 kWh koeling over het jaar. Dat is weinig — maar het gemiddelde geldt voor het hele bestand, gekoeld of niet, en een werkelijk uitgeruste woning verbruikt daar een veelvoud van.",
-                "en": "At 0.44 kWh/m² a year, a 100 m² home needed about 44 kWh of cooling over the year in 2019. That is small — but the average is taken over the whole stock, cooled or not, and a home that really is equipped uses several times as much."
+                "fr": "L'été 2026 a été le plus chaud mesuré en Belgique depuis 1833 : 20,3 °C de moyenne à Uccle, la première fois au-dessus de 20 °C (précédent record : 19,9 °C en 2018), trois vagues de chaleur, 40,4 °C à Houyet le 27 juin. Le débat a suivi le thermomètre. Au premier semestre, *avant* les vagues de juillet et d'août, Frixis a déjà compté 134 178 climatiseurs fixes posés — 740 par jour, +47 % sur un an, un record. Les poseurs rappellent que la clim n'est que le dernier barreau de « l'échelle du refroidissement », et que l'air chaud rejeté réchauffe la rue.",
+                "nl": "De zomer van 2026 was de warmste ooit gemeten in België sinds 1833: 20,3 °C gemiddeld in Ukkel, voor het eerst boven 20 °C (vorig record: 19,9 °C in 2018), drie hittegolven, 40,4 °C in Houyet op 27 juni. Het debat volgde de thermometer. In het eerste semester, *voor* de golven van juli en augustus, telde Frixis al 134 178 vaste airco's — 740 per dag, +47 % op jaarbasis, een record. Installateurs herinneren eraan dat actieve koeling slechts de laatste trede is van de « koelingsladder », en dat de uitgeblazen warme lucht de straat opwarmt.",
+                "en": "Summer 2026 was the hottest measured in Belgium since 1833: 20.3 °C on average at Uccle, the first time above 20 °C (previous record: 19.9 °C in 2018), three heatwaves, 40.4 °C in Houyet on 27 June. The debate followed the thermometer. In the first half of the year, *before* the July and August waves, Frixis had already counted 134,178 fixed air-conditioners installed — 740 a day, +47% on the year, a record. Installers recall that active cooling is only the last rung of the \"cooling ladder\", and that the waste heat warms the street."
               },
-              "source": "nW-BE, arithmetic on the 2019 value"
+              "source": "IRM, Bilan climatique saisonnier, été 2026 (updated 2026-09-01); Frixis via Belga / De Tijd, 2026-08-07",
+              "label": {
+                "fr": "L'été 2026",
+                "nl": "De zomer van 2026",
+                "en": "Summer 2026"
+              },
+              "url": "https://www.meteo.be/resources/climatology/pdf/bilan_climatique_saisonnier_2026_S3.pdf"
+            },
+            {
+              "kind": "caution",
+              "text": {
+                "fr": "La demande de froid et la production solaire de toiture tombent aux mêmes heures chaudes et ensoleillées. En 2025, 51,5 % de l'électricité photovoltaïque belge a été produite de mai à août (5 360 GWh sur 10 404). Ce modèle de demande ne porte qu'un kWh/m² *annuel* : cette coïncidence horaire n'est pas calculée ici. Une fois le total annuel versé dans une courbe de charge côté offre, le recouvrement n'est pris en compte que de façon approchée.",
+                "nl": "De koudevraag en de zonneproductie op daken vallen op dezelfde warme, zonnige uren. In 2025 werd 51,5 % van de Belgische fotovoltaïsche elektriciteit van mei tot augustus geproduceerd (5 360 GWh op 10 404). Dit vraagmodel draagt alleen een *jaarlijks* kWh/m²: die uurcoïncidentie wordt hier niet berekend. Zodra het jaartotaal in een belastingscurve aan de aanbodzijde terechtkomt, wordt de overlapping slechts bij benadering meegenomen.",
+                "en": "Cooling demand and rooftop solar fall on the same hot, sunny hours. In 2025, 51.5% of Belgian photovoltaic electricity was produced from May to August (5,360 GWh out of 10,404). This demand model only carries an *annual* kWh/m²: that hourly coincidence is not calculated here. Once the annual total is shaped into a load curve on the supply side, the overlap is treated only approximately."
+              },
+              "source": "Eurostat, nrg_cb_pem (net electricity generation by type of fuel, monthly), solar photovoltaic, Belgium, 2025; nW-BE §2.1.2 (annual resolution of the cooling lever)",
+              "label": {
+                "fr": "Clim et photovoltaïque",
+                "nl": "Airco en fotovoltaïsch",
+                "en": "AC and photovoltaics"
+              },
+              "url": "https://ec.europa.eu/eurostat/databrowser/view/nrg_cb_pem/default/table",
+              "chart": {
+                "kind": "bars",
+                "y": [
+                  688,
+                  2303,
+                  2743,
+                  2617,
+                  1477,
+                  575
+                ],
+                "caption": {
+                  "fr": "Production photovoltaïque belge par période de deux mois, GWh, 2025. Mai–août en ambre.",
+                  "nl": "Belgische fotovoltaïsche productie per periode van twee maanden, GWh, 2025. Mei–augustus in amber.",
+                  "en": "Belgian photovoltaic generation by two-month period, GWh, 2025. May–August in amber."
+                },
+                "labels": [
+                  {
+                    "fr": "janv.–févr.",
+                    "nl": "jan.–feb.",
+                    "en": "Jan–Feb"
+                  },
+                  {
+                    "fr": "mars–avr.",
+                    "nl": "mrt.–apr.",
+                    "en": "Mar–Apr"
+                  },
+                  {
+                    "fr": "mai–juin",
+                    "nl": "mei–jun.",
+                    "en": "May–Jun"
+                  },
+                  {
+                    "fr": "juil.–août",
+                    "nl": "jul.–aug.",
+                    "en": "Jul–Aug"
+                  },
+                  {
+                    "fr": "sept.–oct.",
+                    "nl": "sep.–okt.",
+                    "en": "Sep–Oct"
+                  },
+                  {
+                    "fr": "nov.–déc.",
+                    "nl": "nov.–dec.",
+                    "en": "Nov–Dec"
+                  }
+                ],
+                "unit": "GWh",
+                "decimals": 0,
+                "highlight": [
+                  2,
+                  3
+                ]
+              }
             },
             {
               "kind": "structure",
@@ -4099,19 +4209,19 @@ window.NW_WS_CONTENT = {
             "en": "This is the only lever in the scenario where sufficiency *raises* the consumption of the sector under study. The assumed gain sits outside the model — less food industry, less catering, less waste — and is therefore neither quantified nor checkable here. The service is small (2.2% of the thermal total), but the argument is structural: one kind of sufficiency can pay for another."
           },
           "historyNote": {
-            "fr": "Aucune série observée de la consommation de cuisson n'a été exportée pour l'atelier ; seule la tendance moyenne 2000-2023 citée dans le rapport est connue.",
-            "nl": "Er is voor de workshop geen waargenomen reeks van het kookverbruik geëxporteerd; alleen de gemiddelde trend 2000-2023 uit het rapport is bekend.",
-            "en": "No observed series of cooking consumption was exported for the workshop; only the 2000-2023 average trend quoted in the report is known."
+            "fr": "Aucune série observée de la consommation de cuisson n'a été exportée pour l'atelier ; seule la tendance moyenne 2000-2019 est connue. Elle s'arrête là parce que la série de chaleur utile de JRC-IDEES fait après 2019 une marche qu'aucune autre source ne confirme.",
+            "nl": "Er is voor de workshop geen waargenomen reeks van het kookverbruik geëxporteerd; alleen de gemiddelde trend 2000-2019 is bekend. Die stopt daar omdat de reeks nuttige warmte van JRC-IDEES na 2019 een sprong maakt die geen enkele andere bron bevestigt.",
+            "en": "No observed series of cooking consumption was exported for the workshop; only the 2000-2019 average trend is known. It stops there because the JRC-IDEES useful-heat series takes a step after 2019 that no other source confirms."
           },
           "facts": [
             {
               "kind": "trend",
               "text": {
-                "fr": "En léger recul : 1,6 kWh par ménage et par an en moins, en moyenne, entre 2000 et 2023. L'explication avancée est le changement des habitudes culinaires et l'achat croissant de produits transformés.",
-                "nl": "Licht dalend: 1,6 kWh per huishouden per jaar minder, gemiddeld, tussen 2000 en 2023. De aangevoerde verklaring is de verandering van kookgewoonten en de toenemende aankoop van verwerkte producten.",
-                "en": "Slightly falling: 1.6 kWh per household per year less, on average, between 2000 and 2023. The explanation put forward is changing cooking habits and the growing purchase of processed food."
+                "fr": "En léger recul : 0,94 kWh par ménage et par an en moins, en moyenne, entre 2000 et 2019 — soit à peine −4 % en vingt ans. L'explication avancée est le changement des habitudes culinaires et l'achat croissant de produits transformés. La série s'arrête à 2019 : après cette date, la statistique de *chaleur utile* pour la cuisson fait une marche que l'énergie *livrée* mesurée par Eurostat ne montre pas.",
+                "nl": "Licht dalend: 0,94 kWh per huishouden per jaar minder, gemiddeld, tussen 2000 en 2019 — amper −4 % in twintig jaar. De aangevoerde verklaring is de verandering van kookgewoonten en de toenemende aankoop van verwerkte producten. De reeks stopt in 2019: daarna maakt de statistiek van *nuttige warmte* voor koken een sprong die de door Eurostat gemeten *geleverde* energie niet toont.",
+                "en": "Slightly falling: 0.94 kWh per household per year less, on average, between 2000 and 2019 — barely −4% in twenty years. The explanation put forward is changing cooking habits and the growing purchase of processed food. The series stops at 2019: after that the *useful-heat* statistic for cooking takes a step that the *delivered* energy measured by Eurostat does not show."
               },
-              "source": "nW-BE §2.1.2 (JRC-IDEES-2023, 2000-2023 average trend)",
+              "source": "nW-BE §2.1.2 (JRC-IDEES-2023, 2000-2019 average trend); Eurostat nrg_d_hhq, cooking, Belgium",
               "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f"
             },
             {
@@ -4122,6 +4232,21 @@ window.NW_WS_CONTENT = {
                 "en": "This is the smallest of the home's four thermal services: 1.12 TWh out of 51.7, or 2.2%. Gas supplied 26.8% of it in 2019. The service follows the number of households, not population and not floor area — the average Belgian household holds 2.31 people."
               },
               "source": "nW-BE §2.1.2 (JRC-IDEES-2023)"
+            },
+            {
+              "kind": "lever",
+              "text": {
+                "fr": "Passer du gaz à l'induction ne change pas la chaleur *dans la casserole* — c'est ce que demande ce levier — mais l'énergie *livrée* pour la produire. ENERGY STAR, s'appuyant sur Frontier Energy (2019), chiffre le rendement : environ 85 % de l'énergie d'une plaque à induction arrive dans le récipient, contre un tiers seulement au gaz. Côté Belgique, l'électricité fournit déjà 67 % de l'énergie livrée à la cuisson en 2019, 74 % en 2024 (Eurostat). Le modèle traite les deux questions à part : le curseur est la chaleur utile par ménage ; la part du gaz est une hypothèse de vecteur distincte, déjà 26,8 % de cette chaleur utile en 2019.",
+                "nl": "Van gas naar inductie verandert de warmte *in de pan* niet — dat is wat deze hefboom vraagt — wel de *geleverde* energie om ze te maken. ENERGY STAR, op basis van Frontier Energy (2019), becijfert het rendement: ongeveer 85 % van de energie van een inductieplaat komt in het recipiënt, tegenover slechts een derde bij gas. In België levert elektriciteit al 67 % van de aan het koken geleverde energie in 2019, 74 % in 2024 (Eurostat). Het model behandelt beide vragen apart: de schuif is de nuttige warmte per huishouden; het gasaandeel is een aparte energiedragerhypothese, in 2019 al 26,8 % van die nuttige warmte.",
+                "en": "Switching from gas to induction does not change the heat *in the pan* — which is what this lever asks for — but the energy *delivered* to produce it. ENERGY STAR, drawing on Frontier Energy (2019), puts the efficiency at about 85% of an induction hob's energy reaching the vessel, against only a third for gas. In Belgium, electricity already supplied 67% of the energy delivered to cooking in 2019, 74% in 2024 (Eurostat). The model treats the two questions apart: the slider is useful heat per household; the gas share is a separate carrier assumption, already 26.8% of that useful heat in 2019."
+              },
+              "source": "ENERGY STAR, Electric cooking products (citing Frontier Energy, July 2019); Eurostat nrg_d_hhq, cooking, Belgium, electricity and total, 2019 and 2024",
+              "label": {
+                "fr": "Gaz ou induction",
+                "nl": "Gas of inductie",
+                "en": "Gas or induction"
+              },
+              "url": "https://www.energystar.gov/products/electric_cooking_products"
             },
             {
               "kind": "benchmark",
@@ -4168,61 +4293,166 @@ window.NW_WS_CONTENT = {
             "en": "{value}% of home heat delivered by a network."
           },
           "justification": {
-            "fr": "négaWatt retient 15,0 % de la chaleur des bâtiments livrée par un réseau en 2050, contre 0,3 % en 2019 — soit 27,9 TWh de chauffage et d'eau chaude raccordés côté logement. C'est un déploiement massif à l'échelle belge, mais volontairement en deçà du potentiel technico-économique de 45 %, jugé hors d'atteinte, et un peu au-dessus des 13 % de PATHS2050. La motivation n'est pas la sobriété mais le couplage sectoriel : un réseau permet des pompes à chaleur industrielles sur géothermie, chaleur fatale ou cogénération biomasse, et un stockage thermique saisonnier qui donne de la flexibilité à tout le système.",
-            "nl": "negaWatt kiest 15,0 % van de gebouwwarmte geleverd door een net in 2050, tegenover 0,3 % in 2019 — ofwel 27,9 TWh verwarming en warm water aangesloten aan de woningzijde. Dat is een massale uitrol op Belgische schaal, maar bewust onder het technisch-economische potentieel van 45 %, dat als onhaalbaar wordt beschouwd, en iets boven de 13 % van PATHS2050. De motivering is niet soberheid maar sectorkoppeling: een net maakt industriële warmtepompen op geothermie, restwarmte of biomassawarmtekracht mogelijk, en seizoensopslag die het hele systeem flexibiliteit geeft.",
-            "en": "negaWatt settles on 15.0% of building heat delivered by a network in 2050, against 0.3% in 2019 — that is 27.9 TWh of space heating and hot water connected on the housing side. This is a massive deployment on the Belgian scale, but deliberately below the 45% techno-economic potential, judged out of reach, and a little above PATHS2050's 13%. The motivation is not sufficiency but sector coupling: a network makes industrial heat pumps on geothermal energy, waste heat or biomass cogeneration possible, along with seasonal thermal storage that gives the whole system flexibility."
+            "fr": "négaWatt retient 15 % de la chaleur des bâtiments livrée par un réseau en 2050, contre 0,25 % en 2019 — soit 4,2 TWh de chauffage et d'eau chaude raccordés côté logement, sur un gisement de 27,9 TWh. C'est un déploiement massif à l'échelle belge, volontairement en deçà des 37 % belges de Heat Roadmap Europe et de la moyenne de 45 %, jugés hors d'atteinte, et un peu au-dessus des 13 % de PATHS2050. La motivation n'est pas la sobriété mais le couplage sectoriel : un réseau permet des pompes à chaleur industrielles sur géothermie, chaleur fatale ou cogénération biomasse, et un stockage thermique saisonnier qui donne de la flexibilité à tout le système. Les pertes de réseau, elles, restent hors de ce modèle de demande.",
+            "nl": "negaWatt kiest 15 % van de gebouwwarmte geleverd door een net in 2050, tegenover 0,25 % in 2019 — ofwel 4,2 TWh verwarming en warm water aangesloten aan de woningzijde, op een potentieel van 27,9 TWh. Dat is een massale uitrol op Belgische schaal, bewust onder de Belgische 37 % van Heat Roadmap Europe en het gemiddelde van 45 %, die als onhaalbaar worden beschouwd, en iets boven de 13 % van PATHS2050. De motivering is niet soberheid maar sectorkoppeling: een net maakt industriële warmtepompen op geothermie, restwarmte of biomassawarmtekracht mogelijk, en seizoensopslag die het hele systeem flexibiliteit geeft. De netverliezen blijven buiten dit vraagmodel.",
+            "en": "negaWatt settles on 15% of building heat delivered by a network in 2050, against 0.25% in 2019 — that is 4.2 TWh of space heating and hot water connected on the housing side, out of a 27.9 TWh pool. This is a massive deployment on the Belgian scale, deliberately below Heat Roadmap Europe's Belgian 37% and the 45% average, judged out of reach, and a little above PATHS2050's 13%. The motivation is not sufficiency but sector coupling: a network makes industrial heat pumps on geothermal energy, waste heat or biomass cogeneration possible, along with seasonal thermal storage that gives the whole system flexibility. Network losses remain outside this demand model."
           },
           "debate": {
-            "fr": "Passer de presque rien à un logement sur sept en trente ans suppose un rythme de chantier que rien, en Belgique, n'a jamais approché — et le potentiel de 45 % est technico-économique, pas déployé. Le levier a par ailleurs une propriété inhabituelle : il ne change rien à la demande, donc rien au modèle de demande. Tout son intérêt est dans la partie du système que cet atelier ne montre pas.",
-            "nl": "Van bijna niets naar één woning op zeven in dertig jaar veronderstelt een bouwtempo dat in België nooit ook maar benaderd is — en het potentieel van 45 % is technisch-economisch, niet uitgerold. De hefboom heeft bovendien een ongewone eigenschap: hij verandert niets aan de vraag, en dus niets aan het vraagmodel. Zijn hele belang zit in het deel van het systeem dat deze workshop niet toont.",
-            "en": "Going from almost nothing to one dwelling in seven in thirty years assumes a build rate that nothing in Belgium has ever come close to — and the 45% potential is techno-economic, not deployed. The lever also has an unusual property: it changes nothing about demand, and therefore nothing in the demand model. Its whole point lies in the part of the system this workshop does not show."
-          },
-          "historyNote": {
-            "fr": "Aucune série observée de la part des réseaux de chaleur dans les logements belges n'a été exportée pour l'atelier ; seul le point de 2019 est connu, et il est proche de zéro.",
-            "nl": "Er is voor de workshop geen waargenomen reeks van het aandeel warmtenetten in Belgische woningen geëxporteerd; alleen het punt van 2019 is bekend, en het ligt dicht bij nul.",
-            "en": "No observed series of the district-heating share of Belgian homes was exported for the workshop; only the 2019 point is known, and it is close to zero."
+            "fr": "Passer de presque rien à un logement sur sept en trente ans suppose un rythme de chantier que rien, en Belgique, n'a jamais approché — et les 37 % belges de Heat Roadmap Europe sont un potentiel GIS, pas un plan de déploiement. Le levier a par ailleurs une propriété inhabituelle : il ne change rien à la demande, donc rien au modèle de demande, et les pertes en ligne (5 % en Flandre, 7,5 % dans le bilan belge) pèsent en amont. Tout son intérêt est dans la partie du système que cet atelier ne montre pas.",
+            "nl": "Van bijna niets naar één woning op zeven in dertig jaar veronderstelt een bouwtempo dat in België nooit ook maar benaderd is — en de Belgische 37 % van Heat Roadmap Europe is een GIS-potentieel, geen uitrolplan. De hefboom heeft bovendien een ongewone eigenschap: hij verandert niets aan de vraag, en dus niets aan het vraagmodel, en de leidingverliezen (5 % in Vlaanderen, 7,5 % in de Belgische balans) zitten stroomopwaarts. Zijn hele belang zit in het deel van het systeem dat deze workshop niet toont.",
+            "en": "Going from almost nothing to one dwelling in seven in thirty years assumes a build rate that nothing in Belgium has ever come close to — and Heat Roadmap Europe's Belgian 37% is a GIS potential, not a deployment plan. The lever also has an unusual property: it changes nothing about demand, and therefore nothing in the demand model, and pipe losses (5% in Flanders, 7.5% in the Belgian balance) sit upstream. Its whole point lies in the part of the system this workshop does not show."
           },
           "facts": [
             {
+              "kind": "trend",
+              "text": {
+                "fr": "En Belgique, la chaleur de réseau est un arrondi de la chaleur des logements, et elle l'est restée. JRC-IDEES la chiffre à 0,25 % de chaleur *utile* en 2019 — 0,13 TWh sur les 50,3 TWh de chauffage plus eau chaude. Eurostat, sur l'énergie *livrée* et le même dénominateur, donne 0,21 % cette année-là, 0,18 % en 2024, jamais plus de 0,22 % depuis 2016. La courbe de cette question est cette série Eurostat, calée sur le point JRC de 2019 pour que le curseur et le graphique parlent du même 0,25 %.",
+                "nl": "In België is netwarmte een afronding van de warmte in woningen, en dat is ze gebleven. JRC-IDEES zet ze op 0,25 % *nuttige* warmte in 2019 — 0,13 TWh op de 50,3 TWh verwarming plus warm water. Eurostat, op *geleverde* energie en dezelfde noemer, geeft 0,21 % dat jaar, 0,18 % in 2024, nooit meer dan 0,22 % sinds 2016. De curve van deze vraag is die Eurostat-reeks, geijkt op het JRC-punt van 2019 zodat schuif en grafiek over dezelfde 0,25 % spreken.",
+                "en": "In Belgium, district heat is a rounding error of home heat, and it has stayed that way. JRC-IDEES puts it at 0.25% of *useful* heat in 2019 — 0.13 TWh out of 50.3 TWh of space heating plus hot water. Eurostat, on *delivered* energy and the same denominator, reads 0.21% that year, 0.18% in 2024, never above 0.22% since 2016. This question's curve is that Eurostat series, scaled to the 2019 JRC point so the slider and the chart speak of the same 0.25%."
+              },
+              "source": "Eurostat nrg_d_hhq, derived heat over space heating + water heating, Belgium, TJ (updated 2026-06-09); JRC-IDEES-2023 useful energy 2019",
+              "url": "https://ec.europa.eu/eurostat/databrowser/view/nrg_d_hhq/default/table"
+            },
+            {
               "kind": "structure",
               "text": {
-                "fr": "En Belgique, les réseaux de chaleur sont anecdotiques : 0,3 % de la chaleur des logements en 2019, soit 0,13 TWh sur les 50,3 TWh raccordables — chauffage plus eau chaude, eux-mêmes 97,3 % de l'énergie thermique du logement. Le froid de réseau est hors du modèle.",
-                "nl": "In België zijn warmtenetten anekdotisch: 0,3 % van de warmte in woningen in 2019, ofwel 0,13 TWh op de 50,3 TWh die aansluitbaar zijn — verwarming plus warm water, samen 97,3 % van de thermische energie van de woning. Koudenetten vallen buiten het model.",
-                "en": "In Belgium district heating is anecdotal: 0.3% of home heat in 2019, i.e. 0.13 TWh out of the 50.3 TWh that could be networked — space heating plus hot water, themselves 97.3% of the home's thermal energy. District cooling is outside the model."
+                "fr": "Les réseaux sont une compétence régionale, et les gigawattheures ne sont pas une part de la chaleur des logements. La Flandre a livré 908 GWh à tous ses clients en 2024, dont 113 GWh de chaleur aux logements (des réseaux à eau chaude ; la vapeur va à l'industrie) — l'essentiel des 129 GWh qu'Eurostat enregistre pour tous les ménages belges (465 TJ). La Wallonie en a distribué 304 GWh en 2021 (237 en 2016), tous secteurs. Bruxelles en a compté 99 GWh sur six réseaux en 2021, surtout des campus et des hôpitaux. « 0,5 % en Wallonie et beaucoup plus en Flandre » décrit cet écart de volumes, pas une part plus élevée de la chaleur des logements flamands.",
+                "nl": "Netten zijn een gewestelijke bevoegdheid, en gigawattuur is geen aandeel van de warmte in woningen. Vlaanderen leverde in 2024 908 GWh aan al zijn klanten, waarvan 113 GWh warmte aan woningen (via warmwaternetten; stoom gaat naar de industrie) — het merendeel van de 129 GWh die Eurostat voor alle Belgische huishoudens optekent (465 TJ). Wallonië verdeelde er 304 GWh in 2021 (237 in 2016), alle sectoren. Brussel telde 99 GWh op zes netten in 2021, vooral campussen en ziekenhuizen. « 0,5 % in Wallonië en veel meer in Vlaanderen » beschrijft dit volumeverschil, geen hoger aandeel van de Vlaamse woningwarmte.",
+                "en": "Networks are a regional competence, and gigawatt-hours are not a share of home heat. Flanders delivered 908 GWh to all its customers in 2024, of which 113 GWh of heat to homes (on hot-water networks; steam goes to industry) — most of the 129 GWh Eurostat records for all Belgian households (465 TJ). Wallonia distributed 304 GWh in 2021 (237 in 2016), all sectors. Brussels counted 99 GWh on six networks in 2021, mainly campuses and hospitals. \"0.5% in Wallonia and much more in Flanders\" describes this volume gap, not a higher share of Flemish household heat."
               },
-              "source": "nW-BE §2.1.3 (JRC-IDEES-2023)"
+              "source": "VEKA, Warmtenetrapportering 2024 (113 GWh, 908 GWh); SPW Energie, potentiel chaleur-froid Art. 25 (304 GWh 2021, 237 GWh 2016); Bruxelles Environnement, évaluation chaleur-froid 2024 (99 GWh, 2021); Eurostat nrg_d_hhq",
+              "label": {
+                "fr": "Trois Régions",
+                "nl": "Drie Gewesten",
+                "en": "Three Regions"
+              },
+              "url": "https://publicaties.vlaanderen.be/view-file/81716"
             },
             {
               "kind": "benchmark",
               "text": {
-                "fr": "Ailleurs, c'est la norme et non l'exception : la chaleur de réseau couvre 40 % de toute l'énergie livrée aux ménages danois et 38 % au Suède, contre 8,6 % dans l'UE27 et 0,2 % en Belgique. Attention à la base : ces chiffres portent sur l'ensemble de l'énergie des ménages, appareils compris, donc sur un dénominateur plus large que cette question.",
-                "nl": "Elders is het de regel en niet de uitzondering: netwarmte dekt 40 % van alle aan Deense huishoudens geleverde energie en 38 % in Zweden, tegenover 8,6 % in de EU27 en 0,2 % in België. Let op de basis: die cijfers gaan over alle energie van de huishoudens, toestellen inbegrepen, dus over een ruimere noemer dan deze vraag.",
-                "en": "Elsewhere it is the rule rather than the exception: network heat covers 40% of all the energy delivered to Danish households and 38% in Sweden, against 8.6% in the EU27 and 0.2% in Belgium. Mind the basis: these figures cover all household energy, appliances included, so a wider denominator than this question."
+                "fr": "Ailleurs, c'est la norme et non l'exception — et cette fois sur la *même* base que la question, la chaleur des logements. En 2024, la chaleur de réseau couvre 0,18 % de cette chaleur en Belgique, 4,4 % en France, 7,9 % en Allemagne, 11,0 % dans l'UE27, 49,6 % au Danemark et 52,2 % en Suède. Ces parts sont la mesure brute d'Eurostat ; la courbe de cette question porte la même série belge recalée sur le point JRC de 2019, donc un cran au-dessus (0,22 % en 2024).",
+                "nl": "Elders is het de regel en niet de uitzondering — en deze keer op dezelfde basis als de vraag, de warmte in woningen. In 2024 dekt netwarmte 0,18 % van die warmte in België, 4,4 % in Frankrijk, 7,9 % in Duitsland, 11,0 % in de EU27, 49,6 % in Denemarken en 52,2 % in Zweden. Deze aandelen zijn de ruwe Eurostat-meting; de curve van deze vraag toont dezelfde Belgische reeks, geijkt op het JRC-punt van 2019, dus een tikje hoger (0,22 % in 2024).",
+                "en": "Elsewhere it is the rule rather than the exception — and this time on the *same* basis as the question, home heat. In 2024, network heat covers 0.18% of that heat in Belgium, 4.4% in France, 7.9% in Germany, 11.0% in the EU27, 49.6% in Denmark and 52.2% in Sweden. These shares are the raw Eurostat measurement; this question's curve carries the same Belgian series rescaled to the 2019 JRC point, so it reads a notch higher (0.22% in 2024)."
               },
-              "source": "Eurostat, nrg_bal_c — derived heat as a share of household final energy consumption, 2023",
-              "url": "https://ec.europa.eu/eurostat/databrowser/view/nrg_bal_c/default/table"
+              "source": "Eurostat nrg_d_hhq, derived heat as a share of household space heating + water heating, 2024 (updated 2026-06-09)",
+              "url": "https://ec.europa.eu/eurostat/databrowser/view/nrg_d_hhq/default/table",
+              "chart": {
+                "kind": "bars",
+                "y": [
+                  0.18,
+                  4.41,
+                  7.91,
+                  10.97,
+                  49.63,
+                  52.17
+                ],
+                "caption": {
+                  "fr": "Part de la chaleur de réseau dans la chaleur des logements, 2024",
+                  "nl": "Aandeel van netwarmte in de warmte in woningen, 2024",
+                  "en": "Network heat as a share of home heat, 2024"
+                },
+                "labels": [
+                  {
+                    "fr": "Belgique",
+                    "nl": "België",
+                    "en": "Belgium"
+                  },
+                  {
+                    "fr": "France",
+                    "nl": "Frankrijk",
+                    "en": "France"
+                  },
+                  {
+                    "fr": "Allemagne",
+                    "nl": "Duitsland",
+                    "en": "Germany"
+                  },
+                  {
+                    "fr": "UE27",
+                    "nl": "EU27",
+                    "en": "EU27"
+                  },
+                  {
+                    "fr": "Danemark",
+                    "nl": "Denemarken",
+                    "en": "Denmark"
+                  },
+                  {
+                    "fr": "Suède",
+                    "nl": "Zweden",
+                    "en": "Sweden"
+                  }
+                ],
+                "unit": "% of home heat",
+                "decimals": 2,
+                "highlight": 0
+              }
             },
             {
               "kind": "structure",
               "text": {
-                "fr": "Le plafond n'est pas technique mais géographique : l'habitat belge est dispersé, et un réseau demande une densité de chaleur. Des travaux récents situent le potentiel technico-économique du résidentiel belge à 45 % de la demande de chaleur à l'horizon 2050 ; PATHS2050 (EnergyVille) retient 13 % pour l'ensemble des bâtiments.",
-                "nl": "Het plafond is niet technisch maar geografisch: de Belgische bebouwing is verspreid, en een net vraagt warmtedichtheid. Recent werk plaatst het technisch-economische potentieel van de Belgische woningen op 45 % van de warmtevraag tegen 2050; PATHS2050 (EnergyVille) houdt 13 % aan voor alle gebouwen samen.",
-                "en": "The ceiling is geographic rather than technical: Belgian settlement is dispersed, and a network needs heat density. Recent work puts the techno-economic potential of Belgian housing at 45% of heat demand by 2050; PATHS2050 (EnergyVille) uses 13% for all buildings together."
+                "fr": "Le plafond n'est pas technique, il est géographique : un réseau demande une densité de chaleur, et l'habitat belge est dispersé. Heat Roadmap Belgium (HRE4) retient 37 % de la chaleur du cadre bâti hors industrie en 2050 — contre 2 % en 2015 — dans une fourchette économique de 20 à 54 %. Les 45 % cités par Lund et al. sont la moyenne Heat Roadmap Europe, pas le chiffre belge. PATHS2050 (EnergyVille) retient 13 % pour l'ensemble des bâtiments. Côté Régions : la Flandre vise 2 400 GWh livrés en 2030 (VEKP, tous clients) ; la Wallonie n'a pas d'objectif de part ; à Bruxelles, 70 % de la demande 2050 se trouvera en zone de très haute densité, et pour environ 40 % de cette demande un réseau basse température serait la meilleure option technico-économique.",
+                "nl": "Het plafond is niet technisch maar geografisch: een net vraagt warmtedichtheid, en de Belgische bebouwing is verspreid. Heat Roadmap Belgium (HRE4) houdt 37 % van de warmte van de gebouwde omgeving zonder industrie aan in 2050 — tegen 2 % in 2015 — in een economische band van 20 tot 54 %. De 45 % van Lund et al. is het Heat Roadmap Europe-gemiddelde, niet het Belgische cijfer. PATHS2050 (EnergyVille) houdt 13 % aan voor alle gebouwen samen. Bij de Gewesten: Vlaanderen mikt op 2 400 GWh geleverd in 2030 (VEKP, alle klanten); Wallonië heeft geen aandeeldoel; in Brussel zal 70 % van de vraag 2050 in een zone met zeer hoge dichtheid liggen, en voor ongeveer 40 % van die vraag zou een lagetemperatuurnet de beste technisch-economische optie zijn.",
+                "en": "The ceiling is geographic rather than technical: a network needs heat density, and Belgian settlement is dispersed. Heat Roadmap Belgium (HRE4) retains 37% of built-environment heat excluding industry by 2050 — against 2% in 2015 — in an economic range of 20 to 54%. The 45% quoted by Lund et al. is the Heat Roadmap Europe average, not the Belgian figure. PATHS2050 (EnergyVille) uses 13% for all buildings together. On the Regions: Flanders aims for 2,400 GWh delivered by 2030 (VEKP, all customers); Wallonia has no share target; in Brussels, 70% of 2050 demand will sit in a very-high density zone, and for about 40% of that demand a low-temperature network would be the best techno-economic option."
               },
-              "source": "Lund et al. (2025), District heating in clean energy systems, Nature Reviews Clean Technology; EnergyVille PATHS2050 (2025)",
-              "url": "https://doi.org/10.1038/s44359-025-00076-8"
+              "source": "Heat Roadmap Belgium (HRE4), 2018; Lund et al. (2025); EnergyVille PATHS2050 (2025); VEKA Warmtenetrapportering 2024; Bruxelles Environnement, évaluation chaleur-froid 2024",
+              "label": {
+                "fr": "Gisement GIS et ambitions",
+                "nl": "GIS-potentieel en ambities",
+                "en": "GIS potential and ambitions"
+              },
+              "url": "https://vbn.aau.dk/ws/portalfiles/portal/287929422/Country_Roadmap_Belgium_20181005.pdf"
             },
             {
               "kind": "caution",
               "text": {
-                "fr": "Ce levier ne modifie pas la demande d'énergie utile mesurée ici : c'est pourquoi cet écran n'affiche pas l'encadré d'effet des autres questions. Le bénéfice est en amont — géothermie, chaleur fatale industrielle, cogénération biomasse, stockage saisonnier — dans une partie du système que ce modèle de demande ne représente pas. En 2019, les réseaux belges ont livré 0,13 TWh aux logements, de quoi chauffer à peu près un logement sur 400.",
-                "nl": "Deze hefboom wijzigt de hier gemeten nuttige energievraag niet: daarom toont dit scherm het effectkader van de andere vragen niet. Het voordeel zit stroomopwaarts — geothermie, industriële restwarmte, biomassawarmtekracht, seizoensopslag — in een deel van het systeem dat dit vraagmodel niet weergeeft. In 2019 leverden de Belgische netten 0,13 TWh aan de woningen, genoeg voor ongeveer één woning op 400.",
-                "en": "This lever does not change the useful energy demand measured here: that is why this screen carries none of the effect box the other questions show. The benefit sits upstream — geothermal energy, industrial waste heat, biomass cogeneration, seasonal storage — in a part of the system this demand model does not represent. In 2019 Belgian networks delivered 0.13 TWh to homes, enough for roughly one dwelling in 400."
+                "fr": "Un réseau achète ce que ce modèle de demande ne représente pas : un générateur centralisé (géothermie, chaleur fatale, cogénération), un stockage éventuellement saisonnier, et l'accès à une source froide — le froid de réseau est hors du modèle. Sur la seule consommation, ce n'est pas un avantage : les pertes en ligne sont réelles. En Flandre elles valent environ 5 % de la chaleur injectée (955 GWh injectés, 908 livrés en 2024). Au niveau belge, Eurostat compte 7,5 % de pertes de distribution sur la chaleur dérivée en 2019. C'est pourquoi cet écran n'affiche pas l'encadré d'effet des autres questions : le levier ne change pas l'énergie utile au logement.",
+                "nl": "Een net koopt wat dit vraagmodel niet weergeeft: een gecentraliseerde opwekker (geothermie, restwarmte, warmtekracht), eventueel seizoensopslag, en toegang tot een koudebron — koudenetten vallen buiten het model. Op verbruik alleen is het geen voordeel: de leidingverliezen zijn reëel. In Vlaanderen bedragen ze ongeveer 5 % van de geïnjecteerde warmte (955 GWh geïnjecteerd, 908 geleverd in 2024). Op Belgisch niveau telt Eurostat 7,5 % distributieverliezen op afgeleide warmte in 2019. Daarom toont dit scherm het effectkader van de andere vragen niet: de hefboom verandert de nuttige energie in de woning niet.",
+                "en": "A network buys what this demand model does not represent: a central generator (geothermal energy, waste heat, cogeneration), storage that can be seasonal, and access to a cold source — district cooling is outside the model. In consumption terms it is not an advantage: pipe losses are real. In Flanders they are about 5% of the heat injected (955 GWh injected, 908 delivered in 2024). At Belgian level, Eurostat counts 7.5% distribution losses on derived heat in 2019. That is why this screen carries none of the effect box the other questions show: the lever does not change useful energy at the dwelling."
               },
-              "source": "nW-BE §2.1.3, arithmetic on the 2019 value"
+              "source": "VEKA, Warmtenetrapportering 2024 (Fig. 3, 955 GWh injected / 908 GWh delivered); Eurostat nrg_bal_c, derived heat distribution losses, Belgium 2019; nW-BE §2.1.3",
+              "label": {
+                "fr": "Ce que le réseau achète",
+                "nl": "Wat het net koopt",
+                "en": "What the network buys"
+              },
+              "url": "https://publicaties.vlaanderen.be/view-file/81716"
             }
           ],
-          "historyAbsent": true
+          "history": {
+            "label": {
+              "fr": "Part de la chaleur de réseau dans la chaleur des logements",
+              "nl": "Aandeel van netwarmte in de warmte in woningen",
+              "en": "District-heat share of home heat"
+            },
+            "unit": "% of home heat",
+            "source": "Eurostat nrg_d_hhq (delivered heat share), scaled to the JRC-IDEES 2019 useful-energy share of 0.25%",
+            "url": "https://ec.europa.eu/eurostat/databrowser/view/nrg_d_hhq/default/table",
+            "x": [
+              2016,
+              2017,
+              2018,
+              2019,
+              2020,
+              2021,
+              2022,
+              2023,
+              2024
+            ],
+            "y": [
+              0.21,
+              0.21,
+              0.23,
+              0.25,
+              0.26,
+              0.26,
+              0.21,
+              0.21,
+              0.22
+            ],
+            "curated": true
+          }
         }
       },
       "summaryChart": {
@@ -4454,9 +4684,9 @@ window.NW_WS_CONTENT = {
             "en": "{value} °C less in offices, classrooms and shops, right through the heating season."
           },
           "justification": {
-            "fr": "négaWatt retient 1,0 °C de moins en moyenne d'ici 2050 — la moitié de ce qu'il demande au logement, précisément parce que les barrières sociales y sont jugées plus fortes : « crainte d'une perte d'attractivité pour les activités commerciales » et « désaccord entre les occupants d'un bureau ». À 7 % par degré, cela retire 7 % de la demande de chauffage, en plus des gains d'efficacité.",
-            "nl": "negaWatt kiest 1,0 °C minder gemiddeld tegen 2050 — de helft van wat het van woningen vraagt, precies omdat de sociale barrières daar sterker worden geacht: \"vrees voor verlies van aantrekkelijkheid voor commerciële activiteiten\" en \"onenigheid tussen kantoorgebruikers\". Aan 7 % per graad haalt dat 7 % van de warmtevraag weg, bovenop de efficiëntiewinst.",
-            "en": "negaWatt settles on 1.0 °C less on average by 2050 — half what it asks of housing, precisely because the social barriers are judged stronger here: \"fear of a loss of attractiveness for commercial activities\" and \"disagreement among office staff\". At 7% per degree that removes 7% of heating demand, on top of the efficiency gains."
+            "fr": "négaWatt retient 1 °C de moins en moyenne d'ici 2050 — la moitié de ce qu'il demande au logement, précisément parce que les barrières sociales y sont jugées plus fortes : « crainte d'une perte d'attractivité pour les activités commerciales » et « désaccord entre les occupants d'un bureau ». À 7 % par degré, cela retire 7 % de la demande de chauffage, en plus des gains d'efficacité.",
+            "nl": "negaWatt kiest 1 °C minder gemiddeld tegen 2050 — de helft van wat het van woningen vraagt, precies omdat de sociale barrières daar sterker worden geacht: \"vrees voor verlies van aantrekkelijkheid voor commerciële activiteiten\" en \"onenigheid tussen kantoorgebruikers\". Aan 7 % per graad haalt dat 7 % van de warmtevraag weg, bovenop de efficiëntiewinst.",
+            "en": "negaWatt settles on 1 °C less on average by 2050 — half what it asks of housing, precisely because the social barriers are judged stronger here: \"fear of a loss of attractiveness for commercial activities\" and \"disagreement among office staff\". At 7% per degree that removes 7% of heating demand, on top of the efficiency gains."
           },
           "debate": {
             "fr": "L'argument se retourne assez bien : dans un bâtiment tertiaire, personne ne paie la facture de sa poche et personne ne décide seul, ce qui bloque — mais la consigne y est aussi réglée par une seule personne pour des centaines, ce qui est beaucoup plus rapide à changer que des millions de décisions domestiques. La loi espagnole de 2022 a d'ailleurs visé le tertiaire, pas les logements.",
@@ -4784,9 +5014,9 @@ window.NW_WS_CONTENT = {
             "en": "{value}% of service-building heat delivered by a network."
           },
           "justification": {
-            "fr": "négaWatt retient 15,0 % de la chaleur des bâtiments livrée par un réseau en 2050, contre 2,4 % en 2019 — soit 18,8 TWh de chauffage et d'eau chaude raccordés côté tertiaire. Le rapport applique au tertiaire exactement la même cible qu'au logement, « comme pour le secteur résidentiel », sans chiffrage distinct. La motivation n'est pas la sobriété mais le couplage sectoriel : un réseau permet des pompes à chaleur industrielles sur géothermie, chaleur fatale ou cogénération biomasse, et un stockage thermique saisonnier qui donne de la flexibilité à tout le système. Le froid de réseau, lui, est explicitement exclu du modèle.",
-            "nl": "negaWatt kiest 15,0 % van de gebouwwarmte geleverd door een net in 2050, tegenover 2,4 % in 2019 — ofwel 18,8 TWh verwarming en warm water aangesloten aan de tertiaire zijde. Het rapport past op de tertiaire sector precies hetzelfde doel toe als op woningen, \"zoals voor de residentiële sector\", zonder afzonderlijke becijfering. De motivering is niet soberheid maar sectorkoppeling: een net maakt industriële warmtepompen op geothermie, restwarmte of biomassawarmtekracht mogelijk, en seizoensopslag die het hele systeem flexibiliteit geeft. Koudenetten worden expliciet uit het model gelaten.",
-            "en": "negaWatt settles on 15.0% of building heat delivered by a network in 2050, against 2.4% in 2019 — that is 18.8 TWh of space heating and hot water connected on the service side. The report applies exactly the same target to the service sector as to housing, \"as with the residential sector\", with no separate figure. The motivation is not sufficiency but sector coupling: a network makes industrial heat pumps on geothermal energy, waste heat or biomass cogeneration possible, along with seasonal thermal storage that gives the whole system flexibility. District cooling, by contrast, is explicitly excluded from the model."
+            "fr": "négaWatt retient 15 % de la chaleur des bâtiments livrée par un réseau en 2050, contre 2,4 % en 2019 — soit 18,8 TWh de chauffage et d'eau chaude raccordés côté tertiaire. Le rapport applique au tertiaire exactement la même cible qu'au logement, « comme pour le secteur résidentiel », sans chiffrage distinct. La motivation n'est pas la sobriété mais le couplage sectoriel : un réseau permet des pompes à chaleur industrielles sur géothermie, chaleur fatale ou cogénération biomasse, et un stockage thermique saisonnier qui donne de la flexibilité à tout le système. Le froid de réseau, lui, est explicitement exclu du modèle.",
+            "nl": "negaWatt kiest 15 % van de gebouwwarmte geleverd door een net in 2050, tegenover 2,4 % in 2019 — ofwel 18,8 TWh verwarming en warm water aangesloten aan de tertiaire zijde. Het rapport past op de tertiaire sector precies hetzelfde doel toe als op woningen, \"zoals voor de residentiële sector\", zonder afzonderlijke becijfering. De motivering is niet soberheid maar sectorkoppeling: een net maakt industriële warmtepompen op geothermie, restwarmte of biomassawarmtekracht mogelijk, en seizoensopslag die het hele systeem flexibiliteit geeft. Koudenetten worden expliciet uit het model gelaten.",
+            "en": "negaWatt settles on 15% of building heat delivered by a network in 2050, against 2.4% in 2019 — that is 18.8 TWh of space heating and hot water connected on the service side. The report applies exactly the same target to the service sector as to housing, \"as with the residential sector\", with no separate figure. The motivation is not sufficiency but sector coupling: a network makes industrial heat pumps on geothermal energy, waste heat or biomass cogeneration possible, along with seasonal thermal storage that gives the whole system flexibility. District cooling, by contrast, is explicitly excluded from the model."
           },
           "debate": {
             "fr": "Appliquer au tertiaire la cible du logement est une commodité, pas une analyse : les deux parcs n'ont ni la même densité de chaleur, ni la même durée de vie des installations, ni les mêmes maîtres d'ouvrage. On peut soutenir que le tertiaire devrait aller bien plus loin — c'est par lui que commencent la plupart des réseaux européens — ou bien moins, faute de décideur unique dans un parc morcelé. Et comme dans le logement, ce levier ne change rien à la demande, donc rien au modèle de demande.",

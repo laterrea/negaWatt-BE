@@ -88,6 +88,9 @@ window.NW_LEVERS["buildings"] = {
         "renoRateObs": 2.261,
         "newBuildRateObs": 0.746,
         "renewalRateObs": 3.007,
+        "deepEquivObs": 0.58,
+        "deepEquivTarget": 1.34,
+        "deepEquivRatio": 2.33,
         "improvementHist": -0.458,
         "intensity2000": 79.5,
         "intensity2019": 68.2,
@@ -107,6 +110,8 @@ window.NW_LEVERS["buildings"] = {
         "thermalTwh": 51.7
       },
       "spoilers": [
+        "deepEquivRatio",
+        "deepEquivTarget",
         "depthTarget",
         "homesPerYearTarget",
         "rateTarget",
@@ -253,6 +258,7 @@ window.NW_LEVERS["buildings"] = {
         "showerFlow": 7,
         "showerTemp": 38,
         "showerKwh": 0.93,
+        "showerLitresMixed": 35,
         "othersLitres": 10,
         "othersTemp": 60,
         "othersKwh": 0.52,
@@ -268,6 +274,7 @@ window.NW_LEVERS["buildings"] = {
         "othersTemp",
         "showerFlow",
         "showerKwh",
+        "showerLitresMixed",
         "showerMinutes",
         "showerTemp"
       ],
@@ -349,7 +356,7 @@ window.NW_LEVERS["buildings"] = {
       },
       "facts": {
         "changePct": 15.0,
-        "trendHist": -1.6,
+        "trendHist": -0.94,
         "perDay2019": 0.62,
         "gasShare2019": 26.8,
         "gasShareTarget": 2.0,
@@ -379,7 +386,7 @@ window.NW_LEVERS["buildings"] = {
         "step": 0.5
       },
       "better": "up",
-      "decimals": 1,
+      "decimals": 2,
       "shown": true,
       "impact": {
         "kind": "negligible",
@@ -399,10 +406,12 @@ window.NW_LEVERS["buildings"] = {
         "networkableSharePct": 97.3,
         "networkableTwhTarget": 27.9,
         "servedTwh2019": 0.13,
+        "servedTwhTarget": 4.2,
         "thermalTwh": 51.7
       },
       "spoilers": [
-        "networkableTwhTarget"
+        "networkableTwhTarget",
+        "servedTwhTarget"
       ],
       "notebook": "../notebooks/nW_BE_demand_model_buildings.html#section_2",
       "reference": "nW-BE §2.1.3"

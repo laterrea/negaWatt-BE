@@ -128,11 +128,18 @@ def build(ctx):
     # (section 2.1.1) together with the renovation reading of the efficiency
     # assumption, because the two renovation levers are defined on it. Read from
     # there rather than restated here: obs_RS_sht_rat_all / _ren / _new.
-    ref_RS_cook_trend      = -1.6   # kWh/household/year, 2000-2023 average        -- §2.1.2
+    ref_RS_cook_trend      = -0.94  # kWh/household/year, 2000-2019 average        -- §2.1.2
+    # 2000-2019, not 2000-2023: JRC-IDEES useful cooking energy steps down from
+    # 102.0 to 77.1 ktoe between 2021 and 2022 while Eurostat delivered energy for
+    # cooking is flat over the same year, so a fit through 2023 (-1.6) is two thirds
+    # data break. The 2019 reference and the +15% assumption are unaffected.
     ref_slowheat_ok_degc   = 15.0   # average indoor temperature judged liveable [3] -- §2.1.2
     ref_slowheat_min_degc  = 12.0   # vigilance threshold [3]                      -- §2.1.2
     ref_setpoint_2022_degc = 19.0   # the floor most households kept in 2022 [3]   -- §2.1.2
-    ref_dhn_potential_pct  = 45.0   # techno-economic potential for 2050 [4]        -- §2.1.3
+    ref_dhn_potential_pct  = 45.0   # HRE *average* quoted by Lund et al. [4]       -- §2.1.3
+    # Heat Roadmap Belgium (HRE4) retains 37% of built-environment heat, not 45;
+    # that country figure is an external citation on the workshop card, not a
+    # model input. The slider still tops out at the 45% literature ceiling.
     ref_dhn_paths2050_pct  = 13.0   # EnergyVille PATHS2050, buildings [5]         -- §2.1.3
     ref_pct_per_degc       = 7.0    # % of heat demand saved per -1 °C [3]         -- §2.1.2
     ref_setpoint_drop_degc = 2.0    # the setpoint reduction assumed for 2050      -- §2.1.2
@@ -373,6 +380,19 @@ def build(ctx):
          facts={"renoRateObs": round(obs_RS_sht_rat_ren, 3),
                 "newBuildRateObs": round(obs_RS_sht_rat_new, 3),
                 "renewalRateObs": round(obs_RS_sht_rat_all, 3),
+                # Rate x depth, i.e. the pace expressed as "share of the stock
+                # taken to zero heating need each year". This is the one number
+                # the rate/depth split cannot move: any (r, d) pair on the
+                # observed trajectory gives the same product. It is also the
+                # quantity the Commission's "weighted annual energy renovation
+                # rate" tries to capture, which is why it is the only honest
+                # thing to put next to the 1 %/year everyone quotes.
+                "deepEquivObs": round(obs_RS_tes_sht_dep * obs_RS_sht_rat_ren, 2),
+                "deepEquivTarget": round(dep_RS_tes_sht_ren
+                                         * rat_RS_tes_sht_ren * 100, 2),
+                "deepEquivRatio": round(dep_RS_tes_sht_ren * rat_RS_tes_sht_ren
+                                        / (obs_RS_tes_sht_dep
+                                           * obs_RS_sht_rat_ren / 100), 2),
                 "improvementHist": cur_RS_tes_sht_ren,
                 "intensity2000": round(obs_RS_tes_sht_2000, 1),
                 "intensity2019": round(ref_RS_tes_sht, 1),
@@ -391,7 +411,7 @@ def build(ctx):
                 "heatSharePct": _pct(_tes[_Y0]["space heating"], _tes_tot[_Y0]),
                 "thermalTwh": round(_tes_tot[_Y0], 1)},
          spoilers=["rateTarget", "shareTarget", "depthTarget",
-                   "homesPerYearTarget"],
+                   "homesPerYearTarget", "deepEquivTarget", "deepEquivRatio"],
          notebook=_NB + "#section_2", reference="nW-BE §2.1.1")
 
     # The depth is the half nobody measures. What the observed period fixes is the
@@ -473,6 +493,10 @@ def build(ctx):
                 "showerFlow": shower_flow_rate,
                 "showerTemp": shower_temperature,
                 "showerKwh": round(_shower_kwh, 2),
+                # The recipe's volume of mixed water, so the debate card can
+                # compare it with what Flanders actually showers with instead of
+                # re-typing the product of the two numbers above.
+                "showerLitresMixed": round(shower_duration * shower_flow_rate),
                 "othersLitres": others_volume,
                 "othersTemp": others_temperature,
                 "othersKwh": round(_others_kwh, 2),
@@ -480,8 +504,8 @@ def build(ctx):
                 "hotWaterSharePct": _pct(_tes[_Y0]["sanitary hot water"], _tes_tot[_Y0]),
                 "thermalTwh": round(_tes_tot[_Y0], 1)},
          spoilers=["changePct", "litresTarget", "showerMinutes", "showerFlow",
-                   "showerTemp", "showerKwh", "othersLitres", "othersTemp",
-                   "othersKwh"],
+                   "showerTemp", "showerKwh", "showerLitresMixed", "othersLitres",
+                   "othersTemp", "othersKwh"],
          notebook=_NB + "#section_2", reference="nW-BE §2.1.2")
 
     _add("cooling", _T, "Home cooling", "kWh/m²/year of home cooling",
@@ -525,6 +549,8 @@ def build(ctx):
     _add("district-heat", _T, "District heating share of home heat", "% of home heat",
          ref_RS_tes_dhn * 100, trg_RS_tes_dhn * 100, ref_year=_Y0, target_year=_Y1,
          slider={"min": 0, "max": 45, "step": 0.5},
+         # step 0.5 would infer 1 decimal and print the 0.25% JRC share as 0.3%.
+         decimals=2,
          # The carrier split leaves the end-use demand untouched — share_heat_dhn
          # and share_heat_ihs add to 1 in cell 57 — so this lever has, by
          # construction, no leverage on the demand this topic measures. The gain
@@ -540,8 +566,9 @@ def build(ctx):
                 "networkableSharePct": _pct(_networkable_twh[_Y0], _tes_tot[_Y0]),
                 "networkableTwhTarget": round(_networkable_twh[_Y1], 1),
                 "servedTwh2019": round(_networkable_twh[_Y0] * ref_RS_tes_dhn, 2),
+                "servedTwhTarget": round(_networkable_twh[_Y1] * trg_RS_tes_dhn, 1),
                 "thermalTwh": round(_tes_tot[_Y0], 1)},
-         spoilers=["networkableTwhTarget"],
+         spoilers=["networkableTwhTarget", "servedTwhTarget"],
          notebook=_NB + "#section_2", reference="nW-BE §2.1.3")
 
     # --- Shared model quantities (context + the leverage arithmetic) -------------

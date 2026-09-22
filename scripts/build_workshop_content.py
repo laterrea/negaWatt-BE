@@ -141,6 +141,13 @@ def resolve(text, values, lang, where, errors, decimals_by_key=None):
             return match.group(0)
         value = values[key]
         decimals = decimals_by_key.get(key)
+        # A lever's `decimals` is the precision it *may* need, not padding: two of
+        # them let district-heat print a 0,25 % reference, and the same setting
+        # turned negaWatt's own 15 % into "15,00 %" in the reveal prose. Cap it by
+        # what the value actually carries. An explicit {x:d2} still forces two.
+        if decimals is not None and isinstance(value, (int, float)) \
+                and not isinstance(value, bool):
+            decimals = min(decimals, natural_decimals(value))
         if modifier == "abs" and isinstance(value, (int, float)):
             value = abs(value)
         elif modifier and modifier.startswith("d"):

@@ -247,6 +247,12 @@ Each decision records *why*, so it can be revisited on purpose rather than by ac
 | D51 | **One model assumption, two questions: `insulation` became `renovation-rate` × `renovation-depth`** | The review's verdict on the old question was that kWh/m² of stock average does not reach participants — a usability fact, and the one thing the desk analysis behind D19/D30 could not see. The resolution is not to re-base the lever on a renovation rate (that was rightly rejected: the 3 %/year of §2.1.1 is a *renewal* rate whose renovation component is a JRC booking constant) but to ask for **both halves of the same product**. Renovating a constant share `r` of the stock each year at a constant depth `d` makes the stock average fall *linearly* — exactly the shape §2.1.1 assumes — so `d × r` is pinned by the trajectory and the pair is exact. Only their product is observed, which is why it takes one assumption to split it: the notebook sets the **depth** at 60 %, the European Commission's own threshold for a "deep" renovation (Recommendation (EU) 2019/786), and the **rate** follows at 2.24 %/year. `trg_RS_tes_sht` and everything downstream of it are numerically unchanged — `buildings.js` moved by nothing but its generation date. The reveal's punchline is the decomposition itself: négaWatt does not renovate *more* homes than Belgium does today, it renovates them about two and a half times more deeply. |
 | D52 | **A fourth impact kind, `renovation`** | The two levers of D51 are neither `proportional` nor `linear-shift`: `I(N) = I(0)·[1 − depth·min(rate·N, 1)]` is linear in each one separately but carries the other lever's value as a coefficient, and it saturates where every dwelling has been renovated once. `impact.js` takes an `axis` ("rate" or "depth") and the companion's value in `other`, and returns the ratio of that factor to its value at négaWatt's pair — exact for a single lever, like every other kind, and the cap is a real teaching point rather than a fudge: past ~3.2 %/year, more speed buys nothing at a fixed depth. |
 | D53 | **Neither renovation lever extends an observed curve, and the two reasons are opposite** | The JRC renovation series is flat *by construction* (2.261 %/year, standard deviation 0.008 points over twenty-three years) — a booking convention, so drawing it as "observed" would assert a stability nobody measured; and the depth of the average Belgian renovation is measured nowhere at all. Both declare `historyAbsent` with a `historyNote` saying which of the two reasons applies. What the round did instead was split the mislabelled series in `nW_BE_demand_data_aux.ipynb`: `res_renewal_rate` (the old numbers, correctly named), `res_renovation_rate` (renewal minus net new build) and `res_new_build_rate`, same for tertiary. The renewal curve — the one that actually moves — is plotted on a fact card, where the caveat can be written beside it. |
+| D54 | **The residential hot-water curve is reconstructed after 2019** | JRC-IDEES useful-energy DHW falls 663,4 → 437,7 ktoe after 2019, which the play page was extending as if it were observed demand. Eurostat `nrg_d_hhq` delivered energy for water heating in Belgian households is flat 2016-2024 (43 175 TJ in 2019, 43 510 in 2023, 43 268 in 2024). The implied conversion efficiency would have to collapse from 64 % to 42 %, which is not a physical change. The 2019 JRC value is kept as `ref_RS_tes_shw`: Eurostat shows that year is typical, not a peak. The 2050 target is a shower recipe and does not read this series. The workshop curve keeps JRC through 2019 and reconstructs 2020-2023 as useful energy by scaling Eurostat delivered energy at the 2019 useful/final ratio (`kWh/person_y = kWh/person_2019 × E_y/E_2019 × pop_2019/pop_y`). Truncating at 2019 was rejected: it hid four years of a series that is, on the delivered-energy evidence, essentially flat. Same JRC sheet, cooking, has a 2022 break — later item. |
+| D55 | **District-heat figures sit on a heat denominator, and the main chart is a curated Eurostat series** | The 0,3 % / 0,2 % pair was one JRC useful-energy share of space heating + hot water (0,25 %, rounded up by a 1-decimal slider) next to an Eurostat share of *all* household energy. Every quoted share is now heating + hot water. The slider still starts at the JRC 2019 useful-energy value (0,25 %); `decimals: 2` so it prints as 0,25 rather than 0,3. Eurostat `nrg_d_hhq` 2016-2024 on that same heat basis is 0,17–0,22 % and is the observed curve (D15), scaled to the JRC 2019 point so the chart and the slider meet. Heat Roadmap Belgium retains 37 % of built-environment heat by 2050; the notebook's 45 % is the Heat Roadmap *average*. |
+| D56 | **A lever's `decimals` is a ceiling, not a padding instruction** | D55 set two decimals on `district-heat` so the 0,25 % reference would stop rounding to 0,3, and accepted "15,00 %" on the reveal as the price. Measured on the page, the price was larger: every answer on that 0,5-point slider read "7,50 %", and cooling read "2,70". The rule is now the same in all three places a number is rendered: `i18n.js num()` (the page), `spark.js fmt()` (chart and dot-plot labels) and `format_number` in `build_workshop_content.py` (the `{placeholder}`s resolved into the prose) all cap the precision by what the value carries. 0,25 stays 0,25, 15 prints 15, 1,22 persons/car is untouched. An explicit `{x:d2}` still forces two decimals, which is what that modifier is for — the third of these was the one that mattered, since "négaWatt retient 15,00 %" is written into the reveal at build time. |
+| D57 | **A zero baseline is decided on the observed minimum, not the padded one** | `domain()` pads a chart's range by 12 % and then snaps the floor to zero "when close". The guard read `lo > 0` *after* padding, so it could never fire once padding had pushed the floor below zero — the one case that needs it. Giving `district-heat` an observed curve (D55) made it visible: a share observed at 0,21 % with an answer at 20 % printed a −2,2 % floor on a quantity that cannot be negative. Tested on the unpadded minimum now; `cooling`, `ter-cooling` and `air-freight` were silently affected too. |
+| D58 | **A trend is fitted over the window the statistic is trustworthy in, and the card says so** | JRC-IDEES useful cooking energy steps from 102,0 to 77,1 ktoe between 2021 and 2022 while Eurostat's delivered cooking energy is flat across that year and falls only in 2023-24. A 2000-2023 fit gives −1,6 kWh/household/year, two thirds of it that step; the clean 2000-2019 window gives **−0,94**, barely −4 % in twenty years. §2.1.2 and the workshop card now quote the clean window and name the break, as §2.1.2 already does for hot water (D54). Unlike D54 the series is **not** reconstructed from Eurostat: a gas-to-induction switch moves delivered energy while leaving useful heat alone, so scaling useful by delivered would import electrification into a series that must not see it. Same reason `cooking` keeps `historyAbsent`. The 2019 anchor and the +15 % assumption read nothing after 2019, so the scenario is numerically unchanged. |
+| D59 | **A rate is meaningless without its definition, so the card carries all of them** | "2,3 % of the stock renovated each year" invites the objection that the renovation rate is famously ~1 %. Both are right and they count different things. JRC-IDEES books its renovation component as a fixed parameter — the series reconstructs as `ΔStock + 0,02261 × Stock` to within 0,02 % of the stock over twenty-three years, i.e. one pass every 44 years, at any depth. *A Renovation Wave for Europe* (COM(2020) 662) gives the three figures in circulation: 11 % of the stock sees some works each year, the **energy-weighted** rate is "some 1%", and deep renovation (**at least 60%** less consumption) runs at 0,2 %. The card now states all of them, plots seven rates on one scale with the project's anchor in amber, and adds the quantity the rate/depth split cannot move — `rate × depth`, the share of the stock taken to zero heating need each year: **0,58 %/year observed**. The gain is on the reveal: since the Commission's "deep" threshold is the 60 % this scenario assumes, négaWatt's pair reads as **2,24 %/year of deep renovation against 0,2 % observed EU-wide**, and 1,34 %/year full-equivalent against 0,58 %, i.e. 2,33×. That replaces "the same number of renovations, only deeper", which was true and read as reassuring. |
 
 ---
 
@@ -690,8 +696,7 @@ are now on cards:
 
 Sylvain reviewed the seven screens of *Chaleur des logements*. The working tracker, with
 the original comments verbatim and what was decided against each, is
-`notes_workshop_buildings.md` at the repository root. This section records the two
-structural changes; the wording changes are in the tracker.
+`notes_workshop_buildings.md` at the repository root. This section records the structural changes; the wording changes are in the tracker.
 
 ### The summary chart was refused, not broken (D49, D50)
 
@@ -757,3 +762,136 @@ side, from Aydin, Kok & Brounen (2017) for rebound after a subsidised retrofit p
 threshold (Flanders 100, Wallonia 85, Brussels 100 kWh/m²·year) is *primary* energy, and the
 same numeric value is label A in Flanders and class C in Brussels. The cards say which
 quantity each figure is; they do not convert between them.
+
+### Q4: the hot-water crash was JRC, not the world (D54)
+
+JRC-IDEES useful-energy DHW for Belgian homes runs 663,4 ktoe (2019) → 570,6 (2020) →
+456,8 (2022) → 437,7 (2023). The workshop was drawing that as the curve the group extends,
+so 2050 at ~532 kWh/person looked like a *rise* from a 2023 point of 435. Eurostat
+`nrg_d_hhq` (dataset updated 2026-06-09) says delivered energy for water heating in
+Belgian households is flat: 43 175 TJ in 2019, 43 510 in 2023, 43 268 in 2024. Cooking
+from the same Eurostat table is also roughly flat through 2022; JRC cooking jumps then
+crashes, so the 2020 DHW drop is not "people were home". The implied useful/final ratio
+would have to fall from 64 % to 42 %.
+
+Choices, written down:
+
+- **2019 stays the reference.** Eurostat shows it is typical, not a peak. Rebasing
+  `ref_RS_tes_shw` on 2023 JRC would have locked the artefact into the scenario.
+- **The workshop curve is reconstructed after 2019, not truncated.** Truncating
+  hid four years of a series that Eurostat shows is essentially flat. 2020-2023
+  are useful-energy points obtained by scaling Eurostat delivered energy at the
+  2019 useful/final ratio: `kWh/person_y = kWh/person_2019 × E_y/E_2019 ×
+  pop_2019/pop_y`. That is an assumption (the conversion efficiency of 2019
+  held), written on the card, and it is the one that matches the delivered-energy
+  evidence. The JRC arrays in the aux notebook stay as transcribed.
+- **The 2050 target is untouched.** It is a shower recipe (5 min, 7 l/min, 38 °C plus
+  10 l at 60 °C), not a reading of this series.
+- **A bath volume is not on the card.** No Belgian litre-per-bath figure opened at a
+  live URL. The bath vs shower point is the one REHVA actually measures: a drain heat
+  exchanger needs simultaneous flow, which a bath fill does not provide.
+
+The Flemish shower volume (VMM 2023: 26 % of 80 l/person/day ≈ 21 l) is larger in the
+*other* direction than the artefact: the scenario's "sufficient" shower is 35 l of mixed
+water, which is *more* than today's Flemish average. That is now the debate, not the
+false 2019→2023 crash.
+
+### Q7: district heat on a heat denominator (D55)
+
+The 0,3 % on the Belgian-context card and the 0,2 % on the international card were not
+two measurements of the same thing. JRC-IDEES useful energy is 0,25 % of space heating
+plus hot water in 2019 (`ref_RS_tes_dhn = 10.823/(3664.049+663.435)`), rendered as
+"0,3 %" because the slider's 0,5-point step inferred one decimal. Eurostat `nrg_d_hhq`
+derived heat over *all* household energy (appliances included) is 0,21 % the same year,
+written "0,2 %". On a heat denominator the two sources agree: Eurostat 0,21 % in 2019,
+0,18 % in 2024.
+
+Choices, written down:
+
+- **The slider stays on JRC 2019 useful energy (0,25 %).** That is what
+  `trg_RS_tes_dhn` is defined against. `decimals: 2` so it prints 0,25, not 0,3.
+  The 2050 target is untouched at 15 %.
+- **The main chart is Eurostat 2016-2024, scaled to that 2019 point** (D15). There is
+  no JRC yearly district-heat share to splice onto; `nrg_d_hhq` starts in 2016. The
+  scale factor is `0,2501 / 0,2064`, so the curve is flat around a quarter of a percent.
+  Truncating or leaving `historyAbsent` would have hidden the only observed trend,
+  which is: nothing moved.
+- **International bars use the raw Eurostat heat shares**, not the spliced series, so
+  Belgium 0,18 % in 2024 is the number a participant opens at the databrowser.
+- **The 45 % in the notebook is the Heat Roadmap Europe average**, not Belgium.
+  Heat Roadmap Belgium (HRE4) retains 37 % of built-environment heat excluding industry
+  by 2050 (economic range 20–54 %). The slider still tops out at 45 % as the literature
+  ceiling; the 15 % target is unchanged.
+- **"0,5 % Wallonia and much more Flanders" is all-sector GWh, not household-heat
+  share.** Flanders 908 GWh to all customers in 2024 (113 GWh of heat to homes — VEKA
+  splits delivered energy by *fluid*, and homes are served on hot-water networks while
+  steam goes to industry);
+  Wallonia 304 GWh in 2021 (237 in 2016); Brussels 99 GWh on six networks in 2021.
+  Flanders' 113 GWh is most of the 129 GWh Eurostat records for Belgian households.
+  No Flemish *share* of Flemish household heat is invented.
+- **The reveal no longer calls the 2050 networkable pool "connected".**
+  `{networkableTwhTarget}` is 27,9 TWh of space heating plus hot water in 2050;
+  `{servedTwhTarget}` is the 4,2 TWh that 15 % of that actually puts on a network.
+
+Pipe losses are on the caution card (Flanders ~5 % of injected heat; Eurostat 7,5 % of
+Belgian derived heat in 2019). They sit upstream of the useful-energy demand this
+lever does not move. District cooling stays out of the model.
+
+The tertiary-heat sister lever still quotes Eurostat on an all-energy denominator.
+That is the next topic, not this one.
+
+### The review of the review (D56-D58)
+
+The round above was then re-read against its own sources rather than its own notes. Every
+load-bearing figure held: the nine Eurostat hot-water TJ values hard-coded in the aux
+notebook are exact; the PV concentration is 5 360,3 of 10 404,1 GWh (51,5 %); the six
+district-heat bars reproduce `nrg_d_hhq` to two decimals; the nine points of the curated
+curve reproduce Eurostat × 0,25010/0,20638 to ±0,005 point; the 7,5 % pipe loss is
+1 539,7 TJ over 20 569,6; VEKA's 908/955 GWh and HRE4's "37 %… slightly lower than the
+overall HRE average, which lies around 45 %" are the reports' own sentences. Re-running both
+notebooks reproduces `buildings.js` and `data/energy_totals_overrides.csv` byte for byte.
+
+What did not hold was mostly a class the build cannot see:
+
+- **A number typed by hand where the model already had it.** Q4's `debate` read
+  "(5 min × 7 l/min) … 35 litres" three lines under a `justification` that interpolates
+  `{showerMinutes}` and `{showerFlow}` for the same two numbers. Rule 3 is enforced for
+  placeholders that exist, never for the literal that replaces one.
+- **A source read one column off.** VEKA splits delivered heat by *fluid* — hot water,
+  steam, cooling — crossed with sector. "Warm water aan residentiële sector, 113 GWh" is all
+  heat piped to homes, not domestic hot water, and the card said the latter in three
+  languages. Fetching the PDF is not enough; the table's axes have to be read.
+- **A statistic quoted over a window that contains its own break.** D58.
+- **Two display defects that only a browser shows** (D56, D57), both introduced by a
+  content decision — two decimals, and a lever gaining an observed curve — rather than by a
+  code change.
+
+The practical lesson for the next topic: the build proves a card *has* a source and that its
+placeholders resolve. It cannot prove the link opens the number, that the number was read off
+the right axis, that the trend was fitted over a window the series supports, or that the page
+renders what the YAML says. Those four need a human with the PDF open and the page in front
+of them — and `cards.html` measured at print width before, not after, a session.
+
+### A rate is a definition before it is a number (D59)
+
+The residential-heat review closed with an objection worth generalising: the renovation-rate
+slider opens at 2,3 %/year, and anyone who follows the file knows the renovation rate is
+"about 1 %". Neither figure is wrong. The Commission's own Renovation Wave puts three in one
+paragraph — 11 % of the stock sees *some* works each year, the **energy-weighted** rate is
+"some 1%", and **deep** renovation (≥ 60 % less consumption) runs at 0,2 % — and JRC-IDEES
+books a fourth, 2,261 %/year of floor area at any depth, which turns out on reconstruction to
+be a fixed model parameter rather than an observation: one pass over the stock every 44 years.
+
+Three lessons for any lever whose unit is a *rate*:
+
+- **Name the definition on the card, not in the notebook.** The build enforces that a figure
+  has a source; it cannot enforce that the reader knows which of several like-named
+  quantities it is. A participant who recognises the word will supply their own definition.
+- **Find the quantity the modelling choice cannot move, and put it next to the contested
+  one.** Here it is `rate × depth`, the share of the stock taken to zero heating need each
+  year: 0,58 %/year observed, whatever split you choose. It is also the like-for-like
+  companion of the Commission's weighted rate, which is what makes the comparison fair.
+- **Check whether the scenario is already expressed in the standard's vocabulary.** It was:
+  the 60 % depth is exactly the EU's threshold for "deep", so négaWatt's pair is *2,24 %/year
+  of deep renovation against 0,2 % observed*. Stating it that way turned a reassuring reveal
+  ("no more building sites, just better ones") into an honest one.

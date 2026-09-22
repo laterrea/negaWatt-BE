@@ -402,12 +402,13 @@ window.NW_HISTORY["buildings"] = {
         648.4686,
         652.4455,
         674.925,
-        577.4198,
-        576.996,
-        458.6136,
-        435.1721
+        670.6381,
+        673.2849,
+        673.2769,
+        664.681
       ],
-      "source": "JRC-IDEES-2023 (Belgium), floor areas from the EU Building Observatory; population: Statbel"
+      "source": "JRC-IDEES-2023 (Belgium), floor areas from the EU Building Observatory; population: Statbel; Eurostat nrg_d_hhq",
+      "note": "useful heat through 2019 (JRC-IDEES). 2020-2023 reconstructed from Eurostat nrg_d_hhq delivered energy for water heating, holding the 2019 useful/final ratio; JRC's post-2019 collapse is an artefact."
     },
     "ter_m2_per_person": {
       "label": "Tertiary floor area per person",

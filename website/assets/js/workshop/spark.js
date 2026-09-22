@@ -47,7 +47,10 @@
     if (v === null || v === undefined || !isFinite(v)) return "—";
     var d = decimals === undefined ? (Math.abs(v) >= 100 ? 0 : Math.abs(v) >= 10 ? 1 : 2)
                                    : decimals;
-    return v.toLocaleString(locale(), { minimumFractionDigits: d, maximumFractionDigits: d });
+    /* `decimals` is a ceiling, as it is everywhere else (D56): the reveal's dot
+       plot was labelling negaWatt's own value "15,00" on a lever that needs two
+       decimals only for its 0,25 % reference. */
+    return v.toLocaleString(locale(), { minimumFractionDigits: 0, maximumFractionDigits: d });
   }
 
   /* Pick a y-domain that shows the curve *and* the participant's endpoint
@@ -57,9 +60,15 @@
     if (!vals.length) return [0, 1];
     var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
     if (hi === lo) { lo -= Math.abs(lo) * 0.1 || 1; hi += Math.abs(hi) * 0.1 || 1; }
+    var floor = lo;                                // the real minimum, before padding
     var pad = (hi - lo) * 0.12;
     lo -= pad; hi += pad;
-    if (lo > 0 && lo < (hi - lo) * 0.45) lo = 0;   // prefer a zero baseline when close
+    /* Prefer a zero baseline when the data sits near it. The test has to be on
+       the *unpadded* minimum: once the padding has pushed `lo` below zero the
+       old `lo > 0` guard could never fire, which is exactly the case that needs
+       it — a district-heat share observed at 0,21 % with an answer at 20 %
+       printed a −2,2 % floor on a quantity that cannot go negative. */
+    if (floor >= 0 && lo < (hi - lo) * 0.45) lo = 0;
     return [lo, hi];
   }
 
