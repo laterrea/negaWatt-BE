@@ -143,9 +143,9 @@ levers:
       nl: "Welke woonoppervlakte per persoon is een realistisch doel voor 2050?"
       en: "What home floor area per person is a realistic 2050 objective?"
     subtitle:
-      fr: "Surface utile de l'ensemble du parc de logements, divisée par la population — nourrissons et centenaires compris."
-      nl: "Nuttige oppervlakte van het hele woningbestand, gedeeld door de bevolking — van baby tot honderdjarige."
-      en: "Useful floor area of the whole dwelling stock, divided by the population — newborns and centenarians included."
+      fr: "Surface utile de l'ensemble du parc de logements, divisée par la population."
+      nl: "Nuttige oppervlakte van het hele woningbestand, gedeeld door de bevolking."
+      en: "Useful floor area of the whole dwelling stock, divided by the population."
     tangible:
       fr: "{value} m² pour chaque personne du ménage, à chauffer tout l'hiver."
       nl: "{value} m² voor elk lid van het huishouden, de hele winter te verwarmen."
@@ -1740,13 +1740,13 @@ levers:
       nl: Warmtenetten
       en: District heating
     question:
-      fr: "Quelle part de la chaleur des logements livrée par un réseau est un objectif 2050 réaliste ?"
-      nl: "Welk aandeel van de warmte in woningen geleverd door een net is een realistisch doel voor 2050?"
-      en: "What share of home heat delivered by a network is a realistic 2050 objective?"
+      fr: "Quelle part de la chaleur des logements pourrait être réalistement livrée par un réseau de chaleur en 2050 ?"
+      nl: "Welk aandeel van de warmte voor woningen zou in 2050 realistisch gezien door een warmtenet kunnen worden geleverd?"
+      en: "What share of residential heating could realistically be supplied by a district heating network by 2050?"
     subtitle:
-      fr: "Chauffage des locaux et eau chaude sanitaire livrés par un réseau plutôt que par une chaudière individuelle. Ce levier ne change pas la demande, seulement sa source."
-      nl: "Ruimteverwarming en sanitair warm water geleverd door een net in plaats van door een individuele ketel. Deze hefboom verandert de vraag niet, alleen de bron."
-      en: "Space heating and domestic hot water delivered by a network rather than by an individual boiler. This lever does not change demand, only its source."
+      fr: "Chauffage des locaux et eau chaude sanitaire livrés par un réseau de chaleur plutôt que par un système individuel. Ce levier ne change pas la demande, seulement sa source."
+      nl: "Ruimteverwarming en sanitair warm water geleverd door een warmtenet in plaats van door een individuele ketel. Deze hefboom verandert de vraag niet, alleen de bron."
+      en: "Space heating and domestic hot water delivered by a district heating network rather than by an individual boiler. This lever does not change demand, only its source."
     tangible:
       fr: "{value} % de la chaleur des logements livrée par un réseau."
       nl: "{value} % van de warmte in woningen geleverd door een net."
