@@ -3377,9 +3377,9 @@ window.NW_WS_CONTENT = {
               },
               "source": "IWEPS, Décryptage n°10 — maisons occupées par leur propriétaire de 65 ans et plus (2026); Statbel, Census 2021, table T04_DRM",
               "label": {
-                "fr": "Le gisement, chiffré",
-                "nl": "Het potentieel, becijferd",
-                "en": "The pool, quantified"
+                "fr": "Le gisement",
+                "nl": "Het potentieel",
+                "en": "The pool"
               },
               "url": "https://www.iweps.be/wp-content/uploads/2026/05/D10.pdf"
             },
@@ -3889,9 +3889,9 @@ window.NW_WS_CONTENT = {
             "en": "Domestic hot water"
           },
           "subtitle": {
-            "fr": "Chaleur utile contenue dans l'eau, par personne et par an. Douches, bains, vaisselle, lavabos.",
-            "nl": "Nuttige warmte in het water, per persoon per jaar. Douches, baden, afwas, wastafels.",
-            "en": "Useful heat in the water, per person per year. Showers, baths, washing up, basins."
+            "fr": "Chaleur utile contenue dans l'eau, par personne et par an (1 kWh de chaleur correspond à environ 35 litres d'eau à 40°C). Douches, bains, vaisselle, lavabos.",
+            "nl": "Nuttige warmte in het water, per persoon per jaar (1 kWh warmte komt overeen met ongeveer 35 liter water van 40 °C). Douches, baden, afwas, wastafels.",
+            "en": "Useful heat in the water, per person per year (1 kWh of heat corresponds to approximately 35 litres of water at 40°C). Showers, baths, washing up, basins."
           },
           "tangible": {
             "fr": "{value} kWh d'eau chaude par personne et par an.",
@@ -4908,9 +4908,9 @@ window.NW_WS_CONTENT = {
             "en": "Service hot water"
           },
           "subtitle": {
-            "fr": "Chaleur utile dans l'eau chaude des bureaux, écoles, hôpitaux, hôtels et restaurants, rapportée à la population entière.",
-            "nl": "Nuttige warmte in het warme water van kantoren, scholen, ziekenhuizen, hotels en restaurants, betrokken op de volledige bevolking.",
-            "en": "Useful heat in the hot water of offices, schools, hospitals, hotels and restaurants, per head of the whole population."
+            "fr": "Chaleur utile dans l'eau chaude des bureaux, écoles, hôpitaux, hôtels et restaurants, rapportée à la population entière. 1 kWh de chaleur correspond à environ 35 litres d'eau à 40°C.",
+            "nl": "Nuttige warmte in het warme water van kantoren, scholen, ziekenhuizen, hotels en restaurants, betrokken op de volledige bevolking. 1 kWh warmte komt overeen met ongeveer 35 liter water van 40 °C.",
+            "en": "Useful heat in the hot water of offices, schools, hospitals, hotels and restaurants, per head of the whole population. 1 kWh of heat corresponds to approximately 35 litres of water at 40°C."
           },
           "tangible": {
             "fr": "{value} kWh d'eau chaude par personne et par an, hors du domicile.",
