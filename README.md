@@ -263,7 +263,15 @@ levers:
     debate:        {fr: …, nl: …, en: …}   # the objection to it (reveal screen)
     historyAbsent: true                    # no observed curve for this lever…
     historyNote:   {fr: …, nl: …, en: …}   # …and this says why
+    chartInvertY:  true                    # plot the signed change, so a cut goes *down*
 ```
+
+**Which way is down.** A lever counted as a reduction — `ter-thermostat` is in "°C less" —
+draws a *rising* line for a *falling* quantity, which reads backwards. `chartInvertY: true`
+makes that lever's chart plot the signed change instead: the axis becomes "difference
+against the reference year", so lowering the setpoint lowers the line. Drawing only — the
+slider, the readout, the stored answer, the ± summary chart and every number in the prose
+keep the lever's own sign. Say so in the `historyNote`, which is the chart's caption. See D60.
 
 **Adding or removing an information card.** Add or delete a block under that lever's
 `facts:` — nothing else to touch, and no notebook run. Aim for four pre-answer facts

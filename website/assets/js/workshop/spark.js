@@ -100,9 +100,33 @@
 
   /* ---------------------------------------------------------------- history */
   /* opts: {x, y, unit, refYear, refValue, targetYear, value, targetValue,
-            showTarget, decimals, srLabel} */
+            showTarget, decimals, invertY, srLabel} */
   function history(node, opts) {
-    responsive(node, function () { drawHistory(node, opts); });
+    responsive(node, function () { drawHistory(node, flipped(opts)); });
+  }
+
+  /* A lever counted as a *reduction* — "°C less on the thermostat" — climbs on
+     the chart exactly when the thing it describes goes down, which reads
+     backwards (D60). `invertY` plots the signed change instead: the axis becomes
+     "difference against the reference year", so lowering the setpoint lowers the
+     line. Only the drawing is negated; the slider, the stored answer and every
+     number elsewhere keep the lever's own sign. Copies rather than mutates —
+     `responsive()` redraws with the same options object on every resize. */
+  function flipped(o) {
+    if (!o || !o.invertY) return o;
+    function neg(v) {
+      return (v === null || v === undefined || !isFinite(v)) ? v : (v === 0 ? 0 : -v);
+    }
+    var out = {}, k;
+    for (k in o) { if (Object.prototype.hasOwnProperty.call(o, k)) out[k] = o[k]; }
+    out.y = (o.y || []).map(neg);
+    out.refValue = neg(o.refValue);
+    out.value = neg(o.value);
+    out.targetValue = neg(o.targetValue);
+    // the span of possible answers turns over with them
+    out.domainMin = neg(o.domainMax);
+    out.domainMax = neg(o.domainMin);
+    return out;
   }
 
   function drawHistory(node, o) {

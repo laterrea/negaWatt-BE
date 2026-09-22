@@ -630,7 +630,7 @@ window.NW_WS_CONTENT = {
       "en": "% of home heat"
     },
     "unit.m² of service building per person": {
-      "fr": "m² de services/pers.",
+      "fr": "m² tertiaires/pers.",
       "nl": "m² diensten/pers.",
       "en": "m² of service floor per person"
     },
@@ -659,8 +659,18 @@ window.NW_WS_CONTENT = {
       "nl": "kWh/pers./jaar",
       "en": "kWh/person/year"
     },
+    "unit.summer days per year": {
+      "fr": "jours d'été/an",
+      "nl": "zomerse dagen/jaar",
+      "en": "summer days per year"
+    },
+    "unit.% of the employed": {
+      "fr": "% des travailleurs",
+      "nl": "% van de werkenden",
+      "en": "% of the employed"
+    },
     "unit.% of service-building heat": {
-      "fr": "% de la chaleur des services",
+      "fr": "% de la chaleur du tertiaire",
       "nl": "% van de warmte in diensten",
       "en": "% of service-building heat"
     }
@@ -4473,7 +4483,7 @@ window.NW_WS_CONTENT = {
     "tertiary-heat": {
       "sector": "buildings",
       "title": {
-        "fr": "Chaleur des bâtiments de services",
+        "fr": "Chaleur des bâtiments tertiaires",
         "nl": "Warmte in dienstengebouwen",
         "en": "Service-building heat"
       },
@@ -4499,7 +4509,7 @@ window.NW_WS_CONTENT = {
       "levers": {
         "ter-floor-area": {
           "question": {
-            "fr": "Quelle surface de bâtiments de services par personne est un objectif 2050 réaliste ?",
+            "fr": "Quelle surface de bâtiments tertiaires par personne est un objectif 2050 réaliste ?",
             "nl": "Welke oppervlakte aan dienstengebouwen per persoon is een realistisch doel voor 2050?",
             "en": "What service-building floor area per person is a realistic 2050 objective?"
           },
@@ -4514,7 +4524,7 @@ window.NW_WS_CONTENT = {
             "en": "Offices, shops, schools, hospitals, hotels, restaurants: useful floor area of the whole stock, divided by the entire population."
           },
           "tangible": {
-            "fr": "{value} m² de bâtiments de services pour chaque habitant, à chauffer et à rafraîchir.",
+            "fr": "{value} m² de bâtiments tertiaires pour chaque habitant, à chauffer et à rafraîchir.",
             "nl": "{value} m² dienstengebouwen voor elke inwoner, te verwarmen en te koelen.",
             "en": "{value} m² of service building for every inhabitant, to be heated and cooled."
           },
@@ -4542,7 +4552,7 @@ window.NW_WS_CONTENT = {
             {
               "kind": "benchmark",
               "text": {
-                "fr": "Sur exactement la même base et la même source, l'Allemagne compte 42,1 m² de bâtiments de services par personne, les Pays-Bas 24,0, la moyenne UE27 22,5 et la France 15,3 (2019).",
+                "fr": "Sur exactement la même base et la même source, l'Allemagne compte 42,1 m² de bâtiments tertiaires par personne, les Pays-Bas 24,0, la moyenne UE27 22,5 et la France 15,3 (2019).",
                 "nl": "Op precies dezelfde basis en uit dezelfde bron heeft Duitsland 42,1 m² dienstengebouwen per persoon, Nederland 24,0, het EU27-gemiddelde 22,5 en Frankrijk 15,3 (2019).",
                 "en": "On exactly the same basis and from the same source, Germany has 42.1 m² of service buildings per person, the Netherlands 24.0, the EU27 average 22.5 and France 15.3 (2019)."
               },
@@ -4559,13 +4569,49 @@ window.NW_WS_CONTENT = {
               "source": "nW-BE §1.2.2 and §3.1 (JRC-IDEES-2023)"
             },
             {
-              "kind": "tangible",
+              "kind": "lever",
               "text": {
-                "fr": "19,9 m² par personne, c'est une pièce de 4 mètres sur 5 pour chaque habitant — répartie entre son bureau, l'école de ses enfants, ses magasins, son hôpital et son administration.",
-                "nl": "19,9 m² per persoon is een kamer van 4 bij 5 meter voor elke inwoner — verdeeld over het kantoor, de school van de kinderen, de winkels, het ziekenhuis en de administratie.",
-                "en": "19.9 m² per person is a room of 4 by 5 metres for every inhabitant — spread across their office, their children's school, their shops, their hospital and their administration."
+                "fr": "Le télétravail a décollé : d'un quart des travailleurs belges en 2019 à plus d'un tiers. Mais à Bruxelles, en vingt-six ans, *1,97 million de m² seulement* ont changé d'affectation.",
+                "nl": "Telewerk brak door: van een kwart naar ruim een derde van de werkenden. Maar in Brussel werd in 26 jaar amper *1,97 miljoen m²* herbestemd.",
+                "en": "Teleworking took off: from a quarter of Belgium's employed in 2019 to more than a third. But in Brussels, *only 1.97 million m²* has changed use in twenty-six years."
               },
-              "source": "nW-BE §1.2.2, arithmetic on the 2019 value"
+              "source": "perspective.brussels, Observatoire des bureaux n°40 — état des lieux 2021-2022, mars 2024 (résumé p. 6-7)",
+              "label": {
+                "fr": "Le télétravail",
+                "nl": "Telewerk",
+                "en": "Teleworking"
+              },
+              "url": "https://perspective.brussels/sites/default/files/documents/bbp_obsbur_40.pdf",
+              "chart": {
+                "kind": "line",
+                "y": [
+                  24.6,
+                  33.7,
+                  39.9,
+                  35.4,
+                  35.9,
+                  36.0,
+                  37.1
+                ],
+                "caption": {
+                  "fr": "Belgique : travailleurs (15-64 ans) travaillant à domicile, habituellement ou parfois.",
+                  "nl": "België: werkenden (15-64 jaar) die thuis werken, gewoonlijk of soms.",
+                  "en": "Belgium: employed people (15-64) working from home, usually or sometimes."
+                },
+                "x": [
+                  2019,
+                  2020,
+                  2021,
+                  2022,
+                  2023,
+                  2024,
+                  2025
+                ],
+                "unit": "% of the employed",
+                "decimals": 1,
+                "source": "Eurostat lfsa_ehomp, Belgium 15-64",
+                "url": "https://ec.europa.eu/eurostat/databrowser/view/lfsa_ehomp/default/table?lang=en"
+              }
             },
             {
               "kind": "structure",
@@ -4581,7 +4627,7 @@ window.NW_WS_CONTENT = {
         },
         "ter-insulation": {
           "question": {
-            "fr": "Quel besoin de chauffage par mètre carré est un objectif 2050 réaliste pour les bâtiments de services ?",
+            "fr": "Quel besoin de chauffage par mètre carré est un objectif 2050 réaliste pour les bâtiments tertiaires ?",
             "nl": "Welke warmtevraag per vierkante meter is een realistisch doel voor 2050 voor dienstengebouwen?",
             "en": "What heating need per square metre is a realistic 2050 objective for service buildings?"
           },
@@ -4596,7 +4642,7 @@ window.NW_WS_CONTENT = {
             "en": "Useful heat that has to reach the premises, per m² per year, averaged over the whole service stock. Before boiler losses, and at unchanged heating behaviour."
           },
           "tangible": {
-            "fr": "{value} kWh de chaleur par m² et par an, pour le bâtiment de services moyen.",
+            "fr": "{value} kWh de chaleur par m² et par an, pour le bâtiment tertiaire moyen.",
             "nl": "{value} kWh warmte per m² per jaar, voor het gemiddelde dienstengebouw.",
             "en": "{value} kWh of heat per m² per year, for the average service building."
           },
@@ -4664,12 +4710,12 @@ window.NW_WS_CONTENT = {
         },
         "ter-thermostat": {
           "question": {
-            "fr": "De combien de degrés la sobriété peut-elle abaisser le thermostat des bâtiments de services d'ici 2050 ?",
-            "nl": "Met hoeveel graden kan soberheid de thermostaat in dienstengebouwen tegen 2050 verlagen?",
-            "en": "By how many degrees can sufficiency bring the service-building thermostat down by 2050?"
+            "fr": "De combien peut-on raisonnablement abaisser le thermostat des bâtiments tertiaires d'ici 2050 ?",
+            "nl": "Met hoeveel kan de thermostaat in tertiaire gebouwen tegen 2050 redelijkerwijs worden verlaagd?",
+            "en": "By how much can the service-building thermostat reasonably be brought down by 2050?"
           },
           "short": {
-            "fr": "Thermostat des services",
+            "fr": "Thermostat du tertiaire",
             "nl": "Thermostaat in diensten",
             "en": "Service thermostat"
           },
@@ -4694,9 +4740,9 @@ window.NW_WS_CONTENT = {
             "en": "The argument reverses rather well: in a service building nobody pays the bill out of their own pocket and nobody decides alone, which blocks change — but the setpoint is also set by one person for hundreds, which is far faster to change than millions of household decisions. The Spanish law of 2022 did, after all, target the service sector and not homes."
           },
           "historyNote": {
-            "fr": "Aucune série mesurée des températures de consigne des bâtiments de services belges n'existe ; seule la consommation de chauffage est observée, et elle mélange l'effet du thermostat, de l'isolation et de la météo.",
-            "nl": "Er bestaat geen gemeten reeks van de ingestelde temperaturen in Belgische dienstengebouwen; alleen het verwarmingsverbruik wordt waargenomen, en dat mengt het effect van de thermostaat, de isolatie en het weer.",
-            "en": "No measured series of Belgian service-building setpoints exists; only heating consumption is observed, and it mixes the effect of the thermostat, of insulation and of the weather."
+            "fr": "Le graphe porte l'écart de consigne par rapport à 2019 — abaisser le thermostat fait descendre la courbe. Aucune série mesurée des températures de consigne des bâtiments tertiaires belges n'existe ; seule la consommation de chauffage est observée, et elle mélange l'effet du thermostat, de l'isolation et de la météo.",
+            "nl": "De grafiek toont het verschil in ingestelde temperatuur tegenover 2019 — de thermostaat lager zetten laat de curve dalen. Er bestaat geen gemeten reeks van de ingestelde temperaturen in Belgische dienstengebouwen; alleen het verwarmingsverbruik wordt waargenomen, en dat mengt het effect van de thermostaat, de isolatie en het weer.",
+            "en": "The chart plots the setpoint change against 2019, so turning the thermostat down takes the line down. No measured series of Belgian service-building setpoints exists; only heating consumption is observed, and it mixes the effect of the thermostat, of insulation and of the weather."
           },
           "facts": [
             {
@@ -4738,16 +4784,17 @@ window.NW_WS_CONTENT = {
               "source": "nW-BE §3.1.2"
             }
           ],
+          "chartInvertY": true,
           "historyAbsent": true
         },
         "ter-cooling": {
           "question": {
-            "fr": "Quel niveau de climatisation des bâtiments de services est un objectif 2050 acceptable ?",
+            "fr": "Quel niveau de climatisation des bâtiments tertiaires est un objectif 2050 acceptable ?",
             "nl": "Welk niveau van koeling in dienstengebouwen is een aanvaardbaar doel voor 2050?",
             "en": "What level of service-building cooling is an acceptable 2050 objective?"
           },
           "short": {
-            "fr": "Climatisation des services",
+            "fr": "Climatisation du tertiaire",
             "nl": "Koeling in diensten",
             "en": "Service cooling"
           },
@@ -4757,7 +4804,7 @@ window.NW_WS_CONTENT = {
             "en": "Useful cooling demand per m² per year, averaged over the whole service stock — cooled or not."
           },
           "tangible": {
-            "fr": "{value} kWh de froid par m² de bâtiment de services et par an.",
+            "fr": "{value} kWh de froid par m² de bâtiment tertiaire et par an.",
             "nl": "{value} kWh koeling per m² dienstengebouw per jaar.",
             "en": "{value} kWh of cooling per m² of service building per year."
           },
@@ -4802,13 +4849,40 @@ window.NW_WS_CONTENT = {
               "url": "https://ec.europa.eu/eurostat/databrowser/view/nrg_chddr2_a/default/table"
             },
             {
-              "kind": "tangible",
+              "kind": "structure",
               "text": {
-                "fr": "À 17,2 kWh/m² et par an, un immeuble de bureaux de 5 000 m² demandait environ 86 000 kWh de froid en 2019 — un cinquième de ce qu'il demandait en chaleur la même année.",
-                "nl": "Aan 17,2 kWh/m² per jaar vroeg een kantoorgebouw van 5.000 m² in 2019 ongeveer 86.000 kWh koeling — een vijfde van wat het datzelfde jaar aan warmte vroeg.",
-                "en": "At 17.2 kWh/m² a year, a 5,000 m² office block needed about 86,000 kWh of cooling in 2019 — one fifth of what it needed in heat that same year."
+                "fr": "La loi belge ne fixe aucune température maximale de l'air au bureau. Elle fixe une *valeur d'action* en indice WBGT — 29 pour un travail léger — et le SPF Emploi précise que cet indice est normalement inférieur à ce qu'affiche un thermomètre ordinaire. Au-delà, l'employeur doit un programme de mesures : ventilation, horaires, charge de travail, boissons. La climatisation n'y est qu'une option. Dans l'autre sens, la loi parle bien en degrés : *minimum 16 à 18 °C*.",
+                "nl": "De Belgische wet legt geen maximale luchttemperatuur op kantoor vast. Ze legt een *actiewaarde* vast in WBGT-index — 29 voor licht werk — en de FOD Werkgelegenheid preciseert dat die index normaal lager ligt dan een gewone thermometer. Daarboven moet de werkgever maatregelen nemen: ventilatie, uurroosters, werkbelasting, drank. Koeling is daarin maar één optie. In de andere richting spreekt de wet wél in graden: *minimaal 16 tot 18 °C*.",
+                "en": "Belgian law sets no maximum air temperature for an office. It sets an *action value* on the WBGT index — 29 for light work — and the federal employment service notes that this index normally reads lower than an ordinary thermometer. Above it the employer owes a programme of measures: ventilation, working hours, workload, drinks. Air conditioning is only one option. In the other direction the law does speak in degrees: *a minimum of 16 to 18 °C*."
               },
-              "source": "nW-BE, arithmetic on the 2019 values"
+              "source": "Code du bien-être au travail, Livre V, Titre 1 — Ambiances thermiques, art. V.1-3 et V.1-4 (SPF Emploi, version consolidée 2024)",
+              "label": {
+                "fr": "La loi belge",
+                "nl": "De Belgische wet",
+                "en": "Belgian law"
+              },
+              "url": "https://emploi.belgique.be/sites/default/files/content/documents/Bien-%C3%AAtre%20au%20travail/R%C3%A9glementation/Code%20livre%20V%20titre%201%20Ambiances%20thermiques.pdf",
+              "chart": {
+                "kind": "bars",
+                "y": [
+                  20,
+                  30
+                ],
+                "caption": {
+                  "fr": "Uccle : nombre moyen de jours d'été (maximum ≥ 25 °C) par an. Les jours de chaleur (≥ 30 °C) passent, eux, de 2 à 5.",
+                  "nl": "Ukkel: gemiddeld aantal zomerse dagen (maximum ≥ 25 °C) per jaar. De hittedagen (≥ 30 °C) gaan van 2 naar 5.",
+                  "en": "Uccle: average number of summer days (maximum ≥ 25 °C) a year. Heat days (≥ 30 °C) go from 2 to 5."
+                },
+                "labels": [
+                  "1961-1990",
+                  "1991-2020"
+                ],
+                "unit": "summer days per year",
+                "decimals": 0,
+                "highlight": 1,
+                "source": "IRM/KMI, normales climatiques à Uccle",
+                "url": "https://www.meteo.be/fr/climat/climat-de-la-belgique/normales-climatiques-a-uccle"
+              }
             },
             {
               "kind": "structure",
@@ -4824,12 +4898,12 @@ window.NW_WS_CONTENT = {
         },
         "ter-hot-water": {
           "question": {
-            "fr": "Quelle consommation d'eau chaude des bâtiments de services par personne est un objectif 2050 réaliste ?",
+            "fr": "Quelle consommation d'eau chaude des bâtiments tertiaires par personne est un objectif 2050 réaliste ?",
             "nl": "Welk warmwaterverbruik van dienstengebouwen per persoon is een realistisch doel voor 2050?",
             "en": "What service-building hot-water use per person is a realistic 2050 objective?"
           },
           "short": {
-            "fr": "Eau chaude des services",
+            "fr": "Eau chaude du tertiaire",
             "nl": "Warm water in diensten",
             "en": "Service hot water"
           },
@@ -4876,21 +4950,26 @@ window.NW_WS_CONTENT = {
             {
               "kind": "tangible",
               "text": {
-                "fr": "L'équivalent de 28,8 litres d'eau à 40 °C par jour et par personne, hors du domicile — contre 64 litres à la maison, même source et même base. Douches de salles de sport, vestiaires, cuisines de collectivité, lavabos d'hôpitaux.",
-                "nl": "Het equivalent van 28,8 liter water van 40 °C per dag per persoon, buiten de woning — tegenover 64 liter thuis, dezelfde bron en dezelfde basis. Douches in sportzalen, kleedkamers, grootkeukens, wastafels in ziekenhuizen.",
-                "en": "The equivalent of 28.8 litres of 40 °C water a day per person, away from home — against 64 litres at home, same source and same basis. Sports-hall showers, changing rooms, canteen kitchens, hospital basins."
+                "fr": "L'équivalent de 28,8 litres d'eau à 40 °C par jour et par personne, hors du domicile — contre 64 litres à la maison, même source et même base. À quoi sert-elle ? Aux lavabos et au nettoyage des bureaux, écoles et commerces ; aux douches et vestiaires des salles de sport, piscines et ateliers ; à la toilette des patients et des résidents et à la blanchisserie des hôpitaux et maisons de repos ; aux salles de bains des hôtels ; à la plonge des cuisines de collectivité.",
+                "nl": "Het equivalent van 28,8 liter water van 40 °C per dag per persoon, buiten de woning — tegenover 64 liter thuis, dezelfde bron en dezelfde basis. Waarvoor dient het? Voor wastafels en schoonmaak in kantoren, scholen en winkels; voor douches en kleedkamers in sportzalen, zwembaden en werkplaatsen; voor de verzorging van patiënten en bewoners en voor de wasserij in ziekenhuizen en woonzorgcentra; voor de badkamers van hotels; voor de afwas in grootkeukens.",
+                "en": "The equivalent of 28.8 litres of 40 °C water a day per person, away from home — against 64 litres at home, same source and same basis. What is it for? Basins and cleaning in offices, schools and shops; showers and changing rooms in sports halls, pools and workshops; washing patients and residents, and laundry, in hospitals and care homes; hotel bathrooms; dishwashing in canteen kitchens."
               },
-              "source": "nW-BE §3.1.2, arithmetic on the 2019 value"
+              "source": "nW-BE §3.1.2, arithmetic on the 2019 value; JRC-IDEES service definition"
             },
             {
-              "kind": "caution",
+              "kind": "lever",
               "text": {
-                "fr": "Attention à l'année de référence : c'est la seule des quatre séries thermiques du tertiaire qui n'a jamais durablement baissé, et 2019 y est un creux local — la demande était plus élevée en 2018 (319 kWh) et plus élevée encore en 2023 (323,9). Un objectif qui paraît modeste par rapport à 2019 peut donc demander un vrai effort par rapport à aujourd'hui.",
-                "nl": "Let op het referentiejaar: dit is de enige van de vier thermische reeksen van de tertiaire sector die nooit duurzaam is gedaald, en 2019 is er een lokaal dal — de vraag was hoger in 2018 (319 kWh) en nog hoger in 2023 (323,9). Een doel dat tegenover 2019 bescheiden lijkt, kan dus een echte inspanning vragen tegenover vandaag.",
-                "en": "Mind the reference year: this is the only one of the sector's four thermal series that has never fallen durably, and 2019 is a local trough in it — demand was higher in 2018 (319 kWh) and higher still in 2023 (323.9). An objective that looks modest against 2019 may therefore demand a real effort against today."
+                "fr": "Le suivi de quelque 400 sites tertiaires français par le COSTIC dit où se trouve le gisement — et ce ne sont pas les robinets des bureaux. Un employé de bureau ne consomme que *5 à 10 litres* à 40 °C par jour ouvré — lavabos et nettoyage. Une nuitée d'hôtel en pèse *78 à 108*. Et beaucoup se joue sur la plomberie : dans une école avec cantine, brancher les lave-vaisselle sur l'eau froide plutôt que sur l'eau chaude fait passer le besoin de *7-12 à 4-7 litres par élève*. Aux douches, une robinetterie à 6 l/min remplace des anciennes à 8-10 l/min.",
+                "nl": "De opvolging van zo'n 400 Franse tertiaire sites door het COSTIC toont waar het potentieel zit — en dat zijn niet de kantoorkranen. Een kantoormedewerker verbruikt maar *5 tot 10 liter* op 40 °C per werkdag — wastafels en schoonmaak. Eén hotelnacht weegt er *78 tot 108*. En veel hangt af van het leidingwerk: in een school met refter brengt het aansluiten van de vaatwassers op koud in plaats van warm water de vraag van *7-12 naar 4-7 liter per leerling*. Bij de douches vervangt een kraan van 6 l/min oude van 8-10 l/min.",
+                "en": "Monitoring of some 400 French service-sector sites by COSTIC shows where the room for manoeuvre is — and it is not the office tap. An office worker uses only *5 to 10 litres* at 40 °C per working day — basins and cleaning. One hotel night weighs *78 to 108*. And much of it is plumbing: in a school with a canteen, feeding the dishwashers cold water rather than hot takes the need from *7-12 down to 4-7 litres per pupil*. At the showers, a 6 l/min fitting replaces older ones running at 8-10 l/min."
               },
-              "source": "JRC-IDEES-2023, reading of the series",
-              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f"
+              "source": "COSTIC for ADEME and GRDF, Vers une meilleure connaissance des besoins en eau chaude sanitaire en tertiaire, septembre 2020 — tableau récapitulatif p. 150 et §5.3",
+              "label": {
+                "fr": "Où la sobriété mord",
+                "nl": "Waar soberheid bijt",
+                "en": "Where sufficiency bites"
+              },
+              "url": "https://www.mapes-pdl.fr/wp-content/uploads/2020/10/ECS-ADEME-COSTIC-Besoins-ECS-tertiaire.pdf"
             },
             {
               "kind": "structure",
@@ -4994,7 +5073,7 @@ window.NW_WS_CONTENT = {
         },
         "ter-district-heat": {
           "question": {
-            "fr": "Quelle part de la chaleur des bâtiments de services livrée par un réseau est un objectif 2050 réaliste ?",
+            "fr": "Quelle part de la chaleur des bâtiments tertiaires livrée par un réseau est un objectif 2050 réaliste ?",
             "nl": "Welk aandeel van de warmte in dienstengebouwen geleverd door een net is een realistisch doel voor 2050?",
             "en": "What share of service-building heat delivered by a network is a realistic 2050 objective?"
           },
@@ -5009,7 +5088,7 @@ window.NW_WS_CONTENT = {
             "en": "Space heating and hot water delivered by a network rather than by the building's own boiler. This lever does not change demand, only its source."
           },
           "tangible": {
-            "fr": "{value} % de la chaleur des bâtiments de services livrée par un réseau.",
+            "fr": "{value} % de la chaleur des bâtiments tertiaires livrée par un réseau.",
             "nl": "{value} % van de warmte in dienstengebouwen geleverd door een net.",
             "en": "{value}% of service-building heat delivered by a network."
           },
@@ -5032,7 +5111,7 @@ window.NW_WS_CONTENT = {
             {
               "kind": "structure",
               "text": {
-                "fr": "En 2019, 2,4 % de la chaleur des bâtiments de services belges venait d'un réseau, soit 0,61 TWh sur les 25,2 TWh raccordables — chauffage plus eau chaude, 77,7 % de l'énergie thermique du secteur. C'est près de dix fois la pénétration du logement, et cela reste marginal.",
+                "fr": "En 2019, 2,4 % de la chaleur des bâtiments tertiaires belges venait d'un réseau, soit 0,61 TWh sur les 25,2 TWh raccordables — chauffage plus eau chaude, 77,7 % de l'énergie thermique du secteur. C'est près de dix fois la pénétration du logement, et cela reste marginal.",
                 "nl": "In 2019 kwam 2,4 % van de warmte in Belgische dienstengebouwen van een net, ofwel 0,61 TWh op de 25,2 TWh die aansluitbaar zijn — verwarming plus warm water, 77,7 % van de thermische energie van de sector. Dat is bijna tien keer de penetratie bij woningen, en het blijft marginaal.",
                 "en": "In 2019, 2.4% of the heat in Belgian service buildings came from a network, i.e. 0.61 TWh out of the 25.2 TWh that could be networked — space heating plus hot water, 77.7% of the sector's thermal energy. That is close to ten times the penetration in housing, and it is still marginal."
               },
@@ -5041,7 +5120,7 @@ window.NW_WS_CONTENT = {
             {
               "kind": "benchmark",
               "text": {
-                "fr": "Dans les services, la chaleur de réseau couvre 41 % de l'énergie livrée au Danemark et 31 % en Suède, contre 7,7 % dans l'UE27, 6,1 % en Allemagne, 4,3 % en France et 2,2 % en Belgique (2023). Attention à la base : ces chiffres portent sur toute l'énergie du secteur, électricité de l'éclairage et de l'informatique comprise, donc sur un dénominateur plus large que cette question.",
+                "fr": "Dans le tertiaire, la chaleur de réseau couvre 41 % de l'énergie livrée au Danemark et 31 % en Suède, contre 7,7 % dans l'UE27, 6,1 % en Allemagne, 4,3 % en France et 2,2 % en Belgique (2023). Attention à la base : ces chiffres portent sur toute l'énergie du secteur, électricité de l'éclairage et de l'informatique comprise, donc sur un dénominateur plus large que cette question.",
                 "nl": "In de dienstensector dekt netwarmte 41 % van de geleverde energie in Denemarken en 31 % in Zweden, tegenover 7,7 % in de EU27, 6,1 % in Duitsland, 4,3 % in Frankrijk en 2,2 % in België (2023). Let op de basis: die cijfers gaan over alle energie van de sector, inclusief elektriciteit voor verlichting en ICT, dus over een ruimere noemer dan deze vraag.",
                 "en": "In the service sector, network heat covers 41% of the energy delivered in Denmark and 31% in Sweden, against 7.7% in the EU27, 6.1% in Germany, 4.3% in France and 2.2% in Belgium (2023). Mind the basis: these figures cover all of the sector's energy, including electricity for lighting and IT, so a wider denominator than this question."
               },
@@ -5061,7 +5140,7 @@ window.NW_WS_CONTENT = {
             {
               "kind": "caution",
               "text": {
-                "fr": "Ce levier ne modifie pas la demande d'énergie utile mesurée ici : c'est pourquoi cet écran n'affiche pas l'encadré d'effet des autres questions. Le bénéfice est en amont — géothermie, chaleur fatale industrielle, cogénération biomasse, stockage saisonnier — dans une partie du système que ce modèle de demande ne représente pas. En 2019, les réseaux belges ont livré 0,61 TWh aux bâtiments de services.",
+                "fr": "Ce levier ne modifie pas la demande d'énergie utile mesurée ici : c'est pourquoi cet écran n'affiche pas l'encadré d'effet des autres questions. Le bénéfice est en amont — géothermie, chaleur fatale industrielle, cogénération biomasse, stockage saisonnier — dans une partie du système que ce modèle de demande ne représente pas. En 2019, les réseaux belges ont livré 0,61 TWh aux bâtiments tertiaires.",
                 "nl": "Deze hefboom wijzigt de hier gemeten nuttige energievraag niet: daarom toont dit scherm het effectkader van de andere vragen niet. Het voordeel zit stroomopwaarts — geothermie, industriële restwarmte, biomassawarmtekracht, seizoensopslag — in een deel van het systeem dat dit vraagmodel niet weergeeft. In 2019 leverden de Belgische netten 0,61 TWh aan de dienstengebouwen.",
                 "en": "This lever does not change the useful energy demand measured here: that is why this screen carries none of the effect box the other questions show. The benefit sits upstream — geothermal energy, industrial waste heat, biomass cogeneration, seasonal storage — in a part of the system this demand model does not represent. In 2019 Belgian networks delivered 0.61 TWh to service buildings."
               },

@@ -589,6 +589,17 @@ def build(check_only=False):
                                           f"or leave the point out")
                 rec["facts"].append(entry)
 
+            # --- which way is down on the chart ------------------------------
+            # A lever counted as a reduction ("°C less on the thermostat") draws
+            # a rising line for a falling quantity, which reads backwards. The
+            # flag makes the chart plot the signed change instead; nothing else
+            # about the lever moves. See D60.
+            invert = content.get("chartInvertY", False)
+            if not isinstance(invert, bool):
+                errors.append(f"{where}.chartInvertY: expected true/false, got {invert!r}")
+            elif invert:
+                rec["chartInvertY"] = True
+
             # --- the historical curve ---------------------------------------
             key = lv.get("history")
             if content.get("history"):                 # hand-curated in the YAML

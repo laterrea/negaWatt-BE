@@ -147,6 +147,7 @@
       value: value,
       decimals: lever.decimals,
       domainMin: lever.slider.min, domainMax: lever.slider.max,
+      invertY: content.chartInvertY === true,
       srLabel: T.pick(content.question)
     });
 

@@ -253,6 +253,7 @@ Each decision records *why*, so it can be revisited on purpose rather than by ac
 | D57 | **A zero baseline is decided on the observed minimum, not the padded one** | `domain()` pads a chart's range by 12 % and then snaps the floor to zero "when close". The guard read `lo > 0` *after* padding, so it could never fire once padding had pushed the floor below zero — the one case that needs it. Giving `district-heat` an observed curve (D55) made it visible: a share observed at 0,21 % with an answer at 20 % printed a −2,2 % floor on a quantity that cannot be negative. Tested on the unpadded minimum now; `cooling`, `ter-cooling` and `air-freight` were silently affected too. |
 | D58 | **A trend is fitted over the window the statistic is trustworthy in, and the card says so** | JRC-IDEES useful cooking energy steps from 102,0 to 77,1 ktoe between 2021 and 2022 while Eurostat's delivered cooking energy is flat across that year and falls only in 2023-24. A 2000-2023 fit gives −1,6 kWh/household/year, two thirds of it that step; the clean 2000-2019 window gives **−0,94**, barely −4 % in twenty years. §2.1.2 and the workshop card now quote the clean window and name the break, as §2.1.2 already does for hot water (D54). Unlike D54 the series is **not** reconstructed from Eurostat: a gas-to-induction switch moves delivered energy while leaving useful heat alone, so scaling useful by delivered would import electrification into a series that must not see it. Same reason `cooking` keeps `historyAbsent`. The 2019 anchor and the +15 % assumption read nothing after 2019, so the scenario is numerically unchanged. |
 | D59 | **A rate is meaningless without its definition, so the card carries all of them** | "2,3 % of the stock renovated each year" invites the objection that the renovation rate is famously ~1 %. Both are right and they count different things. JRC-IDEES books its renovation component as a fixed parameter — the series reconstructs as `ΔStock + 0,02261 × Stock` to within 0,02 % of the stock over twenty-three years, i.e. one pass every 44 years, at any depth. *A Renovation Wave for Europe* (COM(2020) 662) gives the three figures in circulation: 11 % of the stock sees some works each year, the **energy-weighted** rate is "some 1%", and deep renovation (**at least 60%** less consumption) runs at 0,2 %. The card now states all of them, plots seven rates on one scale with the project's anchor in amber, and adds the quantity the rate/depth split cannot move — `rate × depth`, the share of the stock taken to zero heating need each year: **0,58 %/year observed**. The gain is on the reveal: since the Commission's "deep" threshold is the 60 % this scenario assumes, négaWatt's pair reads as **2,24 %/year of deep renovation against 0,2 % observed EU-wide**, and 1,34 %/year full-equivalent against 0,58 %, i.e. 2,33×. That replaces "the same number of renovations, only deeper", which was true and read as reassuring. |
+| D60 | **A lever counted as a reduction may plot its chart upside down on purpose: `chartInvertY: true`** | `ter-thermostat` is measured in "°C *less* on the setpoint", so the participant's line climbed as the temperature it describes went down — the review's word was *contre-intuitif*. Re-basing the lever itself was rejected: the sign convention is shared with the residential twin, it is what `impact.linear-shift` and the ± summary chart read, and it is what the slider's "3 °C en moins" says. So the flag changes the **drawing only**. `spark.js` negates the plotted series, the reference point, the answer and the target in a *copy* of the options (`responsive()` redraws with the same object on every resize, so mutating would double-negate), and turns the slider's span over with them: the axis now runs +1 °C at the top to −5 °C at the bottom, the 2019 anchor sits at 0, and an answer of 3 °C less lands at −3. The `historyNote` is the chart's caption and says so. `build_workshop_content.py` refuses anything but a boolean. Applied to tertiary heat only; `residential-heat`'s `thermostat` is the same case and was left for its owner to decide. |
 
 ---
 
@@ -895,3 +896,78 @@ Three lessons for any lever whose unit is a *rate*:
   the 60 % depth is exactly the EU's threshold for "deep", so négaWatt's pair is *2,24 %/year
   of deep renovation against 0,2 % observed*. Stating it that way turned a reassuring reveal
   ("no more building sites, just better ones") into an honest one.
+
+---
+
+## 17. Review round, 2026-09-22 — tertiary heat
+
+Sylvain reviewed the seven screens of *Chaleur des bâtiments tertiaires*. The working
+tracker, with the original comments verbatim and what was decided against each, is
+`notes_workshop_tertiary.md` at the repository root. This section records what is
+structural; the wording changes are in the tracker.
+
+### One vocabulary decision, applied to French only
+
+"Bâtiments de services" became **"bâtiments tertiaires"** in all twenty French strings of
+the topic — title, questions, subtitles, read-backs, fact prose, `historyNote` — and the
+elliptical forms with it (`short:` "Thermostat/Climatisation/Eau chaude **des services**" →
+"**du tertiaire**"; the unit label "m² de services/pers." → "m² tertiaires/pers."). Dutch
+and English keep *dienstengebouwen* and *service buildings*, which are the right words
+there. The lever ids, the `strings` keys and the export are untouched: this is prose.
+
+### Which way is down (D60)
+
+The thermostat lever's chart plotted "°C less" upwards. It now plots the signed change, via
+an opt-in per-lever flag rather than a special case in the renderer. Details in D60 and in
+the README's card anatomy.
+
+### Three cards out, three cards in
+
+The review's verdict on the "Concrètement" cards of Q1 and Q4, and on the "À manier avec
+prudence" card of Q5, was that they restated the card beside them. All three were removed
+and each lever was given a fourth card that carries something new:
+
+| lever | new card | what it is built on |
+|---|---|---|
+| `ter-floor-area` | **Le télétravail** (`lever`), with the Belgian telework curve plotted | Eurostat `lfsa_ehomp` (24,6 % in 2019 → 39,9 % in 2021 → 37,1 % in 2025, usually + sometimes) on the chart; the prose on perspective.brussels, *Observatoire des bureaux* n°40 — 1 968 421 m² converted since 1997, 70 % of it to housing, against a stock of 12,49 Mm² and 8,7 % marketed vacancy |
+| `ter-cooling` | **La loi belge** (`structure`), with the Uccle summer-day normals plotted | Code du bien-être au travail, Livre V, Titre 1, art. V.1-3 and V.1-4; IRM/KMI climate normals on the chart (20 → 30 summer days a year; 2 → 5 heat days) |
+| `ter-hot-water` | **Où la sobriété mord** (`lever`) | COSTIC for ADEME and GRDF, *Vers une meilleure connaissance des besoins en ECS en tertiaire* (2020) — 3 500 meter readings on ~400 sites |
+
+**The finding worth recording is on the cooling card.** Belgian law sets **no maximum air
+temperature** for an office. Art. V.1-3 §2 sets an *action value* on the **WBGT index** — 29
+for light work, 26 medium, 22 heavy, 18 very heavy — and the SPF Emploi's own page says the
+index normally reads *lower* than an ordinary thermometer, so the threshold bites well above
+29 °C on the wall. Above it, art. V.1-4 owes a *programme* (ventilation, workload,
+schedules, rest, clothing, free cool drinks) in which air conditioning is one option among
+seven, never an obligation. The only place the law speaks in plain degrees is the **floor**:
+18 °C for very light work, 16 °C for light work (§1). Office desk work sits on the 117 W
+boundary between those two classes, so the card says "16 à 18 °C" rather than picking one.
+The card therefore does the same job as the Spanish decree on Q3, in the opposite direction:
+nothing forces a Belgian building to be cooled, so the 2050 level is a choice.
+
+**And the check the review asked for: négaWatt-BE says nothing about telework.** §1.2.2 of
+the buildings notebook motivates the −10 % per person in one sentence ("reduce the material
+footprint and the footprint related to heating and cooling") and carries the author's own
+margin note, *"Should further motivate this!"*. The only occurrence of the word in the whole
+repository is the label of the public-site hypothesis,
+`reference="Telework, space rationalisation"`. So the mechanism is named and never
+quantified, which is exactly what the new card and the existing debate card say.
+
+### The paper card is a budget, and it was measured
+
+Both new charts cost print height, and the topic's cards are already tall. Measured with the
+print stylesheet applied at 190 mm — the method the README prescribes — the first draft gave
+147,9 mm for Q1 in French and 147,6 in Dutch, which pushed the Dutch print run from four A4
+sheets to five. The fix was prose, not layout: the two new texts were tightened and the two
+chart `source:` strings shortened (a long source line wraps the figcaption onto an extra
+line, which is 3,4 mm). Final heights, all three languages on four sheets:
+
+| | Q1 | Q2 | Q3 | Q4 | Q5 | Q6 | Q7 |
+|---|---|---|---|---|---|---|---|
+| fr | 136,4 | 128 | 128 | 135,1 | 129,5 | 128 | 138,6 |
+| nl | 140,3 | 128 | 128 | 139,3 | 133,5 | 128 | 138,6 |
+| en | 136,4 | 128 | 128 | 135,1 | 128 | 128 | 128 |
+
+(128 mm is the `min-height`; a page holds 277 mm and a card carries a 6 mm bottom margin.)
+The lesson for the next topic: **a `line` chart costs about 31 mm of plot plus its caption,
+and the caption is where a verbose `source:` quietly buys a second line.**
