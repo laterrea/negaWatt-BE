@@ -29,9 +29,12 @@ EXPECTED = {
     "bike-km-day":    ("km/person/day",       1.68,     3.27,   0.01),
     "freight-tkm":    ("tkm/person/year",  7013.63,  6312.27,   1.00),
     "truck-share":    ("% of tonne-km",      66.77,    50.42,   0.05),
-    "truck-load":     ("tonnes",             12.65,    13.29,   0.01),
+    "truck-fill":     ("% full",             53.24,    55.91,   0.05),
 }
 SPARE = {"bus-occupancy", "train-occupancy"}
+# Levers answered with several sliders (D61): the parts, in order, and the rule.
+PARTED = {"car-energy": (["speed", "driving", "size"], "cuts")}
+ANSWER_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")   # api/db.php ws_id()
 IMPACT_KINDS = {"proportional", "inverse", "linear-shift", "negligible"}
 EDGE_MARGIN = 0.12
 
@@ -111,6 +114,53 @@ def main():
             else:
                 check(imp["scaled"] > 0, f"{lid}: {imp['kind']} with scaled=0 "
                                          f"(the mode lookup probably failed)")
+
+    # --- questions answered in parts (D61) ----------------------------------
+    def combine(rule, ref, values):
+        if rule == "cuts":
+            out = ref
+            for v in values:
+                out *= 1 - v / 100.0
+            return out
+        return sum(values)
+
+    for lid, lv in levers.items():
+        if lid in PARTED:
+            ids, rule = PARTED[lid]
+            check([p["id"] for p in lv.get("parts") or []] == ids,
+                  f"{lid}: parts are {[p['id'] for p in lv.get('parts') or []]}, expected {ids}")
+            check(lv.get("combine") == rule, f"{lid}: combine is {lv.get('combine')!r}, "
+                                             f"expected {rule!r}")
+        parts = lv.get("parts")
+        if not parts:
+            check("combine" not in lv, f"{lid}: 'combine' without parts")
+            continue
+        rule = lv.get("combine")
+        for p in parts:
+            check(ANSWER_ID_RE.match(p.get("answerId") or "") is not None,
+                  f"{lid}.{p['id']}: answer id {p.get('answerId')!r} would be refused by the API")
+            check(p["answerId"] not in levers, f"{lid}.{p['id']}: answer id clashes with a lever")
+            s_ = p["slider"]
+            check(s_["min"] <= p["refValue"] <= s_["max"],
+                  f"{lid}.{p['id']}: reference {p['refValue']} outside its slider")
+            if "targetValue" in p:
+                span = s_["max"] - s_["min"]
+                edge = min(p["targetValue"] - s_["min"], s_["max"] - p["targetValue"]) / span
+                check(edge >= EDGE_MARGIN, f"{lid}.{p['id']}: target sits {edge:.0%} from a "
+                                           f"slider end")
+        ref = combine(rule, lv["refValue"], [p["refValue"] for p in parts])
+        check(abs(ref - lv["refValue"]) < 1e-3,
+              f"{lid}: parts combine to {ref:g} in {lv['refYear']}, not {lv['refValue']}")
+        if all("targetValue" in p for p in parts):
+            trg = combine(rule, lv["refValue"], [p["targetValue"] for p in parts])
+            # the split must leave the scenario exactly where it was
+            check(abs(trg - lv["targetValue"]) < 1e-3,
+                  f"{lid}: the parts' targets combine to {trg:.4f}, not {lv['targetValue']}")
+        corners = [combine(rule, lv["refValue"], [p["slider"][e] for p in parts])
+                   for e in ("min", "max")]
+        check(lv["slider"]["min"] <= min(corners) and max(corners) <= lv["slider"]["max"],
+              f"{lid}: the parts reach {min(corners):.1f}-{max(corners):.1f}, outside the "
+              f"lever's axis {lv['slider']['min']}-{lv['slider']['max']}")
 
     # --- the energy model --------------------------------------------------
     # The model block is keyed by topic, so two topics of one sector cannot

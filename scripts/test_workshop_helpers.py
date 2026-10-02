@@ -75,6 +75,67 @@ def main():
         raise AssertionError("unknown impact kind accepted")
     ok("unknown impact kind rejected")
 
+    # --- a lever answered in parts (D61) -------------------------------------
+    def cut(pid, target=None, lo=0, hi=20):
+        return sf.make_lever_part(pid, pid, "% less energy per km", 0,
+                                  {"min": lo, "max": hi, "step": 1}, target_value=target)
+
+    assert abs(sf.combine_parts("cuts", 100, [10, 10]) - 81.0) < 1e-12
+    assert sf.combine_parts("sum", 0, [1.5, 2.5]) == 4.0
+    ok("combine_parts: cuts compound, sums add")
+
+    parted = sf.make_lever(
+        "car-energy", "inland-mobility", "Car energy", "% of 2019", 100, 75,
+        slider={"min": 45, "max": 115, "step": 1},
+        parts=[cut("speed", 8), cut("eco", 7, hi=15),
+               cut("size", 100 * (1 - 0.75 / (0.92 * 0.93)), lo=-15, hi=30)],
+        combine="cuts")
+    assert parted["combine"] == "cuts"
+    assert [p["answerId"] for p in parted["parts"]] == [
+        "car-energy__speed", "car-energy__eco", "car-energy__size"]
+    ok("make_lever exports parts with their API answer ids")
+
+    def refused(fragment, **kw):
+        args = dict(slider={"min": 45, "max": 115, "step": 1},
+                    parts=[cut("a"), cut("b")], combine="cuts")
+        args.update(kw)
+        try:
+            sf.make_lever("x", "t", "x", "% of 2019", 100, 75, **args)
+        except ValueError as exc:
+            assert fragment in str(exc), (fragment, exc)
+        else:
+            raise AssertionError(f"accepted although it should fail with {fragment!r}")
+
+    refused("combine must be", combine="product")
+    refused("at least two", parts=[cut("a")])
+    refused("duplicate part ids", parts=[cut("a"), cut("a")])
+    refused("go together", combine=None)
+    refused("every part carries a target", parts=[cut("a", 10), cut("b")])
+    refused("not the lever's target", parts=[cut("a", 10), cut("b", 10)])
+    refused("outside the lever's range", parts=[cut("a", hi=40), cut("b", hi=40)])
+    refused("not accepted by the API", parts=[cut("a" * 70), cut("b")])
+    ok("parts that cannot produce the lever's own values are refused")
+
+    try:
+        cut("speed", 1)
+    except ValueError as exc:
+        assert "slider end" in str(exc), exc
+    else:
+        raise AssertionError("a part target at an end stop was accepted")
+    ok("edge-margin guard applies to every part")
+
+    with tempfile.TemporaryDirectory() as tmp:
+        levers_js = os.path.join(tmp, "levers_transport.js")
+        clash = sf.make_lever("car-energy__speed", "t", "x", "u", 1.22, 2.00,
+                              slider={"min": 1.0, "max": 2.5, "step": 0.05})
+        try:
+            sf.write_levers_js("transport", [parted, clash], out_path=levers_js)
+        except ValueError as exc:
+            assert "used twice" in str(exc), exc
+        else:
+            raise AssertionError("a lever id equal to a part answer id was accepted")
+        ok("part answer ids cannot collide with a lever id")
+
     with tempfile.TemporaryDirectory() as tmp:
         levers_js = os.path.join(tmp, "levers_transport.js")
         try:

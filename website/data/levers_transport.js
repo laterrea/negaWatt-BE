@@ -2,7 +2,7 @@
 window.NW_LEVERS = window.NW_LEVERS || {};
 window.NW_LEVERS["transport"] = {
   "title": "Mobility & transport",
-  "generated": "2026-09-21",
+  "generated": "2026-10-02",
   "levers": {
     "ground-km-day": {
       "topic": "inland-mobility",
@@ -159,7 +159,7 @@ window.NW_LEVERS["transport"] = {
       "targetYear": 2050,
       "targetValue": 75.0,
       "slider": {
-        "min": 50.0,
+        "min": 45.0,
         "max": 115.0,
         "step": 1.0
       },
@@ -175,20 +175,75 @@ window.NW_LEVERS["transport"] = {
       "model": {
         "var": "redu_fuel_PM_car",
         "section": "2.3.5",
-        "note": "speed limits, eco-driving and smaller cars are bundled into this single figure; section 2.3.5 flags the split as unquantified"
+        "note": "the product of redu_fuel_PM_car_speed, _driving and _size; the size factor is the residual that keeps the product at its value"
       },
       "facts": {
         "reductionPct": 25.0,
+        "speedCutPct": 5.0,
+        "drivingCutPct": 7.0,
+        "sizeCutPct": 15.1,
+        "sizeKgLow": 300,
+        "sizeKgHigh": 500,
         "kwhPerKmPetrol2019": 0.674,
         "kwhPerKmBev2019": 0.211,
         "litresPetrol2019": 7.0,
         "litresPetrolEqBev2019": 2.2
       },
       "spoilers": [
-        "reductionPct"
+        "drivingCutPct",
+        "reductionPct",
+        "sizeCutPct",
+        "sizeKgHigh",
+        "sizeKgLow",
+        "speedCutPct"
       ],
       "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_2",
-      "reference": "nW-BE §2.3.5"
+      "reference": "nW-BE §2.3.5",
+      "parts": [
+        {
+          "id": "speed",
+          "name": "Lower speeds",
+          "unit": "%",
+          "refValue": 0.0,
+          "slider": {
+            "min": 0.0,
+            "max": 20.0,
+            "step": 1.0
+          },
+          "decimals": 0,
+          "targetValue": 5.0,
+          "answerId": "car-energy__speed"
+        },
+        {
+          "id": "driving",
+          "name": "Eco-driving",
+          "unit": "%",
+          "refValue": 0.0,
+          "slider": {
+            "min": 0.0,
+            "max": 15.0,
+            "step": 1.0
+          },
+          "decimals": 0,
+          "targetValue": 7.0,
+          "answerId": "car-energy__driving"
+        },
+        {
+          "id": "size",
+          "name": "Smaller, lighter cars",
+          "unit": "%",
+          "refValue": 0.0,
+          "slider": {
+            "min": -15.0,
+            "max": 30.0,
+            "step": 1.0
+          },
+          "decimals": 0,
+          "targetValue": 15.1104,
+          "answerId": "car-energy__size"
+        }
+      ],
+      "combine": "cuts"
     },
     "bike-km-day": {
       "topic": "inland-mobility",
@@ -324,42 +379,52 @@ window.NW_LEVERS["transport"] = {
       "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_3",
       "reference": "nW-BE §3.1"
     },
-    "truck-load": {
+    "truck-fill": {
       "topic": "inland-mobility",
-      "name": "Truck payload",
-      "unit": "tonnes",
+      "name": "Truck filling rate",
+      "unit": "% full",
       "refYear": 2019,
-      "refValue": 12.654,
+      "refValue": 53.2442,
       "targetYear": 2050,
-      "targetValue": 13.2867,
+      "targetValue": 55.9064,
       "slider": {
-        "min": 11.0,
-        "max": 18.0,
-        "step": 0.1
+        "min": 30.0,
+        "max": 100.0,
+        "step": 1.0
       },
       "better": "up",
-      "decimals": 1,
+      "decimals": 0,
       "shown": true,
       "impact": {
         "kind": "inverse",
-        "vTarget": 13.2867,
+        "vTarget": 55.9064,
         "total": 23.072,
         "scaled": 4.339
       },
       "model": {
         "var": "pyld_trgt_FT_trk_hvy",
-        "section": "3.3.3"
+        "section": "3.3.3",
+        "note": "filling rate = ref_pyld_FT_trk_hvy / cap_FT_trk_hvy, the km-weighted payload capacity of the Belgian fleet"
       },
       "facts": {
         "gainPct": 5.0,
-        "truckTwhTarget": 4.34
+        "truckTwhTarget": 4.34,
+        "emptyShareBE": 11.6,
+        "emptyShareEU": 19.8,
+        "fillEU2008": 51.7,
+        "fillEU2024": 53.3,
+        "fillEUTrendPts": 1.6,
+        "fillLaden": 60,
+        "fillLadenEU": 66,
+        "equivEmptyPct": 7
       },
       "spoilers": [
+        "equivEmptyPct",
         "gainPct",
         "truckTwhTarget"
       ],
       "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_3",
-      "reference": "nW-BE §3.3.5"
+      "reference": "nW-BE §3.3.3"
     },
     "bus-occupancy": {
       "topic": "inland-mobility",

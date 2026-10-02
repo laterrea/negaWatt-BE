@@ -80,12 +80,43 @@
       a1.innerHTML = "<b>" + T.num(lever.refValue, lever.decimals) + " " +
                      T.unit(lever.unit) + "</b>" + T.t("play.refValue", { year: lever.refYear });
       anchor.appendChild(a1);
-      var a2 = document.createElement("div");
-      a2.className = "ws-card__scale";
-      a2.innerHTML = "<b>" + T.num(lever.slider.min, Math.min(lever.decimals, 1)) + " – " +
-                     T.num(lever.slider.max, Math.min(lever.decimals, 1)) + "</b>" +
-                     T.t("play.yourAnswer");
-      anchor.appendChild(a2);
+      // a question answered in parts (D61) is answered on its parts: one line
+      // per slider, with its range and a blank for the group to write on. The
+      // lever's own range is only the axis of the chart, so it is not printed.
+      if (!(lever.parts && lever.parts.length)) {
+        var a2 = document.createElement("div");
+        a2.className = "ws-card__scale";
+        a2.innerHTML = "<b>" + T.num(lever.slider.min, Math.min(lever.decimals, 1)) + " – " +
+                       T.num(lever.slider.max, Math.min(lever.decimals, 1)) + "</b>" +
+                       T.t("play.yourAnswer");
+        anchor.appendChild(a2);
+      } else {
+        var list = document.createElement("div");
+        list.className = "ws-card__parts";
+        lever.parts.forEach(function (part) {
+          var ptext = (text.parts || {})[part.id] || {};
+          var row = document.createElement("div");
+          row.className = "ws-card__part";
+          var label = document.createElement("span");
+          label.textContent = T.pick(ptext.short) || T.pick(ptext.question) || part.name;
+          var range = document.createElement("span");
+          range.className = "ws-card__scale";
+          range.textContent = T.num(part.slider.min, Math.min(part.decimals, 1)) + " – " +
+                              T.num(part.slider.max, Math.min(part.decimals, 1)) + " " +
+                              T.unit(part.unit);
+          var blank = document.createElement("span");
+          blank.className = "ws-card__blank";
+          row.appendChild(label);
+          row.appendChild(range);
+          row.appendChild(blank);
+          list.appendChild(row);
+        });
+        var rule = document.createElement("p");
+        rule.className = "ws-card__rule";
+        rule.textContent = T.t("play.parts.rule." + lever.combine);
+        list.appendChild(rule);
+        anchor.appendChild(list);
+      }
       card.appendChild(anchor);
 
       var facts = document.createElement("div");

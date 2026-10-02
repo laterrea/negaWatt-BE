@@ -10087,18 +10087,56 @@ The occucpancy ratio is defined as the ratio between the specific fuel consumpti
 carries the energy needed to <em>move the vehicle itself</em> — speed, mass, aerodynamics, driving
 style. The choice of propulsion is counted elsewhere, in the powertrain shares of section
 2.2.5; this parameter is what comes on top of it.</p>
-<p>Overal, -25% fuel consumption thanks to:</p>
-<ul>
-<li>reduced speed limit and eco-driving behavior: reduce aero drag, mass of cars (safety)</li>
-<li>smaller cars: reduce aero drag, mass of cars</li>
-</ul>
+<p>Overall, -25% fuel consumption, from three ingredients that multiply:
+<code>redu_fuel_PM_car = redu_fuel_PM_car_speed × redu_fuel_PM_car_driving × redu_fuel_PM_car_size</code>.
+The total came first and is what the model uses; the split below is a reading of it, made so
+that each ingredient can be discussed (and asked in the workshop) on its own. The first two are
+taken from the literature, and the third is the residual, so <strong>the -25% and every result
+downstream of it are unchanged</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Ingredient</th>
+<th>Multiplier</th>
+<th>Cut</th>
+<th>Basis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lower speeds (<code>redu_fuel_PM_car_speed</code>)</td>
+<td>0,95</td>
+<td>-5%</td>
+<td>Motorways 120 → 100 km/h and rural roads 90 → 80 km/h, enforced; 30 km/h zones in town are roughly neutral for energy (Davis, 2018). A 90 km/h motorway limit cuts car energy per <em>motorway</em> km by 4-10% (KiM, 2023), and 120 → 90 km/h on the Liège-Antwerp motorway cut CO₂ by 8,4% (Degraeuwe et al., 2012, in Vias, 2017). But only ~38% of Belgian vehicle-km are driven on motorways (Vias, 2017, §2.5), so the effect over all trips is a few percent: 1,8-4,5% in KiM's own fleet estimate for the Netherlands, 1-6% of national car fuel per 10 km/h for the IEA (2026). Belgium's higher starting point (120 km/h) brings it to about 5%.</td>
+</tr>
+<tr>
+<td>Eco-driving (<code>redu_fuel_PM_car_driving</code>)</td>
+<td>0,93</td>
+<td>-7%</td>
+<td>The <em>lasting</em> effect, not the day-one one: training gains fade (4,6% → 2,5% within ten months, Xu et al., 2021), while permanent in-car feedback keeps 5-10% over the long term (DfT, 2016); ECOWILL measured 14% on the training day and about 7,5% long-term. Assumes assistance is fitted to the whole fleet by 2050. Not higher, because it partly overlaps with lower speeds and regenerative braking shrinks the gain for electric cars.</td>
+</tr>
+<tr>
+<td>Smaller, lighter cars (<code>redu_fuel_PM_car_size</code>)</td>
+<td>0,849 (residual)</td>
+<td>-15,1%</td>
+<td>What is left to reach -25%. At 3-5% less fuel per 100 kg (ICCT, 2017) this means 300-500 kg off the average car (<code>mass_cut_PM_car_kg</code>): from 1 518 kg for a new EU car in 2022 (ICCT, 2023) to about 1 100-1 200 kg, below the 2001 average of ~1 275 kg. Plausible only as real downsizing (engines resized with the mass, smaller frontal area), not by removing SUVs alone: in the EU they use only ~10% more energy than a medium car (IEA, 2020).</td>
+</tr>
+</tbody>
+</table>
 <blockquote>
-<p><strong>Comment:</strong> the three effects are bundled into one figure and are not modelled separately.
-Orders of magnitude from the literature, for scale: lowering a motorway limit to 90 km/h cuts
-car energy per km by 4-10% (KiM, 2023); eco-driving gives 5-15% immediately but only 2-5%
-durably, unless assistance is permanently fitted (Xu et al., <em>Sensors</em>, 2021); a 10% cut in
-vehicle mass is worth 6-7% of fuel when the engine is downsized with it (ICCT, 2017). Future
-work could aim to link these effects more transparently to this parameter.</p>
+<p><strong>Comment:</strong> the residual falls on the least documented ingredient, and the observed trend runs
+the other way (+19% mass for new EU cars between 2001 and 2022). It is the weak point of the -25%.
+Sources:
+<a href="https://www.kimnet.nl/site/binaries/site-content/collections/documents/2023/07/17/effect-op-energiegebruik-van-maximumsnelheid-90-en-80-km-u-op-snelwegen/Notitie_KiM_snelheid-energie_Def2.pdf">KiM (2023)</a>, p. 10-11 and annex A;
+<a href="https://www.vias.be/publications/Zijn%20de%20snelheidslimieten%20op%20autosnelwegen%20nog%20relevant/Zijn_de_snelheidslimieten_op_autosnelwegen_nog_relevant.pdf">Vias (2017)</a>, §2.5 and §3.6.2;
+<a href="https://www.iea.org/reports/sheltering-from-oil-shocks/road-transport-fuels">IEA (2026), Sheltering from oil shocks</a>, measure 2;
+<a href="https://www.gov.wales/sites/default/files/publications/2019-08/the-state-of-the-evidence-on-20mph-speed-limits-with-regards-to-road-safety-active-travel-and-air-pollution-impacts-august-2018.pdf">Davis (2018), Welsh Government</a>, p. 10;
+<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8512309/">Xu et al. (2021), <em>Sensors</em></a>, §4.1.3 and §4.2;
+<a href="https://assets.publishing.service.gov.uk/media/5a7f24c8ed915d74e33f49a7/efficient-driving-rapid-evidence-assessment.pdf">DfT (2016), Efficient driving</a>, p. iv-v;
+<a href="https://www.cieca.eu/sites/default/files/documents/projects_and_studies/ECOWILL_FINAL_REPORT.pdf">ECOWILL (2013)</a>, p. 7;
+<a href="https://theicct.org/sites/default/files/publications/PV-Lightweighting_Tech-Briefing_ICCT_07032017_0.pdf">ICCT (2017), Lightweighting</a>, p. 2;
+<a href="https://theicct.org/wp-content/uploads/2024/01/Pocketbook_202324_Web.pdf">ICCT (2023), Pocketbook 2023/24</a>, p. 5;
+<a href="https://www.iea.org/commentaries/carbon-emissions-fell-across-all-sectors-in-2020-except-for-one-suvs">IEA (2020), SUVs</a>.</p>
 </blockquote>
 <blockquote>
 <p><strong>Note:</strong> earlier versions of this section also listed "more efficient power trains
@@ -10124,6 +10162,22 @@ required to move the car, and the workshop asks the two questions separately.</p
 <span class="c1"># -&gt; Settings</span>
 <span class="n">share_elec_plug_in</span> <span class="o">=</span> <span class="mf">0.50</span>
 <span class="n">redu_fuel_PM_car</span> <span class="o">=</span> <span class="mf">0.75</span>
+<span class="c1"># -&gt; The three ingredients of redu_fuel_PM_car (see the markdown above). Each one</span>
+<span class="c1">#    multiplies the kWh/km of every powertrain. The first two are read from the</span>
+<span class="c1">#    literature; the third is what is left, so that their product -- and every</span>
+<span class="c1">#    result downstream of it -- stays exactly at redu_fuel_PM_car. Only the product</span>
+<span class="c1">#    enters the model; the workshop asks for the three separately (D61).</span>
+<span class="n">redu_fuel_PM_car_speed</span>   <span class="o">=</span> <span class="mf">0.95</span>   <span class="c1"># lower speed limits, all roads together -&gt; KiM (2023), Vias (2017), IEA (2026)</span>
+<span class="n">redu_fuel_PM_car_driving</span> <span class="o">=</span> <span class="mf">0.93</span>   <span class="c1"># eco-driving, lasting effect            -&gt; DfT (2016), ECOWILL (2013)</span>
+<span class="n">redu_fuel_PM_car_size</span>    <span class="o">=</span> <span class="n">redu_fuel_PM_car</span> <span class="o">/</span> <span class="p">(</span><span class="n">redu_fuel_PM_car_speed</span> <span class="o">*</span> <span class="n">redu_fuel_PM_car_driving</span><span class="p">)</span>  <span class="c1"># smaller, lighter cars (residual)</span>
+<span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">redu_fuel_PM_car_speed</span> <span class="o">*</span> <span class="n">redu_fuel_PM_car_driving</span> <span class="o">*</span> <span class="n">redu_fuel_PM_car_size</span>
+           <span class="o">-</span> <span class="n">redu_fuel_PM_car</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-12</span>
+<span class="c1"># -&gt; Plausibility of the residual: 3-5% less fuel per 100 kg removed from a ~1,500 kg car</span>
+<span class="c1">#    (ICCT, 2017). The size cut must stay within what a realistic downsizing can deliver.</span>
+<span class="n">ref_fuel_cut_per_100kg_PM_car</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+<span class="n">mass_cut_PM_car_kg</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">redu_fuel_PM_car_size</span><span class="p">)</span> <span class="o">/</span> <span class="n">_f</span> <span class="o">*</span> <span class="mi">100</span>
+                           <span class="k">for</span> <span class="n">_f</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">ref_fuel_cut_per_100kg_PM_car</span><span class="p">))</span>
+<span class="k">assert</span> <span class="mi">200</span> <span class="o">&lt;</span> <span class="n">mass_cut_PM_car_kg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">mass_cut_PM_car_kg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">600</span><span class="p">,</span> <span class="n">mass_cut_PM_car_kg</span>
 <span class="n">occu_trgt_PM_car</span> <span class="o">=</span> <span class="mf">2.0</span>
 <span class="c1"># -&gt; 2019 occupancy per powertrain [persons/car], from JRC-IDEES [1,2].</span>
 <span class="c1">#    Named (instead of inlined below) so the workshop module can export them</span>
@@ -12551,7 +12605,66 @@ The payload is defined as the ratio between the specific fuel consumption [kWh/k
 <hr/>
 <p>The specific fuel consumption [kWh/km] for each propulsion type for 2019 is provided by JRC-IDEES [1,2].
 The payload is defined as the ratio between the specific fuel consumption [kWh/km] and the activity energy intensity [kWh/tkm].</p>
-</div>
+<br>
+<font color="#F58137"><b>Sufficiency Assumption (heavy trucks)</b></font>
+<p><code>pyld_trgt_FT_trk_hvy = 1.05</code>: +5% load per heavy-truck kilometre in 2050, empty runs
+included. Read as a <strong>filling rate</strong> — the load carried over every vehicle-km, empty ones
+included, divided by the payload capacity of the trucks that drive them (0% = empty,
+100% = loaded to the maximum payload, by weight) — this is <strong>53% in 2019 → 56% in 2050</strong>
+(<code>ref_fill_FT_trk_hvy</code>, <code>trg_fill_FT_trk_hvy</code>). The fleet is assumed unchanged, so the
+filling rate moves exactly like the payload.</p>
+<p><em>How the capacity is aggregated.</em> Trucks of all sizes are weighted by the kilometres they
+drive: capacity = Σ (laden vehicle-km × payload capacity) / Σ laden vehicle-km, from Eurostat
+<code>road_go_ta_lc</code> (vehicle-km by load-capacity class, each class counted at the middle of its
+range, 32 t for the open-ended top class). This gives <strong>23,8 t</strong> for Belgian trucks
+(<code>cap_FT_trk_hvy</code>) and 21,5 t for the EU (2024). Dividing totals by totals is what makes the
+size mix aggregate correctly: a 40-tonne articulated truck weighs more in the result because it
+offers more capacity.</p>
+<p>For scale (Eurostat <code>road_go_ta_tott</code>, heavy goods vehicles by country of registration):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Belgium</th>
+<th>EU27</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Filling rate, all trips</td>
+<td>53% (2019)</td>
+<td>52% (2008), 53% (2024)</td>
+</tr>
+<tr>
+<td>Filling rate when loaded</td>
+<td>60% (56-59% reported for 2010-2014)</td>
+<td>66% (2024)</td>
+</tr>
+<tr>
+<td>Share of vehicle-km driven empty (2024)</td>
+<td>11,6%</td>
+<td>19,8%</td>
+</tr>
+</tbody>
+</table>
+<p>Never driving empty would lift the Belgian average to the loaded rate, 60% (<code>fill_FT_trk_laden</code>).
+Read as fewer empty runs alone, +5% means bringing Belgian empty running from 11,6% to about
+7% (<code>empty_share_FT_trk_equiv</code>). It is a deliberately cautious assumption: filling trucks better
+means pooling loads between competing shippers, and the EU rate gained under two points in
+sixteen years.</p>
+<blockquote>
+<p><strong>Comment:</strong> two weak points. (1) The Belgian load-capacity classification stops holding in
+2015 (the average load of a class exceeds its capacity), so the Belgian capacity is taken from
+the 2010-2014 fleet structure; it was stable over those years (23,4-24,1 t). (2) The Belgian
+empty-running figure nearly doubled in a single year (6,7% in 2021, 10,9% in 2022) while its
+neighbours stayed flat, so that series breaks in 2022. The load reference (<code>ref_pyld_FT_trk_hvy</code>,
+12,65 t per vehicle-km over all trips in 2019, JRC-IDEES) matches Eurostat's 12,41 t. A filling
+rate <em>by weight</em> also understates how full a truck of light goods is: it can be full to the roof
+well below 100%.
+Sources: <a href="https://ec.europa.eu/eurostat/databrowser/view/road_go_ta_lc/default/table?lang=en">Eurostat, road_go_ta_lc</a>;
+<a href="https://ec.europa.eu/eurostat/databrowser/view/road_go_ta_tott/default/table?lang=en">Eurostat, road_go_ta_tott</a>.</p>
+</blockquote>
+</br></div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=340aa2f7-8a4f-4919-89ed-1bdb80a4f3fd">
@@ -12618,6 +12731,46 @@ The payload is defined as the ratio between the specific fuel consumption [kWh/k
 <span class="c1">#    identical for every powertrain. Named (instead of inlined below) so the</span>
 <span class="c1">#    workshop module can export it. See docs/workshop_module.md.</span>
 <span class="n">ref_pyld_FT_trk_hvy</span> <span class="o">=</span> <span class="mf">12.654</span>
+<span class="c1"># -&gt; The filling rate (see the markdown above): the average load over every vehicle-km,</span>
+<span class="c1">#    empty runs included, divided by the payload capacity of the trucks driving them.</span>
+<span class="c1">#    0% is an empty truck, 100% a truck loaded to its maximum payload.</span>
+<span class="c1">#    Eurostat road_go_ta_lc gives laden vehicle-km [Mio] by load-capacity class; each</span>
+<span class="c1">#    class is counted at the middle of its range, the open-ended last one at 32 t.</span>
+<span class="n">cap_class_FT_trk</span> <span class="o">=</span> <span class="p">[</span><span class="mf">6.0</span><span class="p">,</span> <span class="mf">12.5</span><span class="p">,</span> <span class="mf">18.0</span><span class="p">,</span> <span class="mf">23.0</span><span class="p">,</span> <span class="mf">28.0</span><span class="p">,</span> <span class="mf">32.0</span><span class="p">]</span>   <span class="c1"># t: &lt;=9.5, 9.6-15.5, 15.6-20.5, 20.6-25.5, 25.6-30.5, &gt;30.5</span>
+<span class="c1">#    Belgium 2010-2014 only: from 2015 the Belgian classification no longer holds (the</span>
+<span class="c1">#    average load of a class exceeds its capacity), so the fleet structure of its last</span>
+<span class="c1">#    five valid years stands for today's.</span>
+<span class="n">ref_vkm_class_FT_trk_BE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">2010</span><span class="p">:</span> <span class="p">[</span><span class="mi">312</span><span class="p">,</span> <span class="mi">286</span><span class="p">,</span> <span class="mi">106</span><span class="p">,</span> <span class="mi">234</span><span class="p">,</span> <span class="mi">682</span><span class="p">,</span>  <span class="mi">859</span><span class="p">],</span>
+    <span class="mi">2011</span><span class="p">:</span> <span class="p">[</span><span class="mi">466</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span>  <span class="mi">94</span><span class="p">,</span> <span class="mi">235</span><span class="p">,</span> <span class="mi">599</span><span class="p">,</span>  <span class="mi">869</span><span class="p">],</span>
+    <span class="mi">2012</span><span class="p">:</span> <span class="p">[</span><span class="mi">373</span><span class="p">,</span> <span class="mi">221</span><span class="p">,</span> <span class="mi">151</span><span class="p">,</span> <span class="mi">179</span><span class="p">,</span> <span class="mi">547</span><span class="p">,</span>  <span class="mi">856</span><span class="p">],</span>
+    <span class="mi">2013</span><span class="p">:</span> <span class="p">[</span><span class="mi">345</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="mi">119</span><span class="p">,</span> <span class="mi">176</span><span class="p">,</span> <span class="mi">546</span><span class="p">,</span>  <span class="mi">971</span><span class="p">],</span>
+    <span class="mi">2014</span><span class="p">:</span> <span class="p">[</span><span class="mi">357</span><span class="p">,</span> <span class="mi">269</span><span class="p">,</span>  <span class="mi">96</span><span class="p">,</span> <span class="mi">162</span><span class="p">,</span> <span class="mi">485</span><span class="p">,</span> <span class="mi">1005</span><span class="p">],</span>
+<span class="p">}</span>
+<span class="n">ref_vkm_class_FT_trk_EU</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">2008</span><span class="p">:</span> <span class="p">[</span><span class="mi">17215</span><span class="p">,</span> <span class="mi">17992</span><span class="p">,</span> <span class="mi">7537</span><span class="p">,</span> <span class="mi">29262</span><span class="p">,</span> <span class="mi">36439</span><span class="p">,</span> <span class="mi">13789</span><span class="p">],</span>
+    <span class="mi">2024</span><span class="p">:</span> <span class="p">[</span><span class="mi">16532</span><span class="p">,</span> <span class="mi">19166</span><span class="p">,</span> <span class="mi">6491</span><span class="p">,</span> <span class="mi">40612</span><span class="p">,</span> <span class="mi">26934</span><span class="p">,</span> <span class="mi">20951</span><span class="p">],</span>
+<span class="p">}</span>
+<span class="k">def</span> <span class="nf">_capacity_FT_trk</span><span class="p">(</span><span class="n">vkm</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Average payload capacity [t] per laden vehicle-km of a fleet, by class."""</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">c</span> <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vkm</span><span class="p">,</span> <span class="n">cap_class_FT_trk</span><span class="p">))</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">vkm</span><span class="p">)</span>
+<span class="n">cap_FT_trk_hvy</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">_capacity_FT_trk</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ref_vkm_class_FT_trk_BE</span><span class="o">.</span><span class="n">values</span><span class="p">()]))</span>
+<span class="n">ref_fill_FT_trk_hvy</span> <span class="o">=</span> <span class="n">ref_pyld_FT_trk_hvy</span> <span class="o">/</span> <span class="n">cap_FT_trk_hvy</span>          <span class="c1"># 2019, all trips</span>
+<span class="n">trg_fill_FT_trk_hvy</span> <span class="o">=</span> <span class="n">ref_fill_FT_trk_hvy</span> <span class="o">*</span> <span class="n">pyld_trgt_FT_trk_hvy</span>    <span class="c1"># 2050, same trucks</span>
+<span class="c1"># -&gt; For scale. Eurostat road_go_ta_tott, heavy goods vehicles by country of registration:</span>
+<span class="n">ref_empty_share_FT_trk_BE</span> <span class="o">=</span> <span class="mf">0.116</span>   <span class="c1"># share of vehicle-km driven empty, Belgium, 2024</span>
+<span class="n">ref_empty_share_FT_trk_EU</span> <span class="o">=</span> <span class="mf">0.198</span>   <span class="c1"># same, EU27, 2024</span>
+<span class="n">ref_load_FT_trk_EU</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2008</span><span class="p">:</span> <span class="mf">10.99</span><span class="p">,</span> <span class="mi">2024</span><span class="p">:</span> <span class="mf">11.47</span><span class="p">}</span>   <span class="c1"># t per vehicle-km, all trips, EU27</span>
+<span class="n">ref_laden_load_FT_trk_EU</span> <span class="o">=</span> <span class="mf">14.30</span>                  <span class="c1"># t per laden vehicle-km, EU27, 2024</span>
+<span class="n">fill_FT_trk_EU</span> <span class="o">=</span> <span class="p">{</span><span class="n">_y</span><span class="p">:</span> <span class="n">ref_load_FT_trk_EU</span><span class="p">[</span><span class="n">_y</span><span class="p">]</span> <span class="o">/</span> <span class="n">_capacity_FT_trk</span><span class="p">(</span><span class="n">ref_vkm_class_FT_trk_EU</span><span class="p">[</span><span class="n">_y</span><span class="p">])</span>
+                  <span class="k">for</span> <span class="n">_y</span> <span class="ow">in</span> <span class="n">ref_load_FT_trk_EU</span><span class="p">}</span>
+<span class="n">fill_FT_trk_EU_laden</span> <span class="o">=</span> <span class="n">ref_laden_load_FT_trk_EU</span> <span class="o">/</span> <span class="n">_capacity_FT_trk</span><span class="p">(</span><span class="n">ref_vkm_class_FT_trk_EU</span><span class="p">[</span><span class="mi">2024</span><span class="p">])</span>
+<span class="n">fill_FT_trk_laden</span> <span class="o">=</span> <span class="n">ref_fill_FT_trk_hvy</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ref_empty_share_FT_trk_BE</span><span class="p">)</span>   <span class="c1"># Belgian truck, when loaded</span>
+<span class="c1"># -&gt; The scenario's +5% read as fewer empty runs alone, loaded trucks no fuller:</span>
+<span class="n">empty_share_FT_trk_equiv</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ref_empty_share_FT_trk_BE</span><span class="p">)</span> <span class="o">*</span> <span class="n">pyld_trgt_FT_trk_hvy</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"heavy trucks: capacity </span><span class="si">{</span><span class="n">cap_FT_trk_hvy</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> t, filled </span><span class="si">{</span><span class="n">ref_fill_FT_trk_hvy</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2"> in 2019 "</span>
+      <span class="sa">f</span><span class="s2">"-&gt; </span><span class="si">{</span><span class="n">trg_fill_FT_trk_hvy</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2"> in 2050 (EU </span><span class="si">{</span><span class="n">fill_FT_trk_EU</span><span class="p">[</span><span class="mi">2008</span><span class="p">]</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2"> in 2008, "</span>
+      <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fill_FT_trk_EU</span><span class="p">[</span><span class="mi">2024</span><span class="p">]</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2"> in 2024)"</span><span class="p">)</span>
 <span class="c1"># -&gt; Projections of efficiency and payload</span>
 <span class="n">cons_fuel_FT_trk_hvy</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
     <span class="s1">'liquid-diesel'</span><span class="p">:</span>   <span class="n">linear_growth</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mf">49.763</span><span class="o">/</span><span class="mi">100</span><span class="o">*</span><span class="n">kgoe_to_kWh</span><span class="p">,</span> <span class="mi">2050</span><span class="p">,</span> <span class="mf">49.763</span><span class="o">/</span><span class="mi">100</span><span class="o">*</span><span class="n">kgoe_to_kWh</span><span class="p">,</span>                      <span class="n">years</span><span class="p">),</span>  <span class="c1"># [kWh/km] -&gt; sta = JRC-IDEES, end = nW-BE</span>

@@ -92,6 +92,23 @@ strings:
     fr: Faites glisser le curseur pour prolonger la courbe jusqu'en 2050.
     nl: Sleep de schuifknop om de curve tot 2050 te verlengen.
     en: Drag the handle to extend the curve to 2050.
+  # A question answered with several sliders that make one figure (D61)
+  play.parts.hint:
+    fr: "Réglez chacun des {total} curseurs : l'écran les combine en un seul chiffre."
+    nl: "Stel elk van de {total} schuifknoppen in: het scherm voegt ze samen tot één cijfer."
+    en: "Set each of the {total} sliders: the screen combines them into one figure."
+  play.parts.incomplete:
+    fr: "Curseurs réglés : {done} sur {total}"
+    nl: "Ingesteld: {done} van {total} schuifknoppen"
+    en: "Sliders set: {done} of {total}"
+  play.parts.rule.cuts:
+    fr: "Les réductions se multiplient, elles ne s'additionnent pas : deux fois −10 % donnent −19 %, pas −20 %."
+    nl: "De besparingen vermenigvuldigen zich, ze tellen niet zomaar op: twee keer −10 % geeft −19 %, niet −20 %."
+    en: "The cuts multiply rather than add up: two cuts of 10% make 19%, not 20%."
+  play.parts.rule.sum:
+    fr: Les curseurs s'additionnent.
+    nl: De schuifknoppen tellen op.
+    en: The sliders add up.
   play.unanswered:
     fr: Pas encore de réponse
     nl: Nog geen antwoord
@@ -397,6 +414,14 @@ strings:
     fr: tonnes
     nl: ton
     en: tonnes
+  "unit.% full":
+    fr: "% de remplissage"
+    nl: "% gevuld"
+    en: "% full"
+  "unit.% of km driven empty":
+    fr: "% des km à vide"
+    nl: "% leeggereden km"
+    en: "% of km driven empty"
 
   # ------------------------------------------------------------------ generic
   common.source:

@@ -1,6 +1,7 @@
 import json
 import math
 import os
+import re
 from datetime import date
 
 import numpy as np
@@ -519,6 +520,119 @@ LEVER_IMPACT_KINDS = ("proportional", "inverse", "linear-shift", "renovation",
 # away. Reject anything closer than this fraction of the span to either end.
 LEVER_MIN_EDGE_MARGIN = 0.12
 
+# A lever may be answered with several sliders that act together on its single
+# indicator (docs/workshop_module.md, decision D61). The rule says how:
+#   "cuts"  each part is a % reduction, and they compound:
+#           value = refValue * (1 - p1/100) * (1 - p2/100) * ...
+#   "sum"   the parts add up:  value = p1 + p2 + ...
+# impact.js applies the same two rules in the browser (NW_IMPACT.combine).
+LEVER_COMBINE_RULES = ("cuts", "sum")
+
+# The API stores each part as an answer of its own, under "<lever>__<part>". It
+# accepts [A-Za-z0-9_-] only, which is why the separator is not a dot.
+LEVER_PART_SEPARATOR = "__"
+_ANSWER_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")
+
+
+def combine_parts(rule, ref_value, values):
+    """The lever value that a set of part values adds up to, under `rule`."""
+    if rule == "cuts":
+        out = float(ref_value)
+        for v in values:
+            out *= 1.0 - float(v) / 100.0
+        return out
+    if rule == "sum":
+        return float(sum(float(v) for v in values))
+    raise ValueError(f"combine rule must be one of {LEVER_COMBINE_RULES}, got {rule!r}")
+
+
+def make_lever_part(id, name, unit, ref_value, slider, target_value=None, decimals=None):
+    """One slider of a lever that is answered in several parts.
+
+    Passed to :func:`make_lever` through its ``parts`` argument. The slider is
+    required: there is no target to derive one from when the scenario does not
+    split the figure, and a part's range is a design choice worth writing down.
+    ``target_value`` is the scenario's own value for this part, if it has one —
+    either every part of a lever carries one or none does.
+    """
+    ref_value = float(ref_value)
+    slider = {"min": float(slider["min"]), "max": float(slider["max"]),
+              "step": float(slider["step"])}
+    span = slider["max"] - slider["min"]
+    if span <= 0:
+        raise ValueError(f"part '{id}': slider max must exceed min")
+    if not (slider["min"] <= ref_value <= slider["max"]):
+        raise ValueError(f"part '{id}': reference value {ref_value:g} falls outside "
+                         f"its slider [{slider['min']:g}, {slider['max']:g}]")
+    if decimals is None:
+        decimals = max(0, -int(math.floor(math.log10(slider["step"])))) if slider["step"] < 1 else 0
+    rec = {"id": id, "name": name, "unit": unit, "refValue": round(ref_value, 4),
+           "slider": slider, "decimals": int(decimals)}
+    if target_value is not None:
+        target_value = float(target_value)
+        # D4 holds for every slider on the screen, not only for the lever's own
+        edge = min(target_value - slider["min"], slider["max"] - target_value) / span
+        if edge < LEVER_MIN_EDGE_MARGIN:
+            raise ValueError(
+                f"part '{id}': the target {target_value:g} sits {edge:.0%} from a slider "
+                f"end ([{slider['min']:g}, {slider['max']:g}]); widen the range (D4)")
+        rec["targetValue"] = round(target_value, 4)
+    return rec
+
+
+def _check_parts(lever_id, parts, combine, ref_value, target_value, slider):
+    """Validate a lever's parts against the lever itself; return the export."""
+    if combine not in LEVER_COMBINE_RULES:
+        raise ValueError(f"lever '{lever_id}': combine must be one of "
+                         f"{LEVER_COMBINE_RULES}, got {combine!r}")
+    parts = list(parts or [])
+    if len(parts) < 2:
+        raise ValueError(f"lever '{lever_id}': a lever answered in parts needs at least two")
+    ids = [p["id"] for p in parts]
+    if len(set(ids)) != len(ids):
+        raise ValueError(f"lever '{lever_id}': duplicate part ids {ids}")
+
+    out = []
+    for part in parts:
+        answer_id = f"{lever_id}{LEVER_PART_SEPARATOR}{part['id']}"
+        if not _ANSWER_ID_RE.match(answer_id):
+            raise ValueError(f"lever '{lever_id}': part answer id {answer_id!r} is not "
+                             f"accepted by the API ([A-Za-z0-9_-], at most 64 characters)")
+        out.append(dict(part, answerId=answer_id))
+
+    def tol(value):
+        return 1e-3 * max(1.0, abs(value))
+
+    # Today's value of every part must give today's value of the lever, or the
+    # chart and the leverage readout would start from a different point.
+    ref_combined = combine_parts(combine, ref_value, [p["refValue"] for p in parts])
+    if abs(ref_combined - ref_value) > tol(ref_value):
+        raise ValueError(f"lever '{lever_id}': the parts' reference values combine to "
+                         f"{ref_combined:g}, not the lever's {ref_value:g}")
+
+    targets = [p.get("targetValue") for p in parts]
+    if any(t is not None for t in targets):
+        if any(t is None for t in targets):
+            raise ValueError(f"lever '{lever_id}': either every part carries a target "
+                             f"or none does")
+        trg_combined = combine_parts(combine, ref_value, targets)
+        if abs(trg_combined - target_value) > tol(target_value):
+            raise ValueError(f"lever '{lever_id}': the parts' targets combine to "
+                             f"{trg_combined:g}, not the lever's target {target_value:g}")
+
+    # The lever's slider is no longer dragged, but it is still the axis of the
+    # chart and of the reveal's dot plot, so it has to hold every answer the
+    # parts can produce. Both rules are monotone in each part, so the extremes
+    # sit at the two corners.
+    corners = [combine_parts(combine, ref_value, [p["slider"][end] for p in parts])
+               for end in ("min", "max")]
+    lo, hi = min(corners), max(corners)
+    if lo < slider["min"] - 1e-9 or hi > slider["max"] + 1e-9:
+        raise ValueError(f"lever '{lever_id}': the parts reach {lo:g} to {hi:g}, outside "
+                         f"the lever's range [{slider['min']:g}, {slider['max']:g}] — widen it, "
+                         f"it is the axis of the chart and of the reveal")
+    return out
+
 
 def _nice_step(span):
     """A human-friendly slider step: roughly span/40, snapped to 1/2/5·10^n."""
@@ -552,7 +666,7 @@ def make_lever(id, topic, name, unit, ref_value, target_value,
                ref_year=2019, target_year=2050,
                slider=None, impact=None, model=None, history=None,
                facts=None, spoilers=None, shown=True, better=None, decimals=None,
-               notebook=None, reference=None):
+               notebook=None, reference=None, parts=None, combine=None):
     """Build one workshop lever record (a plain dict).
 
     Parameters
@@ -602,8 +716,17 @@ def make_lever(id, topic, name, unit, ref_value, target_value,
         ``target_value - ref_value``.
     decimals : int, optional
         Display precision. Derived from the slider step when omitted.
+    parts : list[dict], optional
+        Records from :func:`make_lever_part`. The question is then answered with
+        one slider per part, and the lever's value is computed from them by
+        ``combine``. ``slider`` stays required: it is the axis of the chart
+        and of the reveal, and must hold every value the parts can produce.
+    combine : {"cuts", "sum"}, optional
+        How the parts make the lever's value; see :data:`LEVER_COMBINE_RULES`.
     """
     ref_value, target_value = float(ref_value), float(target_value)
+    if (parts is None) != (combine is None):
+        raise ValueError(f"lever '{id}': 'parts' and 'combine' go together")
 
     if slider is None:
         slider = _auto_slider(ref_value, target_value)
@@ -667,6 +790,9 @@ def make_lever(id, topic, name, unit, ref_value, target_value,
         rec["notebook"] = notebook
     if reference is not None:
         rec["reference"] = reference
+    if parts is not None:
+        rec["parts"] = _check_parts(id, parts, combine, ref_value, target_value, slider)
+        rec["combine"] = combine
     return rec
 
 
@@ -718,6 +844,14 @@ def write_levers_js(sector_key, levers, model=None, title=None, out_path=None):
         if lid in lever_map:
             raise ValueError(f"duplicate lever id '{lid}'")
         lever_map[lid] = lv
+    # A part is stored by the API like any lever, so its answer id must not
+    # collide with a lever of the same sector either.
+    answer_ids = list(lever_map)
+    for lv in lever_map.values():
+        answer_ids += [p["answerId"] for p in lv.get("parts") or []]
+    clash = sorted({a for a in answer_ids if answer_ids.count(a) > 1})
+    if clash:
+        raise ValueError(f"answer id(s) {clash} are used twice in sector '{sector_key}'")
 
     payload = {
         "title": title or sector_key.capitalize(),

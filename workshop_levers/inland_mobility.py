@@ -1,7 +1,8 @@
 """Inland mobility: domestic passenger ground transport and domestic freight.
 
 Eight levers, played in the proof-of-concept workshop. Two more (bus and train
-occupancy) are exported but not shown.
+occupancy) are exported but not shown. One of the eight, car-energy, is answered
+with three sliders whose cuts compound into its single figure (D61).
 
 Everything here reads quantities the transport notebook has already computed —
 this module adds no assumptions of its own. It also cross-checks the model
@@ -12,7 +13,7 @@ number into a workshop.
 See docs/workshop_module.md for the design, and
 website/workshop/content/inland-mobility.yaml for the wording.
 """
-from nW_BE_demand_model_sub_functions import make_lever, mode_totals_twh
+from nW_BE_demand_model_sub_functions import make_lever, make_lever_part, mode_totals_twh
 
 from . import need
 
@@ -27,12 +28,18 @@ def build(ctx):
     (years, population_dict, df_SUF, df_PM, df_FT,
      df_PM_TWh_all, df_FT_TWh_all, df_PM_car, ref_occu_PM_car,
      pro_PM_spe, pro_PM_spe_car, occu_trgt_PM_car, redu_fuel_PM_car,
+     redu_fuel_PM_car_speed, redu_fuel_PM_car_driving, redu_fuel_PM_car_size,
+     mass_cut_PM_car_kg,
      sft_PM_rel_car_to_bus, sft_PM_rel_car_to_trn_cnv, sft_PM_rel_car_to_byc,
      sft_PM_rel_car_to_trm_met, sft_PM_rel_car_to_mot, sft_PM_rel_car_to_ped,
      pro_FT_spe, pro_FT_spe_trk_hvy,
      sft_FT_rel_trk_hvy_to_trn, sft_FT_rel_trk_hvy_to_nav_ild,
      pyld_trgt_FT_trk_hvy, ref_pyld_FT_trk_hvy,
-     occu_trgt_PM_bus_cch, occu_trgt_PM_trn_cnv, kgoe_to_kWh) = need(
+     occu_trgt_PM_bus_cch, occu_trgt_PM_trn_cnv, kgoe_to_kWh,
+     ref_fill_FT_trk_hvy, trg_fill_FT_trk_hvy, cap_FT_trk_hvy,
+     ref_empty_share_FT_trk_BE, ref_empty_share_FT_trk_EU,
+     fill_FT_trk_EU, fill_FT_trk_EU_laden, fill_FT_trk_laden,
+     empty_share_FT_trk_equiv) = need(
         ctx, 'years',
         'population_dict',
         'df_SUF',
@@ -46,6 +53,10 @@ def build(ctx):
         'pro_PM_spe_car',
         'occu_trgt_PM_car',
         'redu_fuel_PM_car',
+        'redu_fuel_PM_car_speed',
+        'redu_fuel_PM_car_driving',
+        'redu_fuel_PM_car_size',
+        'mass_cut_PM_car_kg',
         'sft_PM_rel_car_to_bus',
         'sft_PM_rel_car_to_trn_cnv',
         'sft_PM_rel_car_to_byc',
@@ -60,7 +71,16 @@ def build(ctx):
         'ref_pyld_FT_trk_hvy',
         'occu_trgt_PM_bus_cch',
         'occu_trgt_PM_trn_cnv',
-        'kgoe_to_kWh')
+        'kgoe_to_kWh',
+        'ref_fill_FT_trk_hvy',
+        'trg_fill_FT_trk_hvy',
+        'cap_FT_trk_hvy',
+        'ref_empty_share_FT_trk_BE',
+        'ref_empty_share_FT_trk_EU',
+        'fill_FT_trk_EU',
+        'fill_FT_trk_EU_laden',
+        'fill_FT_trk_laden',
+        'empty_share_FT_trk_equiv')
 
     _NB = NOTEBOOK
     _Y0, _Y1 = years[0], years[-1]
@@ -148,6 +168,21 @@ def build(ctx):
     assert abs(_road_share_tkm[_Y0] - ref_road_share_tkm_2019) < 0.1, (
         f"the 2019 road share of tonne-km is now {_road_share_tkm[_Y0]:.2f}%, but "
         f"section 3.1 quotes {ref_road_share_tkm_2019}% -- update one or the other")
+
+    # Section 3.3.3 quotes the truck filling rates in its table and prose.
+    for _name, _value, _quoted in (("Belgium 2019", ref_fill_FT_trk_hvy, 53),
+                                   ("Belgium 2050", trg_fill_FT_trk_hvy, 56),
+                                   ("Belgium when loaded", fill_FT_trk_laden, 60),
+                                   ("EU 2008", fill_FT_trk_EU[2008], 52),
+                                   ("EU 2024", fill_FT_trk_EU[2024], 53),
+                                   ("EU when loaded", fill_FT_trk_EU_laden, 66),
+                                   ("+5% as empty running", empty_share_FT_trk_equiv, 7)):
+        assert round(_value * 100) == _quoted, (
+            f"{_name} is now {_value * 100:.1f}%, but section 3.3.3 quotes {_quoted}% "
+            f"-- update one or the other")
+    assert abs(cap_FT_trk_hvy - 23.8) < 0.05, (
+        f"the Belgian truck capacity is now {cap_FT_trk_hvy:.2f} t, but section 3.3.3 "
+        f"quotes 23,8 t -- update one or the other")
 
     # --- Derived lever quantities ----------------------------------------------
     _mot_pkm  = {y: sum(_act(df_PM, m, "pkm/person", y) for m in _PM_MOTORISED)
@@ -268,21 +303,45 @@ def build(ctx):
          spoilers=["gainPct", "carTwhTarget"],
          notebook=_NB + "#section_2", reference="nW-BE §2.3.5")
 
+    # Three sliders, one figure: each part is a % cut in energy per km, and the
+    # cuts compound, exactly as the three factors of section 2.3.5 multiply into
+    # redu_fuel_PM_car. "Today" is no cut at all. The size slider goes below
+    # zero because the observed trend is towards heavier cars, not lighter ones.
+    _car_parts = [
+        make_lever_part("speed", "Lower speeds", "%", 0.0,
+                        {"min": 0, "max": 20, "step": 1},
+                        target_value=(1 - redu_fuel_PM_car_speed) * 100),
+        make_lever_part("driving", "Eco-driving", "%", 0.0,
+                        {"min": 0, "max": 15, "step": 1},
+                        target_value=(1 - redu_fuel_PM_car_driving) * 100),
+        make_lever_part("size", "Smaller, lighter cars", "%", 0.0,
+                        {"min": -15, "max": 30, "step": 1},
+                        target_value=(1 - redu_fuel_PM_car_size) * 100),
+    ]
+
     _add("car-energy", _T, "Car energy use per km", "% of 2019",
          100.0, redu_fuel_PM_car * 100, ref_year=_Y0, target_year=_Y1,
-         slider={"min": 50, "max": 115, "step": 1},
+         slider={"min": 45, "max": 115, "step": 1},
+         parts=_car_parts, combine="cuts",
          impact=_impact("proportional", redu_fuel_PM_car * 100, scaled=_twh(_pm_twh, "car", _Y1)),
          model={"var": "redu_fuel_PM_car", "section": "2.3.5",
-                "note": "speed limits, eco-driving and smaller cars are bundled into this "
-                        "single figure; section 2.3.5 flags the split as unquantified"},
+                "note": "the product of redu_fuel_PM_car_speed, _driving and _size; the "
+                        "size factor is the residual that keeps the product at its value"},
          facts={"reductionPct": round((1 - redu_fuel_PM_car) * 100, 1),
+                "speedCutPct": round((1 - redu_fuel_PM_car_speed) * 100, 1),
+                "drivingCutPct": round((1 - redu_fuel_PM_car_driving) * 100, 1),
+                "sizeCutPct": round((1 - redu_fuel_PM_car_size) * 100, 1),
+                # what the residual size cut means in kg off the average car
+                "sizeKgLow": int(round(mass_cut_PM_car_kg[0], -1)),
+                "sizeKgHigh": int(round(mass_cut_PM_car_kg[1], -1)),
                 "kwhPerKmPetrol2019": round(5.798 / 100 * kgoe_to_kWh, 3),
                 "kwhPerKmBev2019": round(1.818 / 100 * kgoe_to_kWh, 3),
                 "litresPetrol2019": round(5.798 / 100 * kgoe_to_kWh
                                           / ref_kwh_per_litre_petrol * 100, 1),
                 "litresPetrolEqBev2019": round(1.818 / 100 * kgoe_to_kWh
                                                / ref_kwh_per_litre_petrol * 100, 1)},
-         spoilers=["reductionPct"],
+         spoilers=["reductionPct", "speedCutPct", "drivingCutPct", "sizeCutPct",
+                   "sizeKgLow", "sizeKgHigh"],
          notebook=_NB + "#section_2", reference="nW-BE §2.3.5")
 
     _add("bike-km-day", _T, "Cycling per person", "km/person/day",
@@ -341,17 +400,29 @@ def build(ctx):
          spoilers=["shiftPct", "toRailPct", "toWaterPct"],
          notebook=_NB + "#section_3", reference="nW-BE §3.1")
 
-    _add("truck-load", _T, "Truck payload", "tonnes",
-         ref_pyld_FT_trk_hvy, ref_pyld_FT_trk_hvy * pyld_trgt_FT_trk_hvy,
-         ref_year=_Y0, target_year=_Y1,
-         slider={"min": 11, "max": 18, "step": 0.1},
-         impact=_impact("inverse", ref_pyld_FT_trk_hvy * pyld_trgt_FT_trk_hvy,
+    # Asked as a filling rate, not in tonnes: 0 % is an empty truck, 100 % one loaded
+    # to its maximum payload, averaged over every km. The trucks themselves do not
+    # change, so the rate moves exactly like the payload (pyld_trgt_FT_trk_hvy).
+    _add("truck-fill", _T, "Truck filling rate", "% full",
+         ref_fill_FT_trk_hvy * 100, trg_fill_FT_trk_hvy * 100, ref_year=_Y0, target_year=_Y1,
+         slider={"min": 30, "max": 100, "step": 1},
+         impact=_impact("inverse", trg_fill_FT_trk_hvy * 100,
                         scaled=_twh(_ft_twh, "truck-heavy duty", _Y1)),
-         model={"var": "pyld_trgt_FT_trk_hvy", "section": "3.3.3"},
+         model={"var": "pyld_trgt_FT_trk_hvy", "section": "3.3.3",
+                "note": "filling rate = ref_pyld_FT_trk_hvy / cap_FT_trk_hvy, the "
+                        "km-weighted payload capacity of the Belgian fleet"},
          facts={"gainPct": round((pyld_trgt_FT_trk_hvy - 1) * 100, 1),
-                "truckTwhTarget": round(_twh(_ft_twh, "truck-heavy duty", _Y1), 2)},
-         spoilers=["gainPct", "truckTwhTarget"],
-         notebook=_NB + "#section_3", reference="nW-BE §3.3.5")
+                "truckTwhTarget": round(_twh(_ft_twh, "truck-heavy duty", _Y1), 2),
+                "emptyShareBE": round(ref_empty_share_FT_trk_BE * 100, 1),
+                "emptyShareEU": round(ref_empty_share_FT_trk_EU * 100, 1),
+                "fillEU2008": round(fill_FT_trk_EU[2008] * 100, 1),
+                "fillEU2024": round(fill_FT_trk_EU[2024] * 100, 1),
+                "fillEUTrendPts": round((fill_FT_trk_EU[2024] - fill_FT_trk_EU[2008]) * 100, 1),
+                "fillLaden": round(fill_FT_trk_laden * 100),
+                "fillLadenEU": round(fill_FT_trk_EU_laden * 100),
+                "equivEmptyPct": round(empty_share_FT_trk_equiv * 100)},
+         spoilers=["gainPct", "truckTwhTarget", "equivEmptyPct"],
+         notebook=_NB + "#section_3", reference="nW-BE §3.3.3")
 
     # --- Spare levers: exported for later, not played in the proof of concept ----
     _add("bus-occupancy", _T, "Bus & coach occupancy", "% of 2019",

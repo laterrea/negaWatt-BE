@@ -26,7 +26,7 @@ from datetime import datetime, timedelta, timezone
 
 TOPIC = "inland-mobility"
 LEVERS = ["ground-km-day", "car-share", "car-occupancy", "car-energy",
-          "bike-km-day", "freight-tkm", "truck-share", "truck-load"]
+          "bike-km-day", "freight-tkm", "truck-share", "truck-fill"]
 TAG = "contract-test"
 
 
@@ -148,6 +148,13 @@ def main():
         "lever_id": "car-occupancy", "value": 1.9})
     run.equal("an unnamed group can answer", status, 200)
 
+    # one slider of a question answered in parts (D61) is an answer of its own,
+    # under "<lever>__<part>", with a value and nothing else
+    status, doc = api.call("POST", "/answer.php", {
+        "group_id": first["group_id"], "token": first["token"],
+        "lever_id": "car-energy__speed", "value": 8})
+    run.equal("a part of a question is stored like any answer", status, 200)
+
     status, doc = api.call("POST", "/rename.php", {
         "group_id": first["group_id"], "token": first["token"],
         "name": f"{TAG} Table du fond"})
@@ -216,7 +223,10 @@ def main():
     run.check("every group we started is reported", ours <= reported,
               str(sorted(ours - reported)))
     mine = [a for a in doc.get("answers", []) if a["group_id"] in ours]
-    run.equal("25 answers of ours are reported", len(mine), 25)
+    run.equal("26 answers of ours are reported", len(mine), 26)
+    run.check("the part answer comes back under its own id",
+              any(a["lever_id"] == "car-energy__speed" and a["value"] == 8 for a in mine),
+              "no car-energy__speed answer")
     occupancy = [a for a in mine
                  if a["lever_id"] == "car-occupancy" and a["group_id"] == groups[0]["id"]]
     run.check("the changed answer is the one stored",

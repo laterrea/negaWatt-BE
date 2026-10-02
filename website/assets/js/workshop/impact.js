@@ -115,7 +115,30 @@
     return Math.abs(hi - lo);
   }
 
+  /* The lever value a set of part values makes, for a lever answered with
+     several sliders (`parts` + `combine` in the lever record, D61). The same
+     two rules as combine_parts() in nW_BE_demand_model_sub_functions.py:
+       cuts   each part is a % reduction, and they compound
+       sum    the parts add up
+     `values` follows the order of lever.parts. Returns null until every part
+     has a value: an unset slider is not a zero, it is a question not answered. */
+  function combine(lever, values) {
+    var parts = (lever && lever.parts) || [];
+    if (!parts.length || !values || values.length !== parts.length) return null;
+    for (var i = 0; i < values.length; i++) {
+      if (values[i] === null || values[i] === undefined || !isFinite(values[i])) return null;
+    }
+    if (lever.combine === "cuts") {
+      return values.reduce(function (acc, v) { return acc * (1 - v / 100); }, lever.refValue);
+    }
+    if (lever.combine === "sum") {
+      return values.reduce(function (acc, v) { return acc + v; }, 0);
+    }
+    return null;
+  }
+
   window.NW_IMPACT = {
+    combine: combine,
     evaluate: evaluate,
     delta: delta,
     deltaPct: deltaPct,

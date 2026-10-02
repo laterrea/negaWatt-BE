@@ -105,9 +105,10 @@
        setting turned every answer on that slider into "7,50 %" and negaWatt's
        own value into "15,00 %". Trailing zeros carry no information here — the
        chart axes (spark.js `fmt`) keep theirs, so tick labels stay aligned. */
+    // the typographic minus (U+2212), as the build prints it in the prose
     return value.toLocaleString(locale, {
       minimumFractionDigits: 0, maximumFractionDigits: d
-    });
+    }).replace(/^-/, "−");
   }
 
   function signed(value, decimals) {

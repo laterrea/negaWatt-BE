@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # Publish the workshop changes. Safe to re-run; no --delete, so intervec/ and
-# RFNBO_final_results/ are untouched.
+# RFNBO_final_results/ are untouched. Markdown files are working notes (e.g.
+# workshop/participant_feedback.md) and are never published.
 set -euo pipefail
 cd /home/sylvain/svn/negaWatt-BE
 rsync -avz --no-perms --omit-dir-times \
       --exclude '.DS_Store' --exclude '__pycache__' \
+      --exclude '*.md' \
       -e "ssh -i ~/.ssh/rsa_nopasswd" \
       website/ negawatt@negawatt.squoilin.eu:public_html/
 echo

@@ -8,6 +8,11 @@
      3. every change autosaves, so the reveal screen is live even before the
         group presses Finish.
 
+   A question may instead be answered with several sliders that act together
+   on its one indicator (`parts` in the lever record, D61): each part is saved
+   as an answer of its own, and the value they make together is saved as the
+   lever's answer, so the reveal and the summary read it like any other.
+
    Data comes from three generated globals: NW_LEVERS (numbers, from the
    notebook), NW_HISTORY (observed series, from the notebook) and NW_WS_CONTENT
    (wording, from the topic YAML). Nothing here is hard-coded.
@@ -23,7 +28,7 @@
     sector: null,
     order: [],
     index: 0,
-    answers: {},        // leverId -> {value, confidence, condition}
+    answers: {},        // leverId or part answerId -> {value, confidence, condition}
     dirty: {},          // leverId -> debounce timer
     finished: false
   };
@@ -58,14 +63,41 @@
 
   function current() { return state.order[state.index]; }
 
+  function parted(lever) { return !!(lever && lever.parts && lever.parts.length); }
+
+  function partValue(part) {
+    var a = state.answers[part.answerId];
+    return a && a.value !== undefined && a.value !== null ? a.value : null;
+  }
+
+  /* The value the parts make together, or null while any of them is unset. */
+  function combinedValue(lever) {
+    var v = window.NW_IMPACT.combine(lever, lever.parts.map(partValue));
+    return v === null ? null : Math.round(v * 100) / 100;
+  }
+
+  function partsDone(lever) {
+    return lever.parts.filter(function (p) { return partValue(p) !== null; }).length;
+  }
+
+  /* What the readout says before there is a value to show. */
+  function emptyReadout(lever) {
+    return parted(lever)
+      ? T.t("play.parts.incomplete", { done: partsDone(lever), total: lever.parts.length })
+      : T.t("play.unanswered");
+  }
+
   /* Values a tangible sentence may ask for. {value} is the slider itself;
-     the two derived ones let a card say "x per year, i.e. y per day" without
-     making the author do the arithmetic in the YAML. */
+     the derived ones let a card say "x per year, i.e. y per day" without
+     making the author do the arithmetic in the YAML. {inverseIndex} reads the
+     answer the other way round, against the reference: trucks filled to 60 %
+     instead of 53 % carry the same freight in 89 % of today's truck-kilometres. */
   function tangibleParams(lever, value) {
     return {
       value: T.num(value, lever.decimals),
       valuePerDay: T.num(value / 365, value / 365 >= 10 ? 0 : 1),
-      valuePerYear: T.num(value * 365, 0)
+      valuePerYear: T.num(value * 365, 0),
+      inverseIndex: value > 0 ? T.num(100 * lever.refValue / value, 0) : "—"
     };
   }
 
@@ -215,8 +247,9 @@
       main.dataset.dir = delta < 0 ? "down" : "up";
     }
     // Levers already expressed as "% of 2019" have a reference of 100 % of 2019,
-    // and naming it makes the sentence circular.
-    sub.textContent = lever.unit === "% of 2019"
+    // and levers counted as a change from today ("+x % goods per km", "°C less")
+    // one of zero: naming either makes the sentence circular.
+    sub.textContent = lever.unit === "% of 2019" || lever.refValue === 0
       ? T.t("play.leverage.versusPlain", { year: lever.refYear })
       : T.t("play.leverage.versus", {
           year: lever.refYear,
@@ -323,6 +356,10 @@
     $("question").textContent = T.pick(content.question) || lever.name;
     $("subtitle").textContent = T.pick(content.subtitle);
 
+    $("slider-wrap").classList.toggle("ws-hidden", parted(lever));
+    $("parts").classList.toggle("ws-hidden", !parted(lever));
+    if (parted(lever)) drawParts(id, lever, content);
+
     var slider = $("slider");
     slider.min = lever.slider.min;
     slider.max = lever.slider.max;
@@ -343,7 +380,7 @@
     var readout = $("readout");
     readout.classList.toggle("is-empty", value === null);
     $("readout-num").textContent = value === null
-      ? T.t("play.unanswered") : T.num(value, lever.decimals);
+      ? emptyReadout(lever) : T.num(value, lever.decimals);
     $("readout-unit").textContent = T.unit(lever.unit);
     $("readout-tangible").textContent = value === null ? ""
       : T.interpolate(T.pick(content.tangible), tangibleParams(lever, value));
@@ -396,13 +433,122 @@
     var id = current();
     var lever = levers()[id];
     var content = leverContent(id);
-    $("slider-wrap").classList.add("is-answered");
-    $("readout").classList.remove("is-empty");
-    $("readout-num").textContent = T.num(value, lever.decimals);
-    $("readout-tangible").textContent =
-      T.interpolate(T.pick(content.tangible), tangibleParams(lever, value));
-    drawChart(lever, content, value);
-    drawLeverage(lever, value);
+    var empty = value === null || value === undefined;
+    if (!empty) $("slider-wrap").classList.add("is-answered");
+    $("readout").classList.toggle("is-empty", empty);
+    $("readout-num").textContent = empty ? emptyReadout(lever) : T.num(value, lever.decimals);
+    $("readout-tangible").textContent = empty ? ""
+      : T.interpolate(T.pick(content.tangible), tangibleParams(lever, value));
+    drawChart(lever, content, empty ? null : value);
+    drawLeverage(lever, empty ? null : value);
+  }
+
+  /* ------------------------------------------------------------------ parts */
+  /* One small slider per part, in place of the main one. Built once per lever
+     and language, then only updated: rebuilding the inputs on every change
+     would take the keyboard focus away from the slider being moved. */
+  function drawParts(id, lever, content) {
+    var box = $("parts");
+    var key = id + "|" + T.lang();
+    if (box.dataset.built !== key) {
+      box.dataset.built = key;
+      box.innerHTML = "";
+      var hint = document.createElement("p");
+      hint.className = "ws-slider__hint";
+      hint.id = "parts-hint";
+      hint.textContent = T.t("play.parts.hint", { total: lever.parts.length });
+      box.appendChild(hint);
+      lever.parts.forEach(function (part) {
+        box.appendChild(buildPart(id, lever, part, (content.parts || {})[part.id] || {}));
+      });
+      var rule = document.createElement("p");
+      rule.className = "ws-parts__rule";
+      rule.textContent = T.t("play.parts.rule." + lever.combine);
+      box.appendChild(rule);
+    }
+    lever.parts.forEach(function (part) { showPart(part, partValue(part)); });
+    $("parts-hint").classList.toggle("ws-hidden", partsDone(lever) === lever.parts.length);
+  }
+
+  function buildPart(id, lever, part, text) {
+    var wrap = document.createElement("div");
+    wrap.className = "ws-part ws-slider";
+    wrap.id = "part-" + part.id;
+
+    var head = document.createElement("div");
+    head.className = "ws-part__head";
+    var label = document.createElement("label");
+    label.className = "ws-part__label";
+    label.htmlFor = "part-input-" + part.id;
+    label.textContent = T.pick(text.question) || part.name;
+    head.appendChild(label);
+    var value = document.createElement("span");
+    value.className = "ws-part__value";
+    value.id = "part-value-" + part.id;
+    head.appendChild(value);
+    wrap.appendChild(head);
+
+    if (text.subtitle) {
+      var sub = document.createElement("p");
+      sub.className = "ws-part__sub";
+      sub.textContent = T.pick(text.subtitle);
+      wrap.appendChild(sub);
+    }
+
+    var input = document.createElement("input");
+    input.type = "range";
+    input.id = "part-input-" + part.id;
+    input.min = part.slider.min;
+    input.max = part.slider.max;
+    input.step = part.slider.step;
+    input.addEventListener("input", function () {
+      var v = parseFloat(input.value);
+      var answer = state.answers[part.answerId] || {};
+      answer.value = v;
+      state.answers[part.answerId] = answer;
+      scheduleSave(part.answerId);
+      showPart(part, v);
+
+      // the lever's own answer is the value the parts make together; until
+      // every part is set there is none, and nothing is saved for the lever
+      var combined = combinedValue(lever);
+      if (combined !== null) {
+        var whole = state.answers[id] || {};
+        whole.value = combined;
+        state.answers[id] = whole;
+        scheduleSave(id);
+      }
+      $("parts-hint").classList.toggle("ws-hidden", partsDone(lever) === lever.parts.length);
+      renderValueOnly(combined);
+    });
+    input.addEventListener("change", function () { render(); });
+    wrap.appendChild(input);
+
+    var scale = document.createElement("div");
+    scale.className = "ws-slider__scale";
+    var dp = Math.min(part.decimals, 1);
+    var lo = document.createElement("span");
+    lo.textContent = T.num(part.slider.min, dp);
+    var hi = document.createElement("span");
+    hi.textContent = T.num(part.slider.max, dp) + " " + T.unit(part.unit);
+    scale.appendChild(lo);
+    scale.appendChild(hi);
+    wrap.appendChild(scale);
+    return wrap;
+  }
+
+  function showPart(part, v) {
+    var wrap = $("part-" + part.id);
+    var input = $("part-input-" + part.id);
+    if (!wrap || !input) return;
+    var set = v !== null && v !== undefined;
+    wrap.classList.toggle("is-answered", set);
+    if (document.activeElement !== input) {
+      input.value = set ? v : (part.slider.min + part.slider.max) / 2;  // parked, unset
+    }
+    var text = set ? T.num(v, part.decimals) + " " + T.unit(part.unit) : T.t("play.unanswered");
+    $("part-value-" + part.id).textContent = text;
+    input.setAttribute("aria-valuetext", text);
   }
 
   function renderDone() {
@@ -426,6 +572,18 @@
       cell.className = "num";
       cell.textContent = answer.value === undefined ? "—"
         : T.num(answer.value, lever.decimals) + " " + T.unit(lever.unit);
+      // a question answered in parts lists them under its total
+      if (parted(lever)) row.className = "ws-table__whole";
+      (parted(lever) ? lever.parts : []).forEach(function (part, i) {
+        var text = (leverContent(id).parts || {})[part.id] || {};
+        var sub = table.insertRow();
+        sub.className = "ws-table__part" + (i === lever.parts.length - 1 ? " is-last" : "");
+        sub.insertCell().textContent = T.pick(text.short) || part.name;
+        var c = sub.insertCell();
+        c.className = "num";
+        var v = partValue(part);
+        c.textContent = v === null ? "—" : T.num(v, part.decimals) + " " + T.unit(part.unit);
+      });
     });
     drawEffects();
     $("btn-back").disabled = false;
@@ -575,8 +733,13 @@
     // read the local answers only once the identity is settled: joining as a new
     // group clears them, and a new sitting must start from a blank slider
     var stored = API.localAnswers();
+    var known = {};
+    state.order.forEach(function (id) {
+      known[id] = true;
+      (levers()[id].parts || []).forEach(function (p) { known[p.answerId] = true; });
+    });
     Object.keys(stored).forEach(function (id) {
-      if (state.order.indexOf(id) !== -1) state.answers[id] = stored[id];
+      if (known[id]) state.answers[id] = stored[id];
     });
     var first = state.order.findIndex(function (id) { return !state.answers[id]; });
     state.index = first === -1 ? 0 : first;

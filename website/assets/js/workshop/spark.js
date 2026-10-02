@@ -201,9 +201,17 @@
       svg.appendChild(el("circle", { cx: px(o.refYear), cy: py(o.refValue), r: 3.5,
                                      fill: "#fff", stroke: TEAL_DARK, "stroke-width": 2 }));
       // Without a curve the single point needs naming, or the chart reads as empty.
+      // Beside the point until there is an answer; then on the side the answer's
+      // dashed line does not take, which used to run straight through the label.
       if (xs.length <= 1) {
+        var ry = py(o.refValue);
+        var answered = o.value !== null && o.value !== undefined && isFinite(o.value);
+        var below = answered && py(o.value) < ry;          // the line climbs: go under it
+        var labelY = !answered ? ry + 4 : (below ? ry + 18 : ry - 10);
+        if (labelY > H - mB - 2) labelY = ry - 10;          // no room underneath
+        if (labelY < mT + 10) labelY = ry + 18;             // no room on top
         svg.appendChild(el("text", {
-          x: px(o.refYear) + 9, y: py(o.refValue) + 4, "text-anchor": "start",
+          x: px(o.refYear) + (answered ? 2 : 9), y: labelY, "text-anchor": "start",
           "font-size": 11, "font-weight": 700, fill: TEAL_DARK
         }, String(o.refYear) + " · " + fmt(o.refValue, o.decimals)));
       }
@@ -361,13 +369,55 @@
     return Array.isArray(highlight) ? highlight.indexOf(i) !== -1 : highlight === i;
   }
 
+  /* Width of a label as the SVG will draw it. The label column used to be a
+     fixed 104 px, so a longer label ("Plafond, 20 % à vide") ran off the left
+     edge of the plot and was cut. */
+  var measurer = null;
+  function textWidth(text, size, weight) {
+    try {
+      measurer = measurer || document.createElement("canvas").getContext("2d");
+      var family = window.getComputedStyle(document.body).fontFamily || "sans-serif";
+      measurer.font = (weight || 500) + " " + size + "px " + family;
+      return measurer.measureText(String(text)).width;
+    } catch (e) {
+      return String(text).length * size * 0.58;     // no canvas: a safe overestimate
+    }
+  }
+
+  /* How to draw one label in `room` px: one line at 11 px if it fits, one line
+     a little smaller if that is enough, and otherwise two lines, split at the
+     space nearest the middle. A label is never cut. */
+  function fitLabel(label, room, weight) {
+    var full = textWidth(label, 11, weight);
+    if (full <= room) return { lines: [label], size: 11 };
+    if (11 * room / full >= 9.5) return { lines: [label], size: 11 * room / full };
+    var mid = label.length / 2, cut = -1;
+    for (var k = 0; k < label.length; k++) {
+      if (label[k] === " " && (cut < 0 || Math.abs(k - mid) < Math.abs(cut - mid))) cut = k;
+    }
+    if (cut < 0) return { lines: [label], size: Math.max(8, 11 * room / full) };
+    var lines = [label.slice(0, cut), label.slice(cut + 1)];
+    var longest = Math.max(textWidth(lines[0], 11, weight), textWidth(lines[1], 11, weight));
+    return { lines: lines, size: Math.max(8, Math.min(11, 11 * room / longest)) };
+  }
+
   function drawMiniBars(node, o) {
     var W = Math.max(210, node.clientWidth || 280);
     var ys = (o.y || []).map(Number);
-    var labels = o.labels || [];
-    var rowH = 17, gap = 7;
+    var labels = (o.labels || []).map(function (l) { return l === undefined ? "" : String(l); });
+    // as wide as the longest label needs, but never more than 45 % of the plot
+    var widest = labels.reduce(function (m, l, i) {
+      return Math.max(m, textWidth(l, 11, isHighlighted(o.highlight, i) ? 700 : 500));
+    }, 0);
+    var labW = Math.min(Math.max(widest + 8, 46), W * 0.45);
+    var fits = labels.map(function (l, i) {
+      return fitLabel(l, labW - 6, isHighlighted(o.highlight, i) ? 700 : 500);
+    });
+    // a chart with a two-line label gets taller rows throughout, so the bars
+    // stay evenly spaced
+    var wrapped = fits.some(function (f) { return f.lines.length > 1; });
+    var rowH = 17, gap = wrapped ? 13 : 7;
     var H = ys.length * (rowH + gap) + 4;
-    var labW = Math.min(Math.max(W * 0.28, 46), 104);
     var iw = Math.max(24, W - labW - 46);          // 46px keeps the value legible
     var hi = Math.max.apply(null, ys.concat([0]));
     var lo = Math.min.apply(null, ys.concat([0]));
@@ -380,7 +430,7 @@
     });
 
     ys.forEach(function (v, i) {
-      var y = i * (rowH + gap) + 2;
+      var y = i * (rowH + gap) + 2 + (wrapped ? (gap - 7) / 2 : 0);
       var w = Math.abs(v) / span * iw;
       var x = v < 0 ? zero - w : zero;
       var on = isHighlighted(o.highlight, i);
@@ -388,10 +438,18 @@
         x: x, y: y, width: Math.max(w, 1.5), height: rowH, rx: 2,
         fill: on ? AMBER : TEAL, "fill-opacity": on ? 0.95 : 0.5
       }));
-      svg.appendChild(el("text", {
-        x: labW - 6, y: y + rowH - 4, "text-anchor": "end", "font-size": 11,
-        "font-weight": on ? 700 : 500, fill: on ? INK : MUTED
-      }, labels[i] === undefined ? "" : String(labels[i])));
+      var fit = fits[i];
+      var size = Math.round(fit.size * 10) / 10;
+      var text = el("text", {
+        x: labW - 6, "text-anchor": "end", "font-size": size,
+        "font-weight": on ? 700 : 500, fill: on ? INK : MUTED,
+        // centred on the bar whether it takes one line or two
+        y: y + rowH / 2 + size * 0.35 - (fit.lines.length - 1) * size * 0.55
+      });
+      fit.lines.forEach(function (line, k) {
+        text.appendChild(el("tspan", { x: labW - 6, dy: k ? size * 1.1 : 0 }, line));
+      });
+      svg.appendChild(text);
       svg.appendChild(el("text", {
         x: x + w + 5, y: y + rowH - 4, "text-anchor": "start", "font-size": 11,
         "font-weight": on ? 800 : 600, fill: on ? AMBER : INK
@@ -448,11 +506,17 @@
                                      fill: on ? AMBER : TEAL }));
     });
     if (points.length) {
+      // the last value goes in the right margin, beside its dot; it used to be
+      // right-aligned on the dot itself, so the two overlapped ("7,7" read "77")
       var last = points[points.length - 1];
+      var endLabel = fmt(ys[ys.length - 1], o.decimals);
+      var beside = last[0] + 7 + textWidth(endLabel, 11, 700) <= W - 1;
       svg.appendChild(el("text", {
-        x: Math.min(last[0] + 6, W - 2), y: last[1] + 4, "text-anchor": "end",
+        x: beside ? last[0] + 7 : W - 1,
+        y: beside ? last[1] + 4 : (last[1] > mT + 10 ? last[1] - 8 : last[1] + 16),
+        "text-anchor": beside ? "start" : "end",
         "font-size": 11, "font-weight": 700, fill: AMBER
-      }, fmt(ys[ys.length - 1], o.decimals)));
+      }, endLabel));
     }
 
     [x0, x1].forEach(function (yr, i) {

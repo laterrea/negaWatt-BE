@@ -246,6 +246,33 @@
   padding: 0 2px;
 }
 
+/* A question answered in parts (D61): a stack of small sliders, each one a
+   .ws-slider, so the track, the thumb and the grey "unset" thumb are shared. */
+.ws-parts { display: grid; gap: 14px; }
+.ws-parts > .ws-slider__hint { margin: 0; }
+.ws-part {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px 6px;
+  background: #fff;
+}
+.ws-part__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.ws-part__label { font-weight: 700; font-size: .95rem; color: var(--ink); }
+.ws-part__value {
+  flex: 0 0 auto;
+  font-weight: 800;
+  color: #8a4419;
+  font-variant-numeric: tabular-nums;
+}
+.ws-part:not(.is-answered) .ws-part__value { color: var(--muted); font-weight: 600; font-size: .85rem; }
+.ws-part__sub { margin: 2px 0 0; font-size: .8rem; color: var(--ink-soft); }
+.ws-parts__rule { margin: 0; font-size: .8rem; color: var(--muted); }
+
 /* ---------------------------------------------------------------- readout */
 .ws-readout {
   display: flex;
@@ -550,6 +577,13 @@
 }
 .ws-table th { font-size: .74rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
 .ws-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+/* the parts of a question answered with several sliders, under its total */
+.ws-table tr.ws-table__whole td,
+.ws-table tr.ws-table__part td { border-bottom: 0; }
+.ws-table tr.ws-table__part td { color: var(--ink-soft); font-size: .82rem; padding-top: 0; padding-bottom: 4px; }
+.ws-table tr.ws-table__part.is-last td { border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.ws-table tr.ws-table__part td:first-child { padding-left: 22px; }
+.ws-table tr.ws-table__part td:first-child::before { content: "↳ "; color: var(--muted); }
 .ws-scroll { overflow-x: auto; }
 
 /* The reveal screen is built for a projector, but a facilitator may hold it on a
@@ -616,6 +650,12 @@
 }
 .ws-card__code { font-weight: 800; letter-spacing: .14em; color: var(--nw-teal-darker); }
 .ws-card__scale { font-size: .72rem; color: var(--muted); }
+.ws-card__parts { flex: 1 1 60%; display: grid; gap: 3px; font-size: .8rem; color: var(--ink); }
+.ws-card__part { display: flex; align-items: baseline; gap: 10px; }
+.ws-card__part > span:first-child { flex: 1 1 auto; font-weight: 700; }
+.ws-card__part .ws-card__scale { flex: 0 0 auto; }
+.ws-card__blank { flex: 0 0 22mm; border-bottom: 1px solid var(--ink-soft); height: 1em; }
+.ws-card__rule { margin: 0; font-size: .7rem; color: var(--muted); }
 
 .ws-cards__grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
 @media (min-width: 820px) {

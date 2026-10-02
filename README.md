@@ -236,7 +236,9 @@ fails rather than warns, so none of them can be got wrong quietly:
 3. **No model number is typed by hand.** Anything the notebook computes is a
    `{placeholder}`, resolved at build time from that lever's `facts` block in
    `levers_<sector>.js`. `{x:abs}` drops the sign, `{x:d2}` forces two decimals;
-   `{value}` and friends are filled by the page at run time.
+   `{value}` and friends are filled by the page at run time — `{inverseIndex}` reads the
+   answer the other way round, against the reference (trucks 60 % full instead of 53 %: the
+   same freight in 89 % of today's truck-km).
 4. **No spoilers before the group answers.** Not the target value, not a `spoilers` fact
    key, not the words "négaWatt" or "the scenario". A fact that does describe the
    scenario carries `reveal: true`.
@@ -245,19 +247,19 @@ Anatomy of a question card and its facts — the play order is the order of thes
 
 ```yaml
 levers:
-  truck-load:                              # id — must match make_lever(...) in the module
+  truck-fill:                              # id — must match make_lever(...) in the module
     short:    {fr: …, nl: …, en: …}        # progress dots and the summary table
     question: {fr: …, nl: …, en: …}        # the headline: ask for an objective, not a forecast
     subtitle: {fr: …, nl: …, en: …}        # what the number covers, and what it excludes
-    tangible: {fr: "{value} t par camion", nl: …, en: …}   # reads back the group's answer
+    tangible: {fr: "… {inverseIndex} % des km de camion", nl: …, en: …}   # reads back the answer
     facts:                                 # the information cards, in display order
       - kind: benchmark                    # trend | structure | benchmark | tangible | caution
         text: {fr: …, nl: …, en: …}        # *stars* render as emphasis
-        source: "Eurostat, Road freight transport by journey characteristics"
-        url: https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Road_freight…
+        source: "Eurostat, road_go_ta_tott (2024)"
+        url: https://ec.europa.eu/eurostat/databrowser/view/road_go_ta_tott/default/table?lang=en
       - kind: structure
         reveal: true                       # held back until the reveal screen
-        text: {fr: "… {gainPct:abs} % …", nl: …, en: …}    # a `spoilers` key: reveal-only
+        text: {fr: "… {equivEmptyPct} % …", nl: …, en: …}  # a `spoilers` key: reveal-only
         source: nW-BE §3.3.3               # the model's own arithmetic — no URL
     justification: {fr: …, nl: …, en: …}   # why négaWatt landed there (reveal screen)
     debate:        {fr: …, nl: …, en: …}   # the objection to it (reveal screen)
@@ -272,6 +274,49 @@ makes that lever's chart plot the signed change instead: the axis becomes "diffe
 against the reference year", so lowering the setpoint lowers the line. Drawing only — the
 slider, the readout, the stored answer, the ± summary chart and every number in the prose
 keep the lever's own sign. Say so in the `historyNote`, which is the chart's caption. See D60.
+
+**One question, several sliders.** Some figures are the product of several levers, and
+asking for the product makes the group do the compounding in its head: that was the
+criticism of `car-energy` ("hard to think about the 3 factors at the same time"). A
+lever can instead be answered in *parts*, one slider each, and the page computes the
+figure they make together. Declare the parts in the topic module:
+
+```python
+make_lever("car-energy", ..., slider={"min": 45, "max": 115, "step": 1},
+           parts=[make_lever_part("speed", "Lower speeds", "%", 0.0,
+                                  {"min": 0, "max": 20, "step": 1},
+                                  target_value=(1 - redu_fuel_PM_car_speed) * 100),
+                  ...],
+           combine="cuts")          # cuts: each part a % reduction, compounded
+                                    # sum:  the parts add up
+```
+
+and word them in the YAML, under the lever, with the same ids:
+
+```yaml
+    parts:
+      speed:
+        short:    {fr: …, nl: …, en: …}   # the summary table
+        question: {fr: …, nl: …, en: …}   # the label above the slider
+        subtitle: {fr: …, nl: …, en: …}   # optional: what the slider covers
+```
+
+What it changes, and what it does not:
+
+- Each part is saved as an answer of its own, under `<lever>__<part>`; the combined
+  figure is saved as the lever's answer, with the group's note. No API or schema change.
+- The combined figure exists only once every part is set: an unset slider is not a zero.
+- The chart, the leverage readout, the summary chart and the **reveal** read the combined
+  figure only. The scenario's value for each part goes into the `justification`, as
+  `{placeholders}` listed in `spoilers`.
+- The lever's `slider` is no longer dragged, but stays the axis of the chart and the
+  reveal: `make_lever` refuses a range that cannot hold every combination of the parts.
+  It also refuses parts that do not combine back to the lever's own 2019 value and, when
+  they carry targets, to its 2050 value. The split is a reading of the total and does
+  not move the result.
+- The printed card lists the parts, each with its range and a blank to write on.
+
+Working example: `car-energy` in `inland-mobility.yaml`. See D61.
 
 **Adding or removing an information card.** Add or delete a block under that lever's
 `facts:` — nothing else to touch, and no notebook run. Aim for four pre-answer facts
@@ -381,9 +426,9 @@ python scripts/dev_api.py --port 8787 &
 
 # 4. tests
 python scripts/test_workshop_helpers.py       # the export helpers
-python scripts/verify_workshop_export.py      # 327 checks, inland-mobility only
+python scripts/verify_workshop_export.py      # 360 checks, inland-mobility only
 python scripts/build_workshop_content.py --check
-python scripts/test_workshop_api.py --base http://127.0.0.1:8787            # 59 checks
+python scripts/test_workshop_api.py --base http://127.0.0.1:8787            # 61 checks
 #   Coverage note: only `build_workshop_content.py --check` sees all four topics.
 #   `verify_workshop_export.py` reads levers_transport.js / history_transport.js and
 #   is scoped to inland-mobility; nothing yet verifies the buildings export, so a

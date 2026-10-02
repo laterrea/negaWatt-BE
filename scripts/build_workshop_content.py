@@ -25,6 +25,7 @@ The build fails — rather than warns — on any of:
   * a malformed `chart:` block (unknown kind, ragged x/y/labels, no caption);
   * a {placeholder} that does not resolve;
   * lever ids that disagree between the YAML and the notebook export;
+  * part ids of a lever answered with several sliders that disagree likewise;
   * a lever whose history series can be neither resolved nor explicitly
     declared absent with a reason.
 """
@@ -51,7 +52,7 @@ CHART_KINDS = {"bars", "line"}
 INTERNAL_SOURCE_RE = re.compile(r"nW-BE", re.I)
 QUOTES_A_FIGURE_RE = re.compile(r"[0-9]|\{[A-Za-z]")
 # Placeholders the *page* fills in at run time, so the build must leave them alone.
-RUNTIME_PLACEHOLDERS = {"value", "valuePerDay", "valuePerYear",
+RUNTIME_PLACEHOLDERS = {"value", "valuePerDay", "valuePerYear", "inverseIndex",
                         "n", "total", "twh", "delta", "year", "done"}
 NO_GROUPING = {"refYear", "targetYear"}
 # {key}, {key:abs} (drop the sign), {key:d2} (force two decimals)
@@ -67,6 +68,10 @@ TRANSLATABLE_FIELDS = ("question", "short", "subtitle", "tangible", "justificati
 # choice, or the exercise hands over its answer. `justification`, `debate` and any
 # fact flagged `reveal: true` are exempt — they are the reveal.
 PRE_ANSWER_FIELDS = ("question", "short", "subtitle", "tangible")
+
+# The wording of one slider of a question answered in parts (D61). All three are
+# on screen before the group answers.
+PART_FIELDS = ("short", "question", "subtitle")
 
 # `*stars*` become <em> only where the page calls NW_I18N.rich(): a fact's text,
 # the justification and the debate. Anywhere else they reach the screen as literal
@@ -507,6 +512,73 @@ def build(check_only=False):
             for field in ("question", "short", "justification"):
                 if field not in rec:
                     errors.append(f"{where}: '{field}' is required")
+
+            # --- a question answered in parts (D61) -------------------------
+            # The notebook declares the parts and how they combine; the YAML
+            # words each one. Same rule as the levers themselves: the two id
+            # sets must agree, and nothing on a slider may give the answer away.
+            exported_parts = {p["id"]: p for p in lv.get("parts") or []}
+            yaml_parts = content.get("parts") or {}
+            if not isinstance(yaml_parts, dict):
+                errors.append(f"{where}.parts: expected one block per part id")
+                yaml_parts = {}
+            for pid in sorted(set(yaml_parts) - set(exported_parts)):
+                errors.append(f"{where}.parts.{pid}: the notebook exports no such part "
+                              f"of this lever")
+            for pid in sorted(set(exported_parts) - set(yaml_parts)):
+                errors.append(f"{where}: the notebook exports part {pid!r} with no "
+                              f"wording under 'parts'")
+            if exported_parts:
+                rec["parts"] = {}
+            for pid, ptext in yaml_parts.items():
+                part = exported_parts.get(pid)
+                if part is None:
+                    continue
+                pwhere = f"{where}.parts.{pid}"
+                pvalues = dict(values, refValue=part["refValue"])
+                pdecimals = {"refValue": part["decimals"]}
+                if "targetValue" in part:
+                    pvalues["targetValue"] = part["targetValue"]
+                    pdecimals["targetValue"] = part["decimals"]
+                prec = {}
+                for field in set(ptext or {}) - set(PART_FIELDS):
+                    errors.append(f"{pwhere}: unknown field {field!r} (a part takes "
+                                  f"{', '.join(PART_FIELDS)})")
+                for field in PART_FIELDS:
+                    if field not in (ptext or {}):
+                        if field != "subtitle":
+                            errors.append(f"{pwhere}: '{field}' is required")
+                        continue
+                    prec[field] = check_multilang(ptext[field], languages,
+                                                  f"{pwhere}.{field}", errors, pvalues,
+                                                  pdecimals)
+                    for lang, text in prec[field].items():
+                        if EMPHASIS_RE.search(text):
+                            errors.append(f"{pwhere}.{field}.{lang}: *emphasis* does not "
+                                          f"render on a slider label. Reword it.")
+                        # A part is on screen before the group answers, so it is
+                        # held to the lever's own spoiler rule, and to its own
+                        # target where the scenario gives one.
+                        spoiler_check(raw_text(ptext[field], lang), text, lang,
+                                      f"{pwhere}.{field}.{lang}", lv, errors)
+                        if "targetValue" in part:
+                            spoiler_check(raw_text(ptext[field], lang), text, lang,
+                                          f"{pwhere}.{field}.{lang}",
+                                          dict(part, spoilers=lv.get("spoilers")), errors)
+                rec["parts"][pid] = prec
+            # The question above the sliders must not print a part's own value
+            # either. The facts are not checked against the parts: they quote
+            # literature ranges, and "6 to 7%" for lighter cars says nothing
+            # about the eco-driving slider that happens to land on 7.
+            for part in exported_parts.values():
+                if "targetValue" not in part:
+                    continue
+                as_lever = dict(part, spoilers=lv.get("spoilers"))
+                for field in PRE_ANSWER_FIELDS:
+                    for lang, text in rec.get(field, {}).items():
+                        spoiler_check(raw_text(content[field], lang), text, lang,
+                                      f"{where}.{field}.{lang} (part {part['id']})",
+                                      as_lever, errors)
 
             facts = content.get("facts") or []
             pre_answer = [f for f in facts if not f.get("reveal")]
