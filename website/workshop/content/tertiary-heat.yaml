@@ -17,6 +17,11 @@
 topic: tertiary-heat
 sector: buildings
 
+# Each group plays the questions in its own random order (D63); `fixed` plays them
+# in the order of the levers below, as before. Every question keeps a letter (A, B,
+# C… in that order) that links the screen, the printed card and the reveal.
+questionOrder: random
+
 title:
   fr: Chaleur des bâtiments tertiaires
   nl: Warmte in dienstengebouwen

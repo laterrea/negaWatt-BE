@@ -271,6 +271,9 @@
 }
 .ws-part:not(.is-answered) .ws-part__value { color: var(--muted); font-weight: 600; font-size: .85rem; }
 .ws-part__sub { margin: 2px 0 0; font-size: .8rem; color: var(--ink-soft); }
+.ws-part__effect { margin: 2px 0 0; font-size: .8rem; font-weight: 700; color: var(--muted); }
+.ws-part__effect[data-dir="down"] { color: var(--nw-teal-dark); }
+.ws-part__effect[data-dir="up"] { color: #b4532a; }
 .ws-parts__rule { margin: 0; font-size: .8rem; color: var(--muted); }
 
 /* ---------------------------------------------------------------- readout */
@@ -625,10 +628,19 @@
   display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
   border-bottom: 1px solid var(--line); padding-bottom: 8px;
 }
-.ws-card__n {
-  font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
-  color: var(--nw-teal-dark); white-space: nowrap;
+/* A question's letter (D63): the one label that is the same on the screen, on
+   the printed card and on the reveal, whatever order a group plays in. */
+.ws-letter {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 1.6em; height: 1.6em; padding: 0 .3em;
+  border: 2px solid var(--nw-teal-dark); border-radius: 6px;
+  font-weight: 800; letter-spacing: 0; line-height: 1;
+  color: var(--nw-teal-darker); background: #fff;
 }
+.ws-card__head .ws-letter {             /* barely wider than the old "3/8": no title rewraps */
+  font-size: 1.05rem; min-width: 1.4em; height: 1.4em; flex: 0 0 auto;
+}
+.ws-eyebrow .ws-letter { font-size: .78rem; margin-left: 6px; vertical-align: 1px; }
 .ws-card__q { font-size: 1.02rem; font-weight: 800; margin: 0; line-height: 1.25; }
 .ws-card__sub { font-size: .78rem; color: var(--ink-soft); margin: 4px 0 0; }
 .ws-card__anchor {
@@ -648,7 +660,6 @@
   display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
   font-size: .74rem; color: var(--muted);
 }
-.ws-card__code { font-weight: 800; letter-spacing: .14em; color: var(--nw-teal-darker); }
 .ws-card__scale { font-size: .72rem; color: var(--muted); }
 .ws-card__parts { flex: 1 1 60%; display: grid; gap: 3px; font-size: .8rem; color: var(--ink); }
 .ws-card__part { display: flex; align-items: baseline; gap: 10px; }
@@ -656,6 +667,7 @@
 .ws-card__part .ws-card__scale { flex: 0 0 auto; }
 .ws-card__blank { flex: 0 0 22mm; border-bottom: 1px solid var(--ink-soft); height: 1em; }
 .ws-card__rule { margin: 0; font-size: .7rem; color: var(--muted); }
+.ws-card__today { font-weight: 500; color: var(--muted); }
 
 .ws-cards__grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
 @media (min-width: 820px) {

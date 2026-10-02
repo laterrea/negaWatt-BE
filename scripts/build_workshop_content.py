@@ -26,6 +26,9 @@ The build fails — rather than warns — on any of:
   * a {placeholder} that does not resolve;
   * lever ids that disagree between the YAML and the notebook export;
   * part ids of a lever answered with several sliders that disagree likewise;
+  * a bad `questionOrder` or `linked` block, a `{question:<id>}` naming no question
+    of the topic, or wording that assumes a fixed order ("the next question") in a
+    topic whose order is random;
   * a lever whose history series can be neither resolved nor explicitly
     declared absent with a reason.
 """
@@ -53,7 +56,7 @@ INTERNAL_SOURCE_RE = re.compile(r"nW-BE", re.I)
 QUOTES_A_FIGURE_RE = re.compile(r"[0-9]|\{[A-Za-z]")
 # Placeholders the *page* fills in at run time, so the build must leave them alone.
 RUNTIME_PLACEHOLDERS = {"value", "valuePerDay", "valuePerYear", "inverseIndex",
-                        "n", "total", "twh", "delta", "year", "done"}
+                        "n", "total", "twh", "delta", "year", "done", "code"}
 NO_GROUPING = {"refYear", "targetYear"}
 # {key}, {key:abs} (drop the sign), {key:d2} (force two decimals)
 PLACEHOLDER_RE = re.compile(r"\{([A-Za-z][A-Za-z0-9_]*)(?::(abs|d[0-4]))?\}")
@@ -68,6 +71,97 @@ TRANSLATABLE_FIELDS = ("question", "short", "subtitle", "tangible", "justificati
 # choice, or the exercise hands over its answer. `justification`, `debate` and any
 # fact flagged `reveal: true` are exempt — they are the reveal.
 PRE_ANSWER_FIELDS = ("question", "short", "subtitle", "tangible")
+
+# Question order (D63). Each group plays the questions of a `random` topic in its
+# own shuffled order; every question keeps a letter, from its place in the YAML,
+# that links the screen, the printed card and the reveal.
+QUESTION_ORDERS = ("random", "fixed")
+LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+# "see question {question:renovation-depth}" -> "see question D"
+QUESTION_REF_RE = re.compile(r"\{question:([A-Za-z0-9][A-Za-z0-9_-]*)\}")
+# Wording that only holds in a fixed order. In a random topic the next question
+# can be any of them, so a text must name the one it means, by its letter.
+POSITIONAL_RE = re.compile(
+    r"\b(?:previous|next|last|first|earlier|following|preceding)\s+questions?\b"
+    r"|\bquestions?\s+(?:précédentes?|suivantes?)\b"
+    r"|\b(?:dernière|première)\s+question"
+    r"|\b(?:vorige|volgende|laatste|eerste)\s+vra(?:ag|gen)\b", re.I)
+
+
+def question_refs(node, codes, where, errors):
+    """Replace every {question:<lever-id>} in a YAML tree by that question's letter."""
+    if isinstance(node, str):
+        def sub(match):
+            lid = match.group(1)
+            if lid not in codes:
+                errors.append(f"{where}: {{question:{lid}}} names no question of this "
+                              f"topic (known: {', '.join(codes)})")
+                return match.group(0)
+            return codes[lid]
+        return QUESTION_REF_RE.sub(sub, node)
+    if isinstance(node, dict):
+        return {k: question_refs(v, codes, f"{where}.{k}", errors) for k, v in node.items()}
+    if isinstance(node, list):
+        return [question_refs(v, codes, f"{where}[{i}]", errors) for i, v in enumerate(node)]
+    return node
+
+
+def positional_wording(node, where, errors):
+    """Refuse "the next question" and its kin in a topic played in random order."""
+    if isinstance(node, str):
+        match = POSITIONAL_RE.search(node)
+        if match:
+            errors.append(f"{where}: {match.group(0)!r} assumes a fixed question order, "
+                          f"but this topic is played in random order — name the question "
+                          f"by its letter, {{question:<lever-id>}}")
+    elif isinstance(node, dict):
+        for k, v in node.items():
+            positional_wording(v, f"{where}.{k}", errors)
+    elif isinstance(node, list):
+        for i, v in enumerate(node):
+            positional_wording(v, f"{where}[{i}]", errors)
+
+
+def shuffle_units(name, order, linked, errors):
+    """The units a random order shuffles: one per question, or one per linked block.
+
+    A block keeps its questions together and in their YAML order, and must already
+    be adjacent there, so that their letters are consecutive as well.
+    """
+    if linked is None:
+        linked = []
+    if not isinstance(linked, list) or not all(isinstance(b, list) for b in linked):
+        errors.append(f"{name}.linked: expected a list of lists of question ids")
+        return [[lid] for lid in order]
+    seen, first = set(), {}
+    for i, block in enumerate(linked):
+        where = f"{name}.linked[{i}]"
+        if len(block) < 2:
+            errors.append(f"{where}: a linked block needs at least two questions")
+            continue
+        unknown = [lid for lid in block if lid not in order]
+        if unknown:
+            errors.append(f"{where}: {unknown} are not questions of this topic")
+            continue
+        twice = [lid for lid in block if lid in seen]
+        if twice:
+            errors.append(f"{where}: {twice} already belong to another linked block")
+            continue
+        at = [order.index(lid) for lid in block]
+        if at != list(range(at[0], at[0] + len(block))):
+            errors.append(f"{where}: {block} must be adjacent and in this order among "
+                          f"the levers of the YAML, so that their letters follow")
+            continue
+        seen.update(block)
+        first[block[0]] = block
+    units = []
+    for lid in order:
+        if lid in first:
+            units.append(list(first[lid]))
+        elif lid not in seen:
+            units.append([lid])
+    return units
+
 
 # The wording of one slider of a question answered in parts (D61). All three are
 # on screen before the group answers.
@@ -423,12 +517,32 @@ def build(check_only=False):
             errors.append(f"{name}: the notebook exports shown lever(s) "
                           f"{sorted(only_export)} with no content here")
 
+        # --- question order and letters (D63) ------------------------------
+        order = [lid for lid in yaml_levers if lid in exported]
+        if len(order) > len(LETTERS):
+            errors.append(f"{name}: {len(order)} questions, more than there are letters")
+        codes = {lid: LETTERS[i] for i, lid in enumerate(order[:len(LETTERS)])}
+        question_order = doc.get("questionOrder", "random")
+        if question_order not in QUESTION_ORDERS:
+            errors.append(f"{name}.questionOrder: {question_order!r} is not one of "
+                          f"{list(QUESTION_ORDERS)}")
+        units = shuffle_units(name, order, doc.get("linked"), errors)
+        # every {question:id} becomes a letter before anything else reads the text
+        doc = question_refs(doc, codes, name, errors)
+        yaml_levers = doc.get("levers") or {}
+        if question_order == "random":
+            positional_wording({k: v for k, v in doc.items()
+                                if k not in ("questionOrder", "linked")}, name, errors)
+
         topic = {
             "sector": sector,
             "title": check_multilang(doc.get("title"), languages, f"{name}.title", errors),
             "lead": check_multilang(doc.get("lead"), languages, f"{name}.lead", errors),
             "intro": check_multilang(doc.get("intro"), languages, f"{name}.intro", errors),
-            "order": [lid for lid in yaml_levers if lid in exported],
+            # letter order: the printed cards, the reveal and the end summary
+            "order": order,
+            "questionOrder": question_order,
+            "units": units,
             "levers": {},
         }
 
@@ -700,6 +814,7 @@ def build(check_only=False):
             elif not key:
                 errors.append(f"{where}: no history series and no 'historyAbsent: true'")
 
+            rec["code"] = codes.get(lid, "?")
             topic["levers"][lid] = rec
 
         # A topic may add interface strings of its own, so that a new topic can

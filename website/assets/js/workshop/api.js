@@ -20,6 +20,7 @@
   var LS_QUEUE = "nw.ws.queue";
   var LS_ANSWERS = "nw.ws.answers";
   var LS_IDENTITY = "nw.ws.identity";
+  var LS_ORDER = "nw.ws.order";
 
   // A group is a workshop sitting, not an account. Re-opening the page an hour
   // later must return to the same group; re-opening it next week must not, or the
@@ -125,6 +126,7 @@
     if (previous && previous.groupId !== id.groupId) {
       write(LS_ANSWERS, {});
       write(LS_QUEUE, []);
+      write(LS_ORDER, null);        // a new group draws its own question order
       announce();
     }
     write(LS_IDENTITY, id);
@@ -168,6 +170,13 @@
       return id;
     });
   }
+
+  /* ----------------------------------------------------------------- order */
+  /* The question order this device is playing (D63): {topic, mode, groupId,
+     seed, ids}. Kept with the answers, so a reload never reshuffles a sitting,
+     and dropped with them when the device becomes another group. */
+  function localOrder() { return read(LS_ORDER, null); }
+  function saveOrder(order) { write(LS_ORDER, order); }
 
   /* ---------------------------------------------------------------- answers */
   function localAnswers() { return read(LS_ANSWERS, {}); }
@@ -270,6 +279,7 @@
     identity: identity, forgetIdentity: forgetIdentity, fresh: fresh,
     start: start, ensure: ensure, renameGroup: renameGroup,
     saveAnswer: saveAnswer, localAnswers: localAnswers,
+    localOrder: localOrder, saveOrder: saveOrder,
     pushLocal: pushLocal, flush: flush,
     getResults: getResults, selftest: selftest
   };

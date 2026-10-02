@@ -26,7 +26,8 @@
   var state = {
     topic: null,
     sector: null,
-    order: [],
+    order: [],          // the questions in the order THIS group plays them (D63)
+    canonical: [],      // the same in letter order: cards, reveal, end summary
     index: 0,
     answers: {},        // leverId or part answerId -> {value, confidence, condition}
     dirty: {},          // leverId -> debounce timer
@@ -63,6 +64,39 @@
 
   function current() { return state.order[state.index]; }
 
+  /* A question's letter, from its place in the YAML (D63). */
+  function code(id) { return leverContent(id).code || ""; }
+
+  /* The order this device plays in. Drawn once per group and kept: seeded by
+     the group id, so it is the same on any device and can be recomputed from the
+     database; a device that starts offline draws a random seed and keeps that
+     order once its group exists, rather than reshuffling under the participants. */
+  function decideOrder() {
+    var topic = topicContent();
+    var mode = topic.questionOrder || "random";
+    var id = API.identity();
+    var groupId = id && id.topic === state.topic && API.fresh(id) ? id.groupId : null;
+    var same = function (ids) {
+      return ids && ids.length === state.canonical.length &&
+             state.canonical.every(function (q) { return ids.indexOf(q) !== -1; });
+    };
+    var kept = API.localOrder();
+    if (kept && kept.topic === state.topic && kept.mode === mode && same(kept.ids) &&
+        (kept.groupId === groupId || kept.groupId === null)) {
+      if (kept.groupId === null && groupId !== null) {
+        kept.groupId = groupId;               // the late join adopts what was shown
+        API.saveOrder(kept);
+      }
+      return kept.ids;
+    }
+    var seed = groupId !== null ? groupId : window.NW_ORDER.randomSeed();
+    var ids = window.NW_ORDER.sequence(topic, seed).filter(function (q) {
+      return state.canonical.indexOf(q) !== -1;
+    });
+    API.saveOrder({ topic: state.topic, mode: mode, groupId: groupId, seed: seed, ids: ids });
+    return ids;
+  }
+
   function parted(lever) { return !!(lever && lever.parts && lever.parts.length); }
 
   function partValue(part) {
@@ -70,22 +104,24 @@
     return a && a.value !== undefined && a.value !== null ? a.value : null;
   }
 
-  /* The value the parts make together, or null while any of them is unset. */
-  function combinedValue(lever) {
-    var v = window.NW_IMPACT.combine(lever, lever.parts.map(partValue));
-    return v === null ? null : Math.round(v * 100) / 100;
-  }
-
-  function partsDone(lever) {
+  function partsMoved(lever) {
     return lever.parts.filter(function (p) { return partValue(p) !== null; }).length;
   }
 
-  /* What the readout says before there is a value to show. */
-  function emptyReadout(lever) {
-    return parted(lever)
-      ? T.t("play.parts.incomplete", { done: partsDone(lever), total: lever.parts.length })
-      : T.t("play.unanswered");
+  /* The value the parts make together. A slider the group has not moved counts
+     at its neutral level, today's (D64), so the point on the chart follows the
+     very first slider touched; with none touched there is no answer yet. */
+  function combinedValue(lever) {
+    if (!partsMoved(lever)) return null;
+    var v = window.NW_IMPACT.combine(lever, lever.parts.map(function (p) {
+      var x = partValue(p);
+      return x === null ? p.refValue : x;
+    }));
+    return v === null ? null : Math.round(v * 100) / 100;
   }
+
+  /* What the readout says before there is a value to show. */
+  function emptyReadout() { return T.t("play.unanswered"); }
 
   /* Values a tangible sentence may ask for. {value} is the slider itself;
      the derived ones let a card say "x per year, i.e. y per day" without
@@ -151,7 +187,8 @@
       var dot = document.createElement("button");
       dot.type = "button";
       dot.className = "ws-progress__dot";
-      dot.setAttribute("aria-label", String(i + 1));
+      dot.setAttribute("aria-label", T.t("play.card", { code: code(id) }));
+      dot.title = T.t("play.card", { code: code(id) });
       dot.dataset.state = i === state.index ? "current"
                         : (state.answers[id] ? "answered" : "todo");
       dot.addEventListener("click", function () { go(i); });
@@ -352,7 +389,15 @@
     var value = answer.value === undefined ? null : answer.value;
 
     var t = topicContent();
-    $("topic-title").textContent = t ? T.pick(t.title) : "";
+    var eyebrow = $("topic-title");
+    eyebrow.textContent = t ? T.pick(t.title) : "";
+    // the card to pick up: the group's own number is in the progress line above
+    var badge = document.createElement("span");
+    badge.className = "ws-letter";
+    badge.textContent = code(id);
+    badge.title = T.t("play.card", { code: code(id) });
+    eyebrow.appendChild(document.createTextNode(" · " + T.t("play.cardWord") + " "));
+    eyebrow.appendChild(badge);
     $("question").textContent = T.pick(content.question) || lever.name;
     $("subtitle").textContent = T.pick(content.subtitle);
 
@@ -380,7 +425,7 @@
     var readout = $("readout");
     readout.classList.toggle("is-empty", value === null);
     $("readout-num").textContent = value === null
-      ? emptyReadout(lever) : T.num(value, lever.decimals);
+      ? emptyReadout() : T.num(value, lever.decimals);
     $("readout-unit").textContent = T.unit(lever.unit);
     $("readout-tangible").textContent = value === null ? ""
       : T.interpolate(T.pick(content.tangible), tangibleParams(lever, value));
@@ -436,7 +481,7 @@
     var empty = value === null || value === undefined;
     if (!empty) $("slider-wrap").classList.add("is-answered");
     $("readout").classList.toggle("is-empty", empty);
-    $("readout-num").textContent = empty ? emptyReadout(lever) : T.num(value, lever.decimals);
+    $("readout-num").textContent = empty ? emptyReadout() : T.num(value, lever.decimals);
     $("readout-tangible").textContent = empty ? ""
       : T.interpolate(T.pick(content.tangible), tangibleParams(lever, value));
     drawChart(lever, content, empty ? null : value);
@@ -467,7 +512,7 @@
       box.appendChild(rule);
     }
     lever.parts.forEach(function (part) { showPart(part, partValue(part)); });
-    $("parts-hint").classList.toggle("ws-hidden", partsDone(lever) === lever.parts.length);
+    $("parts-hint").classList.toggle("ws-hidden", partsMoved(lever) > 0);
   }
 
   function buildPart(id, lever, part, text) {
@@ -487,6 +532,14 @@
     value.id = "part-value-" + part.id;
     head.appendChild(value);
     wrap.appendChild(head);
+
+    // a slider in its own unit (km/h, kg) says what it does to the energy per km
+    if (part.cutPerUnit !== undefined) {
+      var effect = document.createElement("p");
+      effect.className = "ws-part__effect";
+      effect.id = "part-effect-" + part.id;
+      wrap.appendChild(effect);
+    }
 
     if (text.subtitle) {
       var sub = document.createElement("p");
@@ -509,16 +562,14 @@
       scheduleSave(part.answerId);
       showPart(part, v);
 
-      // the lever's own answer is the value the parts make together; until
-      // every part is set there is none, and nothing is saved for the lever
+      // the lever's own answer is the value the parts make together, the
+      // sliders not moved yet counting at today's level
       var combined = combinedValue(lever);
-      if (combined !== null) {
-        var whole = state.answers[id] || {};
-        whole.value = combined;
-        state.answers[id] = whole;
-        scheduleSave(id);
-      }
-      $("parts-hint").classList.toggle("ws-hidden", partsDone(lever) === lever.parts.length);
+      var whole = state.answers[id] || {};
+      whole.value = combined;
+      state.answers[id] = whole;
+      scheduleSave(id);
+      $("parts-hint").classList.add("ws-hidden");
       renderValueOnly(combined);
     });
     input.addEventListener("change", function () { render(); });
@@ -537,18 +588,31 @@
     return wrap;
   }
 
+  function partText(part, v) {
+    return T.num(v, part.decimals) + " " + T.unit(part.unit);
+  }
+
+  /* A slider not moved yet sits at today's level, its thumb still grey: the
+     neutral position is a real value (D64), but not one the group chose. */
   function showPart(part, v) {
     var wrap = $("part-" + part.id);
     var input = $("part-input-" + part.id);
     if (!wrap || !input) return;
     var set = v !== null && v !== undefined;
+    var shown = set ? v : part.refValue;
     wrap.classList.toggle("is-answered", set);
-    if (document.activeElement !== input) {
-      input.value = set ? v : (part.slider.min + part.slider.max) / 2;  // parked, unset
-    }
-    var text = set ? T.num(v, part.decimals) + " " + T.unit(part.unit) : T.t("play.unanswered");
+    if (document.activeElement !== input) input.value = shown;
+    var text = set ? partText(part, v)
+                   : T.t("play.parts.today", { value: partText(part, part.refValue) });
     $("part-value-" + part.id).textContent = text;
     input.setAttribute("aria-valuetext", text);
+    var effect = $("part-effect-" + part.id);
+    if (effect) {
+      var cut = window.NW_IMPACT.partCut(part, shown);
+      effect.textContent = Math.abs(cut) < 0.05 ? T.t("play.parts.flat")
+        : T.t(cut > 0 ? "play.parts.saves" : "play.parts.costs", { cut: T.num(Math.abs(cut), 1) });
+      effect.dataset.dir = Math.abs(cut) < 0.05 ? "flat" : (cut > 0 ? "down" : "up");
+    }
   }
 
   function renderDone() {
@@ -562,12 +626,13 @@
       th.textContent = label;
       head.appendChild(th);
     });
-    state.order.forEach(function (id) {
+    // in letter order, like the cards and the reveal, whatever order was played
+    state.canonical.forEach(function (id) {
       var lever = levers()[id];
       var answer = state.answers[id] || {};
       var row = table.insertRow();
-      row.insertCell().textContent = T.pick(leverContent(id).short) ||
-                                     T.pick(leverContent(id).question) || lever.name;
+      row.insertCell().textContent = code(id) + " · " + (T.pick(leverContent(id).short) ||
+                                     T.pick(leverContent(id).question) || lever.name);
       var cell = row.insertCell();
       cell.className = "num";
       cell.textContent = answer.value === undefined ? "—"
@@ -582,7 +647,10 @@
         var c = sub.insertCell();
         c.className = "num";
         var v = partValue(part);
-        c.textContent = v === null ? "—" : T.num(v, part.decimals) + " " + T.unit(part.unit);
+        // a part not moved in an answered question counts at today's level
+        c.textContent = v !== null ? partText(part, v)
+          : (answer.value === undefined || answer.value === null ? "—"
+             : T.t("play.parts.today", { value: partText(part, part.refValue) }));
       });
     });
     drawEffects();
@@ -604,7 +672,7 @@
     if (!conf) { box.classList.add("ws-hidden"); return; }
     box.classList.remove("ws-hidden");
 
-    var items = state.order.map(function (id) {
+    var items = state.canonical.map(function (id) {
       var lever = levers()[id];
       var answer = state.answers[id] || {};
       var value = answer.value === undefined ? null : answer.value;
@@ -612,7 +680,7 @@
       // not missing, it is flat. Say so rather than let it read as unanswered.
       var neutral = ((lever.impact || {}).kind || "negligible") === "negligible";
       return {
-        label: T.pick(leverContent(id).short) || lever.name,
+        label: code(id) + " · " + (T.pick(leverContent(id).short) || lever.name),
         neutral: neutral,
         value: neutral || value === null ? null
              : window.NW_IMPACT.contribution(lever.impact, value, lever.refValue)
@@ -625,7 +693,7 @@
     window.NW_SPARK.effects(plot, {
       items: items,
       decimals: conf.decimals,
-      zeroLabel: T.t("play.effects.zero", { year: (levers()[state.order[0]] || {}).refYear }),
+      zeroLabel: T.t("play.effects.zero", { year: (levers()[state.canonical[0]] || {}).refYear }),
       unansweredLabel: T.t("play.unanswered"),
       neutralLabel: T.t("play.effects.neutral"),
       srLabel: T.pick(conf.caption)
@@ -731,7 +799,9 @@
 
   function init() {
     // read the local answers only once the identity is settled: joining as a new
-    // group clears them, and a new sitting must start from a blank slider
+    // group clears them, and a new sitting must start from a blank slider. The
+    // question order is drawn at the same moment, from the same identity.
+    state.order = decideOrder();
     var stored = API.localAnswers();
     var known = {};
     state.order.forEach(function (id) {
@@ -759,8 +829,9 @@
     var topic = content.topics[state.topic];
     if (!topic) return fail("Unknown workshop topic: " + state.topic);
     state.sector = topic.sector;
-    state.order = (topic.order || []).filter(function (id) { return !!levers()[id]; });
-    if (!state.order.length) return fail("No levers to play for topic " + state.topic);
+    state.canonical = (topic.order || []).filter(function (id) { return !!levers()[id]; });
+    state.order = state.canonical.slice();       // until init() draws the group's order
+    if (!state.canonical.length) return fail("No levers to play for topic " + state.topic);
 
     buildLangSwitch();
     applyStaticText();

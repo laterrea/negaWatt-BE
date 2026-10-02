@@ -521,9 +521,12 @@ LEVER_IMPACT_KINDS = ("proportional", "inverse", "linear-shift", "renovation",
 LEVER_MIN_EDGE_MARGIN = 0.12
 
 # A lever may be answered with several sliders that act together on its single
-# indicator (docs/workshop_module.md, decision D61). The rule says how:
+# indicator (docs/workshop_module.md, decisions D61, D64). The rule says how:
 #   "cuts"  each part is a % reduction, and they compound:
-#           value = refValue * (1 - p1/100) * (1 - p2/100) * ...
+#           value = refValue * (1 - c1/100) * (1 - c2/100) * ...
+#           where a part's cut is c = cutPerUnit * (part value - part refValue),
+#           so a slider can speak its own unit (km/h, kg) and still be a cut;
+#           cutPerUnit defaults to 1 with a reference of 0: the slider is the cut
 #   "sum"   the parts add up:  value = p1 + p2 + ...
 # impact.js applies the same two rules in the browser (NW_IMPACT.combine).
 LEVER_COMBINE_RULES = ("cuts", "sum")
@@ -534,26 +537,44 @@ LEVER_PART_SEPARATOR = "__"
 _ANSWER_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")
 
 
-def combine_parts(rule, ref_value, values):
-    """The lever value that a set of part values adds up to, under `rule`."""
+def part_cut(part, value):
+    """The % reduction one part of a "cuts" lever stands for at `value`."""
+    if part is None:
+        return float(value)
+    return float(part.get("cutPerUnit", 1.0)) * (float(value) - float(part.get("refValue", 0.0)))
+
+
+def combine_parts(rule, ref_value, values, parts=None):
+    """The lever value that a set of part values adds up to, under `rule`.
+
+    `parts` (the records of make_lever_part, same order as `values`) carry each
+    slider's conversion to a cut; without them every value is a cut already.
+    """
     if rule == "cuts":
         out = float(ref_value)
-        for v in values:
-            out *= 1.0 - float(v) / 100.0
+        for i, v in enumerate(values):
+            out *= 1.0 - part_cut(parts[i] if parts else None, v) / 100.0
         return out
     if rule == "sum":
         return float(sum(float(v) for v in values))
     raise ValueError(f"combine rule must be one of {LEVER_COMBINE_RULES}, got {rule!r}")
 
 
-def make_lever_part(id, name, unit, ref_value, slider, target_value=None, decimals=None):
+def make_lever_part(id, name, unit, ref_value, slider, target_value=None, decimals=None,
+                    cut_per_unit=None):
     """One slider of a lever that is answered in several parts.
 
     Passed to :func:`make_lever` through its ``parts`` argument. The slider is
     required: there is no target to derive one from when the scenario does not
     split the figure, and a part's range is a design choice worth writing down.
     ``target_value`` is the scenario's own value for this part, if it has one —
-    either every part of a lever carries one or none does.
+    either every part of a lever carries one or none does. ``ref_value`` is
+    today's level, where the slider starts: moving it away is the change.
+
+    ``cut_per_unit`` lets a part of a "cuts" lever speak a tangible unit: its cut
+    is ``cut_per_unit * (value - ref_value)`` percent — e.g. 0.6 for "km/h less
+    on average", or -0.04 for an average mass in kg (lighter is a cut). Without
+    it the slider value is the cut itself.
     """
     ref_value = float(ref_value)
     slider = {"min": float(slider["min"]), "max": float(slider["max"]),
@@ -568,6 +589,8 @@ def make_lever_part(id, name, unit, ref_value, slider, target_value=None, decima
         decimals = max(0, -int(math.floor(math.log10(slider["step"])))) if slider["step"] < 1 else 0
     rec = {"id": id, "name": name, "unit": unit, "refValue": round(ref_value, 4),
            "slider": slider, "decimals": int(decimals)}
+    if cut_per_unit is not None:
+        rec["cutPerUnit"] = round(float(cut_per_unit), 8)
     if target_value is not None:
         target_value = float(target_value)
         # D4 holds for every slider on the screen, not only for the lever's own
@@ -605,7 +628,7 @@ def _check_parts(lever_id, parts, combine, ref_value, target_value, slider):
 
     # Today's value of every part must give today's value of the lever, or the
     # chart and the leverage readout would start from a different point.
-    ref_combined = combine_parts(combine, ref_value, [p["refValue"] for p in parts])
+    ref_combined = combine_parts(combine, ref_value, [p["refValue"] for p in parts], parts)
     if abs(ref_combined - ref_value) > tol(ref_value):
         raise ValueError(f"lever '{lever_id}': the parts' reference values combine to "
                          f"{ref_combined:g}, not the lever's {ref_value:g}")
@@ -615,7 +638,7 @@ def _check_parts(lever_id, parts, combine, ref_value, target_value, slider):
         if any(t is None for t in targets):
             raise ValueError(f"lever '{lever_id}': either every part carries a target "
                              f"or none does")
-        trg_combined = combine_parts(combine, ref_value, targets)
+        trg_combined = combine_parts(combine, ref_value, targets, parts)
         if abs(trg_combined - target_value) > tol(target_value):
             raise ValueError(f"lever '{lever_id}': the parts' targets combine to "
                              f"{trg_combined:g}, not the lever's target {target_value:g}")
@@ -623,9 +646,12 @@ def _check_parts(lever_id, parts, combine, ref_value, target_value, slider):
     # The lever's slider is no longer dragged, but it is still the axis of the
     # chart and of the reveal's dot plot, so it has to hold every answer the
     # parts can produce. Both rules are monotone in each part, so the extremes
-    # sit at the two corners.
-    corners = [combine_parts(combine, ref_value, [p["slider"][end] for p in parts])
-               for end in ("min", "max")]
+    # sit at corners of the sliders -- any corner, since a part may be a cut
+    # when its slider goes up (km/h less) or when it goes down (kg).
+    corners = [combine_parts(combine, ref_value,
+                             [p["slider"]["max" if (mask >> i) & 1 else "min"]
+                              for i, p in enumerate(parts)], parts)
+               for mask in range(2 ** len(parts))]
     lo, hi = min(corners), max(corners)
     if lo < slider["min"] - 1e-9 or hi > slider["max"] + 1e-9:
         raise ValueError(f"lever '{lever_id}': the parts reach {lo:g} to {hi:g}, outside "

@@ -283,13 +283,22 @@ figure they make together. Declare the parts in the topic module:
 
 ```python
 make_lever("car-energy", ..., slider={"min": 45, "max": 115, "step": 1},
-           parts=[make_lever_part("speed", "Lower speeds", "%", 0.0,
+           parts=[make_lever_part("speed-kmh", "Lower average speed", "km/h", 0.0,
                                   {"min": 0, "max": 20, "step": 1},
-                                  target_value=(1 - redu_fuel_PM_car_speed) * 100),
+                                  target_value=speed_cut_PM_car_kmh,
+                                  cut_per_unit=sens_speed_PM_car),   # % energy per km/h
+                  make_lever_part("mass", "Average car mass", "kg", ref_mass_PM_car,
+                                  {"min": 900, "max": 1800, "step": 10},
+                                  target_value=trg_mass_PM_car,
+                                  cut_per_unit=-sens_mass_PM_car / 100),   # lighter = a cut
                   ...],
            combine="cuts")          # cuts: each part a % reduction, compounded
                                     # sum:  the parts add up
 ```
+
+A part speaks its own unit: its cut is `cut_per_unit × (value − ref_value)` percent, so a
+slider can ask for km/h less or for a mass in kg starting from today's. Without
+`cut_per_unit` the slider value is the cut itself (eco-driving, in %).
 
 and word them in the YAML, under the lever, with the same ids:
 
@@ -305,7 +314,10 @@ What it changes, and what it does not:
 
 - Each part is saved as an answer of its own, under `<lever>__<part>`; the combined
   figure is saved as the lever's answer, with the group's note. No API or schema change.
-- The combined figure exists only once every part is set: an unset slider is not a zero.
+- Every slider starts at its neutral level, today's value (no km/h less, the 2019 mass), and
+  the chart point follows the very first slider moved, the others counting at today's level.
+  A slider in its own unit says what it does ("5,4 % less energy per km"). A slider not moved
+  keeps a grey thumb: today's level is a real value, but not one the group chose (D64).
 - The chart, the leverage readout, the summary chart and the **reveal** read the combined
   figure only. The scenario's value for each part goes into the `justification`, as
   `{placeholders}` listed in `spoilers`.
@@ -388,6 +400,41 @@ plot costs about **6 mm per bar** — twelve monthly bars took 106 mm of a 128 m
 keep a bar chart to about six categories, and print `cards.html` before a session. Measure
 it rather than guess: apply the print stylesheet at 190 mm width and read the card heights.
 
+### Question order
+
+The last questions of a series get fewer and less careful answers, so by default **each
+group plays a topic's questions in its own random order**. One line in the topic YAML
+controls it:
+
+```yaml
+questionOrder: random        # the default; `fixed` plays the levers in YAML order, as before
+linked:                      # questions that always move together, in this order
+  - [renovation-rate, renovation-depth]
+```
+
+- **Letters, not numbers, link the screen to the paper.** Every question keeps the letter of
+  its place in the YAML (A, B, C…). The printed card carries it in its corner, the play
+  screen says "Question 3 of 8 · Card C" (the group's own position, then the card to pick
+  up), and the reveal walks the questions A → H — the order of the cards. The group's end
+  summary and its ± chart are in letter order too.
+- **The shuffle is seeded by the group id** (`order.js`), so a group sees the same order on
+  every device and after every reload, and the order a group was shown can be recomputed
+  from the database: `NW_ORDER.sequence(NW_WS_CONTENT.topics[topic], group_id)` in the
+  browser console. The order it actually *answered* in is in `ws_answer_log`. No API or
+  schema change. A device that starts offline draws a random order and keeps it once its
+  group exists.
+- **Linked questions** move as one block. The build refuses a block whose questions are not
+  adjacent and in that order in the YAML, so their letters follow (B, C).
+- **Point to another question by its letter, never by its position.** Write
+  `{question:renovation-depth}`, which the build turns into that question's letter ("see
+  question C"). In a `random` topic the build refuses "the next / previous / last question",
+  "question suivante / précédente / dernière", "volgende / vorige / laatste vraag", since the
+  next question can be any of them.
+
+To go back to the old setup for a topic, set `questionOrder: fixed`: the questions are then
+played in the order of the `levers:` blocks, exactly as before, and the letters simply follow
+that order. See D63.
+
 ### No sessions: a group, a topic, a date
 
 These workshops are small and never run in parallel, so there is **no session, no code and
@@ -461,7 +508,8 @@ curl https://negawatt.squoilin.eu/api/selftest.php     # expect {"ok":true,...}
 
 ### Running a workshop
 
-1. Print `workshop/cards.html` and hand the cards out.
+1. Print `workshop/cards.html` and hand the cards out. Each card has a letter; every group
+   plays the questions in its own order, and its screen says which card to pick up.
 2. **Share `…/workshop/` — that is the whole invitation.** Participants type nothing and
    land on question 1; a group that wants to be "Table 3" renames itself in one tap.
    Answers autosave, and the network can drop without anyone losing work.

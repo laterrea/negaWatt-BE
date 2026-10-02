@@ -67,9 +67,12 @@
         sub.textContent = T.pick(text.subtitle);
         title.appendChild(sub);
       }
+      // the question's letter, not its position: each group plays its own order,
+      // and the screen tells it which card to pick up (D63)
       var n = document.createElement("span");
-      n.className = "ws-card__n";
-      n.textContent = (index + 1) + "/" + topic.order.length;
+      n.className = "ws-letter";
+      n.textContent = text.code || String(index + 1);
+      n.title = T.t("play.card", { code: n.textContent });
       head.appendChild(title);
       head.appendChild(n);
       card.appendChild(head);
@@ -99,6 +102,15 @@
           row.className = "ws-card__part";
           var label = document.createElement("span");
           label.textContent = T.pick(ptext.short) || T.pick(ptext.question) || part.name;
+          // where the slider starts, when that is not simply zero (an average mass)
+          if (part.refValue) {
+            var today = document.createElement("small");
+            today.className = "ws-card__today";
+            today.textContent = " · " + T.t("play.parts.today", {
+              value: T.num(part.refValue, part.decimals) + " " + T.unit(part.unit)
+            });
+            label.appendChild(today);
+          }
           var range = document.createElement("span");
           range.className = "ws-card__scale";
           range.textContent = T.num(part.slider.min, Math.min(part.decimals, 1)) + " – " +

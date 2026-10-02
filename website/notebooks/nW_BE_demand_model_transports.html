@@ -10119,10 +10119,26 @@ downstream of it are unchanged</strong>.</p>
 <td>Smaller, lighter cars (<code>redu_fuel_PM_car_size</code>)</td>
 <td>0,849 (residual)</td>
 <td>-15,1%</td>
-<td>What is left to reach -25%. At 3-5% less fuel per 100 kg (ICCT, 2017) this means 300-500 kg off the average car (<code>mass_cut_PM_car_kg</code>): from 1 518 kg for a new EU car in 2022 (ICCT, 2023) to about 1 100-1 200 kg, below the 2001 average of ~1 275 kg. Plausible only as real downsizing (engines resized with the mass, smaller frontal area), not by removing SUVs alone: in the EU they use only ~10% more energy than a medium car (IEA, 2020).</td>
+<td>What is left to reach -25%. At 4% less energy per 100 kg (<code>sens_mass_PM_car</code>, mid-range of ICCT 2017's 2,8-4,9% and close to Del Pero et al. 2020's ~3,6% for electric cars, the smaller frontal area of a smaller car included), this is an average mass of about <strong>1 050 kg</strong> (<code>trg_mass_PM_car</code>) against <strong>1 430 kg</strong> for a new car sold in Belgium in 2019 (<code>ref_mass_PM_car</code>, EEA, mass in running order) — below the EU 2001 average of ~1 275 kg. Plausible only as real downsizing, not by removing SUVs alone: in the EU they use only ~10% more energy than a medium car (IEA, 2020).</td>
 </tr>
 </tbody>
 </table>
+<p><strong>In tangible units (workshop, D64).</strong> The two physical ingredients are also asked in their own
+units, with linear conversions:</p>
+<ul>
+<li><em>speed</em>: about <strong>0,9% energy per km per km/h</strong> of average speed reduction (<code>sens_speed_PM_car</code>),
+for a mostly electric 2050 fleet — an electric car's consumption rises by ~26% from 100 to
+120 km/h (ADAC, 2026), ~1,1%/km/h on a test bench (Konzept et al., 2022); combustion cars are
+about half as sensitive (KiM, 2023). The scenario's -5% is therefore an average reduction of
+<strong>5,6 km/h</strong> over all car-km (<code>speed_cut_PM_car_kmh</code>). For scale (<code>kmh_PM_car_package</code>):
+Belgian cars drive ~36% of their km on motorways, ~40% on regional roads and ~24% in town
+(SERV, 2007; Vias, 2017; IWEPS, 2024), at measured free-flow averages of 119, 69-93 and
+38-52 km/h (Vias, 2021). A 100 km/h motorway limit lowers actual speeds there by ~13 km/h,
+i.e. <strong>-4,7 km/h</strong> averaged over all car-km; 80 instead of 90 on regional roads -3,3 km/h
+there (Vias, 2022), <strong>-1,3 km/h</strong> overall; 30 km/h everywhere in town lowers actual speeds by
+about a quarter of the 20 km/h (Davis, 2018), <strong>-1,2 km/h</strong> overall;</li>
+<li><em>mass</em>: 4% energy per 100 kg against the 2019 average of 1 430 kg (above).</li>
+</ul>
 <blockquote>
 <p><strong>Comment:</strong> the residual falls on the least documented ingredient, and the observed trend runs
 the other way (+19% mass for new EU cars between 2001 and 2022). It is the weak point of the -25%.
@@ -10136,6 +10152,14 @@ Sources:
 <a href="https://www.cieca.eu/sites/default/files/documents/projects_and_studies/ECOWILL_FINAL_REPORT.pdf">ECOWILL (2013)</a>, p. 7;
 <a href="https://theicct.org/sites/default/files/publications/PV-Lightweighting_Tech-Briefing_ICCT_07032017_0.pdf">ICCT (2017), Lightweighting</a>, p. 2;
 <a href="https://theicct.org/wp-content/uploads/2024/01/Pocketbook_202324_Web.pdf">ICCT (2023), Pocketbook 2023/24</a>, p. 5;
+<a href="https://www.eea.europa.eu/data-and-maps/data/co2-cars-emission-19">EEA, CO2 monitoring of new cars, 2019</a>;
+<a href="https://doi.org/10.3390/machines8030051">Del Pero et al. (2020), <em>Machines</em></a>;
+<a href="https://www.adac.de/rund-ums-fahrzeug/elektromobilitaet/elektroauto/elektroauto-reichweite-erhoehen/">ADAC, Elektroauto Reichweite</a>;
+<a href="https://doi.org/10.3390/vehicles4010004">Konzept et al. (2022), <em>Vehicles</em></a>;
+<a href="https://www.vias.be/publications/Nationale%20gedragsmeting%20snelheid%202021/Nationale_gedragsmeting_snelheid_2021.pdf">Vias (2021), Nationale gedragsmeting snelheid</a>, p. 9;
+<a href="https://www.vias.be/publications/Evaluatie%20wijziging%20algemene%2090%20naar%2070%20buiten%20de%20bebouwde%20kom/Evaluatie%20wijziging%20algemene%2090%20naar%2070%20buiten%20de%20bebouwde%20kom.pdf">Vias (2022), 90 naar 70 buiten de bebouwde kom</a>, p. 7;
+<a href="https://www.serv.be/sites/default/files/documenten/hoofdstuk%202.pdf">SERV, Kerncijfers Vlaamse mobiliteit</a>, tabel 6;
+<a href="https://www.iweps.be/indicateur-statistique/transport-routier/">IWEPS, Transport routier</a>;
 <a href="https://www.iea.org/commentaries/carbon-emissions-fell-across-all-sectors-in-2020-except-for-one-suvs">IEA (2020), SUVs</a>.</p>
 </blockquote>
 <blockquote>
@@ -10172,12 +10196,30 @@ required to move the car, and the workshop asks the two questions separately.</p
 <span class="n">redu_fuel_PM_car_size</span>    <span class="o">=</span> <span class="n">redu_fuel_PM_car</span> <span class="o">/</span> <span class="p">(</span><span class="n">redu_fuel_PM_car_speed</span> <span class="o">*</span> <span class="n">redu_fuel_PM_car_driving</span><span class="p">)</span>  <span class="c1"># smaller, lighter cars (residual)</span>
 <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">redu_fuel_PM_car_speed</span> <span class="o">*</span> <span class="n">redu_fuel_PM_car_driving</span> <span class="o">*</span> <span class="n">redu_fuel_PM_car_size</span>
            <span class="o">-</span> <span class="n">redu_fuel_PM_car</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-12</span>
-<span class="c1"># -&gt; Plausibility of the residual: 3-5% less fuel per 100 kg removed from a ~1,500 kg car</span>
-<span class="c1">#    (ICCT, 2017). The size cut must stay within what a realistic downsizing can deliver.</span>
-<span class="n">ref_fuel_cut_per_100kg_PM_car</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
-<span class="n">mass_cut_PM_car_kg</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">redu_fuel_PM_car_size</span><span class="p">)</span> <span class="o">/</span> <span class="n">_f</span> <span class="o">*</span> <span class="mi">100</span>
-                           <span class="k">for</span> <span class="n">_f</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">ref_fuel_cut_per_100kg_PM_car</span><span class="p">))</span>
-<span class="k">assert</span> <span class="mi">200</span> <span class="o">&lt;</span> <span class="n">mass_cut_PM_car_kg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">mass_cut_PM_car_kg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">600</span><span class="p">,</span> <span class="n">mass_cut_PM_car_kg</span>
+<span class="c1"># -&gt; Two of the ingredients in tangible units, for the workshop (D64). Linear</span>
+<span class="c1">#    conversions only: the factors above remain the assumption.</span>
+<span class="c1">#    Speed: % energy per km for each km/h of average speed reduction, km-weighted over</span>
+<span class="c1">#    all car-km, for a mostly electric 2050 fleet (ADAC 2026; Konzept et al. 2022; KiM</span>
+<span class="c1">#    2023 gives roughly half of it for combustion cars).</span>
+<span class="n">sens_speed_PM_car</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">speed_cut_PM_car_kmh</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">redu_fuel_PM_car_speed</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">/</span> <span class="n">sens_speed_PM_car</span>   <span class="c1"># km/h</span>
+<span class="c1">#    Where such km/h can come from, averaged over all car-km: the share of car-km on each</span>
+<span class="c1">#    road type (SERV 2007, Vias 2017, IWEPS 2024) times the fall of the actual average</span>
+<span class="c1">#    speed when the limit is cut (Vias 2021 and 2022, Davis 2018).</span>
+<span class="n">share_km_PM_car_road</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'motorway'</span><span class="p">:</span> <span class="mf">0.36</span><span class="p">,</span> <span class="s1">'rural'</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s1">'urban'</span><span class="p">:</span> <span class="mf">0.24</span><span class="p">}</span>
+<span class="n">kmh_PM_car_package</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'motorway'</span><span class="p">:</span> <span class="n">share_km_PM_car_road</span><span class="p">[</span><span class="s1">'motorway'</span><span class="p">]</span> <span class="o">*</span> <span class="mf">13.0</span><span class="p">,</span>   <span class="c1"># 120 -&gt; 100 km/h: 119 -&gt; ~106 actual</span>
+    <span class="s1">'rural'</span><span class="p">:</span>    <span class="n">share_km_PM_car_road</span><span class="p">[</span><span class="s1">'rural'</span><span class="p">]</span>    <span class="o">*</span> <span class="mf">3.3</span><span class="p">,</span>    <span class="c1"># 90 -&gt; 80 km/h on regional roads</span>
+    <span class="s1">'urban'</span><span class="p">:</span>    <span class="n">share_km_PM_car_road</span><span class="p">[</span><span class="s1">'urban'</span><span class="p">]</span>    <span class="o">*</span> <span class="mf">5.0</span><span class="p">,</span>    <span class="c1"># 50 -&gt; 30 km/h in town: actual speed</span>
+<span class="p">}</span>                                                          <span class="c1">#   falls by a quarter of the limit cut</span>
+<span class="c1">#    Mass: the 2019 average of new cars registered in Belgium, in running order (EEA CO2</span>
+<span class="c1">#    monitoring; no Belgian figure exists for the whole stock), and % energy per 100 kg</span>
+<span class="c1">#    for a smaller, lighter car -- mass and the smaller frontal area that comes with it</span>
+<span class="c1">#    (ICCT 2017: 2.8-4.9 %; Del Pero et al. 2020: ~3.6 % for electric cars).</span>
+<span class="n">ref_mass_PM_car</span> <span class="o">=</span> <span class="mf">1430.0</span>
+<span class="n">sens_mass_PM_car</span> <span class="o">=</span> <span class="mf">4.0</span>
+<span class="n">trg_mass_PM_car</span> <span class="o">=</span> <span class="n">ref_mass_PM_car</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">redu_fuel_PM_car_size</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">/</span> <span class="n">sens_mass_PM_car</span> <span class="o">*</span> <span class="mi">100</span>   <span class="c1"># kg</span>
+<span class="k">assert</span> <span class="mi">900</span> <span class="o">&lt;</span> <span class="n">trg_mass_PM_car</span> <span class="o">&lt;</span> <span class="mi">1200</span><span class="p">,</span> <span class="n">trg_mass_PM_car</span>
 <span class="n">occu_trgt_PM_car</span> <span class="o">=</span> <span class="mf">2.0</span>
 <span class="c1"># -&gt; 2019 occupancy per powertrain [persons/car], from JRC-IDEES [1,2].</span>
 <span class="c1">#    Named (instead of inlined below) so the workshop module can export them</span>

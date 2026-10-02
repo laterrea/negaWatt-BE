@@ -84,6 +84,28 @@ def main():
     assert sf.combine_parts("sum", 0, [1.5, 2.5]) == 4.0
     ok("combine_parts: cuts compound, sums add")
 
+    # a part may speak its own unit (D64): km/h less, or an average mass in kg
+    kmh = sf.make_lever_part("speed", "Speed", "km/h", 0, {"min": 0, "max": 20, "step": 1},
+                             cut_per_unit=0.6)
+    kg = sf.make_lever_part("mass", "Mass", "kg", 1400, {"min": 900, "max": 1800, "step": 10},
+                            cut_per_unit=-0.04)
+    assert abs(sf.part_cut(kmh, 10) - 6.0) < 1e-12
+    assert abs(sf.part_cut(kg, 1300) - 4.0) < 1e-12           # 100 kg lighter: -4 %
+    assert abs(sf.part_cut(kg, 1500) + 4.0) < 1e-12           # 100 kg heavier: +4 %
+    assert abs(sf.combine_parts("cuts", 100, [10, 1300], [kmh, kg]) - 100 * 0.94 * 0.96) < 1e-9
+    assert abs(sf.combine_parts("cuts", 100, [0, 1400], [kmh, kg]) - 100) < 1e-9
+    unit_lever = sf.make_lever("u", "t", "u", "% of 2019", 100, 100 * 0.94 * 0.96,
+                               slider={"min": 60, "max": 125, "step": 1},
+                               parts=[sf.make_lever_part("speed", "Speed", "km/h", 0,
+                                                         {"min": 0, "max": 20, "step": 1},
+                                                         target_value=10, cut_per_unit=0.6),
+                                      sf.make_lever_part("mass", "Mass", "kg", 1400,
+                                                         {"min": 900, "max": 1800, "step": 10},
+                                                         target_value=1300, cut_per_unit=-0.04)],
+                               combine="cuts")
+    assert unit_lever["parts"][1]["cutPerUnit"] == -0.04
+    ok("parts in km/h and kg convert to cuts, both ways round")
+
     parted = sf.make_lever(
         "car-energy", "inland-mobility", "Car energy", "% of 2019", 100, 75,
         slider={"min": 45, "max": 115, "step": 1},

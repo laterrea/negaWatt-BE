@@ -115,13 +115,21 @@
     return Math.abs(hi - lo);
   }
 
+  /* The % reduction one part of a "cuts" lever stands for at `value`: a slider
+     may speak its own unit (km/h less, an average mass in kg) and carry the
+     slope that turns it into a cut (D64). Same as part_cut() in Python. */
+  function partCut(part, value) {
+    var slope = part.cutPerUnit === undefined ? 1 : part.cutPerUnit;
+    return slope * (value - (part.refValue || 0));
+  }
+
   /* The lever value a set of part values makes, for a lever answered with
      several sliders (`parts` + `combine` in the lever record, D61). The same
      two rules as combine_parts() in nW_BE_demand_model_sub_functions.py:
        cuts   each part is a % reduction, and they compound
        sum    the parts add up
-     `values` follows the order of lever.parts. Returns null until every part
-     has a value: an unset slider is not a zero, it is a question not answered. */
+     `values` follows the order of lever.parts; the caller fills a slider the
+     group has not moved with its reference, today's level (D64). */
   function combine(lever, values) {
     var parts = (lever && lever.parts) || [];
     if (!parts.length || !values || values.length !== parts.length) return null;
@@ -129,7 +137,9 @@
       if (values[i] === null || values[i] === undefined || !isFinite(values[i])) return null;
     }
     if (lever.combine === "cuts") {
-      return values.reduce(function (acc, v) { return acc * (1 - v / 100); }, lever.refValue);
+      return values.reduce(function (acc, v, k) {
+        return acc * (1 - partCut(parts[k], v) / 100);
+      }, lever.refValue);
     }
     if (lever.combine === "sum") {
       return values.reduce(function (acc, v) { return acc + v; }, 0);
@@ -139,6 +149,7 @@
 
   window.NW_IMPACT = {
     combine: combine,
+    partCut: partCut,
     evaluate: evaluate,
     delta: delta,
     deltaPct: deltaPct,

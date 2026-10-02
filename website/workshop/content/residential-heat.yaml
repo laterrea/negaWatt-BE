@@ -17,6 +17,14 @@
 topic: residential-heat
 sector: buildings
 
+# Each group plays the questions in its own random order (D63); `fixed` plays them
+# in the order of the levers below, as before. Every question keeps a letter (A, B,
+# C… in that order) that links the screen, the printed card and the reveal.
+questionOrder: random
+# Questions that always move together, in this order (they must be adjacent below).
+linked:
+  - [renovation-rate, renovation-depth]
+
 title:
   fr: Chaleur des logements
   nl: Warmte in woningen
@@ -394,19 +402,19 @@ levers:
       fr: >
         En part de la surface habitable, et au sens des données du projet : une rénovation y
         est comptée quelle que soit sa profondeur, et la construction neuve est comptée à
-        part. La profondeur fait l'objet de la question suivante. Attention, ce n'est pas le
+        part. La profondeur fait l'objet de la question {question:renovation-depth}. Attention, ce n'est pas le
         « 1 % » habituellement cité : celui-là pondère chaque chantier par l'énergie qu'il
         économise. La fiche « Ce que compte un taux de rénovation » met les deux côte à côte.
       nl: >
         Als aandeel van de woonoppervlakte, en in de zin van de projectdata: een renovatie
         telt er mee ongeacht haar diepte, en nieuwbouw wordt apart geteld. De diepte is het
-        onderwerp van de volgende vraag. Let op, dit is niet de "1 %" die meestal geciteerd
+        onderwerp van vraag {question:renovation-depth}. Let op, dit is niet de "1 %" die meestal geciteerd
         wordt: die weegt elke werf met de energie die ze uitspaart. De fiche "Wat een
         renovatietempo telt" zet beide naast elkaar.
       en: >
         As a share of floor area, and on the project's data's count: a renovation is counted
-        there whatever its depth, and new construction is counted separately. The depth is the
-        next question. Careful, this is not the "1%" usually quoted: that one weights every
+        there whatever its depth, and new construction is counted separately. The depth is
+        question {question:renovation-depth}. Careful, this is not the "1%" usually quoted: that one weights every
         job by the energy it saves. The card "What a renovation rate counts" puts the two
         side by side.
     tangible:
@@ -643,7 +651,7 @@ levers:
         constante du parc, à une profondeur constante, fait précisément baisser cette moyenne
         de façon linéaire : c'est la même arithmétique, lue autrement. Le produit *rythme ×
         profondeur* est donc fixé par la trajectoire, et une seule des deux valeurs est un
-        choix. C'est la profondeur qui est posée ({depthTarget} %, voir la question suivante) ;
+        choix. C'est la profondeur qui est posée ({depthTarget} %, voir la question {question:renovation-depth}) ;
         le rythme suit, et tombe à {rateTarget} % par an. Autrement dit : *pas plus de
         chantiers, mais des chantiers sérieux*.
       nl: >
@@ -653,7 +661,7 @@ levers:
         elk jaar een constant deel van het bestand renoveren, op een constante diepte, laat dat
         gemiddelde precies lineair dalen: dezelfde rekensom, anders gelezen. Het product *tempo
         × diepte* ligt dus vast door het traject, en slechts één van de twee waarden is een
-        keuze. Het is de diepte die gesteld wordt ({depthTarget} %, zie de volgende vraag); het
+        keuze. Het is de diepte die gesteld wordt ({depthTarget} %, zie vraag {question:renovation-depth}); het
         tempo volgt, en komt uit op {rateTarget} % per jaar. Met andere woorden: *niet meer
         werven, maar ernstige werven*.
       en: >
@@ -663,7 +671,7 @@ levers:
         the stock every year, at a constant depth, makes that average fall linearly: the same
         arithmetic, read differently. The product *rate × depth* is therefore pinned by the
         trajectory and only one of the two is a choice. The depth is the one that is set
-        ({depthTarget}%, see the next question); the rate follows, and comes to {rateTarget}% a
+        ({depthTarget}%, see question {question:renovation-depth}); the rate follows, and comes to {rateTarget}% a
         year. In other words: *not more building sites, but serious ones*.
     debate:
       fr: >
@@ -707,15 +715,15 @@ levers:
       en: By how much should a renovation cut the heating need of the home it touches?
     subtitle:
       fr: >
-        En moyenne sur toutes les rénovations comptées à la question précédente. 0 % : les
+        En moyenne sur toutes les rénovations comptées à la question {question:renovation-rate}. 0 % : les
         travaux ne changent rien à la facture de chauffage. 100 % : le logement n'a plus besoin
         d'être chauffé du tout.
       nl: >
-        Gemiddeld over alle renovaties die in de vorige vraag geteld worden. 0 %: de werken
+        Gemiddeld over alle renovaties die in vraag {question:renovation-rate} geteld worden. 0 %: de werken
         veranderen niets aan de verwarmingsfactuur. 100 %: de woning hoeft helemaal niet meer
         verwarmd te worden.
       en: >
-        Averaged over every renovation counted in the previous question. 0%: the works change
+        Averaged over every renovation counted in question {question:renovation-rate}. 0%: the works change
         nothing on the heating bill. 100%: the home needs no heating at all any more.
     tangible:
       fr: "{value} % du besoin de chauffage en moins, à chaque rénovation."
@@ -906,15 +914,15 @@ levers:
       fr: >
         Aucune courbe observée : la profondeur des rénovations n'est mesurée nulle part en
         Belgique. Seul le produit rythme × profondeur l'est, à travers la baisse du besoin de
-        chauffage du parc — la courbe de la question précédente.
+        chauffage du parc — la courbe de la question {question:renovation-rate}.
       nl: >
         Geen waargenomen curve: de diepte van renovaties wordt nergens in België gemeten.
         Alleen het product tempo × diepte wordt gemeten, via de daling van de warmtevraag van
-        het bestand — de curve van de vorige vraag.
+        het bestand — de curve van vraag {question:renovation-rate}.
       en: >
         No observed curve: the depth of renovations is measured nowhere in Belgium. Only the
         product rate × depth is, through the fall in the stock's heating need — the curve on
-        the previous question.
+        question {question:renovation-rate}.
     justification:
       fr: >
         C'est ici que se loge le seul choix neuf de cette lecture. Le rapport juge le rythme

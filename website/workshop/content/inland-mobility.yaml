@@ -17,6 +17,11 @@
 topic: inland-mobility
 sector: transport
 
+# Each group plays the questions in its own random order (D63); `fixed` plays them
+# in the order of the levers below, as before. Every question keeps a letter (A, B,
+# C… in that order) that links the screen, the printed card and the reveal.
+questionOrder: random
+
 title:
   fr: Mobilité intérieure
   nl: Binnenlandse mobiliteit
@@ -684,25 +689,25 @@ levers:
     # Three sliders, one figure (D61): the page compounds the three cuts into the
     # energy use per km asked above, and the reveal shows that figure only.
     parts:
-      speed:
+      speed-kmh:
         short:
-          fr: Vitesses plus basses
-          nl: Lagere snelheden
-          en: Lower speeds
+          fr: Baisse de vitesse
+          nl: Snelheidsdaling
+          en: Speed reduction
         question:
-          fr: Vitesses plus basses
-          nl: Lagere snelheden
-          en: Lower speeds
+          fr: Baisse de la vitesse moyenne
+          nl: Daling van de gemiddelde snelheid
+          en: Lower average speed
         subtitle:
           fr: >
-            Limites abaissées sur autoroute et sur route, zones 30 en ville : l'énergie
-            économisée par km, sur l'ensemble des trajets.
+            En km/h de moins, en moyenne sur tous les kilomètres parcourus : autoroutes,
+            routes régionales et villes confondues.
           nl: >
-            Lagere limieten op snelwegen en gewone wegen, zones 30 in de stad: de bespaarde
-            energie per km, over alle ritten samen.
+            In km/u minder, gemiddeld over alle gereden kilometers: snelwegen, gewestwegen en
+            steden samen.
           en: >
-            Lower limits on motorways and main roads, 30 zones in town: the energy saved per
-            km, across all trips together.
+            In km/h less, averaged over every kilometre driven: motorways, regional roads and
+            towns together.
       driving:
         short:
           fr: Éco-conduite
@@ -721,28 +726,31 @@ levers:
           en: >
             Anticipating, driving smoothly, in-car assistance: the energy saved per km, for
             good.
-      size:
+      mass:
         short:
-          fr: Voitures plus petites
-          nl: Kleinere auto's
-          en: Smaller cars
+          fr: Masse des voitures
+          nl: Massa van de auto's
+          en: Car mass
         question:
-          fr: Voitures plus petites et plus légères
-          nl: Kleinere en lichtere auto's
-          en: Smaller, lighter cars
+          fr: Masse moyenne des voitures
+          nl: Gemiddelde massa van de auto's
+          en: Average car mass
         subtitle:
           fr: >
-            Masse et gabarit du parc par rapport à 2019. Sous zéro : des voitures plus lourdes
-            qu'aujourd'hui, comme le veut la tendance.
+            En 2019, une voiture neuve vendue en Belgique pesait {refValue} kg en moyenne. À
+            motorisation égale : le poids des batteries est compté avec la motorisation. Une
+            voiture plus légère est aussi plus petite, et ce curseur compte les deux.
           nl: >
-            Massa en omvang van het wagenpark tegenover 2019. Onder nul: zwaardere auto's dan
-            vandaag, zoals de trend wil.
+            In 2019 woog een nieuwe auto die in België verkocht werd gemiddeld {refValue} kg.
+            Bij gelijke aandrijving: het gewicht van de batterijen wordt bij de aandrijflijn
+            geteld. Een lichtere auto is ook kleiner, en deze schuifknop telt beide.
           en: >
-            Mass and bulk of the fleet against 2019. Below zero: heavier cars than today, as the
-            trend has it.
+            In 2019 a new car sold in Belgium weighed {refValue} kg on average. For an
+            equivalent powertrain: battery weight is counted with the powertrain. A lighter car
+            is also a smaller one, and this slider counts both.
     tangible:
-      fr: "{value} % de la consommation de 2019, à motorisation équivalente."
-      nl: "{value} % van het verbruik in 2019, bij gelijke motorisering."
+      fr: "{value} % de la consommation de 2019, à motorisation équivalente."
+      nl: "{value} % van het verbruik in 2019, bij gelijke motorisering."
       en: "{value}% of the 2019 figure, for an equivalent powertrain."
     facts:
       - kind: structure
@@ -766,38 +774,46 @@ levers:
       - kind: lever
         text:
           fr: >
-            *La vitesse.* Sur autoroute, la vitesse moyenne réelle est aujourd'hui de
-            102 à 105 km/h aux Pays-Bas. Ramener la limite à 90 km/h y réduit l'énergie des
-            voitures et camionnettes de *4 à 10 % par kilomètre parcouru* ; à 80 km/h, de
-            6 à 14 %. L'estimation est prudente : elle ne compte pas le gain d'une conduite
-            moins nerveuse.
+            *La vitesse, route par route.* Les voitures belges font environ {motorwayShare} %
+            de leurs kilomètres sur autoroute (à 119 km/h en moyenne quand le trafic est
+            fluide), {ruralShare} % sur les routes régionales et {urbanShare} % en ville. Ramené
+            à l'ensemble des kilomètres, l'autoroute à 100 au lieu de 120 km/h, c'est *environ
+            −{kmhMotorway} km/h* ; les routes régionales à 80 au lieu de 90, −{kmhRural} km/h ;
+            le 30 km/h partout en ville, −{kmhUrban} km/h. Pour une voiture électrique, chaque
+            km/h en moins sur autoroute économise environ 1 % d'énergie ; en ville, presque
+            rien.
           nl: >
-            *De snelheid.* Op de snelweg ligt de werkelijke gemiddelde snelheid in Nederland
-            vandaag op 102 tot 105 km/u. De limiet naar 90 km/u brengen verlaagt het
-            energiegebruik van auto's en bestelwagens er met *4 tot 10 % per afgelegde
-            kilometer*; naar 80 km/u met 6 tot 14 %. De schatting is voorzichtig: de winst van
-            rustiger rijden zit er niet in.
+            *De snelheid, weg per weg.* Belgische auto's rijden ongeveer {motorwayShare} % van
+            hun kilometers op de snelweg (gemiddeld 119 km/u bij vlot verkeer), {ruralShare} %
+            op gewestwegen en {urbanShare} % in de stad. Omgerekend naar alle kilometers is de
+            snelweg op 100 in plaats van 120 km/u *ongeveer −{kmhMotorway} km/u*; gewestwegen
+            op 80 in plaats van 90, −{kmhRural} km/u; overal 30 km/u in de stad,
+            −{kmhUrban} km/u. Voor een elektrische auto spaart elke km/u minder op de snelweg
+            ongeveer 1 % energie uit; in de stad bijna niets.
           en: >
-            *Speed.* Real average motorway speed in the Netherlands is 102 to 105 km/h today.
-            Bringing the limit down to 90 km/h cuts the energy use of cars and vans there by
-            *4 to 10% per kilometre driven*; to 80 km/h, by 6 to 14%. The estimate is
-            deliberately conservative: it leaves out the gain from less stop-start driving.
-        source: "KiM (Kennisinstituut voor Mobiliteitsbeleid), Effect op energiegebruik van maximumsnelheid 90 en 80 km/u op snelwegen, 2023, §3.3"
-        url: https://www.kimnet.nl/site/binaries/site-content/collections/documents/2023/07/17/effect-op-energiegebruik-van-maximumsnelheid-90-en-80-km-u-op-snelwegen/Notitie_KiM_snelheid-energie_Def2.pdf
+            *Speed, road by road.* Belgian cars drive about {motorwayShare}% of their kilometres
+            on motorways (119 km/h on average when traffic flows), {ruralShare}% on regional
+            roads and {urbanShare}% in town. Averaged over every kilometre, motorways at 100
+            instead of 120 km/h come to *about −{kmhMotorway} km/h*; regional roads at 80
+            instead of 90, −{kmhRural} km/h; 30 km/h everywhere in town, −{kmhUrban} km/h. For an
+            electric car, each km/h less on the motorway saves about 1% of its energy; in town,
+            almost nothing.
+        source: "Vias, Nationale gedragsmeting snelheid 2021, p. 9 ; Vias 2017 §2.5 et 2022 p. 7 ; SERV, Kerncijfers, tabel 6 ; ADAC ; calcul nW-BE §2.3.5"
+        url: https://www.vias.be/publications/Nationale%20gedragsmeting%20snelheid%202021/Nationale_gedragsmeting_snelheid_2021.pdf
       - kind: lever
         text:
           fr: >
             *L'éco-conduite.* Le style de conduite fait varier la consommation d'une thermique
-            de 15 à 25 %. Mais l'effet d'une formation *s'érode* : mesuré en ville, il retombe
-            de 4,6 % à 2,5 % en dix mois, et devient statistiquement indétectable sur autoroute
+            de 15 à 25 %. Mais l'effet d'une formation *s'érode* : mesuré en ville, il retombe
+            de 4,6 % à 2,5 % en dix mois, et devient statistiquement indétectable sur autoroute
             après trente semaines. Ce qui tient dans la durée, c'est l'assistance embarquée en
-            permanence : *5 à 10 %*.
+            permanence : *5 à 10 %*.
           nl: >
-            *Ecodriving.* De rijstijl laat het verbruik van een brandstofauto met 15 tot 25 %
+            *Ecodriving.* De rijstijl laat het verbruik van een brandstofauto met 15 tot 25 %
             variëren. Maar het effect van een opleiding *slijt*: in de stad gemeten zakt het in
-            tien maanden van 4,6 % naar 2,5 %, en op de snelweg is het na dertig weken
+            tien maanden van 4,6 % naar 2,5 %, en op de snelweg is het na dertig weken
             statistisch niet meer meetbaar. Wat wél blijft, is permanente hulp aan boord:
-            *5 tot 10 %*.
+            *5 tot 10 %*.
           en: >
             *Eco-driving.* Driving style alone swings a combustion car's fuel use by 15 to 25%.
             But the effect of a training course *decays*: measured in town it falls from 4.6% to
@@ -808,15 +824,15 @@ levers:
       - kind: lever
         text:
           fr: >
-            *La taille et le poids.* Alléger une voiture de 10 % réduit sa consommation de
-            *6 à 7 %* si le moteur est redimensionné en conséquence, de 4 à 5 % sinon — soit
-            environ 3 à 5 % pour 100 kg sur une voiture de 1 400 kg. Un SUV pèse 200 à 300 kg
-            de plus qu'une berline moyenne et émet de l'ordre de 20 % de CO₂ en plus.
+            *La taille et le poids.* Alléger une voiture de 10 % réduit sa consommation de
+            *6 à 7 %* si le moteur est redimensionné en conséquence, de 4 à 5 % sinon — soit
+            environ 3 à 5 % pour 100 kg sur une voiture de 1 400 kg. Un SUV pèse 200 à 300 kg
+            de plus qu'une berline moyenne et émet de l'ordre de 20 % de CO₂ en plus.
           nl: >
-            *Grootte en gewicht.* Een auto 10 % lichter maken verlaagt het verbruik met
-            *6 tot 7 %* als de motor navenant kleiner wordt, en met 4 tot 5 % zo niet — dus
-            ongeveer 3 tot 5 % per 100 kg op een auto van 1.400 kg. Een SUV weegt 200 tot 300 kg
-            meer dan een gemiddelde middenklasser en stoot zo'n 20 % meer CO₂ uit.
+            *Grootte en gewicht.* Een auto 10 % lichter maken verlaagt het verbruik met
+            *6 tot 7 %* als de motor navenant kleiner wordt, en met 4 tot 5 % zo niet — dus
+            ongeveer 3 tot 5 % per 100 kg op een auto van 1.400 kg. Een SUV weegt 200 tot 300 kg
+            meer dan een gemiddelde middenklasser en stoot zo'n 20 % meer CO₂ uit.
           en: >
             *Size and weight.* Taking 10% off a car's mass cuts its fuel use by *6 to 7%* if the
             engine is downsized to match, and by 4 to 5% if it is not — so roughly 3 to 5% per
@@ -828,16 +844,16 @@ levers:
         text:
           fr: >
             La tendance va exactement dans l'autre sens. La masse moyenne d'une voiture neuve
-            dans l'UE est passée d'environ 1 275 kg en 2001 à *1 518 kg en 2022*, soit +19 %.
+            dans l'UE est passée d'environ 1 275 kg en 2001 à *1 518 kg en 2022*, soit +19 %.
             La largeur suit : 170,5 cm en 2001, 180,2 cm en 2020 — *un centimètre de plus tous
             les deux ans*. En Belgique, les SUV sont le premier segment des immatriculations
-            neuves depuis 2017 : 42 % en 2020, 47,2 % au premier semestre 2021.
+            neuves depuis 2017 : 42 % en 2020, 47,2 % au premier semestre 2021.
           nl: >
             De trend gaat precies de andere kant op. De gemiddelde massa van een nieuwe auto in
-            de EU steeg van ongeveer 1.275 kg in 2001 naar *1.518 kg in 2022*, oftewel +19 %. De
+            de EU steeg van ongeveer 1.275 kg in 2001 naar *1.518 kg in 2022*, oftewel +19 %. De
             breedte volgt: 170,5 cm in 2001, 180,2 cm in 2020 — *een centimeter meer om de twee
             jaar*. In België zijn SUV's sinds 2017 het grootste segment van de nieuwe
-            inschrijvingen: 42 % in 2020, 47,2 % in de eerste helft van 2021.
+            inschrijvingen: 42 % in 2020, 47,2 % in de eerste helft van 2021.
           en: >
             The trend runs exactly the other way. The average mass of a new car in the EU went
             from about 1,275 kg in 2001 to *1,518 kg in 2022*, up 19%. Width follows: 170.5 cm
@@ -850,10 +866,10 @@ levers:
         reveal: true
         text:
           fr: >
-            −{reductionPct} % appliqués à une électrique de 2019 donneraient environ 0,16 kWh/km
+            −{reductionPct} % appliqués à une électrique de 2019 donneraient environ 0,16 kWh/km
             au lieu de {kwhPerKmBev2019}.
           nl: >
-            −{reductionPct} % toegepast op een elektrische auto van 2019 geeft ongeveer
+            −{reductionPct} % toegepast op een elektrische auto van 2019 geeft ongeveer
             0,16 kWh/km in plaats van {kwhPerKmBev2019}.
           en: >
             −{reductionPct}% applied to a 2019 electric car would give about 0.16 kWh/km instead
@@ -866,55 +882,56 @@ levers:
       en: Car energy intensity is not available as a historical series in the project's data.
     justification:
       fr: >
-        négaWatt retient {targetValue} % de la consommation de 2019, soit −{reductionPct} %. Le
-        carnet de calcul le décompose en trois réductions qui se multiplient :
-        *−{speedCutPct} % par des vitesses plus basses*, *−{drivingCutPct} % par
-        l'éco-conduite* et *−{sizeCutPct} % par des voitures plus petites et plus légères*.
-        Les vitesses pèsent moins que ne le suggère la fiche : à peine 38 % des
-        véhicules-km belges se font sur autoroute. L'éco-conduite retenue est l'effet qui
-        dure, avec une aide à bord généralisée. La taille est ce qui reste pour atteindre
-        −{reductionPct} % : {sizeKgLow} à {sizeKgHigh} kg de moins sur la voiture moyenne,
-        sous la moyenne de 2001. Le gain propre à la motorisation — passage à
-        l'électrique, freinage récupératif — n'est pas dans ce chiffre : il est porté par la
-        composition du parc.
+        négaWatt retient {targetValue} % de la consommation de 2019, soit −{reductionPct} %, en
+        trois réductions qui se multiplient. *−{speedCutPct} % par des vitesses plus basses* :
+        une baisse moyenne de {speedKmh} km/h sur tous les kilomètres, à peu près l'autoroute à
+        100 km/h avec un peu de 80 sur les routes régionales. *−{drivingCutPct} % par
+        l'éco-conduite* : l'effet qui dure, avec une aide à bord généralisée. *−{sizeCutPct} %
+        par des voitures plus petites et plus légères* : une masse moyenne d'environ
+        {massTarget} kg au lieu de {mass2019}, ce qui reste pour atteindre −{reductionPct} %.
+        Le gain propre à la motorisation — passage à l'électrique, freinage récupératif —
+        n'est pas dans ce chiffre : il est porté par la composition du parc.
       nl: >
-        negaWatt kiest {targetValue} % van het verbruik van 2019, dus −{reductionPct} %. Het
-        rekenboek splitst dat op in drie besparingen die zich vermenigvuldigen:
-        *−{speedCutPct} % door lagere snelheden*, *−{drivingCutPct} % door ecodriving* en
-        *−{sizeCutPct} % door kleinere, lichtere auto's*. De eerste twee komen uit de
-        literatuur; de snelheid weegt minder dan de fiche doet vermoeden, want amper 38 % van
-        de Belgische voertuigkilometers wordt op de snelweg gereden. Bij ecodriving telt het effect dat
-        blijft, met hulp aan boord in elke auto. De grootte is wat overblijft om
-        −{reductionPct} % te halen: {sizeKgLow} tot {sizeKgHigh} kg minder op de gemiddelde
-        auto, onder het gemiddelde van 2001. De winst van de aandrijflijn zelf — overstap naar
-        elektrisch, remenergierecuperatie — zit niet in dit cijfer: die zit in de samenstelling
-        van het wagenpark.
+        negaWatt kiest {targetValue} % van het verbruik van 2019, dus −{reductionPct} %, in
+        drie besparingen die zich vermenigvuldigen. *−{speedCutPct} % door lagere snelheden*:
+        gemiddeld {speedKmh} km/u trager over alle kilometers, ongeveer de snelweg op 100 km/u
+        met wat 80 op de gewestwegen. *−{drivingCutPct} % door ecodriving*: het effect dat
+        blijft, met hulp aan boord in elke auto. *−{sizeCutPct} % door kleinere, lichtere
+        auto's*: een gemiddelde massa van ongeveer {massTarget} kg in plaats van {mass2019},
+        wat overblijft om −{reductionPct} % te halen. De winst van de aandrijflijn zelf —
+        overstap naar elektrisch, remenergierecuperatie — zit niet in dit cijfer: die zit in de
+        samenstelling van het wagenpark.
       en: >
-        negaWatt settles on {targetValue}% of the 2019 figure, i.e. −{reductionPct}%. The
-        notebook splits it into three cuts that multiply: *−{speedCutPct}% from lower speeds*,
-        *−{drivingCutPct}% from eco-driving* and *−{sizeCutPct}% from smaller, lighter cars*.
-        Speed weighs less than its card suggests: barely 38% of Belgian vehicle-kilometres are
-        driven on motorways. Eco-driving counts the effect that lasts, with in-car assistance in every
-        car. Size is what is left to reach −{reductionPct}%: {sizeKgLow} to {sizeKgHigh} kg
-        off the average car, below the 2001 average. The gain from the powertrain itself — the
-        switch to electric, regenerative braking — is not in this figure: it is carried by the
-        composition of the fleet.
+        negaWatt settles on {targetValue}% of the 2019 figure, i.e. −{reductionPct}%, in three
+        cuts that multiply. *−{speedCutPct}% from lower speeds*: an average {speedKmh} km/h
+        less over every kilometre, roughly motorways at 100 km/h with some 80 on regional
+        roads. *−{drivingCutPct}% from eco-driving*: the effect that lasts, with in-car
+        assistance in every car. *−{sizeCutPct}% from smaller, lighter cars*: an average mass
+        of about {massTarget} kg instead of {mass2019}, what is left to reach −{reductionPct}%.
+        The gain from the powertrain itself — the switch to electric, regenerative braking —
+        is not in this figure: it is carried by the composition of the fleet.
     debate:
       fr: >
         Seul le total entre dans le modèle : la décomposition a été faite après coup, et c'est
-        le poste le moins documenté — la taille des voitures — qui porte le reste. Or la
-        tendance va dans l'autre sens. Et le modèle ne contient aucun effet rebond : rouler
+        le poste le moins documenté — la masse des voitures — qui porte le reste : environ
+        {massTarget} kg, moins que la moyenne de 2001, alors que la tendance va dans l'autre
+        sens. Les km/h sont convertis pour un parc surtout électrique ; une voiture thermique y
+        gagne à peu près moitié moins. Et le modèle ne contient aucun effet rebond : rouler
         moins cher, c'est souvent rouler plus.
       nl: >
         Alleen het totaal gaat het model in: de opsplitsing is achteraf gemaakt, en het minst
-        gedocumenteerde deel — de grootte van de auto's — draagt de rest. En de trend gaat net
-        de andere kant op. Bovendien bevat het model geen enkel reboundeffect: goedkoper rijden
-        betekent vaak meer rijden.
+        gedocumenteerde deel — de massa van de auto's — draagt de rest: ongeveer
+        {massTarget} kg, minder dan het gemiddelde van 2001, terwijl de trend net de andere
+        kant op gaat. De km/u zijn omgerekend voor een vooral elektrisch wagenpark; een
+        brandstofauto wint er ongeveer half zoveel bij. Bovendien bevat het model geen enkel
+        reboundeffect: goedkoper rijden betekent vaak meer rijden.
       en: >
         Only the total enters the model: the split was made afterwards, and the least
-        documented part — the size of the cars — carries the remainder, while the trend runs
-        the other way. And the model contains no rebound effect at all: cheaper driving usually
-        means more driving.
+        documented part — the mass of the cars — carries the remainder: about {massTarget} kg,
+        less than the 2001 average, while the trend runs the other way. The km/h are converted
+        for a mostly electric fleet; a combustion car gains about half as much from them. And
+        the model contains no rebound effect at all: cheaper driving usually means more
+        driving.
 
   # ------------------------------------------------------------ 5 -------------
   bike-km-day:

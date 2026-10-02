@@ -2,7 +2,7 @@
 window.NW_DATA = window.NW_DATA || {};
 window.NW_DATA["transport"] = {
   "title": "Mobility & transport",
-  "generated": "2026-10-02",
+  "generated": "2026-10-03",
   "hypotheses": {
     "pm-intensity": {
       "name": "Passenger mobility intensity",

@@ -17,6 +17,11 @@
 topic: international-mobility
 sector: transport
 
+# Each group plays the questions in its own random order (D63); `fixed` plays them
+# in the order of the levers below, as before. Every question keeps a letter (A, B,
+# C… in that order) that links the screen, the printed card and the reveal.
+questionOrder: random
+
 title:
   fr: Mobilité internationale
   nl: Internationale mobiliteit
@@ -1031,9 +1036,9 @@ levers:
       nl: "Welke bezetting van intra-Europese vluchten moeten we in 2050 nastreven?"
       en: "What filling of intra-European flights should 2050 aim for?"
     subtitle:
-      fr: "Compté en passagers effectivement transportés par vol, sièges vides compris. Ne s'applique qu'à la flotte au kérosène : l'avion à hydrogène de la dernière question est figé à {zeroeSeats} sièges."
-      nl: "Geteld in werkelijk vervoerde passagiers per vlucht, lege stoelen inbegrepen. Geldt enkel voor de kerosinevloot: het waterstofvliegtuig van de laatste vraag staat vast op {zeroeSeats} stoelen."
-      en: "Counted in passengers actually carried per flight, empty seats included. Applies to the kerosene fleet only: the hydrogen aircraft of the last question is fixed at {zeroeSeats} seats."
+      fr: "Compté en passagers effectivement transportés par vol, sièges vides compris. Ne s'applique qu'à la flotte au kérosène : l'avion à hydrogène de la question {question:hydrogen-flights} est figé à {zeroeSeats} sièges."
+      nl: "Geteld in werkelijk vervoerde passagiers per vlucht, lege stoelen inbegrepen. Geldt enkel voor de kerosinevloot: het waterstofvliegtuig van vraag {question:hydrogen-flights} staat vast op {zeroeSeats} stoelen."
+      en: "Counted in passengers actually carried per flight, empty seats included. Applies to the kerosene fleet only: the hydrogen aircraft of question {question:hydrogen-flights} is fixed at {zeroeSeats} seats."
     tangible:
       fr: "{value} passagers par vol intra-européen, en moyenne sur tous les vols."
       nl: "{value} passagiers per intra-Europese vlucht, gemiddeld over alle vluchten."
@@ -1843,7 +1848,7 @@ levers:
             du fret aérien reste pourtant le bateau — et le transport maritime international
             n'est pas modélisé du tout ici, pas plus que ses émissions. Une partie du fret
             aérien voyage par ailleurs en soute des vols de passagers : la supprimer
-            supposerait aussi moins de vols de passagers, ce que les questions précédentes
+            supposerait aussi moins de vols de passagers, ce que les questions {question:long-haul-flights} et {question:short-haul-flights}
             décident déjà.
           nl: >
             Let op waar de tonnen naartoe gaan. In het model gaat wat het vliegtuig verlaat
@@ -1852,15 +1857,15 @@ levers:
             van de luchtvracht blijft echter het schip — en de internationale zeevaart wordt
             hier helemaal niet gemodelleerd, haar uitstoot evenmin. Een deel van de
             luchtvracht reist bovendien in het ruim van passagiersvluchten: die wegnemen
-            veronderstelt ook minder passagiersvluchten, wat de vorige vragen al beslissen.
+            veronderstelt ook minder passagiersvluchten, wat de vragen {question:long-haul-flights} en {question:short-haul-flights} al beslissen.
           en: >
             Mind where the tonnes go. In the model, what leaves the aircraft goes to *rail*:
             it is the only substitute represented, and it genuinely exists on the Eurasian
             corridor. The real alternative for most air freight is nonetheless the ship —
             and international shipping is not modelled here at all, nor are its emissions.
             Part of air freight also travels in the hold of passenger flights: removing it
-            would also mean fewer passenger flights, which the earlier questions already
-            decide.
+            would also mean fewer passenger flights, which questions {question:long-haul-flights} and
+            {question:short-haul-flights} already decide.
         source: nW-BE §3.1.4
       - kind: structure
         reveal: true

@@ -33,7 +33,7 @@ EXPECTED = {
 }
 SPARE = {"bus-occupancy", "train-occupancy"}
 # Levers answered with several sliders (D61): the parts, in order, and the rule.
-PARTED = {"car-energy": (["speed", "driving", "size"], "cuts")}
+PARTED = {"car-energy": (["speed-kmh", "driving", "mass"], "cuts")}
 ANSWER_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")   # api/db.php ws_id()
 IMPACT_KINDS = {"proportional", "inverse", "linear-shift", "negligible"}
 EDGE_MARGIN = 0.12
@@ -116,11 +116,12 @@ def main():
                                          f"(the mode lookup probably failed)")
 
     # --- questions answered in parts (D61) ----------------------------------
-    def combine(rule, ref, values):
+    def combine(rule, ref, values, parts):
+        # a part's cut is cutPerUnit x (value - its reference), D64
         if rule == "cuts":
             out = ref
-            for v in values:
-                out *= 1 - v / 100.0
+            for v, p in zip(values, parts):
+                out *= 1 - p.get("cutPerUnit", 1.0) * (v - p.get("refValue", 0.0)) / 100.0
             return out
         return sum(values)
 
@@ -148,16 +149,18 @@ def main():
                 edge = min(p["targetValue"] - s_["min"], s_["max"] - p["targetValue"]) / span
                 check(edge >= EDGE_MARGIN, f"{lid}.{p['id']}: target sits {edge:.0%} from a "
                                            f"slider end")
-        ref = combine(rule, lv["refValue"], [p["refValue"] for p in parts])
+        ref = combine(rule, lv["refValue"], [p["refValue"] for p in parts], parts)
         check(abs(ref - lv["refValue"]) < 1e-3,
               f"{lid}: parts combine to {ref:g} in {lv['refYear']}, not {lv['refValue']}")
         if all("targetValue" in p for p in parts):
-            trg = combine(rule, lv["refValue"], [p["targetValue"] for p in parts])
+            trg = combine(rule, lv["refValue"], [p["targetValue"] for p in parts], parts)
             # the split must leave the scenario exactly where it was
             check(abs(trg - lv["targetValue"]) < 1e-3,
                   f"{lid}: the parts' targets combine to {trg:.4f}, not {lv['targetValue']}")
-        corners = [combine(rule, lv["refValue"], [p["slider"][e] for p in parts])
-                   for e in ("min", "max")]
+        corners = [combine(rule, lv["refValue"],
+                           [p["slider"]["max" if (m >> i) & 1 else "min"]
+                            for i, p in enumerate(parts)], parts)
+                   for m in range(2 ** len(parts))]
         check(lv["slider"]["min"] <= min(corners) and max(corners) <= lv["slider"]["max"],
               f"{lid}: the parts reach {min(corners):.1f}-{max(corners):.1f}, outside the "
               f"lever's axis {lv['slider']['min']}-{lv['slider']['max']}")

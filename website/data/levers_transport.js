@@ -2,7 +2,7 @@
 window.NW_LEVERS = window.NW_LEVERS || {};
 window.NW_LEVERS["transport"] = {
   "title": "Mobility & transport",
-  "generated": "2026-10-02",
+  "generated": "2026-10-03",
   "levers": {
     "ground-km-day": {
       "topic": "inland-mobility",
@@ -182,8 +182,17 @@ window.NW_LEVERS["transport"] = {
         "speedCutPct": 5.0,
         "drivingCutPct": 7.0,
         "sizeCutPct": 15.1,
-        "sizeKgLow": 300,
-        "sizeKgHigh": 500,
+        "speedKmh": 5.6,
+        "massTarget": 1050,
+        "mass2019": 1430,
+        "massPer100kgPct": 4.0,
+        "speedPerKmhPct": 0.9,
+        "motorwayShare": 36,
+        "ruralShare": 40,
+        "urbanShare": 24,
+        "kmhMotorway": 4.7,
+        "kmhRural": 1.3,
+        "kmhUrban": 1.2,
         "kwhPerKmPetrol2019": 0.674,
         "kwhPerKmBev2019": 0.211,
         "litresPetrol2019": 7.0,
@@ -191,19 +200,19 @@ window.NW_LEVERS["transport"] = {
       },
       "spoilers": [
         "drivingCutPct",
+        "massTarget",
         "reductionPct",
         "sizeCutPct",
-        "sizeKgHigh",
-        "sizeKgLow",
-        "speedCutPct"
+        "speedCutPct",
+        "speedKmh"
       ],
       "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_2",
       "reference": "nW-BE §2.3.5",
       "parts": [
         {
-          "id": "speed",
-          "name": "Lower speeds",
-          "unit": "%",
+          "id": "speed-kmh",
+          "name": "Lower average speed",
+          "unit": "km/h",
           "refValue": 0.0,
           "slider": {
             "min": 0.0,
@@ -211,8 +220,9 @@ window.NW_LEVERS["transport"] = {
             "step": 1.0
           },
           "decimals": 0,
-          "targetValue": 5.0,
-          "answerId": "car-energy__speed"
+          "cutPerUnit": 0.9,
+          "targetValue": 5.5556,
+          "answerId": "car-energy__speed-kmh"
         },
         {
           "id": "driving",
@@ -229,18 +239,19 @@ window.NW_LEVERS["transport"] = {
           "answerId": "car-energy__driving"
         },
         {
-          "id": "size",
-          "name": "Smaller, lighter cars",
-          "unit": "%",
-          "refValue": 0.0,
+          "id": "mass",
+          "name": "Average car mass",
+          "unit": "kg",
+          "refValue": 1430.0,
           "slider": {
-            "min": -15.0,
-            "max": 30.0,
-            "step": 1.0
+            "min": 900.0,
+            "max": 1800.0,
+            "step": 10.0
           },
           "decimals": 0,
-          "targetValue": 15.1104,
-          "answerId": "car-energy__size"
+          "cutPerUnit": -0.04,
+          "targetValue": 1052.2411,
+          "answerId": "car-energy__mass"
         }
       ],
       "combine": "cuts"

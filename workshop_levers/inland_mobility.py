@@ -29,7 +29,8 @@ def build(ctx):
      df_PM_TWh_all, df_FT_TWh_all, df_PM_car, ref_occu_PM_car,
      pro_PM_spe, pro_PM_spe_car, occu_trgt_PM_car, redu_fuel_PM_car,
      redu_fuel_PM_car_speed, redu_fuel_PM_car_driving, redu_fuel_PM_car_size,
-     mass_cut_PM_car_kg,
+     sens_speed_PM_car, speed_cut_PM_car_kmh, kmh_PM_car_package, share_km_PM_car_road,
+     ref_mass_PM_car, sens_mass_PM_car, trg_mass_PM_car,
      sft_PM_rel_car_to_bus, sft_PM_rel_car_to_trn_cnv, sft_PM_rel_car_to_byc,
      sft_PM_rel_car_to_trm_met, sft_PM_rel_car_to_mot, sft_PM_rel_car_to_ped,
      pro_FT_spe, pro_FT_spe_trk_hvy,
@@ -56,7 +57,13 @@ def build(ctx):
         'redu_fuel_PM_car_speed',
         'redu_fuel_PM_car_driving',
         'redu_fuel_PM_car_size',
-        'mass_cut_PM_car_kg',
+        'sens_speed_PM_car',
+        'speed_cut_PM_car_kmh',
+        'kmh_PM_car_package',
+        'share_km_PM_car_road',
+        'ref_mass_PM_car',
+        'sens_mass_PM_car',
+        'trg_mass_PM_car',
         'sft_PM_rel_car_to_bus',
         'sft_PM_rel_car_to_trn_cnv',
         'sft_PM_rel_car_to_byc',
@@ -184,6 +191,18 @@ def build(ctx):
         f"the Belgian truck capacity is now {cap_FT_trk_hvy:.2f} t, but section 3.3.3 "
         f"quotes 23,8 t -- update one or the other")
 
+    # Section 2.3.5 quotes the car ingredients in km/h and kg (D64).
+    for _name, _value, _quoted in (("the speed cut", speed_cut_PM_car_kmh, 5.6),
+                                   ("motorways at 100", kmh_PM_car_package["motorway"], 4.7),
+                                   ("regional roads at 80", kmh_PM_car_package["rural"], 1.3),
+                                   ("30 km/h in town", kmh_PM_car_package["urban"], 1.2)):
+        assert round(_value, 1) == _quoted, (
+            f"{_name} is now {_value:.2f} km/h, but section 2.3.5 quotes {_quoted} "
+            f"-- update one or the other")
+    assert round(trg_mass_PM_car, -1) == 1050, (
+        f"the 2050 car mass is now {trg_mass_PM_car:.0f} kg, but section 2.3.5 quotes "
+        f"about 1 050 kg -- update one or the other")
+
     # --- Derived lever quantities ----------------------------------------------
     _mot_pkm  = {y: sum(_act(df_PM, m, "pkm/person", y) for m in _PM_MOTORISED)
                  for y in (_Y0, _Y1)}
@@ -303,20 +322,23 @@ def build(ctx):
          spoilers=["gainPct", "carTwhTarget"],
          notebook=_NB + "#section_2", reference="nW-BE §2.3.5")
 
-    # Three sliders, one figure: each part is a % cut in energy per km, and the
+    # Three sliders, one figure: each part is a cut in energy per km, and the
     # cuts compound, exactly as the three factors of section 2.3.5 multiply into
-    # redu_fuel_PM_car. "Today" is no cut at all. The size slider goes below
-    # zero because the observed trend is towards heavier cars, not lighter ones.
+    # redu_fuel_PM_car. Speed and mass speak their own unit (D64) -- km/h less on
+    # average, and an average mass in kg starting from 2019 -- through the linear
+    # sensitivities of section 2.3.5; eco-driving stays a percentage. The mass
+    # slider goes above 2019 because the observed trend is towards heavier cars.
+    # Part ids changed with the units, so answers given in % are not read as km/h.
     _car_parts = [
-        make_lever_part("speed", "Lower speeds", "%", 0.0,
+        make_lever_part("speed-kmh", "Lower average speed", "km/h", 0.0,
                         {"min": 0, "max": 20, "step": 1},
-                        target_value=(1 - redu_fuel_PM_car_speed) * 100),
+                        target_value=speed_cut_PM_car_kmh, cut_per_unit=sens_speed_PM_car),
         make_lever_part("driving", "Eco-driving", "%", 0.0,
                         {"min": 0, "max": 15, "step": 1},
                         target_value=(1 - redu_fuel_PM_car_driving) * 100),
-        make_lever_part("size", "Smaller, lighter cars", "%", 0.0,
-                        {"min": -15, "max": 30, "step": 1},
-                        target_value=(1 - redu_fuel_PM_car_size) * 100),
+        make_lever_part("mass", "Average car mass", "kg", ref_mass_PM_car,
+                        {"min": 900, "max": 1800, "step": 10},
+                        target_value=trg_mass_PM_car, cut_per_unit=-sens_mass_PM_car / 100),
     ]
 
     _add("car-energy", _T, "Car energy use per km", "% of 2019",
@@ -331,9 +353,18 @@ def build(ctx):
                 "speedCutPct": round((1 - redu_fuel_PM_car_speed) * 100, 1),
                 "drivingCutPct": round((1 - redu_fuel_PM_car_driving) * 100, 1),
                 "sizeCutPct": round((1 - redu_fuel_PM_car_size) * 100, 1),
-                # what the residual size cut means in kg off the average car
-                "sizeKgLow": int(round(mass_cut_PM_car_kg[0], -1)),
-                "sizeKgHigh": int(round(mass_cut_PM_car_kg[1], -1)),
+                "speedKmh": round(speed_cut_PM_car_kmh, 1),
+                "massTarget": int(round(trg_mass_PM_car, -1)),
+                "mass2019": int(round(ref_mass_PM_car)),
+                "massPer100kgPct": sens_mass_PM_car,
+                "speedPerKmhPct": sens_speed_PM_car,
+                # where km/h can come from, averaged over all car-km (section 2.3.5)
+                "motorwayShare": round(share_km_PM_car_road["motorway"] * 100),
+                "ruralShare": round(share_km_PM_car_road["rural"] * 100),
+                "urbanShare": round(share_km_PM_car_road["urban"] * 100),
+                "kmhMotorway": round(kmh_PM_car_package["motorway"], 1),
+                "kmhRural": round(kmh_PM_car_package["rural"], 1),
+                "kmhUrban": round(kmh_PM_car_package["urban"], 1),
                 "kwhPerKmPetrol2019": round(5.798 / 100 * kgoe_to_kWh, 3),
                 "kwhPerKmBev2019": round(1.818 / 100 * kgoe_to_kWh, 3),
                 "litresPetrol2019": round(5.798 / 100 * kgoe_to_kWh
@@ -341,7 +372,7 @@ def build(ctx):
                 "litresPetrolEqBev2019": round(1.818 / 100 * kgoe_to_kWh
                                                / ref_kwh_per_litre_petrol * 100, 1)},
          spoilers=["reductionPct", "speedCutPct", "drivingCutPct", "sizeCutPct",
-                   "sizeKgLow", "sizeKgHigh"],
+                   "speedKmh", "massTarget"],
          notebook=_NB + "#section_2", reference="nW-BE §2.3.5")
 
     _add("bike-km-day", _T, "Cycling per person", "km/person/day",

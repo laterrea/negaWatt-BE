@@ -174,7 +174,15 @@
     var shown = !!state.revealed[id];
 
     var t = topicContent();
-    $("topic-title").textContent = t ? T.pick(t.title) : "";
+    var eyebrow = $("topic-title");
+    eyebrow.textContent = t ? T.pick(t.title) : "";
+    // the projector walks the questions in letter order, the order of the cards;
+    // each group answered them in its own (D63)
+    var badge = document.createElement("span");
+    badge.className = "ws-letter";
+    badge.textContent = content.code || "";
+    eyebrow.appendChild(document.createTextNode(" · " + T.t("play.cardWord") + " "));
+    eyebrow.appendChild(badge);
     $("question").textContent = T.pick(content.question) || lever.name;
     $("subtitle").textContent = T.pick(content.subtitle);
 
@@ -303,7 +311,8 @@
       dot.className = "ws-progress__dot";
       dot.dataset.state = i === state.index ? "current"
                         : (state.revealed[id] ? "answered" : "todo");
-      dot.setAttribute("aria-label", String(i + 1));
+      dot.setAttribute("aria-label", T.t("play.card", { code: leverContent(id).code || String(i + 1) }));
+      dot.title = T.t("play.card", { code: leverContent(id).code || String(i + 1) });
       dot.addEventListener("click", function () { go(i); });
       box.appendChild(dot);
     });
@@ -330,8 +339,9 @@
       var span = lever.slider.max - lever.slider.min;
 
       var tr = table.insertRow();
-      tr.insertCell().textContent = T.pick(leverContent(id).short) ||
-                                    T.pick(leverContent(id).question) || lever.name;
+      tr.insertCell().textContent = (leverContent(id).code ? leverContent(id).code + " · " : "") +
+                                    (T.pick(leverContent(id).short) ||
+                                     T.pick(leverContent(id).question) || lever.name);
       var c1 = tr.insertCell(); c1.className = "num";
       c1.textContent = avg === null ? "—" : T.num(avg, lever.decimals);
       var c2 = tr.insertCell(); c2.className = "num";
