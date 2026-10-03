@@ -219,6 +219,9 @@
       decimals: lever.decimals,
       domainMin: lever.slider.min, domainMax: lever.slider.max,
       invertY: content.chartInvertY === true,
+      // the unit heads the axis, so the curve says what it counts; not on an
+      // inverted chart, whose axis is a difference against the reference (D60)
+      unit: content.chartInvertY === true ? null : T.unit(lever.unit),
       srLabel: T.pick(content.question)
     });
 

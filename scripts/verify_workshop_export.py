@@ -26,7 +26,7 @@ EXPECTED = {
     "car-share":      ("% of motorised km",  78.80,    55.49,   0.05),
     "car-occupancy":  ("persons/car",         1.22,     2.00,   0.01),
     "car-energy":     ("% of 2019",         100.00,    75.00,   0.01),
-    "bike-km-day":    ("km/person/day",       1.68,     3.27,   0.01),
+    "bike-km-day":    ("km/person/day",       1.21,     2.83,   0.01),
     "freight-tkm":    ("tkm/person/year",  7013.63,  6312.27,   1.00),
     "truck-share":    ("% of tonne-km",      66.77,    50.42,   0.05),
     "truck-fill":     ("% full",             53.24,    55.91,   0.05),

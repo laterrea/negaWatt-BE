@@ -7694,7 +7694,9 @@ The total therefore amounts at <strong>182,657 Gpkm</strong>, which corresponds 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Inputs - Define Sufficiency Scenario Data (SUF)</span>
-<span class="n">ref_PM_spe</span> <span class="o">=</span> <span class="mf">182.65651e+9</span><span class="o">/</span><span class="n">population_dict</span><span class="p">[</span><span class="mi">2019</span><span class="p">]</span> <span class="c1"># [pkm/person]</span>
+<span class="c1"># 2019 total = 172.65652 Gpkm from JRC-IDEES (road, rail, air) + 3.00000 walking + 5.04167</span>
+<span class="c1"># cycling (section 2.1; the cycling value is the reconstruction of nW_BE_demand_data_aux.ipynb)</span>
+<span class="n">ref_PM_spe</span> <span class="o">=</span> <span class="mf">180.69819e+9</span><span class="o">/</span><span class="n">population_dict</span><span class="p">[</span><span class="mi">2019</span><span class="p">]</span> <span class="c1"># [pkm/person]</span>
 </pre></div>
 </div>
 </div>
@@ -7718,7 +7720,7 @@ The total therefore amounts at <strong>182,657 Gpkm</strong>, which corresponds 
 <p>Excluding gentle modes, from 2000 to 2019, the total mobility intensity has grown by about <em>+780 pkm/person</em>, which is equivalent +5.5% [1,2]. This is driven by aviation (intra and extra Europe), which has grown by about <em>+1160 pkm/person</em> (or +8.1% w.r.t. total mobility intensity), and also due to rail (passenger trains and urban light rails) which has grown by about <em>+340 pkm/person/year</em> (or +2.4% w.r.t. total mobility intensity). In the meantime, road (two-wheeelers, cars and buses) has decreased by about <em>-720 pkm/person</em> (or -5.0% w.r.t. total mobility intensity) [1,2].
 For its part, the Federal Planning Bureau, excluding aviation but including active modes, estimates that from 1990 to 2019 the total mobility intensity has grown by about <em>+1830 pkm/person</em> [5].</p>
 <p>Despite this increase in the mobility intensity for the past 30 years, we believe this trend can be reversed, notably because of the expansion of teleworking [5], and through a higher share of urban housing and a prioritisation of closer tourist destinations. Population ageing and increased transportation costs should also reduce the mobility intensity [5]. This reversed trend assumption is further supported by the fact that the Federal Planning Bureau estimates that, under unchanged policies and excluding aviation from the projection, mobility intensity could decrease by around <em>-100 pkm/person</em> by 2040 [5].</p>
-<p>In light of this, we project a <strong>-10% reduction</strong> in global <strong>mobility intensity</strong> by <strong>2050</strong> w.r.t. the 2019 level. This -10% assumption leads to an estimated <strong>14.381 pkm/person</strong> by 2050 (<em>-1.598 pkm/person</em>).
+<p>In light of this, we project a <strong>-10% reduction</strong> in global <strong>mobility intensity</strong> by <strong>2050</strong> w.r.t. the 2019 level. This -10% assumption leads to an estimated <strong>14.227 pkm/person</strong> by 2050 (<em>-1.581 pkm/person</em>).
 We attribute a significant share of this reduction (around half of it) to a decrease in the number of long-haul flights, for which modal shift is hardly feasible and whose decarbonisation remains uncertain (limited availability of Sustainable Aviation Fuels (SAF), etc.). More details are provided below.</p>
 </br></div>
 </div>
@@ -7883,7 +7885,7 @@ Reported to the population, this corresponds to an average total tansport intens
 <p><font size="4"><b>2.1. Modal Shares</b></font> <a class="anchor" id="section_2_1"></a></p>
 <hr/>
 <p>This section defines the modal shares, which are expressed in percentages of total passenger-kilometers. Walking and cycling (gentle modes) are explicitly included in the distribution, as well as aviation.</p>
-<p>The modal shares of the powered modes for the reference year (2019) are based on JRC-IDEES [1,2], while the gentle modes are based on the last two surveys from the Belgian Federal Public Service for Mobility and Transport [3,4]. Note that domestic flights and navigation are excluded due to their negligible contribution.</p>
+<p>The modal shares of the powered modes for the reference year (2019) are based on JRC-IDEES [1,2], while walking is based on the last two surveys from the Belgian Federal Public Service for Mobility and Transport [3,4], and cycling on a reconstruction from the regional surveys (Flanders, Brussels, Wallonia), scaled to the Federal Public Service's estimate for 2024-2025 — see <code>nW_BE_demand_data_aux.ipynb</code>, "Cycling, 2000-2024: a reconstruction". Note that domestic flights and navigation are excluded due to their negligible contribution.</p>
 </div>
 </div>
 </div>
@@ -7898,7 +7900,7 @@ Reported to the population, this corresponds to an average total tansport intens
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Inputs - Modal Repartition [Gpkm] for reference year (2019)</span>
 <span class="n">ref_PM_mod_abs</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">'pedestrian'</span><span class="p">:</span>           <span class="mf">3.00000</span><span class="p">,</span> <span class="c1"># From Belgian Federal Public Service for Mobility and Transport</span>
-    <span class="s1">'bicycle'</span><span class="p">:</span>              <span class="mf">7.00000</span><span class="p">,</span> <span class="c1"># From Belgian Federal Public Service for Mobility and Transport</span>
+    <span class="s1">'bicycle'</span><span class="p">:</span>              <span class="mf">5.04167</span><span class="p">,</span> <span class="c1"># Reconstruction from the regional surveys, nW_BE_demand_data_aux.ipynb</span>
     <span class="s1">'two-wheeler'</span><span class="p">:</span>          <span class="mf">1.75208</span><span class="p">,</span> <span class="c1"># From JRC-IDEES</span>
     <span class="s1">'tram&amp;metro'</span><span class="p">:</span>           <span class="mf">1.47211</span><span class="p">,</span> <span class="c1"># From JRC-IDEES</span>
     <span class="s1">'bus&amp;coach'</span><span class="p">:</span>           <span class="mf">13.68139</span><span class="p">,</span> <span class="c1"># From JRC-IDEES</span>
@@ -7934,7 +7936,7 @@ Reported to the population, this corresponds to an average total tansport intens
 But regarding train, the MONITOR survey gives 17,357 Gpkm (= 35 km/day/person x 12% modal share x 365 days x 11.322.088 people) [3], while IDEES gives 10,364 Gpkm [1,2]. This is about -40% deviation. The origin of this discrepency should be further investigated!</br></p>
 </blockquote>
 <blockquote>
-<p><strong>Comment:</strong> Data for cycling and walking should be refined. The Belgian Federal Public Service for Mobility and Transport (christophe.pauwels@mobilit.fgov.be) has told us that estimates for 2024-2025 are 7,2 Gpkm for cycling an 4 Gpkm for walking. Other sources should also be investigated.</p>
+<p><strong>Comment:</strong> The Belgian Federal Public Service for Mobility and Transport (christophe.pauwels@mobilit.fgov.be) has told us that estimates for 2024-2025 are 7,2 Gpkm for cycling and 4 Gpkm for walking. The 7,0 Gpkm of cycling used here for 2019 until October 2026 therefore described 2024 rather than 2019: every indicator grows by +30-55% between 2017-2019 and 2023-2024. Cycling in 2019 is now <strong>5,04 Gpkm (1,21 km/person/day)</strong>, a reconstruction from the regional surveys scaled to the 7,2 Gpkm of 2024-2025 (see <code>nW_BE_demand_data_aux.ipynb</code>). Walking (3,0 Gpkm) still needs refining.</p>
 </blockquote>
 <blockquote>
 <p><strong>Comment:</strong> The Federal Planning Bureau estimates that 172,7 Gpkm were travelled in 2019 (excluding aviation) [5]. Of these, 5.7 Gpkm were travelled on foot and by bicycle.</p>
@@ -8025,7 +8027,7 @@ The <strong>modal share</strong> of extra-Europe flights hence decreases from <s
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Therefore, from the overall reduction in mobility intensity of <em>-1.598 pkm/person</em> between 2019 and 2050, we infer that nearly <em>45%</em> of this decrease is due to the reduction in extra-European flights (<em>-725 pkm/person</em>).</p>
+<p>Therefore, from the overall reduction in mobility intensity of <em>-1.581 pkm/person</em> between 2019 and 2050, we infer that about <em>46%</em> of this decrease is due to the reduction in extra-European flights (<em>-725 pkm/person</em>).</p>
 <p>For the remainder of the analysis, we assume that the remaining <em>55%</em> of the reduction in mobility intensity (<em>-873 pkm/person</em>) comes from all other transport modes combined. This means that, out of the targeted 10% reduction in overall mobility intensity, <em>5,5%</em> still needs to be achieved through these other modes.
 Thus, of the 1.364 pkm/person travelled by intra-European flights in 2019, 1.280 pkm/person are initially projected for 2050.</p>
 </div>
@@ -8273,7 +8275,7 @@ Passenger-kilometres for <strong>conventional trains</strong> increase by <stron
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <blockquote>
-<p><strong>Comment:</strong> In this scenario, modal shifts from aviation and car travel increase rail demand from 10,436 Gpkm to 23,718 Gpkm (doubled) for conventional rail and from 1,564 Gpkm to 4,843 Gpkm/year for high-speed rail (tripled). In its 'Vision Rail 2040' policy note published in 2022, the Belgian Minister of Mobility, Georges Gilkinet, stated the objective of increasing the modal share of rail from 8% to 15% by 2040 (aviation excluded) [7]. Few quantitative details are provided; however, assuming that conventional rail intensity was 919 pkm/person in 2019 [7], doubling the modal share would bring this value to around 1.840 pkm/person by 2040. In light of the performance observed in neighbouring countries, this appears achievable through an increase in service supply, without necessarily expanding network density. The projected value of 1.882 pkm/person in 2050 for conventional rail is therefore fully consistent with the stated ambition.</p>
+<p><strong>Comment:</strong> In this scenario, modal shifts from aviation and car travel increase rail demand from 10,436 Gpkm to 22,923 Gpkm (more than doubled) for conventional rail and from 1,564 Gpkm to 5,652 Gpkm/year for high-speed rail (×3,6). In its 'Vision Rail 2040' policy note published in 2022, the Belgian Minister of Mobility, Georges Gilkinet, stated the objective of increasing the modal share of rail from 8% to 15% by 2040 (aviation excluded) [7]. Few quantitative details are provided; however, assuming that conventional rail intensity was 919 pkm/person in 2019 [7], doubling the modal share would bring this value to around 1.840 pkm/person by 2040. In light of the performance observed in neighbouring countries, this appears achievable through an increase in service supply, without necessarily expanding network density. The projected value of 1.819 pkm/person in 2050 for conventional rail is therefore fully consistent with the stated ambition.</p>
 </blockquote>
 <blockquote>
 <p><strong>Comment:</strong> It should be noted that, in its business-as-usual outlook, the Belgian Federal Planning Bureau [5] estimates that total rail demand would decrease by 2,8%. Our assumption of more than doubling rail demand therefore requires strong public policies.</p>
@@ -8282,7 +8284,7 @@ Passenger-kilometres for <strong>conventional trains</strong> increase by <stron
 <p><font size="3"><b>2.1.4. Gentle Modes</b></font> <a class="anchor" id="section_2_1_4"></a></p>
 <hr/>
 <p>As a result of the modal shifts away from  cars, the modal share of gentle modes (both pedestrian and walking) increases.
-Passenger-kilometres for <strong>pedestrian</strong> increase by <strong>+72 pkm/person</strong>, while <strong>cycling</strong> increases by <strong>+580 pkm/person</strong>.
+Passenger-kilometres for <strong>pedestrian</strong> increase by <strong>+72 pkm/person</strong>, while <strong>cycling</strong> increases by <strong>+591 pkm/person</strong>.
 The increase in walking intensity results from more multimodal mobility patterns centred on public transport, which require short walking trips, as well as from the expansion of pedestrian-friendly and car-free areas in city centres, in line with current urban mobility policies.
 The growth in bicycles is supported by the rapid adoption of electric bikes and major investments in cycling infrastructure, including dedicated cycle lanes and secure bike parking.</p>
 </div>
@@ -8316,7 +8318,7 @@ The growth in bicycles is supported by the rapid adoption of electric bikes and 
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <blockquote>
-<p><strong>Comment</strong>: Bicycle only doubles. We could be more ambitious! It should nevertheless be noted that, under unchanged policies, the Federal Planning Bureau only anticipates a very slight increase in the modal share of this mode (+2 Gpkm from 2019 to 2040) [5].</p>
+<p><strong>Comment</strong>: Cycling grows ×2,3, from 1,21 to 2,83 km/person/day. We could be more ambitious! It should nevertheless be noted that, under unchanged policies, the Federal Planning Bureau only anticipates a very slight increase in the modal share of this mode (+2 Gpkm from 2019 to 2040) [5].</p>
 </blockquote>
 <blockquote>
 <p><strong>Comment</strong>: The "FietsDNA 2025" report (<a href="https://fietsberaad.be/wp-content/uploads/FietsDNA_2025-UK.pdf">https://fietsberaad.be/wp-content/uploads/FietsDNA_2025-UK.pdf</a>) from the Kenniscentrum voor het fietsbeleid in Vlaanderen (Fietsberaad Vlaanderen) recalls that the objective is to reach 30% of the journeys done by bicycles in Flanders by 2040. According to them, this figure was close to 10% in whole Belgium by 2021. The exact definition of cycling journey is however not provided. This is probably different than the proper modal share.</p>

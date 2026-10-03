@@ -9,9 +9,9 @@ window.NW_LEVERS["transport"] = {
       "name": "Motorised travel per person",
       "unit": "km/person/day",
       "refYear": 2019,
-      "refValue": 32.678,
+      "refValue": 32.6788,
       "targetYear": 2050,
-      "targetValue": 30.485,
+      "targetValue": 30.5003,
       "slider": {
         "min": 15.0,
         "max": 42.0,
@@ -22,9 +22,9 @@ window.NW_LEVERS["transport"] = {
       "shown": true,
       "impact": {
         "kind": "proportional",
-        "vTarget": 30.485,
-        "total": 23.072,
-        "scaled": 11.754
+        "vTarget": 30.5003,
+        "total": 23.061,
+        "scaled": 11.759
       },
       "model": {
         "var": "pro_PM_spe",
@@ -33,14 +33,14 @@ window.NW_LEVERS["transport"] = {
       },
       "history": "ground_km_day",
       "facts": {
-        "pkmYear2019": 11927,
-        "pkmYearTarget": 11127,
+        "pkmYear2019": 11928,
+        "pkmYearTarget": 11133,
         "carKmDay2019": 25.8,
         "busKmDay2019": 3.3,
         "railKmDay2019": 2.9,
         "tramKmDay2019": 0.35,
         "motoKmDay2019": 0.42,
-        "bikeKmDay2019": 1.68,
+        "bikeKmDay2019": 1.21,
         "walkKmDay2019": 0.72,
         "peetersMinKmDay": 13.7,
         "peetersMaxKmDay": 41.1,
@@ -64,9 +64,9 @@ window.NW_LEVERS["transport"] = {
       "name": "Car share of motorised travel",
       "unit": "% of motorised km",
       "refYear": 2019,
-      "refValue": 78.8016,
+      "refValue": 78.8001,
       "targetYear": 2050,
-      "targetValue": 55.4856,
+      "targetValue": 55.4854,
       "slider": {
         "min": 30.0,
         "max": 90.0,
@@ -77,10 +77,10 @@ window.NW_LEVERS["transport"] = {
       "shown": true,
       "impact": {
         "kind": "linear-shift",
-        "vTarget": 55.4856,
-        "total": 23.072,
+        "vTarget": 55.4854,
+        "total": 23.061,
         "scaled": 0.0,
-        "slope": 0.0445
+        "slope": 0.0446
       },
       "model": {
         "var": "pro_PM_spe_car",
@@ -127,8 +127,8 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "inverse",
         "vTarget": 2.0,
-        "total": 23.072,
-        "scaled": 6.946
+        "total": 23.061,
+        "scaled": 6.95
       },
       "model": {
         "var": "occu_trgt_PM_car",
@@ -169,8 +169,8 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "proportional",
         "vTarget": 75.0,
-        "total": 23.072,
-        "scaled": 6.946
+        "total": 23.061,
+        "scaled": 6.95
       },
       "model": {
         "var": "redu_fuel_PM_car",
@@ -261,9 +261,9 @@ window.NW_LEVERS["transport"] = {
       "name": "Cycling per person",
       "unit": "km/person/day",
       "refYear": 2019,
-      "refValue": 1.6775,
+      "refValue": 1.2083,
       "targetYear": 2050,
-      "targetValue": 3.2658,
+      "targetValue": 2.8266,
       "slider": {
         "min": 0.5,
         "max": 8.0,
@@ -274,25 +274,28 @@ window.NW_LEVERS["transport"] = {
       "shown": true,
       "impact": {
         "kind": "linear-shift",
-        "vTarget": 3.2658,
-        "total": 23.072,
+        "vTarget": 2.8266,
+        "total": 23.061,
         "scaled": 0.0,
         "slope": -0.3739
       },
       "model": {
         "var": "sft_PM_rel_car_to_byc",
-        "section": "2.1.4"
+        "section": "2.1.4",
+        "note": "2019 = the reconstruction of nW_BE_demand_data_aux.ipynb (D66)"
       },
+      "history": "bike_km_day",
       "facts": {
-        "bikeSharePkmTarget": 8.3,
-        "bikeGpkm2019": 7.0,
+        "bikeSharePkmTarget": 7.3,
+        "bikeGpkm2019": 5.0,
         "toBikePct": 7.0,
         "shiftPct": 30.0,
         "ebikeShareKm2025": 64.0,
         "bikeTripKm": 4.0,
         "ebikeTripKm": 5.0,
         "pedelecTripKm": 10.0,
-        "flandersTripTarget": 30.0
+        "flandersTripTarget": 30.0,
+        "bikeKmDay2024": 1.68
       },
       "spoilers": [
         "bikeSharePkmTarget",
@@ -321,7 +324,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "proportional",
         "vTarget": 6312.268,
-        "total": 23.072,
+        "total": 23.061,
         "scaled": 11.198
       },
       "model": {
@@ -359,7 +362,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "linear-shift",
         "vTarget": 50.417,
-        "total": 23.072,
+        "total": 23.061,
         "scaled": 0.0,
         "slope": 0.0095
       },
@@ -409,7 +412,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "inverse",
         "vTarget": 55.9064,
-        "total": 23.072,
+        "total": 23.061,
         "scaled": 4.339
       },
       "model": {
@@ -456,8 +459,8 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "inverse",
         "vTarget": 120.0,
-        "total": 23.072,
-        "scaled": 2.167
+        "total": 23.061,
+        "scaled": 2.168
       },
       "model": {
         "var": "occu_trgt_PM_bus_cch",
@@ -485,7 +488,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "inverse",
         "vTarget": 120.0,
-        "total": 23.072,
+        "total": 23.061,
         "scaled": 1.751
       },
       "model": {
@@ -514,7 +517,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "proportional",
         "vTarget": 4.8323,
-        "total": 10.873,
+        "total": 10.875,
         "scaled": 3.524
       },
       "model": {
@@ -567,7 +570,7 @@ window.NW_LEVERS["transport"] = {
       "refYear": 2019,
       "refValue": 50.3289,
       "targetYear": 2050,
-      "targetValue": 23.6137,
+      "targetValue": 23.6255,
       "slider": {
         "min": 10.0,
         "max": 80.0,
@@ -578,10 +581,10 @@ window.NW_LEVERS["transport"] = {
       "shown": true,
       "impact": {
         "kind": "linear-shift",
-        "vTarget": 23.6137,
-        "total": 10.873,
+        "vTarget": 23.6255,
+        "total": 10.875,
         "scaled": 0.0,
-        "slope": 0.1364
+        "slope": 0.1365
       },
       "model": {
         "var": "pro_PM_spe_avi_srt",
@@ -649,7 +652,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "inverse",
         "vTarget": 219.746,
-        "total": 10.873,
+        "total": 10.875,
         "scaled": 3.524
       },
       "model": {
@@ -710,8 +713,8 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "inverse",
         "vTarget": 152.409,
-        "total": 10.873,
-        "scaled": 3.645
+        "total": 10.875,
+        "scaled": 3.646
       },
       "model": {
         "var": "occu_trgt_PM_avi_intra",
@@ -756,9 +759,9 @@ window.NW_LEVERS["transport"] = {
       "name": "Fuel per aircraft-km",
       "unit": "kWh per aircraft-km",
       "refYear": 2019,
-      "refValue": 68.2327,
+      "refValue": 68.2326,
       "targetYear": 2050,
-      "targetValue": 63.6528,
+      "targetValue": 63.6539,
       "slider": {
         "min": 40.0,
         "max": 95.0,
@@ -769,9 +772,9 @@ window.NW_LEVERS["transport"] = {
       "shown": true,
       "impact": {
         "kind": "proportional",
-        "vTarget": 63.6528,
-        "total": 10.873,
-        "scaled": 7.169
+        "vTarget": 63.6539,
+        "total": 10.875,
+        "scaled": 7.17
       },
       "model": {
         "var": "redu_fuel_PM_avi_intra + redu_fuel_PM_avi_extra",
@@ -821,7 +824,7 @@ window.NW_LEVERS["transport"] = {
         "iataOps": 3.0,
         "lngTwh": 7.4,
         "srtTwh": 8.8,
-        "keroTwh": 16.3,
+        "keroTwh": 16.2,
         "keroTwhTarget": 7.17
       },
       "spoilers": [
@@ -857,7 +860,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "proportional",
         "vTarget": 313.6858,
-        "total": 10.873,
+        "total": 10.875,
         "scaled": 3.53
       },
       "model": {
@@ -920,7 +923,7 @@ window.NW_LEVERS["transport"] = {
       "impact": {
         "kind": "linear-shift",
         "vTarget": 5.0,
-        "total": 10.873,
+        "total": 10.875,
         "scaled": 0.0,
         "slope": -0.0034
       },
@@ -967,16 +970,16 @@ window.NW_LEVERS["transport"] = {
         "2050": 12600911
       },
       "inlandTwh": {
-        "2019": 102.398,
-        "2050": 23.072
+        "2019": 102.397,
+        "2050": 23.061
       },
       "inlandPassengerTwh": {
-        "2019": 63.878,
-        "2050": 11.874
+        "2019": 63.877,
+        "2050": 11.863
       },
       "motorisedPassengerTwh": {
-        "2019": 63.861,
-        "2050": 11.754
+        "2019": 63.864,
+        "2050": 11.759
       },
       "inlandFreightTwh": {
         "2019": 38.52,
@@ -985,12 +988,12 @@ window.NW_LEVERS["transport"] = {
       "modeTwhTarget": {
         "two-wheeler": 0.278,
         "tram&metro": 0.214,
-        "bus&coach": 2.167,
-        "car": 6.946,
+        "bus&coach": 2.168,
+        "car": 6.95,
         "train-conventional": 1.751,
         "train-high speed": 0.398,
         "pedestrian": 0.0,
-        "bicycle": 0.12
+        "bicycle": 0.104
       },
       "freightModeTwhTarget": {
         "train": 0.669,
@@ -1000,8 +1003,8 @@ window.NW_LEVERS["transport"] = {
         "truck-light commercial": 3.478
       },
       "modeIntensityTarget": {
-        "two-wheeler": 0.0951,
-        "tram&metro": 0.0441,
+        "two-wheeler": 0.095,
+        "tram&metro": 0.044,
         "bus&coach": 0.0831,
         "car": 0.0893,
         "train-conventional": 0.0764,
@@ -1026,28 +1029,28 @@ window.NW_LEVERS["transport"] = {
         "2050": 12600911
       },
       "topicTwh": {
-        "2019": 19.823,
-        "2050": 10.873
+        "2019": 19.822,
+        "2050": 10.875
       },
       "passengerAviationTwh": {
-        "2019": 16.251,
-        "2050": 7.343
+        "2019": 16.25,
+        "2050": 7.345
       },
       "airFreightTwh": {
         "2019": 3.572,
         "2050": 3.53
       },
       "transportTwh": {
-        "2019": 122.221,
-        "2050": 33.945
+        "2019": 122.219,
+        "2050": 33.936
       },
       "airPkmPerPerson": {
         "2019": 3176.0,
-        "2050": 1727.2
+        "2050": 1727.5
       },
       "airKmPerDay": {
         "2019": 8.701,
-        "2050": 4.732
+        "2050": 4.733
       },
       "longHaulPkmPerPerson": {
         "2019": 1812.1,
@@ -1055,7 +1058,7 @@ window.NW_LEVERS["transport"] = {
       },
       "shortHaulPkmPerPerson": {
         "2019": 1363.9,
-        "2050": 639.9
+        "2050": 640.3
       },
       "longHaulTripsPerLife": {
         "2019": 8.054,
@@ -1063,15 +1066,15 @@ window.NW_LEVERS["transport"] = {
       },
       "shortHaulTripsPerLife": {
         "2019": 50.329,
-        "2050": 23.614
+        "2050": 23.626
       },
       "modeTwh": {
         "2019": {
-          "plane-intra EU": 8.831,
+          "plane-intra EU": 8.83,
           "plane-extra EU": 7.42
         },
         "2050": {
-          "plane-intra EU": 3.819,
+          "plane-intra EU": 3.821,
           "plane-extra EU": 3.524
         }
       },
@@ -1081,7 +1084,7 @@ window.NW_LEVERS["transport"] = {
           "plane-extra EU": 0.3582
         },
         "2050": {
-          "plane-intra EU": 0.4736,
+          "plane-intra EU": 0.4737,
           "plane-extra EU": 0.2572
         }
       },

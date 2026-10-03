@@ -788,9 +788,9 @@ window.NW_WS_CONTENT = {
       "levers": {
         "ground-km-day": {
           "question": {
-            "fr": "Jusqu'où la sobriété peut-elle ramener la mobilité motorisée quotidienne en 2050 ?",
-            "nl": "Tot hoever kan soberheid de dagelijkse gemotoriseerde mobiliteit in 2050 terugbrengen?",
-            "en": "How far can sufficiency bring daily motorised travel down by 2050?"
+            "fr": "Augmenter la mobilité douce pour diminuer le nombre de km motorisés ?",
+            "nl": "Meer stappen en fietsen om minder gemotoriseerde kilometers af te leggen?",
+            "en": "More walking and cycling, fewer motorised kilometres?"
           },
           "short": {
             "fr": "Distance parcourue par jour",
@@ -798,9 +798,9 @@ window.NW_WS_CONTENT = {
             "en": "Distance travelled per day"
           },
           "subtitle": {
-            "fr": "Voiture, bus et autocar, train, tram et métro, deux-roues motorisés : en kilomètres par personne et par jour, à l'intérieur du pays. La marche, le vélo et l'avion sont comptés à part.",
-            "nl": "Auto, bus en touringcar, trein, tram en metro, gemotoriseerde tweewielers: in kilometers per persoon per dag, binnen het land. Wandelen, fietsen en vliegen worden apart geteld.",
-            "en": "Car, bus and coach, train, tram and metro, motorised two-wheelers: in kilometres per person per day, inside the country. Walking, cycling and flying are counted separately."
+            "fr": "Combien de kilomètres chaque habitant parcourt-il par jour en voiture, bus, train, tram ou deux-roues motorisé ? 32,7 km en 2019. Ce chiffre baisse si l'on se déplace moins loin — télétravail, commerces et services proches — et si l'on marche ou pédale davantage. L'avion est compté à part.",
+            "nl": "Hoeveel kilometer legt elke inwoner per dag af met auto, bus, trein, tram of gemotoriseerde tweewieler? 32,7 km in 2019. Dat cijfer daalt als we minder ver gaan — telewerk, winkels en diensten dichtbij — en als we meer stappen of fietsen. Het vliegtuig wordt apart geteld.",
+            "en": "How many kilometres does each inhabitant travel a day by car, bus, train, tram or motorbike? 32.7 km in 2019. The figure falls if we travel shorter distances — teleworking, shops and services close by — and if we walk or cycle more. Flying is counted separately."
           },
           "tangible": {
             "fr": "{value} km par jour, pour chaque habitant, nourrissons et centenaires compris.",
@@ -831,9 +831,9 @@ window.NW_WS_CONTENT = {
             {
               "kind": "structure",
               "text": {
-                "fr": "En 2019, les 32,7 km parcourus chaque jour au sol par Belge se répartissaient ainsi : 25,8 km en voiture, 3,3 km en bus et autocar, 2,9 km en train, 0,35 km en tram ou métro et 0,42 km en deux-roues motorisés. *La voiture pèse à elle seule les quatre cinquièmes.* S'y ajoutent, hors de cette question, 1,68 km à vélo, 0,72 km à pied et 8,7 km en avion.",
-                "nl": "In 2019 verdeelden de 32,7 km die elke Belg dagelijks over land aflegde zich zo: 25,8 km met de auto, 3,3 km met bus en touringcar, 2,9 km met de trein, 0,35 km met tram of metro en 0,42 km met gemotoriseerde tweewielers. *De auto alleen al is goed voor vier vijfde.* Daar komen, buiten deze vraag, nog 1,68 km met de fiets, 0,72 km te voet en 8,7 km door de lucht bij.",
-                "en": "In 2019 the 32.7 km every Belgian covered on the ground each day split as 25.8 km by car, 3.3 km by bus and coach, 2.9 km by train, 0.35 km by tram or metro and 0.42 km by motorised two-wheelers. *The car alone accounts for four fifths of it.* On top of that, and outside this question, come 1.68 km by bicycle, 0.72 km on foot and 8.7 km by air."
+                "fr": "En 2019, les 32,7 km parcourus chaque jour au sol par Belge se répartissaient ainsi : 25,8 km en voiture, 3,3 km en bus et autocar, 2,9 km en train, 0,35 km en tram ou métro et 0,42 km en deux-roues motorisés. *La voiture pèse à elle seule les quatre cinquièmes.* S'y ajoutent, hors de cette question, 1,21 km à vélo, 0,72 km à pied et 8,7 km en avion.",
+                "nl": "In 2019 verdeelden de 32,7 km die elke Belg dagelijks over land aflegde zich zo: 25,8 km met de auto, 3,3 km met bus en touringcar, 2,9 km met de trein, 0,35 km met tram of metro en 0,42 km met gemotoriseerde tweewielers. *De auto alleen al is goed voor vier vijfde.* Daar komen, buiten deze vraag, nog 1,21 km met de fiets, 0,72 km te voet en 8,7 km door de lucht bij.",
+                "en": "In 2019 the 32.7 km every Belgian covered on the ground each day split as 25.8 km by car, 3.3 km by bus and coach, 2.9 km by train, 0.35 km by tram or metro and 0.42 km by motorised two-wheelers. *The car alone accounts for four fifths of it.* On top of that, and outside this question, come 1.21 km by bicycle, 0.72 km on foot and 8.7 km by air."
               },
               "source": "JRC-IDEES-2023, population Statbel",
               "url": "https://joint-research-centre.ec.europa.eu/potencia/jrc-idees_en",
@@ -908,7 +908,7 @@ window.NW_WS_CONTENT = {
                   5.7,
                   21.7,
                   29.4,
-                  32.678,
+                  32.6788,
                   62.5
                 ],
                 "caption": {
@@ -953,9 +953,9 @@ window.NW_WS_CONTENT = {
         },
         "car-share": {
           "question": {
-            "fr": "Quelle part de la voiture dans les kilomètres motorisés est un objectif 2050 réaliste ?",
-            "nl": "Welk aandeel van de auto in de gemotoriseerde kilometers is een realistisch doel voor 2050?",
-            "en": "What car share of motorised kilometres is a realistic 2050 objective?"
+            "fr": "Quelle place laisser à la voiture dans nos déplacements motorisés ?",
+            "nl": "Hoeveel plaats laten we voor de auto in onze gemotoriseerde verplaatsingen?",
+            "en": "How much room should the car keep in our motorised travel?"
           },
           "short": {
             "fr": "Part de la voiture",
@@ -963,9 +963,9 @@ window.NW_WS_CONTENT = {
             "en": "Car share"
           },
           "subtitle": {
-            "fr": "Le reste se répartit entre bus, tram, métro, train et deux-roues.",
-            "nl": "De rest verdeelt zich over bus, tram, metro, trein en tweewielers.",
-            "en": "The rest is shared between buses, trams, metro, trains and two-wheelers."
+            "fr": "En part des kilomètres parcourus en voiture, bus, tram, métro, train et deux-roues motorisés. Le reste se répartit entre ces autres modes.",
+            "nl": "Als aandeel van de kilometers met auto, bus, tram, metro, trein en gemotoriseerde tweewielers. De rest verdeelt zich over die andere modi.",
+            "en": "As a share of the kilometres travelled by car, bus, tram, metro, train and motorbike. The rest is shared among those other modes."
           },
           "tangible": {
             "fr": "{value} % en voiture — le reste par les transports publics et les deux-roues.",
@@ -1106,9 +1106,9 @@ window.NW_WS_CONTENT = {
         },
         "car-occupancy": {
           "question": {
-            "fr": "Quel taux d'occupation des voitures est un objectif 2050 réaliste ?",
-            "nl": "Welke autobezetting is een realistisch doel voor 2050?",
-            "en": "What car occupancy is a realistic 2050 objective?"
+            "fr": "Combien de personnes par voiture, en moyenne ?",
+            "nl": "Hoeveel mensen per auto, gemiddeld?",
+            "en": "How many people per car, on average?"
           },
           "short": {
             "fr": "Occupation des voitures",
@@ -1242,9 +1242,9 @@ window.NW_WS_CONTENT = {
         },
         "car-energy": {
           "question": {
-            "fr": "Jusqu'où la consommation de la voiture moyenne peut-elle descendre en 2050, par rapport à 2019 ?",
-            "nl": "Tot hoever kan het verbruik van de gemiddelde auto in 2050 zakken, vergeleken met 2019?",
-            "en": "How far can the average car's energy use per kilometre come down by 2050, against 2019?"
+            "fr": "Des voitures qui consomment moins : jusqu'où ?",
+            "nl": "Auto's die minder verbruiken: hoe ver kan dat gaan?",
+            "en": "Cars that use less energy: how far can we go?"
           },
           "short": {
             "fr": "Consommation par km",
@@ -1252,9 +1252,9 @@ window.NW_WS_CONTENT = {
             "en": "Energy use per km"
           },
           "subtitle": {
-            "fr": "L'énergie qu'il faut dépenser pour déplacer le véhicule lui-même : vitesse, masse, aérodynamique, conduite. Le passage du thermique à l'électrique, qui pèse bien plus lourd encore sur la consommation, est compté séparément.",
-            "nl": "De energie die nodig is om het voertuig zelf te verplaatsen: snelheid, massa, aerodynamica, rijstijl. De overstap van brandstof naar elektrisch, die nog veel zwaarder doorweegt, wordt apart geteld.",
-            "en": "The energy it takes to move the vehicle itself: speed, mass, aerodynamics, driving style. The switch from combustion to electric, which weighs far more heavily on consumption still, is counted separately."
+            "fr": "Consommation d'énergie par km de la voiture moyenne, par rapport à 2019. L'énergie qu'il faut dépenser pour déplacer le véhicule lui-même : vitesse, masse, aérodynamique, conduite. Le passage du thermique à l'électrique, qui pèse bien plus lourd encore sur la consommation, est compté séparément.",
+            "nl": "Energieverbruik per km van de gemiddelde auto, tegenover 2019. De energie die nodig is om het voertuig zelf te verplaatsen: snelheid, massa, aerodynamica, rijstijl. De overstap van brandstof naar elektrisch, die nog veel zwaarder doorweegt, wordt apart geteld.",
+            "en": "Energy use per km of the average car, against 2019. The energy it takes to move the vehicle itself: speed, mass, aerodynamics, driving style. The switch from combustion to electric, which weighs far more heavily on consumption still, is counted separately."
           },
           "tangible": {
             "fr": "{value} % de la consommation de 2019, à motorisation équivalente.",
@@ -1395,9 +1395,9 @@ window.NW_WS_CONTENT = {
         },
         "bike-km-day": {
           "question": {
-            "fr": "Quel niveau de pratique du vélo est un objectif 2050 réaliste ?",
-            "nl": "Welk fietsgebruik is een realistisch doel voor 2050?",
-            "en": "What level of cycling is a realistic 2050 objective?"
+            "fr": "Combien de kilomètres à vélo par jour ?",
+            "nl": "Hoeveel kilometer per dag met de fiets?",
+            "en": "How many kilometres a day by bike?"
           },
           "short": {
             "fr": "Kilomètres à vélo",
@@ -1415,41 +1415,36 @@ window.NW_WS_CONTENT = {
             "en": "{value} km a day per person, i.e. {valuePerYear} km over a year."
           },
           "justification": {
-            "fr": "négaWatt retient 3,3 km/jour, soit près du double de 1,7 km/jour en 2019. Le vélo reçoit 7 des 30 points de kilomètres-voiture reportés, et le vélo électrique étend le rayon d'action utile bien au-delà des 4 km du vélo classique.",
-            "nl": "negaWatt kiest 3,3 km/dag, bijna het dubbele van 1,7 km/dag in 2019. De fiets krijgt 7 van de 30 punten verschoven autokilometers, en de elektrische fiets vergroot het bruikbare bereik ver voorbij de 4 km van de gewone fiets.",
-            "en": "negaWatt settles on 3.3 km/day, close to double the 1.7 km/day of 2019. Cycling receives 7 of the 30 points of shifted car-kilometres, and e-bikes extend the useful range well beyond the 4 km of an ordinary bicycle."
+            "fr": "négaWatt retient 2,8 km/jour, soit plus du double de 1,2 km/jour en 2019. Le vélo reçoit 7 des 30 points de kilomètres-voiture reportés, et le vélo électrique étend le rayon d'action utile bien au-delà des 4 km du vélo classique.",
+            "nl": "negaWatt kiest 2,8 km/dag, meer dan het dubbele van 1,2 km/dag in 2019. De fiets krijgt 7 van de 30 punten verschoven autokilometers, en de elektrische fiets vergroot het bruikbare bereik ver voorbij de 4 km van de gewone fiets.",
+            "en": "negaWatt settles on 2.8 km/day, more than double the 1.2 km/day of 2019. Cycling receives 7 of the 30 points of shifted car-kilometres, and e-bikes extend the useful range well beyond the 4 km of an ordinary bicycle."
           },
           "debate": {
             "fr": "Une part modale de ce niveau suppose une culture cycliste néerlandaise ou danoise. La revue juge cela optimiste pour une moyenne nationale, vu le relief wallon et l'habitat dispersé.",
             "nl": "Een modaal aandeel van dit niveau veronderstelt een Nederlandse of Deense fietscultuur. De review vindt dat optimistisch als nationaal gemiddelde, gezien het Waalse reliëf en de verspreide bebouwing.",
             "en": "A modal share at this level implies a Dutch or Danish cycling culture. The review judges that optimistic for a national average, given Wallonia's hills and dispersed settlement."
           },
-          "historyNote": {
-            "fr": "Le vélo n'apparaît pas dans les séries JRC-IDEES ; seule l'estimation de 2019 est disponible.",
-            "nl": "De fiets komt niet voor in de JRC-IDEES-reeksen; alleen de schatting voor 2019 is beschikbaar.",
-            "en": "Cycling does not appear in the JRC-IDEES series; only the 2019 estimate is available."
-          },
           "facts": [
             {
               "kind": "benchmark",
               "text": {
-                "fr": "Le pays modèle n'est pas celui qu'on croit. Les Néerlandais pédalent *2,9 km par personne et par jour*, mais les Danois seulement *1,5* — moins que la Belgique. La force du Danemark est dans la part des trajets (14,7 % en 2024), pas dans la distance. Seuls les Pays-Bas sont vraiment hors norme.",
-                "nl": "Het voorbeeldland is niet wie je denkt. Nederlanders fietsen *2,9 km per persoon per dag*, maar Denen slechts *1,5* — minder dan België. De kracht van Denemarken zit in het aandeel van de ritten (14,7 % in 2024), niet in de afstand. Alleen Nederland is echt een uitschieter.",
-                "en": "The model country is not the one you would expect. The Dutch cycle *2.9 km per person per day*, but the Danes only *1.5* — less than Belgium. Denmark's strength is in the share of journeys (14.7% in 2024), not in distance. Only the Netherlands is genuinely an outlier."
+                "fr": "Le pays modèle n'est pas celui qu'on croit. Les Néerlandais pédalent *2,9 km par personne et par jour*, mais les Danois seulement *1,5* — moins que la Belgique d'aujourd'hui. La force du Danemark est dans la part des trajets (14,7 % en 2024), pas dans la distance. Seuls les Pays-Bas sont vraiment hors norme.",
+                "nl": "Het voorbeeldland is niet wie je denkt. Nederlanders fietsen *2,9 km per persoon per dag*, maar Denen slechts *1,5* — minder dan België vandaag. De kracht van Denemarken zit in het aandeel van de ritten (14,7 % in 2024), niet in de afstand. Alleen Nederland is echt een uitschieter.",
+                "en": "The model country is not the one you would expect. The Dutch cycle *2.9 km per person per day*, but the Danes only *1.5* — less than Belgium today. Denmark's strength is in the share of journeys (14.7% in 2024), not in distance. Only the Netherlands is genuinely an outlier."
               },
-              "source": "DTU, Transportvaneundersøgelsen — Annual Statistical Report Denmark 2024, tabl. 2-3 ; CBS (NL, 2023)",
+              "source": "DTU, Transportvaneundersøgelsen — Annual Statistical Report Denmark 2024, tabl. 2-3 ; CBS (NL, 2023) ; SPF Mobilité (BE, 2024-25)",
               "url": "https://backend.orbit.dtu.dk/ws/files/400275748/TU_Denmark_2024.pdf",
               "chart": {
                 "kind": "bars",
                 "y": [
                   1.5,
-                  1.6775,
+                  1.68,
                   2.9
                 ],
                 "caption": {
-                  "fr": "Kilomètres parcourus à vélo par personne et par jour (DK 2024, BE 2019, NL 2023)",
-                  "nl": "Gefietste kilometers per persoon per dag (DK 2024, BE 2019, NL 2023)",
-                  "en": "Cycling kilometres per person per day (DK 2024, BE 2019, NL 2023)"
+                  "fr": "Kilomètres parcourus à vélo par personne et par jour (DK 2024, BE 2024, NL 2023)",
+                  "nl": "Gefietste kilometers per persoon per dag (DK 2024, BE 2024, NL 2023)",
+                  "en": "Cycling kilometres per person per day (DK 2024, BE 2024, NL 2023)"
                 },
                 "labels": [
                   {
@@ -1519,11 +1514,11 @@ window.NW_WS_CONTENT = {
             {
               "kind": "trend",
               "text": {
-                "fr": "Treize ans de politique cyclable flamande n'ont pas déplacé le kilométrage. En Flandre, la distance parcourue à vélo oscille entre *1,3 et 1,9 km par personne et par jour* de 2007 à 2020, sans direction : 1,77 en 2007-08, 1,32 en 2011-12, 1,86 en 2018-19, 1,48 en 2019-20. Ce qui progresse, c'est la *part* du vélo — parce que la distance totale parcourue, elle, baisse.",
-                "nl": "Dertien jaar Vlaams fietsbeleid heeft de kilometers niet verzet. In Vlaanderen schommelt de gefietste afstand tussen *1,3 en 1,9 km per persoon per dag* van 2007 tot 2020, zonder richting: 1,77 in 2007-08, 1,32 in 2011-12, 1,86 in 2018-19, 1,48 in 2019-20. Wat wél stijgt is het *aandeel* van de fiets — omdat de totaal afgelegde afstand daalt.",
-                "en": "Thirteen years of Flemish cycling policy did not move the kilometres. In Flanders the distance cycled wobbles between *1.3 and 1.9 km per person per day* from 2007 to 2020 with no direction: 1.77 in 2007-08, 1.32 in 2011-12, 1.86 in 2018-19, 1.48 in 2019-20. What does rise is cycling's *share* — because total distance travelled is falling."
+                "fr": "En Flandre, le kilométrage à vélo a longtemps stagné : entre *1,3 et 1,9 km par personne et par jour* de 2007 à 2020, sans direction (1,77 en 2007-08, 1,32 en 2011-12, 1,86 en 2018-19). Les enquêtes de 2022 et 2024 mesurent *2,3 km* — en partie le vélo électrique, en partie un changement de méthode : l'enquête est passée en ligne et compte désormais les très petits trajets.",
+                "nl": "In Vlaanderen bleven de fietskilometers lang ter plaatse: tussen *1,3 en 1,9 km per persoon per dag* van 2007 tot 2020, zonder richting (1,77 in 2007-08, 1,32 in 2011-12, 1,86 in 2018-19). De enquêtes van 2022 en 2024 meten *2,3 km* — deels de elektrische fiets, deels een methodewijziging: de enquête ging online en telt nu ook de heel korte verplaatsingen.",
+                "en": "In Flanders the distance cycled long stood still: between *1.3 and 1.9 km per person per day* from 2007 to 2020, with no direction (1.77 in 2007-08, 1.32 in 2011-12, 1.86 in 2018-19). The surveys of 2022 and 2024 measure *2.3 km* — partly the e-bike, partly a change of method: the survey moved online and now counts the very short trips too."
               },
-              "source": "Onderzoek Verplaatsingsgedrag Vlaanderen, analyserapport OVG 5.5, tabl. 8, 9 et 49",
+              "source": "Onderzoek Verplaatsingsgedrag Vlaanderen, analyserapport OVG 5.5, tabl. 8, 9 et 49 ; OVG 6, tabel 192 ; OVG 7 (2023-24)",
               "url": "https://assets.vlaanderen.be/image/upload/v1608199124/Analyserapport_OVG_5.5_def2_mkh0go.pdf",
               "chart": {
                 "kind": "line",
@@ -1592,14 +1587,13 @@ window.NW_WS_CONTENT = {
               "source": "FietsDNA 2025 / Fietsberaad Vlaanderen, via nW-BE §2.1.4"
             }
           ],
-          "historyAbsent": true,
           "code": "E"
         },
         "freight-tkm": {
           "question": {
-            "fr": "De combien peut-on diminuer la quantité de marchandises transportées d'ici 2050 ?",
-            "nl": "Hoeveel minder goederen kunnen we tegen 2050 vervoeren?",
-            "en": "How much can we cut the amount of goods transported by 2050?"
+            "fr": "Transporter moins de marchandises : de combien ?",
+            "nl": "Minder goederen vervoeren: hoeveel minder?",
+            "en": "Moving fewer goods: by how much?"
           },
           "short": {
             "fr": "Marchandises transportées",
@@ -1753,9 +1747,9 @@ window.NW_WS_CONTENT = {
         },
         "truck-share": {
           "question": {
-            "fr": "Quelle part de la route dans les tonnes-kilomètres est un objectif 2050 réaliste ?",
-            "nl": "Welk aandeel van de weg in de tonkilometers is een realistisch doel voor 2050?",
-            "en": "What road share of tonne-kilometres is a realistic 2050 objective?"
+            "fr": "Quelle part des marchandises garder sur la route ?",
+            "nl": "Welk deel van de goederen blijft op de weg?",
+            "en": "How much freight should stay on the road?"
           },
           "short": {
             "fr": "Part de la route (fret)",
@@ -1763,9 +1757,9 @@ window.NW_WS_CONTENT = {
             "en": "Road share of freight"
           },
           "subtitle": {
-            "fr": "Le reste passe par le rail, la voie d'eau et une petite part de fret aérien (5 % des tonnes-kilomètres en 2019) — que personne ne cherche à faire croître, l'avion étant de loin le mode le plus gourmand.",
-            "nl": "De rest gaat via het spoor, de waterweg en een klein deel luchtvracht (5 % van de tonkilometers in 2019) — dat niemand wil zien groeien, want het vliegtuig is veruit de meest energie-intensieve modus.",
-            "en": "The rest goes by rail, inland waterway and a small share of air freight (5% of tonne-kilometres in 2019) — which nobody is trying to grow, air being by far the most energy-hungry mode."
+            "fr": "En part des tonnes-kilomètres transportées. Le reste passe par le rail, la voie d'eau et une petite part de fret aérien (5 % des tonnes-kilomètres en 2019) — que personne ne cherche à faire croître, l'avion étant de loin le mode le plus gourmand.",
+            "nl": "Als aandeel van de vervoerde tonkilometers. De rest gaat via het spoor, de waterweg en een klein deel luchtvracht (5 % van de tonkilometers in 2019) — dat niemand wil zien groeien, want het vliegtuig is veruit de meest energie-intensieve modus.",
+            "en": "As a share of the tonne-kilometres carried. The rest goes by rail, inland waterway and a small share of air freight (5% of tonne-kilometres in 2019) — which nobody is trying to grow, air being by far the most energy-hungry mode."
           },
           "tangible": {
             "fr": "{value} % par la route — le reste par le rail et la voie d'eau.",
@@ -1899,9 +1893,9 @@ window.NW_WS_CONTENT = {
         },
         "truck-fill": {
           "question": {
-            "fr": "Quel taux de remplissage moyen des camions est un objectif 2050 réaliste ?",
-            "nl": "Welke gemiddelde beladingsgraad van vrachtwagens is een realistisch doel voor 2050?",
-            "en": "What average truck filling rate is a realistic 2050 objective?"
+            "fr": "Quel remplissage moyen pour nos camions ?",
+            "nl": "Hoe vol rijden onze vrachtwagens gemiddeld?",
+            "en": "How full should our trucks be, on average?"
           },
           "short": {
             "fr": "Remplissage des camions",
@@ -3122,9 +3116,9 @@ window.NW_WS_CONTENT = {
             {
               "kind": "structure",
               "text": {
-                "fr": "La question est posée sur la moyenne, mais le scénario fixe deux valeurs distinctes : 56,5 kWh par kilomètre en long-courrier (−16 %) et 72,5 en intra-européen (+5 %). C'est le seul indicateur technique de l'atelier que le scénario laisse se dégrader, et il le fait là où les avions grandissent. La moyenne des deux, 63,7 kWh par kilomètre, est ce qui détermine la demande : 7,17 TWh de kérosène en 2050 contre 16,3 en 2019.",
-                "nl": "De vraag gaat over het gemiddelde, maar het scenario legt twee verschillende waarden vast: 56,5 kWh per kilometer op de lange afstand (−16 %) en 72,5 intra-Europees (+5 %). Het is de enige technische indicator van de workshop die het scenario laat verslechteren, en dat gebeurt net waar de vliegtuigen groter worden. Het gemiddelde van beide, 63,7 kWh per kilometer, bepaalt de vraag: 7,17 TWh kerosine in 2050 tegenover 16,3 in 2019.",
-                "en": "The question is asked about the average, but the scenario sets two distinct values: 56.5 kWh per kilometre for long-haul (−16%) and 72.5 for intra-European (+5%). It is the one technical indicator in the workshop that the scenario lets get worse, and it does so exactly where aircraft are growing. The average of the two, 63.7 kWh per kilometre, is what sets demand: 7.17 TWh of kerosene in 2050 against 16.3 in 2019."
+                "fr": "La question est posée sur la moyenne, mais le scénario fixe deux valeurs distinctes : 56,5 kWh par kilomètre en long-courrier (−16 %) et 72,5 en intra-européen (+5 %). C'est le seul indicateur technique de l'atelier que le scénario laisse se dégrader, et il le fait là où les avions grandissent. La moyenne des deux, 63,7 kWh par kilomètre, est ce qui détermine la demande : 7,17 TWh de kérosène en 2050 contre 16,2 en 2019.",
+                "nl": "De vraag gaat over het gemiddelde, maar het scenario legt twee verschillende waarden vast: 56,5 kWh per kilometer op de lange afstand (−16 %) en 72,5 intra-Europees (+5 %). Het is de enige technische indicator van de workshop die het scenario laat verslechteren, en dat gebeurt net waar de vliegtuigen groter worden. Het gemiddelde van beide, 63,7 kWh per kilometer, bepaalt de vraag: 7,17 TWh kerosine in 2050 tegenover 16,2 in 2019.",
+                "en": "The question is asked about the average, but the scenario sets two distinct values: 56.5 kWh per kilometre for long-haul (−16%) and 72.5 for intra-European (+5%). It is the one technical indicator in the workshop that the scenario lets get worse, and it does so exactly where aircraft are growing. The average of the two, 63.7 kWh per kilometre, is what sets demand: 7.17 TWh of kerosene in 2050 against 16.2 in 2019."
               },
               "source": "nW-BE §2.3",
               "label": {

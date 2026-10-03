@@ -112,6 +112,8 @@ def build(ctx):
     ref_rail_share_2040_target = 15.0 # Vision Rail 2040, % of pkm            -- §2.1.3
     ref_kwh_per_litre_petrol = 9.7   # lower heating value of petrol, kWh/litre
     ref_bike_trips_2040_flanders = 30.0 # FietsDNA target, % of trips         -- §2.1.4
+    ref_bike_gpkm_2024      = 7.2    # FPS Mobility estimate for 2024-25, Gpkm -- §2.1 (cell 20)
+    ref_pop_2024            = 11_763_650  # Statbel, 1 January 2024
 
     # --- Scope ------------------------------------------------------------------
     # "motorised ground" matches JRC-IDEES road + rail exactly (aviation excluded,
@@ -379,7 +381,9 @@ def build(ctx):
          _bike_km_d[_Y0], _bike_km_d[_Y1], ref_year=_Y0, target_year=_Y1,
          slider={"min": 0.5, "max": 8, "step": 0.1},
          impact=_impact("linear-shift", _bike_km_d[_Y1], slope=_bike_slope),
-         model={"var": "sft_PM_rel_car_to_byc", "section": "2.1.4"},
+         model={"var": "sft_PM_rel_car_to_byc", "section": "2.1.4",
+                "note": "2019 = the reconstruction of nW_BE_demand_data_aux.ipynb (D66)"},
+         history="bike_km_day",
          facts={"bikeSharePkmTarget": round(_act(df_PM, "bicycle", "% of total", _Y1), 1),
                 "bikeGpkm2019": round(_act(df_PM, "bicycle", "Gpkm", _Y0), 1),
                 "toBikePct": round(sft_PM_rel_car_to_byc * 100, 1),
@@ -387,7 +391,10 @@ def build(ctx):
                 "ebikeShareKm2025": ref_ebike_share_km_2025,
                 "bikeTripKm": ref_bike_trip_km, "ebikeTripKm": ref_ebike_trip_km,
                 "pedelecTripKm": ref_pedelec_trip_km,
-                "flandersTripTarget": ref_bike_trips_2040_flanders},
+                "flandersTripTarget": ref_bike_trips_2040_flanders,
+                # today's level, for comparisons with DK 2024 / NL 2023 (2019 is the lever's
+                # own reference, a reconstruction -- D66)
+                "bikeKmDay2024": round(ref_bike_gpkm_2024 * 1e9 / ref_pop_2024 / 365, 2)},
          spoilers=["bikeSharePkmTarget", "toBikePct", "shiftPct"],
          notebook=_NB + "#section_2", reference="nW-BE §2.1")
 

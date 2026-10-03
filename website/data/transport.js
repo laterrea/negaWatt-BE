@@ -8,9 +8,9 @@ window.NW_DATA["transport"] = {
       "name": "Passenger mobility intensity",
       "category": "Passenger / demand",
       "refYear": 2019,
-      "refValue": 15978.5,
+      "refValue": 15807.2,
       "targetYear": 2050,
-      "targetValue": 14380.6,
+      "targetValue": 14226.5,
       "unit": "pkm/person",
       "pctChange": -10.0,
       "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_1",
@@ -32,11 +32,11 @@ window.NW_DATA["transport"] = {
       "name": "Car modal share",
       "category": "Passenger / modal split",
       "refYear": 2019,
-      "refValue": 58.8,
+      "refValue": 59.5,
       "targetYear": 2050,
-      "targetValue": 42.9,
+      "targetValue": 43.4,
       "unit": "% of pkm",
-      "changeLabel": "-15.9 pts",
+      "changeLabel": "-16.0 pts",
       "direction": "down",
       "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_2",
       "reference": "nW-BE §2.1"
@@ -45,11 +45,11 @@ window.NW_DATA["transport"] = {
       "name": "Bus & coach modal share",
       "category": "Passenger / modal split",
       "refYear": 2019,
-      "refValue": 7.5,
+      "refValue": 7.6,
       "targetYear": 2050,
-      "targetValue": 14.4,
+      "targetValue": 14.6,
       "unit": "% of pkm",
-      "changeLabel": "+6.9 pts",
+      "changeLabel": "+7.0 pts",
       "direction": "up",
       "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_2",
       "reference": "nW-BE §2.1"
@@ -58,11 +58,11 @@ window.NW_DATA["transport"] = {
       "name": "Conventional train modal share",
       "category": "Passenger / modal split",
       "refYear": 2019,
-      "refValue": 5.7,
+      "refValue": 5.8,
       "targetYear": 2050,
-      "targetValue": 12.6,
+      "targetValue": 12.8,
       "unit": "% of pkm",
-      "changeLabel": "+6.9 pts",
+      "changeLabel": "+7.0 pts",
       "direction": "up",
       "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_2",
       "reference": "nW-BE §2.1"
@@ -73,7 +73,7 @@ window.NW_DATA["transport"] = {
       "refYear": 2019,
       "refValue": 0.9,
       "targetYear": 2050,
-      "targetValue": 3.1,
+      "targetValue": 3.2,
       "unit": "% of pkm",
       "changeLabel": "+2.3 pts",
       "direction": "up",
@@ -97,9 +97,9 @@ window.NW_DATA["transport"] = {
       "name": "Bicycle modal share",
       "category": "Passenger / modal split",
       "refYear": 2019,
-      "refValue": 3.8,
+      "refValue": 2.8,
       "targetYear": 2050,
-      "targetValue": 8.3,
+      "targetValue": 7.3,
       "unit": "% of pkm",
       "changeLabel": "+4.5 pts",
       "direction": "up",
@@ -110,9 +110,9 @@ window.NW_DATA["transport"] = {
       "name": "Walking modal share",
       "category": "Passenger / modal split",
       "refYear": 2019,
-      "refValue": 1.6,
+      "refValue": 1.7,
       "targetYear": 2050,
-      "targetValue": 2.3,
+      "targetValue": 2.4,
       "unit": "% of pkm",
       "changeLabel": "+0.7 pts",
       "direction": "up",
@@ -136,7 +136,7 @@ window.NW_DATA["transport"] = {
       "name": "Intra-EU aviation modal share",
       "category": "Passenger / modal split",
       "refYear": 2019,
-      "refValue": 8.5,
+      "refValue": 8.6,
       "targetYear": 2050,
       "targetValue": 4.5,
       "unit": "% of pkm",
@@ -149,7 +149,7 @@ window.NW_DATA["transport"] = {
       "name": "Extra-EU aviation modal share",
       "category": "Passenger / modal split",
       "refYear": 2019,
-      "refValue": 11.3,
+      "refValue": 11.5,
       "targetYear": 2050,
       "targetValue": 7.6,
       "unit": "% of pkm",
@@ -440,29 +440,29 @@ window.NW_DATA["transport"] = {
         {
           "name": "Car",
           "y": [
-            58.8,
-            42.9
+            59.5,
+            43.4
           ]
         },
         {
           "name": "Bus & coach",
           "y": [
-            7.5,
-            14.4
+            7.6,
+            14.6
           ]
         },
         {
           "name": "Conv. train",
           "y": [
-            5.7,
-            12.6
+            5.8,
+            12.8
           ]
         },
         {
           "name": "HS train",
           "y": [
             0.9,
-            3.1
+            3.2
           ]
         },
         {
@@ -475,8 +475,8 @@ window.NW_DATA["transport"] = {
         {
           "name": "Bicycle",
           "y": [
-            3.8,
-            8.3
+            2.8,
+            7.3
           ]
         },
         {
@@ -489,21 +489,21 @@ window.NW_DATA["transport"] = {
         {
           "name": "Walking",
           "y": [
-            1.6,
-            2.3
+            1.7,
+            2.4
           ]
         },
         {
           "name": "Plane intra-EU",
           "y": [
-            8.5,
+            8.6,
             4.5
           ]
         },
         {
           "name": "Plane extra-EU",
           "y": [
-            11.3,
+            11.5,
             7.6
           ]
         }

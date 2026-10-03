@@ -2,8 +2,50 @@
 window.NW_HISTORY = window.NW_HISTORY || {};
 window.NW_HISTORY["transport"] = {
   "title": "Mobility & transport — observed",
-  "generated": "2026-09-21",
+  "generated": "2026-10-03",
   "series": {
+    "bike_km_day": {
+      "label": "Cycling per person (reconstruction, about ±20 %)",
+      "unit": "km/person/day",
+      "x": [
+        2000,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2024
+      ],
+      "y": [
+        1.2599,
+        1.1995,
+        1.1425,
+        1.1007,
+        1.0244,
+        0.9959,
+        0.9871,
+        1.0834,
+        1.118,
+        1.2216,
+        1.1948,
+        1.2083,
+        null,
+        null,
+        1.6519,
+        1.6769
+      ],
+      "source": "regional surveys OVG (Flanders), ECD + Pro Velo counts (Brussels), EFM and commuting survey (Wallonia), scaled to FPS Mobility's 7.2 Gpkm for 2024-25",
+      "note": "see the cell 'Cycling in Belgium, 2000-2024: a reconstruction'."
+    },
     "ground_km_day": {
       "label": "Motorised ground travel per person",
       "unit": "km/person/day",

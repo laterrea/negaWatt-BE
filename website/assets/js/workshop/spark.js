@@ -132,7 +132,8 @@
   function drawHistory(node, o) {
     var W = Math.max(240, node.clientWidth || 320);
     var H = o.height || 190;
-    var mL = 44, mR = 16, mT = 14, mB = 26;
+    // room above the plot for the unit, which says what the curve counts
+    var mL = 44, mR = 16, mT = o.unit ? 24 : 14, mB = 26;
     var iw = W - mL - mR, ih = H - mT - mB;
 
     var xs = (o.x || []).slice();
@@ -173,6 +174,10 @@
                                 "font-size": 10, fill: MUTED }, fmt(dom[1], o.decimals)));
     svg.appendChild(el("text", { x: mL - 7, y: py(dom[0]) + 4, "text-anchor": "end",
                                 "font-size": 10, fill: MUTED }, fmt(dom[0], o.decimals)));
+    if (o.unit) {
+      svg.appendChild(el("text", { x: mL - 7, y: 11, "text-anchor": "start",
+                                  "font-size": 10, "font-weight": 700, fill: MUTED }, o.unit));
+    }
 
     /* observed series, broken wherever the data has a hole */
     var runs = [], run = [];

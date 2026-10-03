@@ -32,27 +32,27 @@ buildings,services,total services water,2019,3.487
 buildings,services,total services water,2030,3.614
 buildings,services,total services water,2040,3.729
 buildings,services,total services water,2050,3.844
-transport,aviation,total international aviation,2019,19.823
-transport,aviation,total international aviation,2030,16.48
-transport,aviation,total international aviation,2040,13.534
-transport,aviation,total international aviation,2050,10.873
+transport,aviation,total international aviation,2019,19.822
+transport,aviation,total international aviation,2030,16.482
+transport,aviation,total international aviation,2040,13.536
+transport,aviation,total international aviation,2050,10.875
 transport,navigation,total domestic navigation,2019,1.668
 transport,navigation,total domestic navigation,2030,2.075
 transport,navigation,total domestic navigation,2040,2.407
 transport,navigation,total domestic navigation,2050,2.712
-transport,rail,electricity rail,2019,1.605
-transport,rail,electricity rail,2030,2.207
-transport,rail,electricity rail,2040,2.628
+transport,rail,electricity rail,2019,1.606
+transport,rail,electricity rail,2030,2.208
+transport,rail,electricity rail,2040,2.631
 transport,rail,electricity rail,2050,2.941
-transport,rail,total rail,2019,1.909
+transport,rail,total rail,2019,1.91
 transport,rail,total rail,2030,2.423
-transport,rail,total rail,2040,2.76
+transport,rail,total rail,2040,2.763
 transport,rail,total rail,2050,3.032
-transport,road,electricity road,2019,0.18
-transport,road,electricity road,2030,4.655
-transport,road,electricity road,2040,14.565
-transport,road,electricity road,2050,13.973
-transport,road,total road,2019,98.821
-transport,road,total road,2030,68.687
-transport,road,total road,2040,29.535
-transport,road,total road,2050,17.328
+transport,road,electricity road,2019,0.176
+transport,road,electricity road,2030,4.645
+transport,road,electricity road,2040,14.551
+transport,road,electricity road,2050,13.96
+transport,road,total road,2019,98.819
+transport,road,total road,2030,68.684
+transport,road,total road,2040,29.525
+transport,road,total road,2050,17.317
