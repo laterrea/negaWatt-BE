@@ -97,7 +97,7 @@
     '<div class="container">' +
       '<div class="foot-brand">' +
         '<img src="' + base + 'assets/img/nW_BE_logo_rectangle.png" alt="negaWatt Belgium"><br>' +
-        '<span class="small">A society-wide debate around a sober and fair energy transition.</span>' +
+        '<span class="small">A society-wide debate around a sufficient and fair energy transition.</span>' +
       '</div>' +
       '<div><h4>Sectors</h4><ul>' +
         '<li><a href="' + base + 'sectors/transport.html">Transport</a></li>' +

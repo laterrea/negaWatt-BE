@@ -1151,73 +1151,146 @@ levers:
     short:
       fr: Marchandises transportées
       nl: Vervoerde goederen
-      en: Goods moved
+      en: Goods transported
     question:
-      fr: "Jusqu'où une demande sobre peut-elle ramener le transport de marchandises en 2050 ?"
-      nl: "Tot hoever kan een sobere vraag het goederenvervoer in 2050 terugbrengen?"
-      en: "How far can a sufficient level of demand bring freight transport down by 2050?"
+      fr: "De combien peut-on diminuer la quantité de marchandises transportées d'ici 2050 ?"
+      nl: "Hoeveel minder goederen kunnen we tegen 2050 vervoeren?"
+      en: "How much can we cut the amount of goods transported by 2050?"
     subtitle:
-      fr: Une tonne-kilomètre = une tonne transportée sur un kilomètre. Route, rail, voie d'eau et fret aérien.
-      nl: Eén tonkilometer = één ton over één kilometer. Weg, spoor, waterweg en luchtvracht.
-      en: One tonne-kilometre = one tonne carried one kilometre. Road, rail, waterway and air freight.
+      fr: >
+        Tout ce que l'on transporte pour nous, par habitant : le poids des marchandises
+        multiplié par la distance parcourue, en tonnes-kilomètres. Route, rail, voie d'eau et
+        avion.
+      nl: >
+        Alles wat voor ons vervoerd wordt, per inwoner: het gewicht van de goederen maal de
+        afgelegde afstand, in tonkilometers. Weg, spoor, waterweg en vliegtuig.
+      en: >
+        Everything carried for us, per inhabitant: the weight of the goods times the distance
+        they travel, in tonne-kilometres. Road, rail, waterway and air.
     tangible:
-      fr: "{value} tkm par personne et par an, soit environ {valuePerDay} tkm chaque jour."
-      nl: "{value} tkm per persoon per jaar, ongeveer {valuePerDay} tkm per dag."
-      en: "{value} tkm per person per year, i.e. about {valuePerDay} tkm a day."
+      fr: "{vsRef} % par rapport à 2019, soit environ {valuePerDay} tkm par personne et par jour."
+      nl: "{vsRef} % tegenover 2019, ongeveer {valuePerDay} tkm per persoon per dag."
+      en: "{vsRef}% against 2019, about {valuePerDay} tkm per person per day."
     facts:
       - kind: trend
         text:
           fr: >
-            +{growth2000to2019Pct} % entre 2000 et 2019 (de 5 548 à {refValue} tkm par personne),
-            avec un pic à 7 533 en 2016 et un creux lors de la crise de 2009.
+            +{growth2000to2019Pct} % entre 2000 et 2019 (de 5 548 à {refValue} tkm par personne),
+            avec un pic à 7 533 en 2016. Une partie n'est pas de la consommation belge :
+            58,6 % des tonnes-kilomètres des poids lourds relèvent du transport international.
           nl: >
-            +{growth2000to2019Pct} % tussen 2000 en 2019 (van 5.548 naar {refValue} tkm per
-            persoon), met een piek van 7.533 in 2016 en een dal tijdens de crisis van 2009.
+            +{growth2000to2019Pct} % tussen 2000 en 2019 (van 5.548 naar {refValue} tkm per
+            persoon), met een piek van 7.533 in 2016. Een deel is geen Belgische consumptie:
+            58,6 % van de tonkilometers van zware vrachtwagens is internationaal vervoer.
           en: >
             +{growth2000to2019Pct}% between 2000 and 2019 (from 5,548 to {refValue} tkm per
-            person), peaking at 7,533 in 2016 and dipping in the 2009 crisis.
-        source: JRC-IDEES-2023, population Statbel
+            person), peaking at 7,533 in 2016. Part of it is not Belgian consumption at all:
+            58.6% of heavy-truck tonne-kilometres are international transport.
+        source: JRC-IDEES-2023, population Statbel ; nW-BE §3.2.1
         url: https://joint-research-centre.ec.europa.eu/potencia/jrc-idees_en
       - kind: structure
+        label:
+          fr: Ce que transportent les camions
+          nl: Wat vrachtwagens vervoeren
+          en: What trucks carry
         text:
           fr: >
-            2023 était déjà retombé à {tkm2023} tkm par personne, soit −8 % par rapport à 2019 — mais
-            pour des raisons conjoncturelles (industrie faible, prix de l'énergie), pas pour les
-            raisons structurelles qu'invoque un scénario de sobriété.
+            Environ la moitié de ce que transportent les camions belges, c'est de la
+            *nourriture* et des *matériaux de construction*. Les biens de consommation finis —
+            meubles, textiles, papier, colis — n'en représentent directement qu'environ 11 %.
           nl: >
-            2023 was al teruggevallen naar {tkm2023} tkm per persoon, −8 % tegenover 2019 — maar om
-            conjuncturele redenen (zwakke industrie, energieprijzen), niet om de structurele
-            redenen die een soberheidsscenario aanvoert.
+            Ongeveer de helft van wat Belgische vrachtwagens vervoeren, is *voeding* en
+            *bouwmateriaal*. Afgewerkte consumptiegoederen — meubels, textiel, papier,
+            pakjes — zijn er rechtstreeks maar ongeveer 11 % van.
           en: >
-            2023 had already fallen back to {tkm2023} tkm per person, −8% against 2019 — but for
-            cyclical reasons (weak industry, energy prices), not the structural ones a
-            sufficiency scenario invokes.
-        source: JRC-IDEES-2023, via nW-BE §1.2.2
-      - kind: structure
+            About half of what Belgian trucks carry is *food* and *construction materials*.
+            Finished consumer goods — furniture, textiles, paper, parcels — make up only about
+            11% of it directly.
+        source: "Eurostat, road_go_ta_tg (transport routier par type de marchandises, camions belges), moyenne 2023-2025"
+        url: https://ec.europa.eu/eurostat/databrowser/view/road_go_ta_tg/default/table?lang=en
+        chart:
+          kind: bars
+          unit: "% of tonne-km"
+          decimals: 0
+          highlight: 3
+          labels:
+            - {fr: "Alimentation, agriculture", nl: "Voeding, landbouw", en: "Food, farming"}
+            - {fr: Matériaux de construction, nl: Bouwmaterialen, en: Construction materials}
+            - {fr: Marchandises groupées, nl: Gegroepeerde goederen, en: Grouped goods}
+            - {fr: Biens de consommation, nl: Consumptiegoederen, en: Consumer goods}
+            - {fr: "Chimie, carburants", nl: "Chemie, brandstoffen", en: "Chemicals, fuels"}
+            - {fr: "Métaux, machines", nl: "Metalen, machines", en: "Metals, machinery"}
+          y: [26, 24, 15, 11, 10, 8]
+          caption:
+            fr: Part des tonnes-kilomètres des camions belges selon le type de marchandises, 2023-2025
+            nl: Aandeel van de tonkilometers van Belgische vrachtwagens per soort goederen, 2023-2025
+            en: Share of Belgian trucks' tonne-kilometres by type of goods, 2023-2025
+      - kind: trend
+        label:
+          fr: Toujours plus d'objets
+          nl: Steeds meer spullen
+          en: Ever more things
         text:
           fr: >
-            Une partie de ce trafic n'est pas de la consommation belge : en 2019, 58,6 % des
-            tonnes-kilomètres des poids lourds relevaient du transport international et 41,4 % du
-            transport intérieur.
+            En 2000, un ménage belge possédait en moyenne *2,4 écrans* (télévisions,
+            ordinateurs, téléphones) ; en 2024, *5,4*. Et chaque habitant a reçu 34,5 colis en
+            2024, contre 6,6 en 2010 : *cinq fois plus*.
           nl: >
-            Een deel van dit verkeer is geen Belgische consumptie: in 2019 was 58,6 % van de
-            tonkilometers van zware vrachtwagens internationaal vervoer en 41,4 % binnenlands.
+            In 2000 had een Belgisch huishouden gemiddeld *2,4 schermen* (televisies,
+            computers, telefoons); in 2024 *5,4*. En elke inwoner ontving in 2024 34,5 pakjes,
+            tegenover 6,6 in 2010: *vijf keer meer*.
           en: >
-            Part of this traffic is not Belgian consumption at all: in 2019, 58.6% of heavy-truck
-            tonne-kilometres were international transport and 41.4% domestic.
-        source: JRC-IDEES-2023, via nW-BE §3.2.1
-      - kind: tangible
+            In 2000 a Belgian household owned on average *2.4 screens* (TVs, computers,
+            phones); in 2024, *5.4*. And each inhabitant received 34.5 parcels in 2024, against
+            6.6 in 2010: *five times more*.
+        source: "Statbel, enquête sur le budget des ménages, biens durables 2000 et 2024 ; IBPT, évolution des services de colis et express"
+        url: https://statbel.fgov.be/fr/themes/menages/budget-des-menages/plus
+      - kind: lever
+        label:
+          fr: Des objets qui durent
+          nl: Spullen die langer meegaan
+          en: Things that last
         text:
           fr: >
-            {refValue} tkm par an et par personne en 2019, c'est environ 19 tkm par jour : un
-            colis de 20 kg qui voyagerait 960 km, chaque jour, pour chaque habitant.
+            En Allemagne, les gros appareils ménagers remplacés parce qu'ils étaient tombés en
+            panne avant 5 ans sont passés de *3,5 % à 8,3 %* des remplacements entre 2004 et
+            2012 — et près d'un tiers des appareils remplacés fonctionnaient encore. Un
+            smartphone sert environ 3 ans, alors que ses utilisateurs en attendent plus de 5.
           nl: >
-            {refValue} tkm per jaar per persoon in 2019 is ongeveer 19 tkm per dag: een pakje van
-            20 kg dat elke dag 960 km aflegt, voor elke inwoner.
+            In Duitsland steeg het aandeel grote huishoudtoestellen dat vervangen werd omdat
+            het binnen 5 jaar stuk ging van *3,5 % naar 8,3 %* van de vervangingen tussen 2004
+            en 2012 — en bijna een derde van de vervangen toestellen werkte nog. Een smartphone
+            wordt ongeveer 3 jaar gebruikt, terwijl gebruikers er meer dan 5 verwachten.
           en: >
-            {refValue} tkm per person per year in 2019 is about 19 tkm a day: a 20 kg parcel
-            travelling 960 km, every day, for every inhabitant.
-        source: nW-BE, valeur 2019
+            In Germany, large household appliances replaced because they broke down within 5
+            years went from *3.5% to 8.3%* of replacements between 2004 and 2012 — and almost a
+            third of the appliances replaced still worked. A smartphone is used for about 3
+            years, while its users expect more than 5.
+        source: "Umweltbundesamt, Texte 11/2016 (Öko-Institut, Uni Bonn) ; Commission européenne, SWD(2023) 101, p. 12-13"
+        url: https://www.umweltbundesamt.de/publikationen/einfluss-der-nutzungsdauer-von-produkten-auf-ihre-1
+      - kind: lever
+        label:
+          fr: Partager, réparer, réutiliser
+          nl: Delen, herstellen, hergebruiken
+          en: Share, repair, reuse
+        text:
+          fr: >
+            En Flandre, les Kringwinkels ont revendu *6,3 kg d'objets par habitant* en 2024,
+            pour un objectif de 8 kg en 2030. En Wallonie et à Bruxelles, 203 Repair Cafés ont
+            réparé 35 000 objets en 2023. À Bruxelles, les 524 membres de l'outilthèque
+            Tournevie ont emprunté 8 616 outils en un an.
+          nl: >
+            In Vlaanderen verkochten de Kringwinkels in 2024 *6,3 kg spullen per inwoner*
+            opnieuw, met 8 kg als doel voor 2030. In Wallonië en Brussel herstelden 203 Repair
+            Cafés in 2023 35.000 voorwerpen. In Brussel leenden de 524 leden van de
+            gereedschapsbib Tournevie in één jaar 8.616 stuks gereedschap.
+          en: >
+            In Flanders the Kringwinkel reuse shops resold *6.3 kg of goods per inhabitant* in
+            2024, against a target of 8 kg by 2030. In Wallonia and Brussels, 203 Repair Cafés
+            repaired 35,000 items in 2023. In Brussels, the 524 members of the Tournevie tool
+            library borrowed 8,616 tools in a year.
+        source: "OVAM, Hergebruik in Vlaanderen – cijfers 2024, p. 13-15 ; Repair Together, Repair Cafés en chiffres ; Tournevie, 2024"
+        url: https://ovam.vlaanderen.be/documents/d/nl/hergebruik-in-vlaanderen-resultaten-2024-def
     justification:
       fr: >
         négaWatt retient {targetValue} tkm par personne, soit {changePct} % par rapport à 2019.

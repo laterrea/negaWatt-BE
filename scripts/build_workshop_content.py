@@ -55,7 +55,7 @@ CHART_KINDS = {"bars", "line"}
 INTERNAL_SOURCE_RE = re.compile(r"nW-BE", re.I)
 QUOTES_A_FIGURE_RE = re.compile(r"[0-9]|\{[A-Za-z]")
 # Placeholders the *page* fills in at run time, so the build must leave them alone.
-RUNTIME_PLACEHOLDERS = {"value", "valuePerDay", "valuePerYear", "inverseIndex",
+RUNTIME_PLACEHOLDERS = {"value", "valuePerDay", "valuePerYear", "inverseIndex", "vsRef",
                         "n", "total", "twh", "delta", "year", "done", "code"}
 NO_GROUPING = {"refYear", "targetYear"}
 # {key}, {key:abs} (drop the sign), {key:d2} (force two decimals)

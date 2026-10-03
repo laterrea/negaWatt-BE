@@ -133,7 +133,9 @@
       value: T.num(value, lever.decimals),
       valuePerDay: T.num(value / 365, value / 365 >= 10 ? 0 : 1),
       valuePerYear: T.num(value * 365, 0),
-      inverseIndex: value > 0 ? T.num(100 * lever.refValue / value, 0) : "—"
+      inverseIndex: value > 0 ? T.num(100 * lever.refValue / value, 0) : "—",
+      // the answer as a change against the reference: "−15 % against 2019"
+      vsRef: lever.refValue ? T.signed(100 * (value / lever.refValue - 1), 0) : "—"
     };
   }
 

@@ -238,7 +238,8 @@ fails rather than warns, so none of them can be got wrong quietly:
    `levers_<sector>.js`. `{x:abs}` drops the sign, `{x:d2}` forces two decimals;
    `{value}` and friends are filled by the page at run time — `{inverseIndex}` reads the
    answer the other way round, against the reference (trucks 60 % full instead of 53 %: the
-   same freight in 89 % of today's truck-km).
+   same freight in 89 % of today's truck-km), and `{vsRef}` gives it as a signed change
+   against the reference ("−14 % against 2019").
 4. **No spoilers before the group answers.** Not the target value, not a `spoilers` fact
    key, not the words "négaWatt" or "the scenario". A fact that does describe the
    scenario carries `reveal: true`.
