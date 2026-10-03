@@ -1,7 +1,8 @@
 <!-- negaWatt Belgium — workshop reveal screen (the projector).
-     Group answers appear live; the negaWatt value drops in on demand, one lever
-     at a time, with its written justification. The date filter picks which
-     sitting is shown — today by default, everything if you widen it. -->
+     The first page picks which answers to show — a date filter, today by
+     default, everything if you widen it — and counts them live. The questions
+     follow, one lever at a time: group answers live, then the negaWatt value
+     with its written justification. The overview recalls the filter. -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
@@ -18,24 +19,48 @@
       <span data-ui="reveal.title"></span>
     </span>
     <span class="ws-topbar__spacer"></span>
-    <span class="ws-badge" id="window-badge"></span>
+    <!-- the window on screen; a click goes back to the first page, which sets it -->
+    <button type="button" class="ws-badge ws-badge--button" id="window-badge"></button>
     <span class="ws-badge ws-badge--quiet" id="live-badge"></span>
     <div class="ws-lang" id="lang-switch" role="group"></div>
   </div>
 
-  <!-- Facilitator control, deliberately small: which answers are on screen. -->
-  <div class="ws-filter" id="filter">
-    <span class="ws-filter__label" data-ui="reveal.filter.label"></span>
-    <input class="ws-input ws-filter__date" type="date" id="from">
-    <span class="ws-filter__dash">–</span>
-    <input class="ws-input ws-filter__date" type="date" id="to">
-    <button class="ws-btn ws-btn--ghost ws-filter__preset" id="preset-today"
-            data-ui="reveal.filter.today"></button>
-    <button class="ws-btn ws-btn--ghost ws-filter__preset" id="preset-all"
-            data-ui="reveal.filter.all"></button>
-  </div>
+  <!-- The first page: which answers are on screen, and how many there are. Set
+       once here, so the question pages can give the projector to the answers. -->
+  <main class="ws-main" id="screen-setup">
+    <div>
+      <p class="ws-eyebrow" id="setup-topic"></p>
+      <h1 class="ws-question" data-ui="reveal.setup.title"></h1>
+      <p class="ws-subtitle" data-ui="reveal.setup.lead"></p>
+    </div>
 
-  <main class="ws-main" id="screen-lever">
+    <div class="ws-panel">
+      <div class="ws-filter" id="filter">
+        <span class="ws-filter__label" data-ui="reveal.filter.label"></span>
+        <span class="ws-filter__range">
+          <input class="ws-input ws-filter__date" type="date" id="from">
+          <span class="ws-filter__dash">–</span>
+          <input class="ws-input ws-filter__date" type="date" id="to">
+        </span>
+        <button class="ws-btn ws-btn--ghost ws-filter__preset" id="preset-today"
+                data-ui="reveal.filter.today"></button>
+        <button class="ws-btn ws-btn--ghost ws-filter__preset" id="preset-all"
+                data-ui="reveal.filter.all"></button>
+      </div>
+
+      <!-- follows the answers as they arrive: the page polls every 3 seconds -->
+      <div class="ws-count">
+        <p class="ws-count__num" id="count-answers" aria-live="polite"></p>
+        <p class="ws-count__meta">
+          <span data-ui="reveal.count.scope"></span> ·
+          <span id="count-groups"></span> ·
+          <span class="ws-live" id="count-live"></span>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <main class="ws-main ws-hidden" id="screen-lever">
     <div class="ws-progress">
       <span class="ws-progress__label" id="progress-label"></span>
       <span class="ws-topbar__spacer"></span>
@@ -75,6 +100,13 @@
 
   <main class="ws-main ws-hidden" id="screen-summary">
     <h1 class="ws-question" data-ui="reveal.summary"></h1>
+    <!-- the filter of the first page, recalled where the totals are read -->
+    <p class="ws-recap">
+      <span class="ws-filter__label" data-ui="reveal.recap"></span>
+      <span id="recap-text"></span>
+      <button type="button" class="ws-linkbtn" id="recap-change"
+              data-ui="reveal.filter.change"></button>
+    </p>
     <div class="ws-scroll">
       <table class="ws-table" id="summary-table"></table>
     </div>

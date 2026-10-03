@@ -13,6 +13,7 @@ echo
 echo "--- verifying ---"
 for f in data/workshop_content.js data/levers_transport.js \
          assets/js/workshop/impact.js assets/js/workshop/play.js \
+         assets/js/workshop/reveal.js workshop/reveal.html \
          assets/css/workshop.css; do
   if diff -q <(curl -s "https://negawatt.squoilin.eu/$f") "website/$f" >/dev/null; then
     printf "  OK   %s\n" "$f"

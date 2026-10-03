@@ -5,12 +5,17 @@
    facilitator drops in the negaWatt value with its written justification, one
    lever at a time.
 
-     reveal.html?topic=inland-mobility
+     reveal.html?topic=inland-mobility[&from=YYYY-MM-DD][&to=YYYY-MM-DD]
 
    Which answers are shown is a question of *when*, not of which session: the
    date filter selects the groups that started inside its window. It opens on
    today — one workshop — and widening the start date summarises every sitting
    ever run on the topic.
+
+   Three screens, walked in order (D68): the first page sets that filter and
+   counts the answers it holds, live; the question pages leave the projector to
+   the answers, the window only recalled by a badge in the top bar; the overview
+   recalls the filter beside the totals it produced.
    ========================================================================== */
 (function () {
   "use strict";
@@ -24,8 +29,11 @@
     from: null, to: null,       // local 'YYYY-MM-DD', or null for an open end
     revealed: {},               // leverId -> true once the nW value is shown
     results: null,
+    failed: false,              // the last poll did not get through
     labels: {},                 // groupId -> the name to draw
-    summary: false,
+    screen: "setup",            // setup | lever | summary
+    resume: "lever",            // where leaving the first page goes back to
+    started: false,             // the walk has begun: the first page offers to resume it
     timer: null
   };
 
@@ -54,6 +62,13 @@
     });
     $("from").setAttribute("aria-label", T.t("reveal.filter.from"));
     $("to").setAttribute("aria-label", T.t("reveal.filter.to"));
+    $("window-badge").title = T.t("reveal.filter.change");
+  }
+
+  /* Write only on change: the counters are redrawn on every poll, and a live
+     region that is rewritten with the same text may be read out again. */
+  function setText(node, text) {
+    if (node.textContent !== text) node.textContent = text;
   }
 
   function buildLangSwitch() {
@@ -97,22 +112,27 @@
                           { day: "numeric", month: "short", year: "numeric" });
   }
 
+  /* The window in words: the badge in the top bar, and the overview's recap. */
+  function windowText() {
+    if (!state.from && !state.to) return T.t("reveal.filter.allLabel");
+    if (state.from === state.to) return pretty(state.from);
+    return (state.from ? pretty(state.from) : "…") + " – " +
+           (state.to ? pretty(state.to) : "…");
+  }
+
   function showWindow() {
-    var badge = $("window-badge");
-    if (!state.from && !state.to) badge.textContent = T.t("reveal.filter.allLabel");
-    else if (state.from === state.to) badge.textContent = pretty(state.from);
-    else {
-      badge.textContent = (state.from ? pretty(state.from) : "…") + " – " +
-                          (state.to ? pretty(state.to) : "…");
-    }
+    $("window-badge").textContent = windowText();
     $("from").value = state.from || "";
     $("to").value = state.to || "";
   }
+
+  function windowKey() { return (state.from || "") + "|" + (state.to || ""); }
 
   function setWindow(from, to) {
     state.from = from || null;
     state.to = to || null;
     state.results = null;
+    state.failed = false;
     showWindow();
     render();
     startPolling();
@@ -155,16 +175,56 @@
     return values.reduce(function (s, v) { return s + v; }, 0) / values.length;
   }
 
+  /* How many answers the window holds, all questions together — null until
+     the first poll is back. A question answered in parts (D61) counts once, by
+     its combined figure: each part is also stored as an answer of its own,
+     under <lever>__<part>, and would count one group several times over. An
+     answer to a question since retired is not counted either: no screen of
+     the walk shows it. */
+  function answerCount() {
+    if (!state.results) return null;
+    var asked = {};
+    state.order.forEach(function (id) { asked[id] = true; });
+    return (state.results.answers || []).filter(function (a) {
+      return asked[a.lever_id];
+    }).length;
+  }
+
+  function groupCount() {
+    return state.results ? (state.results.groups || []).length : null;
+  }
+
+  // "…" while the window's first poll is not back: not yet known is not zero
+  function groupsText(n) {
+    if (n === null) return "…";
+    return n === 1 ? T.t("reveal.groupsOne") : T.t("reveal.groups", { n: n });
+  }
+
+  function answersText(n) {
+    if (n === null) return "…";
+    return n === 1 ? T.t("reveal.answersOne") : T.t("reveal.answers", { n: n });
+  }
+
   /* ------------------------------------------------------------------ render */
+  function show(screen) {
+    ["setup", "lever", "summary", "error"].forEach(function (name) {
+      $("screen-" + name).classList.toggle("ws-hidden", name !== screen);
+    });
+    $("window-badge").disabled = screen === "setup";
+  }
+
   function render() {
-    if (state.summary) { renderSummary(); return; }
+    if (!state.order.length) return;          // init failed: the error stays up
+    if (state.screen === "setup") { renderSetup(); return; }
+    if (state.screen === "summary") { renderSummary(); return; }
 
     var id = current();
     if (!id || !levers()[id]) return;
 
-    $("screen-lever").classList.remove("ws-hidden");
-    $("screen-summary").classList.add("ws-hidden");
-    $("actions").classList.remove("ws-hidden");
+    show("lever");
+    $("btn-prev").classList.remove("ws-hidden");
+    $("btn-next").classList.remove("ws-hidden");
+    $("btn-next").disabled = false;
 
     var lever = levers()[id];
     var content = leverContent(id);
@@ -299,7 +359,27 @@
       n: state.index + 1, total: state.order.length
     });
     $("btn-reveal").textContent = shown ? T.t("reveal.next") : T.t("reveal.show");
-    $("btn-prev").disabled = state.index === 0;
+    // before the first question comes the page that set the filter
+    $("btn-prev").textContent = state.index === 0 ? T.t("reveal.filter.change")
+                                                  : T.t("reveal.prev");
+  }
+
+  /* The first page: the filter, and the number of answers it holds. The poll
+     redraws it, so the count follows the groups while they are still answering. */
+  function renderSetup() {
+    show("setup");
+    var t = topicContent();
+    $("setup-topic").textContent = t ? T.pick(t.title) : "";
+
+    setText($("count-answers"), answersText(answerCount()));
+    setText($("count-groups"), groupsText(groupCount()));
+    var live = $("count-live");
+    live.classList.toggle("is-failed", state.failed);
+    setText(live, state.failed ? T.t("common.error") : T.t("reveal.count.live"));
+
+    $("btn-prev").classList.add("ws-hidden");
+    $("btn-next").classList.add("ws-hidden");
+    $("btn-reveal").textContent = state.started ? T.t("reveal.resume") : T.t("reveal.start");
   }
 
   function buildProgress() {
@@ -319,8 +399,15 @@
   }
 
   function renderSummary() {
-    $("screen-lever").classList.add("ws-hidden");
-    $("screen-summary").classList.remove("ws-hidden");
+    show("summary");
+    $("btn-prev").classList.remove("ws-hidden");
+    $("btn-prev").textContent = T.t("reveal.prev");
+    $("btn-next").classList.remove("ws-hidden");
+    $("btn-next").disabled = true;            // nothing after the overview
+
+    // which answers these totals are made of: the filter set on the first page
+    setText($("recap-text"), [windowText(), groupsText(groupCount()),
+                              answersText(answerCount())].join(" · "));
 
     var table = $("summary-table");
     table.innerHTML = "";
@@ -376,54 +463,104 @@
       var boldest = names.slice().sort(function (a, b) {
         return perGroup[b].ambition / perGroup[b].n - perGroup[a].ambition / perGroup[a].n;
       })[0];
-      var d1 = document.createElement("div");
-      d1.innerHTML = "<b>" + closest + "</b>" + T.t("reveal.closest");
-      var d2 = document.createElement("div");
-      d2.innerHTML = "<b>" + boldest + "</b>" + T.t("reveal.boldest");
-      awards.appendChild(d1);
-      awards.appendChild(d2);
+      // a group names itself, so its name is text, never markup
+      [[closest, "reveal.closest"], [boldest, "reveal.boldest"]].forEach(function (award) {
+        var d = document.createElement("div");
+        var b = document.createElement("b");
+        b.textContent = award[0];
+        d.appendChild(b);
+        d.appendChild(document.createTextNode(T.t(award[1])));
+        awards.appendChild(d);
+      });
     }
     $("btn-reveal").textContent = T.t("reveal.summary");
   }
 
   /* ------------------------------------------------------------------ moves */
   function go(index) {
-    state.summary = false;
+    state.screen = "lever";
     state.index = Math.max(0, Math.min(index, state.order.length - 1));
     render();
   }
 
+  function toSummary() {
+    state.screen = "summary";
+    render();
+  }
+
+  /* Back to the first page, to change the filter. Leaving it again returns to
+     the screen it was opened from, so a filter widened mid-walk keeps the place. */
+  function openSetup() {
+    if (state.screen === "setup") return;
+    state.resume = state.screen;
+    state.screen = "setup";
+    render();
+  }
+
+  function leaveSetup() {
+    state.started = true;
+    state.screen = state.resume;
+    render();
+  }
+
+  function back() {
+    if (state.screen === "summary") go(state.index);     // the last question shown
+    else if (state.screen === "lever") {
+      if (state.index === 0) openSetup(); else go(state.index - 1);
+    }
+  }
+
   function revealOrAdvance() {
-    if (state.summary) return;
+    if (state.screen === "setup") { leaveSetup(); return; }
+    if (state.screen === "summary") return;
     var id = current();
     if (!state.revealed[id]) {
       state.revealed[id] = true;
       render();
       return;
     }
-    if (state.index === state.order.length - 1) {
-      state.summary = true;
-      renderSummary();
-    } else {
-      go(state.index + 1);
-    }
+    if (state.index === state.order.length - 1) toSummary();
+    else go(state.index + 1);
   }
 
   /* ------------------------------------------------------------------- poll */
+
+  /* What the screens draw from a poll. The chart is rebuilt on every render,
+     which replays the dots' pop-in and the negaWatt marker's drop, so a poll
+     that brings nothing new must not redraw: on the projector they flashed
+     every three seconds. */
+  function signature(doc) {
+    return JSON.stringify([
+      (doc.groups || []).map(function (g) { return [g.id, g.name]; }),
+      (doc.answers || []).map(function (a) {
+        return [a.group_id, a.lever_id, a.value, a.confidence, a.condition];
+      })
+    ]);
+  }
+
   function poll() {
+    var asked = windowKey();
     return API.getResults({
       topic: state.topic,
       from: toUtc(state.from, false),
       to: toUtc(state.to, true)
     }).then(function (doc) {
+      // the filter moved while this was in flight: its answers are not the
+      // ones on screen any more, and the next poll is already on its way
+      if (asked !== windowKey()) return;
+      var fresh = !state.results || state.failed ||
+                  signature(doc) !== signature(state.results);
       state.results = doc;
+      state.failed = false;
+      $("live-badge").textContent = groupsText((doc.groups || []).length);
+      if (!fresh) return;
       relabel();
-      var n = (doc.groups || []).length;
-      $("live-badge").textContent = n === 1 ? T.t("reveal.groupsOne")
-                                            : T.t("reveal.groups", { n: n });
-      if (!state.summary) render(); else renderSummary();
+      render();
     }).catch(function () {
+      if (asked !== windowKey()) return;
+      state.failed = true;
       $("live-badge").textContent = T.t("common.error");
+      if (state.screen === "setup") render();
     });
   }
 
@@ -435,10 +572,8 @@
 
   /* ------------------------------------------------------------------- init */
   function fail(message) {
-    $("screen-lever").classList.add("ws-hidden");
-    $("screen-summary").classList.add("ws-hidden");
+    show("error");
     $("actions").classList.add("ws-hidden");
-    $("screen-error").classList.remove("ws-hidden");
     $("error-text").textContent = message;
   }
 
@@ -458,12 +593,15 @@
     state.order = (topic.order || []).filter(function (id) { return !!levers()[id]; });
     if (!state.order.length) return fail("No levers to reveal for topic " + state.topic);
 
-    $("btn-prev").addEventListener("click", function () { go(state.index - 1); });
+    $("btn-prev").addEventListener("click", back);
     $("btn-next").addEventListener("click", function () {
-      if (state.index === state.order.length - 1) { state.summary = true; renderSummary(); }
+      if (state.screen !== "lever") return;
+      if (state.index === state.order.length - 1) toSummary();
       else go(state.index + 1);
     });
     $("btn-reveal").addEventListener("click", revealOrAdvance);
+    $("window-badge").addEventListener("click", openSetup);
+    $("recap-change").addEventListener("click", openSetup);
     $("preset-today").addEventListener("click", function () {
       setWindow(localToday(), localToday());
     });
@@ -473,7 +611,7 @@
     document.addEventListener("keydown", function (e) {
       if (e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
       if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); revealOrAdvance(); }
-      if (e.key === "ArrowLeft") { e.preventDefault(); go(state.index - 1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); back(); }
     });
 
     // Today, unless the URL asks otherwise: one workshop, which is the normal case.

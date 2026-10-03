@@ -507,15 +507,14 @@
 }
 
 /* ------------------------------------------------------------------ filter */
-/* Which sitting is on screen. A facilitator control on a participant-free page,
-   so it stays deliberately small: one line, above the fold, never in the way of
-   the projected answers. */
+/* Which sitting is on screen. It has the reveal's first page to itself (D68),
+   so the question pages leave the projector to the answers and only recall
+   the window in the top bar. */
 .ws-filter {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  padding: 8px 20px 0;
 }
 .ws-filter__label {
   font-size: .74rem;
@@ -524,18 +523,67 @@
   letter-spacing: .06em;
   color: var(--muted);
 }
+.ws-filter__range { display: inline-flex; align-items: center; gap: 8px; }
 .ws-filter__date {
   width: auto;
-  min-height: 34px;
-  padding: 4px 8px;
-  font-size: .82rem;
+  padding: 6px 10px;
 }
 .ws-filter__dash { color: var(--muted); }
 .ws-filter__preset {
   flex: 0 0 auto;
-  min-height: 34px;
-  padding: 0 12px;
-  font-size: .78rem;
+  padding: 0 16px;
+  font-size: .86rem;
+}
+
+/* How many answers the filter holds, all questions together. Redrawn on every
+   poll, so the facilitator can watch the groups finish before starting. */
+.ws-count {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.ws-count__num {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--nw-teal-darker);
+  font-variant-numeric: tabular-nums;
+}
+.ws-count__meta { margin: 6px 0 0; font-size: .9rem; color: var(--ink-soft); }
+.ws-live { white-space: nowrap; color: var(--nw-teal-dark); font-weight: 700; }
+.ws-live::before {
+  content: "";
+  display: inline-block;
+  width: 8px; height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  vertical-align: 1px;
+  animation: ws-pulse 2s ease-in-out infinite;
+}
+.ws-live.is-failed { color: #8a4419; }
+.ws-live.is-failed::before { animation: none; }
+@keyframes ws-pulse { 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) {
+  .ws-live::before { animation: none; }
+}
+
+/* The window badge of the top bar doubles as the way back to the filter. */
+.ws-badge--button { border: 0; font-family: inherit; cursor: pointer; }
+.ws-badge--button:hover { background: #c6e2d7; }
+.ws-badge--button[disabled] { cursor: default; background: var(--nw-mint); }
+
+/* The overview recalls the filter its totals were made with. */
+.ws-recap {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-top: 4px;
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--ink-soft);
 }
 
 /* ------------------------------------------------------------------ reveal */
@@ -598,7 +646,10 @@
   .ws-actions { flex-wrap: wrap; }
   /* two per row rather than one, so the sticky bar does not eat the screen */
   .ws-actions .ws-btn { flex: 1 1 40%; }
-  .ws-filter__date { flex: 1 1 8rem; }
+  /* the two dates share a line, the two presets the next one */
+  .ws-filter__label, .ws-filter__range { flex: 1 0 100%; min-width: 0; }
+  .ws-filter__date { flex: 1 1 0; min-width: 0; padding: 6px 8px; }
+  .ws-filter__preset { flex: 1 1 auto; }
 }
 
 .ws-hidden { display: none !important; }

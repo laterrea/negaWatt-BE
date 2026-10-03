@@ -441,7 +441,10 @@ that order. See D63.
 These workshops are small and never run in parallel, so there is **no session, no code and
 no facilitator console**. A group belongs to a topic and carries the moment it started;
 the reveal screen decides what to show with a **date filter**, which opens on today and,
-widened, summarises every sitting ever run on the topic. Consequences worth knowing:
+widened, summarises every sitting ever run on the topic. The filter has the reveal's
+first page to itself, next to a live count of the answers it selects (all questions
+together, a multi-slider question counting once); the question pages only recall it as a
+badge in the top bar, and the overview restates it (D68). Consequences worth knowing:
 
 - Five endpoints, and the group token is the only credential — it stops one device
   overwriting another group's answers. **`results.php` is ungated**, so anyone with the
@@ -474,7 +477,7 @@ python scripts/dev_api.py --port 8787 &
 
 # 4. tests
 python scripts/test_workshop_helpers.py       # the export helpers
-python scripts/verify_workshop_export.py      # 360 checks, inland-mobility only
+python scripts/verify_workshop_export.py      # 366 checks, inland-mobility only
 python scripts/build_workshop_content.py --check
 python scripts/test_workshop_api.py --base http://127.0.0.1:8787            # 61 checks
 #   Coverage note: only `build_workshop_content.py --check` sees all four topics.
@@ -514,9 +517,13 @@ curl https://negawatt.squoilin.eu/api/selftest.php     # expect {"ok":true,...}
 2. **Share `…/workshop/` — that is the whole invitation.** Participants type nothing and
    land on question 1; a group that wants to be "Table 3" renames itself in one tap.
    Answers autosave, and the network can drop without anyone losing work.
-3. Open `workshop/reveal.html?topic=…` on the projector: today's groups, walked with the
-   arrow keys — group dots first, then négaWatt's value and the objections to it.
-4. Widen the date filter to review a past workshop, or all of them together.
+3. Open `workshop/reveal.html?topic=…` on the projector. Its first page counts today's
+   answers live, all questions together: start when the count stops climbing (→ or the
+   button), then walk the questions with the arrow keys — group dots first, then
+   négaWatt's value and the objections to it.
+4. To review a past workshop, or all of them together, widen the date filter on that first
+   page — reachable from any question through the date badge in the top bar, or ← on the
+   first question. The overview at the end restates which answers it was made of.
 
 ## Environment setup
 

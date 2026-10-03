@@ -454,6 +454,56 @@ window.NW_WS_CONTENT = {
       "nl": "vanaf het begin",
       "en": "everything so far"
     },
+    "reveal.filter.change": {
+      "fr": "Modifier la sélection",
+      "nl": "Selectie wijzigen",
+      "en": "Change the selection"
+    },
+    "reveal.setup.title": {
+      "fr": "Quelles réponses montrer ?",
+      "nl": "Welke antwoorden tonen?",
+      "en": "Which answers to show?"
+    },
+    "reveal.setup.lead": {
+      "fr": "Par défaut, les groupes qui ont commencé aujourd'hui. Élargissez les dates pour revoir un atelier passé, ou tous les ateliers ensemble.",
+      "nl": "Standaard de groepen die vandaag begonnen zijn. Verruim de periode om een vorige workshop te bekijken, of alle workshops samen.",
+      "en": "By default, the groups that started today. Widen the dates to review a past workshop, or all of them together."
+    },
+    "reveal.answers": {
+      "fr": "{n} réponses",
+      "nl": "{n} antwoorden",
+      "en": "{n} answers"
+    },
+    "reveal.answersOne": {
+      "fr": "1 réponse",
+      "nl": "1 antwoord",
+      "en": "1 answer"
+    },
+    "reveal.count.scope": {
+      "fr": "toutes questions confondues",
+      "nl": "alle vragen samen",
+      "en": "all questions together"
+    },
+    "reveal.count.live": {
+      "fr": "en direct",
+      "nl": "live",
+      "en": "live"
+    },
+    "reveal.start": {
+      "fr": "Commencer la mise en commun",
+      "nl": "Naar de resultaten",
+      "en": "Start the reveal"
+    },
+    "reveal.resume": {
+      "fr": "Reprendre la mise en commun",
+      "nl": "Terug naar de resultaten",
+      "en": "Back to the reveal"
+    },
+    "reveal.recap": {
+      "fr": "Réponses prises en compte",
+      "nl": "Meegetelde antwoorden",
+      "en": "Answers included"
+    },
     "reveal.next": {
       "fr": "Levier suivant",
       "nl": "Volgende hefboom",
