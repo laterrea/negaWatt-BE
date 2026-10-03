@@ -20,8 +20,6 @@ window.NW_HISTORY["transport"] = {
         2017,
         2018,
         2019,
-        2020,
-        2021,
         2022,
         2024
       ],
@@ -38,8 +36,6 @@ window.NW_HISTORY["transport"] = {
         1.2216,
         1.1948,
         1.2083,
-        null,
-        null,
         1.6519,
         1.6769
       ],
