@@ -135,6 +135,15 @@ strings:
     fr: "% des vols intra-UE"
     nl: "% van de intra-EU-vluchten"
     en: "% of intra-EU flights"
+  # the two questions merged for the workshop of 2 November 2026 (D72)
+  "unit.km/person/year by air":
+    fr: km/pers./an en avion
+    nl: km/pers./jaar per vliegtuig
+    en: km/person/year by air
+  "unit.passengers per flight":
+    fr: passagers/vol
+    nl: passagiers/vlucht
+    en: passengers per flight
 
 # -----------------------------------------------------------------------------
 # The +/- effects chart on the summary screen. Enabled because every lever of this
@@ -1956,3 +1965,93 @@ levers:
         questioning it is exactly what the négaWatt method reproaches business-as-usual
         scenarios for — all the more so since shipping, the only serious alternative, is
         absent from the model and its emissions therefore appear nowhere.
+
+  # ------------------------------------------------------------ H -------------
+  # Added for the workshop of 2 November 2026 (D72): one card for all flying,
+  # answered with two sliders that are exactly long-haul-flights and
+  # short-haul-flights. Placed after the older questions so that those keep the
+  # letters they were printed with. SKELETON: full wording in WP6.
+  plane-trips:
+    short:
+      fr: Voyages en avion
+      nl: Vliegreizen
+      en: Plane trips
+    question:
+      fr: Combien de voyages en avion par personne et par vie ?
+      nl: Hoeveel vliegreizen per persoon en per leven?
+      en: How many plane trips per person over a lifetime?
+    subtitle:
+      fr: >
+        Deux curseurs : les voyages long-courriers (un aller-retour de {lngTripKm} km,
+        comme Bruxelles-Shanghai) et les voyages court-courriers en Europe (un aller-retour
+        de {srtTripKm} km, comme Bruxelles-Barcelone), sur une vie de {lifeYears} ans.
+      nl: >
+        Twee schuifknoppen: langeafstandsreizen (een retour van {lngTripKm} km, zoals
+        Brussel-Shanghai) en korteafstandsreizen in Europa (een retour van {srtTripKm} km,
+        zoals Brussel-Barcelona), over een leven van {lifeYears} jaar.
+      en: >
+        Two sliders: long-haul trips (a {lngTripKm} km return trip, like
+        Brussels-Shanghai) and short-haul trips within Europe (a {srtTripKm} km return
+        trip, like Brussels-Barcelona), over an {lifeYears}-year life.
+    parts:
+      long-haul:
+        short:
+          fr: Long-courriers
+          nl: Langeafstandsreizen
+          en: Long-haul
+        question:
+          fr: Voyages long-courriers par vie
+          nl: Langeafstandsreizen per leven
+          en: Long-haul trips per lifetime
+      short-haul:
+        short:
+          fr: Court-courriers
+          nl: Korteafstandsreizen
+          en: Short-haul
+        question:
+          fr: Voyages court-courriers par vie
+          nl: Korteafstandsreizen per leven
+          en: Short-haul trips per lifetime
+    justification:
+      fr: >
+        négaWatt retient {lngTripsTarget} voyages long-courriers et {srtTripsTarget}
+        court-courriers par vie, soit {airKmYearTarget} km par personne et par an.
+      nl: >
+        negaWatt kiest {lngTripsTarget} langeafstandsreizen en {srtTripsTarget}
+        korteafstandsreizen per leven, of {airKmYearTarget} km per persoon per jaar.
+      en: >
+        négaWatt sets {lngTripsTarget} long-haul and {srtTripsTarget} short-haul trips per
+        lifetime, i.e. {airKmYearTarget} km per person per year.
+
+  # ------------------------------------------------------------ I -------------
+  # Added for the workshop of 2 November 2026 (D72): passengers per flight over
+  # all flights, standing for long-haul-load and short-haul-load. SKELETON: full
+  # wording in WP6.
+  plane-load:
+    short:
+      fr: Remplissage des vols
+      nl: Bezetting van de vluchten
+      en: Passengers per flight
+    question:
+      fr: Quel remplissage des vols viser en 2050 ?
+      nl: Hoe vol moeten de vluchten in 2050 zitten?
+      en: How full should flights be in 2050?
+    subtitle:
+      fr: >
+        Le nombre moyen de passagers à bord, tous vols confondus, sièges vides compris.
+      nl: >
+        Het gemiddelde aantal passagiers aan boord, alle vluchten samen, lege stoelen
+        inbegrepen.
+      en: >
+        The average number of passengers on board, all flights together, empty seats
+        included.
+    justification:
+      fr: >
+        négaWatt retient {occuAllTarget} passagers par vol en moyenne : +{gainLngPct} % sur
+        les long-courriers et +{gainSrtPct} % sur les vols européens.
+      nl: >
+        negaWatt kiest gemiddeld {occuAllTarget} passagiers per vlucht: +{gainLngPct} % op
+        de langeafstandsvluchten en +{gainSrtPct} % op de Europese vluchten.
+      en: >
+        négaWatt sets {occuAllTarget} passengers per flight on average: +{gainLngPct}% on
+        long-haul and +{gainSrtPct}% on European flights.

@@ -700,6 +700,16 @@ window.NW_WS_CONTENT = {
       "nl": "% van de intra-EU-vluchten",
       "en": "% of intra-EU flights"
     },
+    "unit.km/person/year by air": {
+      "fr": "km/pers./an en avion",
+      "nl": "km/pers./jaar per vliegtuig",
+      "en": "km/person/year by air"
+    },
+    "unit.passengers per flight": {
+      "fr": "passagers/vol",
+      "nl": "passagiers/vlucht",
+      "en": "passengers per flight"
+    },
     "unit.m² of home per person": {
       "fr": "m² de logement/pers.",
       "nl": "m² woning/pers.",
@@ -2152,7 +2162,10 @@ window.NW_WS_CONTENT = {
         "hydrogen-flights",
         "air-freight"
       ],
-      "archive": [],
+      "archive": [
+        "plane-trips",
+        "plane-load"
+      ],
       "questionOrder": "random",
       "units": [
         [
@@ -3555,6 +3568,84 @@ window.NW_WS_CONTENT = {
           ],
           "code": "G",
           "sector": "transport"
+        },
+        "plane-trips": {
+          "question": {
+            "fr": "Combien de voyages en avion par personne et par vie ?",
+            "nl": "Hoeveel vliegreizen per persoon en per leven?",
+            "en": "How many plane trips per person over a lifetime?"
+          },
+          "short": {
+            "fr": "Voyages en avion",
+            "nl": "Vliegreizen",
+            "en": "Plane trips"
+          },
+          "subtitle": {
+            "fr": "Deux curseurs : les voyages long-courriers (un aller-retour de 18 000 km, comme Bruxelles-Shanghai) et les voyages court-courriers en Europe (un aller-retour de 2 168 km, comme Bruxelles-Barcelone), sur une vie de 80 ans.",
+            "nl": "Twee schuifknoppen: langeafstandsreizen (een retour van 18.000 km, zoals Brussel-Shanghai) en korteafstandsreizen in Europa (een retour van 2.168 km, zoals Brussel-Barcelona), over een leven van 80 jaar.",
+            "en": "Two sliders: long-haul trips (a 18,000 km return trip, like Brussels-Shanghai) and short-haul trips within Europe (a 2,168 km return trip, like Brussels-Barcelona), over an 80-year life."
+          },
+          "justification": {
+            "fr": "négaWatt retient 4,8 voyages long-courriers et 24 court-courriers par vie, soit 1 728 km par personne et par an.",
+            "nl": "negaWatt kiest 4,8 langeafstandsreizen en 24 korteafstandsreizen per leven, of 1.728 km per persoon per jaar.",
+            "en": "négaWatt sets 4.8 long-haul and 24 short-haul trips per lifetime, i.e. 1,728 km per person per year."
+          },
+          "parts": {
+            "long-haul": {
+              "short": {
+                "fr": "Long-courriers",
+                "nl": "Langeafstandsreizen",
+                "en": "Long-haul"
+              },
+              "question": {
+                "fr": "Voyages long-courriers par vie",
+                "nl": "Langeafstandsreizen per leven",
+                "en": "Long-haul trips per lifetime"
+              }
+            },
+            "short-haul": {
+              "short": {
+                "fr": "Court-courriers",
+                "nl": "Korteafstandsreizen",
+                "en": "Short-haul"
+              },
+              "question": {
+                "fr": "Voyages court-courriers par vie",
+                "nl": "Korteafstandsreizen per leven",
+                "en": "Short-haul trips per lifetime"
+              }
+            }
+          },
+          "facts": [],
+          "code": "H",
+          "sector": "transport",
+          "archived": true
+        },
+        "plane-load": {
+          "question": {
+            "fr": "Quel remplissage des vols viser en 2050 ?",
+            "nl": "Hoe vol moeten de vluchten in 2050 zitten?",
+            "en": "How full should flights be in 2050?"
+          },
+          "short": {
+            "fr": "Remplissage des vols",
+            "nl": "Bezetting van de vluchten",
+            "en": "Passengers per flight"
+          },
+          "subtitle": {
+            "fr": "Le nombre moyen de passagers à bord, tous vols confondus, sièges vides compris.",
+            "nl": "Het gemiddelde aantal passagiers aan boord, alle vluchten samen, lege stoelen inbegrepen.",
+            "en": "The average number of passengers on board, all flights together, empty seats included."
+          },
+          "justification": {
+            "fr": "négaWatt retient 190 passagers par vol en moyenne : +17 % sur les long-courriers et +25 % sur les vols européens.",
+            "nl": "negaWatt kiest gemiddeld 190 passagiers per vlucht: +17 % op de langeafstandsvluchten en +25 % op de Europese vluchten.",
+            "en": "négaWatt sets 190 passengers per flight on average: +17% on long-haul and +25% on European flights."
+          },
+          "facts": [],
+          "code": "I",
+          "sector": "transport",
+          "archived": true
         }
       },
       "summaryChart": {

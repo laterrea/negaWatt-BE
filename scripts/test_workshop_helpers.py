@@ -158,6 +158,50 @@ def main():
             raise AssertionError("a lever id equal to a part answer id was accepted")
         ok("part answer ids cannot collide with a lever id")
 
+    # --- weighted parts and per-part impacts (D72) --------------------------
+    # Two sliders in trips per lifetime adding up to km per year, each acting on
+    # the demand on its own: the shape of plane-trips.
+    imp_a = {"kind": "proportional", "vTarget": 4.0, "total": 10.0, "scaled": 4.0}
+    imp_b = {"kind": "linear-shift", "vTarget": 20.0, "total": 10.0, "slope": 0.1}
+    trips = sf.make_lever(
+        "trips", "t", "Air travel", "km/person/year", 8 * 225 + 50 * 27.1,
+        4 * 225 + 20 * 27.1, slider={"min": 0, "max": 6000, "step": 10},
+        impact={"kind": "parts", "total": 10.0}, combine="sum",
+        parts=[sf.make_lever_part("long", "Long", "trips", 8, {"min": 2, "max": 16, "step": 0.25},
+                                  target_value=4, weight=225, impact=imp_a),
+               sf.make_lever_part("short", "Short", "trips", 50, {"min": 10, "max": 80, "step": 1},
+                                  target_value=20, weight=27.1, impact=imp_b)])
+    assert abs(sf.combine_parts("sum", None, [8, 50], trips["parts"]) - (1800 + 1355)) < 1e-9
+    assert trips["parts"][0]["weight"] == 225 and trips["parts"][1]["impact"] == imp_b
+    ok("a 'sum' part carries a weight, and the parts' targets add up to the lever's")
+
+    try:
+        sf.make_lever("trips", "t", "x", "km", 3155, 1442, slider={"min": 0, "max": 6000,
+                      "step": 10}, impact={"kind": "parts", "total": 10.0}, combine="sum",
+                      parts=[sf.make_lever_part("long", "L", "trips", 8, {"min": 2, "max": 16,
+                                                "step": 0.25}, weight=225, impact=imp_a),
+                             sf.make_lever_part("short", "S", "trips", 50, {"min": 10, "max": 80,
+                                                "step": 1}, weight=27.1)])
+    except ValueError as exc:
+        assert "each carry an impact" in str(exc), exc
+    else:
+        raise AssertionError("impact kind 'parts' accepted with a part lacking an impact")
+    ok("impact kind 'parts' needs an impact on every part")
+
+    try:
+        sf.make_lever("trips", "t", "x", "km", 3155, 1442, slider={"min": 0, "max": 6000,
+                      "step": 10}, impact={"kind": "proportional", "vTarget": 1442,
+                      "total": 10.0, "scaled": 5.0}, combine="sum",
+                      parts=[sf.make_lever_part("long", "L", "trips", 8, {"min": 2, "max": 16,
+                                                "step": 0.25}, weight=225, impact=imp_a),
+                             sf.make_lever_part("short", "S", "trips", 50, {"min": 10, "max": 80,
+                                                "step": 1}, weight=27.1, impact=imp_b)])
+    except ValueError as exc:
+        assert "must be 'parts'" in str(exc), exc
+    else:
+        raise AssertionError("parts carrying impacts accepted under a lever-level impact")
+    ok("parts carrying their own impact require the lever's impact kind 'parts'")
+
     with tempfile.TemporaryDirectory() as tmp:
         levers_js = os.path.join(tmp, "levers_transport.js")
         try:

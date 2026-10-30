@@ -33,9 +33,10 @@ EXPECTED = {
 }
 SPARE = {"bus-occupancy", "train-occupancy"}
 # Levers answered with several sliders (D61): the parts, in order, and the rule.
-PARTED = {"car-energy": (["speed-kmh", "driving", "mass"], "cuts")}
+PARTED = {"car-energy": (["speed-kmh", "driving", "mass"], "cuts"),
+          "plane-trips": (["long-haul", "short-haul"], "sum")}
 ANSWER_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")   # api/db.php ws_id()
-IMPACT_KINDS = {"proportional", "inverse", "linear-shift", "negligible"}
+IMPACT_KINDS = {"proportional", "inverse", "linear-shift", "negligible", "parts"}
 EDGE_MARGIN = 0.12
 
 
@@ -109,11 +110,23 @@ def main():
             if expected is not None:
                 check(abs(imp["total"] - expected) < 0.01,
                       f"{lid}: impact total {imp['total']} != the topic's 2050 total")
-            if imp["kind"] == "linear-shift":
-                check("slope" in imp, f"{lid}: linear-shift without a slope")
-            else:
-                check(imp["scaled"] > 0, f"{lid}: {imp['kind']} with scaled=0 "
-                                         f"(the mode lookup probably failed)")
+            # "parts" (D72): the effect is the sum of the parts' own, so each
+            # part's record is held to the rules a lever's would be
+            records = ([(f"{lid}__{p['id']}", p.get("impact") or {}) for p in lv.get("parts") or []]
+                       if imp["kind"] == "parts" else [(lid, imp)])
+            if imp["kind"] == "parts":
+                check(bool(records) and all(r for _, r in records),
+                      f"{lid}: impact kind 'parts' with a part that carries no impact")
+            for rid, rec in records:
+                if not rec:
+                    continue
+                check(rec["kind"] in IMPACT_KINDS and rec["kind"] != "parts",
+                      f"{rid}: bad impact kind {rec['kind']!r}")
+                if rec["kind"] == "linear-shift":
+                    check("slope" in rec, f"{rid}: linear-shift without a slope")
+                else:
+                    check(rec.get("scaled", 0) > 0, f"{rid}: {rec['kind']} with scaled=0 "
+                                                    f"(the mode lookup probably failed)")
 
     # --- questions answered in parts (D61) ----------------------------------
     def combine(rule, ref, values, parts):
@@ -123,7 +136,8 @@ def main():
             for v, p in zip(values, parts):
                 out *= 1 - p.get("cutPerUnit", 1.0) * (v - p.get("refValue", 0.0)) / 100.0
             return out
-        return sum(values)
+        # a part of a "sum" lever adds weight x value (D72)
+        return sum(p.get("weight", 1.0) * v for v, p in zip(values, parts))
 
     for lid, lv in levers.items():
         if lid in PARTED:
@@ -149,13 +163,17 @@ def main():
                 edge = min(p["targetValue"] - s_["min"], s_["max"] - p["targetValue"]) / span
                 check(edge >= EDGE_MARGIN, f"{lid}.{p['id']}: target sits {edge:.0%} from a "
                                            f"slider end")
+        # exported values carry four decimals, and a part's weight (225 km a year
+        # per long-haul trip) multiplies that rounding: hence a relative term
+        def tol(value):
+            return 1e-3 + 1e-5 * abs(value)
         ref = combine(rule, lv["refValue"], [p["refValue"] for p in parts], parts)
-        check(abs(ref - lv["refValue"]) < 1e-3,
+        check(abs(ref - lv["refValue"]) < tol(lv["refValue"]),
               f"{lid}: parts combine to {ref:g} in {lv['refYear']}, not {lv['refValue']}")
         if all("targetValue" in p for p in parts):
             trg = combine(rule, lv["refValue"], [p["targetValue"] for p in parts], parts)
             # the split must leave the scenario exactly where it was
-            check(abs(trg - lv["targetValue"]) < 1e-3,
+            check(abs(trg - lv["targetValue"]) < tol(lv["targetValue"]),
                   f"{lid}: the parts' targets combine to {trg:.4f}, not {lv['targetValue']}")
         corners = [combine(rule, lv["refValue"],
                            [p["slider"]["max" if (m >> i) & 1 else "min"]

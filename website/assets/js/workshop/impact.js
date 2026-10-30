@@ -142,14 +142,43 @@
       }, lever.refValue);
     }
     if (lever.combine === "sum") {
-      return values.reduce(function (acc, v) { return acc + v; }, 0);
+      // a part may carry a weight: trips per lifetime adding up to km per year
+      return values.reduce(function (acc, v, k) {
+        return acc + (parts[k].weight === undefined ? 1 : parts[k].weight) * v;
+      }, 0);
     }
     return null;
+  }
+
+  /* What a lever's answer contributes, against keeping today's level (see
+     contribution above). A lever whose impact kind is "parts" (D72) acts on the
+     demand through each of its sliders separately -- long-haul and short-haul
+     trips add up to air kilometres, but not to the same energy, and only the
+     short-haul ones shift to rail -- so its effect is the sum of its parts'
+     effects, each on its own slider. `partValues` follows lever.parts; a slider
+     the group has not moved (null) sits at today's level and adds nothing. */
+  function leverContribution(lever, value, partValues) {
+    if (!lever || !lever.impact) return null;
+    if (lever.impact.kind !== "parts") {
+      return contribution(lever.impact, value, lever.refValue);
+    }
+    if (value === null || value === undefined) return null;
+    var parts = lever.parts || [];
+    var sum = 0;
+    for (var k = 0; k < parts.length; k++) {
+      var v = partValues && partValues[k] !== null && partValues[k] !== undefined
+        ? partValues[k] : parts[k].refValue;
+      var c = contribution(parts[k].impact, v, parts[k].refValue);
+      if (c === null) return null;
+      sum += c;
+    }
+    return sum;
   }
 
   window.NW_IMPACT = {
     combine: combine,
     partCut: partCut,
+    leverContribution: leverContribution,
     evaluate: evaluate,
     delta: delta,
     deltaPct: deltaPct,

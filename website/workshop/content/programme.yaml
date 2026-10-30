@@ -34,6 +34,9 @@ lineups:
   full:
     topics:
       inland-mobility: all
-      international-mobility: all
+      # the seven questions played until October 2026; plane-trips and plane-load,
+      # added after them in the file, stand for four of them since November 2026
+      international-mobility: [long-haul-flights, short-haul-flights, long-haul-load,
+                               short-haul-load, plane-fuel, hydrogen-flights, air-freight]
       residential-heat: all
       tertiary-heat: all

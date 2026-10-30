@@ -117,6 +117,11 @@
     return a && a.value !== undefined && a.value !== null ? a.value : null;
   }
 
+  /* Each part's answer, in the order of lever.parts (null: not moved). */
+  function partValues(lever) {
+    return parted(lever) ? lever.parts.map(partValue) : null;
+  }
+
   function partsMoved(lever) {
     return lever.parts.filter(function (p) { return partValue(p) !== null; }).length;
   }
@@ -290,7 +295,7 @@
     // same indicator. Never the sector total (which reads as the combined effect
     // of all eight levers) and never a comparison with negaWatt (which a group
     // could solve by sliding until the difference vanished).
-    var delta = window.NW_IMPACT.contribution(lever.impact, value, lever.refValue);
+    var delta = window.NW_IMPACT.leverContribution(lever, value, partValues(lever));
     var main = $("leverage-value");
     var sub = $("leverage-delta");
 
@@ -729,7 +734,7 @@
         label: code(id) + " · " + (T.pick(leverContent(id).short) || lever.name),
         neutral: neutral,
         value: neutral || value === null ? null
-             : window.NW_IMPACT.contribution(lever.impact, value, lever.refValue)
+             : window.NW_IMPACT.leverContribution(lever, value, partValues(lever))
       };
     });
 

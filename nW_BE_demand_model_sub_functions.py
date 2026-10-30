@@ -513,7 +513,13 @@ def write_hypotheses_js(sector_key, hypotheses, plots=None, title=None,
 # browser by lever id. See docs/workshop_module.md.
 
 LEVER_IMPACT_KINDS = ("proportional", "inverse", "linear-shift", "renovation",
-                      "negligible")
+                      "negligible", "parts")
+# "parts": a lever answered in parts whose parts do not act on the demand through
+# the combined figure alone -- e.g. long-haul and short-haul trips, which add up to
+# air kilometres but differ in energy per km and in what replaces them. Each part
+# then carries its own impact record (any other kind), and the lever's effect is
+# the sum of its parts' effects. See docs/workshop_module.md, D72.
+LEVER_PART_IMPACT_KINDS = tuple(k for k in LEVER_IMPACT_KINDS if k != "parts")
 
 # Anti-anchoring guard (docs/workshop_module.md, decision D4): if the négaWatt
 # target sits at an end of the slider range, the range itself gives the answer
@@ -527,7 +533,10 @@ LEVER_MIN_EDGE_MARGIN = 0.12
 #           where a part's cut is c = cutPerUnit * (part value - part refValue),
 #           so a slider can speak its own unit (km/h, kg) and still be a cut;
 #           cutPerUnit defaults to 1 with a reference of 0: the slider is the cut
-#   "sum"   the parts add up:  value = p1 + p2 + ...
+#   "sum"   the parts add up:  value = w1*p1 + w2*p2 + ...
+#           each part's weight w defaults to 1; a weight lets a part speak its
+#           own unit (trips per lifetime) and still add up to the lever's (km
+#           per year): 18 000 km / 80 years = 225 km a year per trip per life
 # impact.js applies the same two rules in the browser (NW_IMPACT.combine).
 LEVER_COMBINE_RULES = ("cuts", "sum")
 
@@ -548,7 +557,8 @@ def combine_parts(rule, ref_value, values, parts=None):
     """The lever value that a set of part values adds up to, under `rule`.
 
     `parts` (the records of make_lever_part, same order as `values`) carry each
-    slider's conversion to a cut; without them every value is a cut already.
+    slider's conversion to a cut ("cuts") or its weight ("sum"); without them every
+    value is a cut already, or adds up as it is.
     """
     if rule == "cuts":
         out = float(ref_value)
@@ -556,12 +566,13 @@ def combine_parts(rule, ref_value, values, parts=None):
             out *= 1.0 - part_cut(parts[i] if parts else None, v) / 100.0
         return out
     if rule == "sum":
-        return float(sum(float(v) for v in values))
+        return float(sum(float((parts[i] if parts else {}).get("weight", 1.0)) * float(v)
+                         for i, v in enumerate(values)))
     raise ValueError(f"combine rule must be one of {LEVER_COMBINE_RULES}, got {rule!r}")
 
 
 def make_lever_part(id, name, unit, ref_value, slider, target_value=None, decimals=None,
-                    cut_per_unit=None):
+                    cut_per_unit=None, weight=None, impact=None):
     """One slider of a lever that is answered in several parts.
 
     Passed to :func:`make_lever` through its ``parts`` argument. The slider is
@@ -575,6 +586,13 @@ def make_lever_part(id, name, unit, ref_value, slider, target_value=None, decima
     is ``cut_per_unit * (value - ref_value)`` percent — e.g. 0.6 for "km/h less
     on average", or -0.04 for an average mass in kg (lighter is a cut). Without
     it the slider value is the cut itself.
+
+    ``weight`` does the same for a "sum" lever: the part adds ``weight * value``
+    to the lever, so a slider in trips per lifetime can add up to km per year.
+
+    ``impact`` is this part's own leverage record, required when the lever's
+    impact kind is ``"parts"``: the lever's effect is then the sum of its parts'
+    effects, each evaluated on its own slider (impact.js, ``leverContribution``).
     """
     ref_value = float(ref_value)
     slider = {"min": float(slider["min"]), "max": float(slider["max"]),
@@ -591,6 +609,15 @@ def make_lever_part(id, name, unit, ref_value, slider, target_value=None, decima
            "slider": slider, "decimals": int(decimals)}
     if cut_per_unit is not None:
         rec["cutPerUnit"] = round(float(cut_per_unit), 8)
+    if weight is not None:
+        if not float(weight) > 0:
+            raise ValueError(f"part '{id}': a weight must be positive, got {weight!r}")
+        rec["weight"] = round(float(weight), 8)
+    if impact is not None:
+        if impact.get("kind") not in LEVER_PART_IMPACT_KINDS:
+            raise ValueError(f"part '{id}': impact kind must be one of "
+                             f"{LEVER_PART_IMPACT_KINDS}")
+        rec["impact"] = dict(impact)
     if target_value is not None:
         target_value = float(target_value)
         # D4 holds for every slider on the screen, not only for the lever's own
@@ -779,6 +806,15 @@ def make_lever(id, topic, name, unit, ref_value, target_value,
     if impact is not None:
         if impact.get("kind") not in LEVER_IMPACT_KINDS:
             raise ValueError(f"lever '{id}': impact kind must be one of {LEVER_IMPACT_KINDS}")
+        if impact["kind"] == "parts":
+            # the effect is the sum of the parts' own: every part needs one
+            blind = [p.get("id") for p in (parts or []) if not p.get("impact")]
+            if not parts or blind:
+                raise ValueError(f"lever '{id}': impact kind 'parts' needs parts that "
+                                 f"each carry an impact record (missing: {blind or 'parts'})")
+        elif any(p.get("impact") for p in (parts or [])):
+            raise ValueError(f"lever '{id}': a part carries its own impact, so the "
+                             f"lever's impact kind must be 'parts'")
 
     if better is None:
         better = "down" if target_value < ref_value else "up"

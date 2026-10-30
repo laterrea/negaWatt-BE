@@ -12,6 +12,23 @@ self-inconsistent scenario:
                                                                  + ..._extra)
     hydrogen-flights    % of intra-EU flights on hydrogen       (end_PM_avi_srt)
 
+Two more questions, added for the workshop of 2 November 2026 (D72), each
+standing for two of the levers above, which stay exported and worded as archived
+questions so that the answers given to them keep their meaning:
+
+    plane-trips         air km per person per year, answered with two sliders --
+                        long-haul and short-haul return trips per lifetime, i.e.
+                        exactly `long-haul-flights` and `short-haul-flights` --
+                        that add up (18 000 km / 80 years = 225 km a year per
+                        long-haul trip per life, 27.1 km for a short-haul one).
+                        Its curve is the measured air travel per person.
+    plane-load          passengers per flight, all flights: kerosene passenger-km
+                        over kerosene aircraft-km. Exact in the D45 sense: read as
+                        the same relative change on both haul types, the topic's
+                        kerosene demand is inversely proportional to it, and at
+                        négaWatt's own split (+17 % long-haul, +25 % short-haul) it
+                        lands on the scenario's demand.
+
 `plane-fuel` is one question for two model parameters. The two were asked
 separately until the 2026 review and were very nearly the same question: both
 start within 3 % of each other (69.1 and 67.3 kWh per aircraft-km in 2019) and
@@ -71,7 +88,7 @@ wrong number into a workshop.
 See docs/workshop_module.md for the design, and
 website/workshop/content/international-mobility.yaml for the wording.
 """
-from nW_BE_demand_model_sub_functions import make_lever, mode_totals_twh
+from nW_BE_demand_model_sub_functions import make_lever, make_lever_part, mode_totals_twh
 
 from . import need
 
@@ -632,6 +649,155 @@ def build(ctx):
                    "topicShareTransportTarget", "freightTwhTarget"],
          notebook=_NB + "#section_3", reference="nW-BE §3.1.4")
 
+    # --- Two questions for the workshop of 2 November 2026 (D72) ---------------
+    # One card for all flying, two sliders. Each slider is exactly one of the two
+    # trip levers above (same unit, same 2019 value, same target, same response),
+    # and they add up to the air kilometres per person and per year that the
+    # measured curve draws. The effect on demand is computed slider by slider
+    # (impact kind "parts"): a long-haul kilometre and a short-haul one neither
+    # cost the same energy nor have the same alternative (only short-haul shifts
+    # to rail), so the combined kilometres alone would not give it exactly.
+    _km_year_per_lng_trip = ref_trip_lng_km / ref_life_years     # 225 km/year
+    _km_year_per_srt_trip = ref_trip_srt_km / ref_life_years     # 27.1 km/year
+    _trip_parts = [
+        make_lever_part("long-haul", "Long-haul return trips per lifetime",
+                        "long-haul return trips per lifetime", _lng_trips[_Y0],
+                        {"min": 2, "max": 16, "step": 0.25},
+                        target_value=_lng_trips[_Y1],
+                        weight=_km_year_per_lng_trip,
+                        impact=_impact("proportional", _lng_trips[_Y1],
+                                       scaled=_twh(_pm_twh, "plane-extra EU", _Y1))),
+        make_lever_part("short-haul", "Short-haul return trips per lifetime",
+                        "short-haul return trips per lifetime", _srt_trips[_Y0],
+                        {"min": 10, "max": 80, "step": 1},
+                        target_value=_srt_trips[_Y1],
+                        weight=_km_year_per_srt_trip,
+                        impact=_impact("linear-shift", _srt_trips[_Y1], slope=_srt_slope)),
+    ]
+    for _y in (_Y0, _Y1):
+        _km = (_lng_trips[_y] * _km_year_per_lng_trip
+               + _srt_trips[_y] * _km_year_per_srt_trip)
+        assert abs(_km - _air_pkm[_y]) < 1e-6, (
+            f"{_y}: the two trip sliders add up to {_km:.3f} km/person/year but the "
+            f"model flies {_air_pkm[_y]:.3f}")
+    _add("plane-trips", _T, "Air travel per person, from trips per lifetime",
+         "km/person/year by air",
+         _air_pkm[_Y0], _air_pkm[_Y1], ref_year=_Y0, target_year=_Y1,
+         slider={"min": 0, "max": 6000, "step": 10}, decimals=0,
+         history="aviation_km_year",
+         impact={"kind": "parts", "total": round(_TOT, 4)},
+         parts=_trip_parts, combine="sum",
+         model={"var": "pro_PM_spe_avi_lng + pro_PM_spe_avi_srt", "section": "2.1",
+                "supersedes": ["long-haul-flights", "short-haul-flights"],
+                "note": "one card for the two trip levers: the parts are exactly "
+                        "long-haul-flights and short-haul-flights (same unit and "
+                        "values), weighted by 18 000 and 2 168 km over an 80-year "
+                        "life into km per person per year; their effects on demand "
+                        "are summed part by part"},
+         facts=dict(_scope_facts, **{
+             "lngTripKm": ref_trip_lng_km, "srtTripKm": ref_trip_srt_km,
+             "lifeYears": ref_life_years,
+             "kmYearPerLngTrip": round(_km_year_per_lng_trip, 1),
+             "kmYearPerSrtTrip": round(_km_year_per_srt_trip, 1),
+             "airKmYear2019": round(_air_pkm[_Y0]),
+             "airKmDay2019": round(_air_pkm[_Y0] / 365.0, 1),
+             "lngTrips2019": round(_lng_trips[_Y0], 1),
+             "srtTrips2019": round(_srt_trips[_Y0]),
+             "lngTripsTarget": round(_lng_trips[_Y1], 1),
+             "srtTripsTarget": round(_srt_trips[_Y1]),
+             "airKmYearTarget": round(_air_pkm[_Y1]),
+             "airChangePct": round(100 * (_air_pkm[_Y1] / _air_pkm[_Y0] - 1), 1),
+             "lngChangePct": round(pro_PM_spe_avi_lng * 100, 1),
+             "srtShiftPct": round(-pro_PM_spe_avi_srt * 100, 1),
+             "toRailCnvPct": round(sft_PM_rel_avi_srt_to_trn_cnv * 100, 1),
+             "toRailSpdPct": round(sft_PM_rel_avi_srt_to_trn_spd * 100, 1),
+             "toCoachPct": round(sft_PM_rel_avi_srt_to_cch * 100, 1),
+             "pctPop2019": round(_lng_pct_pop[_Y0], 1),
+             "shareAirPkmLng2019": _pct(_lng_pkm[_Y0], _air_pkm[_Y0]),
+             "shareAirPkmSrt2019": _pct(_srt_pkm[_Y0], _air_pkm[_Y0]),
+             "lngKwhPkm2019": round(_intensity(_pm_twh, df_PM, "plane-extra EU",
+                                               "Gpkm", _Y0), 3),
+             "srtKwhPkm2019": round(_intensity(_pm_twh, df_PM, "plane-intra EU",
+                                               "Gpkm", _Y0), 3),
+             "kwhPerLngTrip2019": round(_kwh_per_lng_trip),
+             "litresPerLngTrip2019": round(_kwh_per_lng_trip / ref_kwh_per_l_kero),
+             "kwhPerSrtTrip2019": round(_kwh_per_srt_trip),
+             "litresPerSrtTrip2019": round(_kwh_per_srt_trip / ref_kwh_per_l_kero),
+             "paxTwh2019": round(_pax_twh[_Y0], 1),
+             "paxTwhTarget": round(_pax_twh[_Y1], 2)}),
+         spoilers=["lngTripsTarget", "srtTripsTarget", "airKmYearTarget", "airChangePct",
+                   "lngChangePct", "srtShiftPct", "toRailCnvPct", "toRailSpdPct",
+                   "toCoachPct", "paxTwhTarget", "topicShareTransportTarget",
+                   "freightTwhTarget"],
+         notebook=_NB + "#section_2", reference="nW-BE §2.1")
+
+    # Passengers per flight, all flights: kerosene passenger-km over kerosene
+    # aircraft-km, the aircraft-km read back from the model's own TWh as for
+    # plane-fuel. The hydrogen aircraft of hydrogen-flights is left out, as it is
+    # of short-haul-load: it is fixed at 100 seats and is not what this asks.
+    _kero_akm = {y: {"lng": _twh(_pm_twh, "plane-extra EU", y) * 1e9 / _fuel_lng[y],
+                     "srt": _srt_kero_twh[y] * 1e9 / _fuel_srt[y]} for y in (_Y0, _Y1)}
+    _kero_pkm = {y: {"lng": _kero_akm[y]["lng"] * _occ_lng[y],
+                     "srt": _kero_akm[y]["srt"] * _occ_srt[y]} for y in (_Y0, _Y1)}
+    _occ_all = {y: sum(_kero_pkm[y].values()) / sum(_kero_akm[y].values())
+                for y in (_Y0, _Y1)}
+    for _y in (_Y0, _Y1):
+        assert min(_occ_lng[_y], _occ_srt[_y]) <= _occ_all[_y] \
+               <= max(_occ_lng[_y], _occ_srt[_y]), (
+            f"{_y}: passengers per flight, all flights, {_occ_all[_y]:.2f} is not "
+            f"between the two haul types it averages")
+    # 2019 has no hydrogen: the kerosene passenger-km are all the passenger-km
+    assert abs(sum(_kero_pkm[_Y0].values()) / _pop[_Y0] - _air_pkm[_Y0]) < 0.5, (
+        "2019 kerosene passenger-km per person disagree with the model's air pkm")
+    _add("plane-load", _T, "Passengers per flight, all flights", "passengers per flight",
+         _occ_all[_Y0], _occ_all[_Y1], ref_year=_Y0, target_year=_Y1,
+         slider={"min": 100, "max": 250, "step": 5},
+         history="avia_occupancy_all",
+         impact=_impact("inverse", _occ_all[_Y1], scaled=_kero_twh[_Y1]),
+         model={"var": "occu_trgt_PM_avi_extra + occu_trgt_PM_avi_intra",
+                "section": "2.3",
+                "supersedes": ["long-haul-load", "short-haul-load"],
+                "note": "one question for the two occupancy parameters: kerosene "
+                        "passenger-km over kerosene aircraft-km, both haul types. An "
+                        "answer is read as the same relative change on both, so the "
+                        "kerosene demand is exactly inversely proportional to it; "
+                        "négaWatt's own split is +17 % long-haul and +25 % short-haul"},
+         facts=dict(_scope_facts, **{
+             "occuAll2019": round(_occ_all[_Y0]),
+             "occuAllTarget": round(_occ_all[_Y1]),
+             "occuAllGainPct": round(100 * (_occ_all[_Y1] / _occ_all[_Y0] - 1), 1),
+             "occuLng2019": round(_occ_lng[_Y0]), "occuSrt2019": round(_occ_srt[_Y0]),
+             "occuLngTarget": round(_occ_lng[_Y1]), "occuSrtTarget": round(_occ_srt[_Y1]),
+             "gainLngPct": round((occu_trgt_PM_avi_extra - 1) * 100, 1),
+             "gainSrtPct": round((occu_trgt_PM_avi_intra - 1) * 100, 1),
+             "occuLng2000": ref_extra_occu_2000, "occuLng2023": ref_extra_occu_2023,
+             "occuSrt2000": ref_intra_occu_2000, "occuSrt2023": ref_intra_occu_2023,
+             "histGainLngPct2019": round(100 * (_occ_lng[_Y0] / ref_extra_occu_2000 - 1), 1),
+             "histGainSrtPct2019": round(100 * (_occ_srt[_Y0] / ref_intra_occu_2000 - 1), 1),
+             "loadFactor2019": ref_load_factor_2019,
+             "loadFactor2024": ref_load_factor_2024,
+             "seatsImpliedAll2019": round(_occ_all[_Y0] / (ref_load_factor_2019 / 100.0)),
+             "seatsImpliedLng2019": round(_occ_lng[_Y0] / (ref_load_factor_2019 / 100.0)),
+             "seatsImpliedSrt2019": round(_occ_srt[_Y0] / (ref_load_factor_2019 / 100.0)),
+             "kwhKmLng2000": round(ref_extra_fuel_2000 / 100.0 * kgoe_to_kWh, 1),
+             "kwhKmLng2019": round(_fuel_lng[_Y0], 1),
+             "kwhKmSrt2000": round(ref_intra_fuel_2000 / 100.0 * kgoe_to_kWh, 1),
+             "kwhKmSrt2019": round(_fuel_srt[_Y0], 1),
+             "fuelChangeLngPct2019": round(100 * (ref_extra_fuel_2019
+                                                  / ref_extra_fuel_2000 - 1), 1),
+             "fuelChangeSrtPct2019": round(100 * (ref_intra_fuel_2019
+                                                  / ref_intra_fuel_2000 - 1), 1),
+             "lngKwhPkm2019": round(_intensity(_pm_twh, df_PM, "plane-extra EU",
+                                               "Gpkm", _Y0), 3),
+             "srtKwhPkm2019": round(_intensity(_pm_twh, df_PM, "plane-intra EU",
+                                               "Gpkm", _Y0), 3),
+             "keroTwh": round(_kero_twh[_Y0], 1),
+             "keroTwhTarget": round(_kero_twh[_Y1], 2)}),
+         spoilers=["occuAllTarget", "occuAllGainPct", "occuLngTarget", "occuSrtTarget",
+                   "gainLngPct", "gainSrtPct", "keroTwhTarget",
+                   "topicShareTransportTarget", "freightTwhTarget"],
+         notebook=_NB + "#section_2", reference="nW-BE §2.3")
+
     _add("hydrogen-flights", _T, "Hydrogen share of intra-EU flights",
          "% of intra-EU flights on hydrogen",
          0.0, float(end_PM_avi_srt), ref_year=_Y0, target_year=_Y1,
@@ -683,6 +849,7 @@ def build(ctx):
         "modeIntensity": {str(y): {m: round(_intensity(_pm_twh, df_PM, m, "Gpkm", y), 5)
                                    for m in _AVI} for y in (_Y0, _Y1)},
         "shiftBasketIntensityTarget": round(_srt_basket, 5),
+        "passengersPerFlightAll": {str(y): round(_occ_all[y], 2) for y in (_Y0, _Y1)},
         "referenceTrip": {"longHaulKm": ref_trip_lng_km,
                           "shortHaulKm": ref_trip_srt_km,
                           "lifeYears": ref_life_years},

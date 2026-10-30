@@ -23,7 +23,7 @@ Status: ⬜ todo · 🟡 in progress · ✅ done · ⛔ dropped (with reason)
 
 ## Resume here
 
-> **Next step:** WP3 (model: merged aviation levers, weighted parts, per-part impacts, history series, notebook re-runs).
+> **Next step:** WP4 — brief and launch agent 1 (inland mobility content), then review.
 
 Environment: no `data_processing` env on this machine; the `pypsa-eur` env has every
 dependency (numpy, pandas, scipy, matplotlib, nbformat, nbconvert, yaml, jupyter):
@@ -96,7 +96,7 @@ of this). Server backup of the deployed files: see WP8.
 | WP0 | Restore point (tag), docx extraction, this tracker | orchestrator | ✅ |
 | WP1 | Line-ups: `programme.yaml`, build, join/play/cards/reveal, per-lever sector | orchestrator | ✅ |
 | WP2 | New card structure: play screen + printed card | orchestrator | ✅ |
-| WP3 | Model: `plane-trips`, `plane-load`, weighted parts, per-part impacts, new history series, notebook re-runs | orchestrator | ⬜ |
+| WP3 | Model: `plane-trips`, `plane-load`, weighted parts, per-part impacts, new history series, notebook re-runs | orchestrator | ✅ |
 | WP4 | Content — inland mobility (3 cards) | agent 1 (Sonnet) + review | ⬜ |
 | WP5 | Content — buildings heat (theme + 3 cards) | agent 2 (Sonnet) + review | ⬜ |
 | WP6 | Content — international mobility (3 cards) | agent 3 (Sonnet) + review | ⬜ |
@@ -125,3 +125,19 @@ of this). Server backup of the deployed files: see WP8.
   (the tangible reading, then the TWh of this lever alone). Printed card: question +
   introduction → facts → 2019 value and range → two lines for the condition. Checked in
   the browser (FR, inland mobility, slider moved: box fills, no console error).
+- 2026-10-30 — WP3 done. Helpers: a "sum" part may carry a `weight`; impact kind `parts`
+  (each part carries its own impact record, the lever's effect is their sum —
+  `NW_IMPACT.leverContribution`, used by the readout and the ± summary chart). Module:
+  `plane-trips` (km/person/year by air; parts `long-haul` 225 km/yr per trip and
+  `short-haul` 27.1 km/yr per trip, each exactly the old lever: same unit, values,
+  targets and impact record — checked) and `plane-load` (passengers per flight, kerosene
+  pkm / kerosene aircraft-km; inverse on the kerosene TWh; a uniform +10 % gives
+  −0.6518 TWh, the same as the two old levers summed). Both carry
+  `model.supersedes`. data_aux: series `aviation_km_year` (3 176 km in 2019) and
+  `avia_occupancy_all` (152.4). Notebooks re-run: only those additions changed;
+  `energy_totals_overrides.csv` byte-identical, no existing lever changed. Skeleton
+  wording for the two new questions appended at the end of
+  `international-mobility.yaml` (so archived cards keep letters A–G). `full` line-up now
+  lists the seven old aviation questions explicitly. Tests: helpers 17/17, export
+  438/438 (verifier taught `parts` impacts and weights), API 61/61 on dev_api, browser:
+  two sliders → 2 264 km/pers./an and −3 TWh for 4 long-haul trips.

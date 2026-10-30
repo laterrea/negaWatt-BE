@@ -2,7 +2,7 @@
 window.NW_LEVERS = window.NW_LEVERS || {};
 window.NW_LEVERS["transport"] = {
   "title": "Mobility & transport",
-  "generated": "2026-10-03",
+  "generated": "2026-10-30",
   "levers": {
     "ground-km-day": {
       "topic": "inland-mobility",
@@ -904,6 +904,220 @@ window.NW_LEVERS["transport"] = {
       "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_3",
       "reference": "nW-BE §3.1.4"
     },
+    "plane-trips": {
+      "topic": "international-mobility",
+      "name": "Air travel per person, from trips per lifetime",
+      "unit": "km/person/year by air",
+      "refYear": 2019,
+      "refValue": 3176.0126,
+      "targetYear": 2050,
+      "targetValue": 1727.5106,
+      "slider": {
+        "min": 0.0,
+        "max": 6000.0,
+        "step": 10.0
+      },
+      "better": "down",
+      "decimals": 0,
+      "shown": true,
+      "impact": {
+        "kind": "parts",
+        "total": 10.875
+      },
+      "model": {
+        "var": "pro_PM_spe_avi_lng + pro_PM_spe_avi_srt",
+        "section": "2.1",
+        "supersedes": [
+          "long-haul-flights",
+          "short-haul-flights"
+        ],
+        "note": "one card for the two trip levers: the parts are exactly long-haul-flights and short-haul-flights (same unit and values), weighted by 18 000 and 2 168 km over an 80-year life into km per person per year; their effects on demand are summed part by part"
+      },
+      "history": "aviation_km_year",
+      "facts": {
+        "topicTwh": 19.8,
+        "freightTwh": 3.57,
+        "freightTwhTarget": 3.53,
+        "transportTwh": 122.0,
+        "topicShareTransport": 16.2,
+        "topicShareTransportTarget": 32.0,
+        "lngTripKm": 18000.0,
+        "srtTripKm": 2168.0,
+        "lifeYears": 80.0,
+        "kmYearPerLngTrip": 225.0,
+        "kmYearPerSrtTrip": 27.1,
+        "airKmYear2019": 3176,
+        "airKmDay2019": 8.7,
+        "lngTrips2019": 8.1,
+        "srtTrips2019": 50,
+        "lngTripsTarget": 4.8,
+        "srtTripsTarget": 24,
+        "airKmYearTarget": 1728,
+        "airChangePct": -45.6,
+        "lngChangePct": -40.0,
+        "srtShiftPct": 50.0,
+        "toRailCnvPct": 20.0,
+        "toRailSpdPct": 25.0,
+        "toCoachPct": 5.0,
+        "pctPop2019": 10.1,
+        "shareAirPkmLng2019": 57.1,
+        "shareAirPkmSrt2019": 42.9,
+        "lngKwhPkm2019": 0.358,
+        "srtKwhPkm2019": 0.566,
+        "kwhPerLngTrip2019": 6447,
+        "litresPerLngTrip2019": 674,
+        "kwhPerSrtTrip2019": 1228,
+        "litresPerSrtTrip2019": 128,
+        "paxTwh2019": 16.2,
+        "paxTwhTarget": 7.35
+      },
+      "spoilers": [
+        "airChangePct",
+        "airKmYearTarget",
+        "freightTwhTarget",
+        "lngChangePct",
+        "lngTripsTarget",
+        "paxTwhTarget",
+        "srtShiftPct",
+        "srtTripsTarget",
+        "toCoachPct",
+        "toRailCnvPct",
+        "toRailSpdPct",
+        "topicShareTransportTarget"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_2",
+      "reference": "nW-BE §2.1",
+      "parts": [
+        {
+          "id": "long-haul",
+          "name": "Long-haul return trips per lifetime",
+          "unit": "long-haul return trips per lifetime",
+          "refValue": 8.0538,
+          "slider": {
+            "min": 2.0,
+            "max": 16.0,
+            "step": 0.25
+          },
+          "decimals": 1,
+          "weight": 225.0,
+          "impact": {
+            "kind": "proportional",
+            "vTarget": 4.8323,
+            "total": 10.875,
+            "scaled": 3.524
+          },
+          "targetValue": 4.8323,
+          "answerId": "plane-trips__long-haul"
+        },
+        {
+          "id": "short-haul",
+          "name": "Short-haul return trips per lifetime",
+          "unit": "short-haul return trips per lifetime",
+          "refValue": 50.3289,
+          "slider": {
+            "min": 10.0,
+            "max": 80.0,
+            "step": 1.0
+          },
+          "decimals": 0,
+          "weight": 27.1,
+          "impact": {
+            "kind": "linear-shift",
+            "vTarget": 23.6255,
+            "total": 10.875,
+            "scaled": 0.0,
+            "slope": 0.1365
+          },
+          "targetValue": 23.6255,
+          "answerId": "plane-trips__short-haul"
+        }
+      ],
+      "combine": "sum"
+    },
+    "plane-load": {
+      "topic": "international-mobility",
+      "name": "Passengers per flight, all flights",
+      "unit": "passengers per flight",
+      "refYear": 2019,
+      "refValue": 152.4403,
+      "targetYear": 2050,
+      "targetValue": 189.6859,
+      "slider": {
+        "min": 100.0,
+        "max": 250.0,
+        "step": 5.0
+      },
+      "better": "up",
+      "decimals": 0,
+      "shown": true,
+      "impact": {
+        "kind": "inverse",
+        "vTarget": 189.6859,
+        "total": 10.875,
+        "scaled": 7.17
+      },
+      "model": {
+        "var": "occu_trgt_PM_avi_extra + occu_trgt_PM_avi_intra",
+        "section": "2.3",
+        "supersedes": [
+          "long-haul-load",
+          "short-haul-load"
+        ],
+        "note": "one question for the two occupancy parameters: kerosene passenger-km over kerosene aircraft-km, both haul types. An answer is read as the same relative change on both, so the kerosene demand is exactly inversely proportional to it; négaWatt's own split is +17 % long-haul and +25 % short-haul"
+      },
+      "history": "avia_occupancy_all",
+      "facts": {
+        "topicTwh": 19.8,
+        "freightTwh": 3.57,
+        "freightTwhTarget": 3.53,
+        "transportTwh": 122.0,
+        "topicShareTransport": 16.2,
+        "topicShareTransportTarget": 32.0,
+        "occuAll2019": 152,
+        "occuAllTarget": 190,
+        "occuAllGainPct": 24.4,
+        "occuLng2019": 188,
+        "occuSrt2019": 122,
+        "occuLngTarget": 220,
+        "occuSrtTarget": 152,
+        "gainLngPct": 17.0,
+        "gainSrtPct": 25.0,
+        "occuLng2000": 154.0,
+        "occuLng2023": 205.5,
+        "occuSrt2000": 87.5,
+        "occuSrt2023": 130.8,
+        "histGainLngPct2019": 22.0,
+        "histGainSrtPct2019": 39.3,
+        "loadFactor2019": 82.6,
+        "loadFactor2024": 83.4,
+        "seatsImpliedAll2019": 185,
+        "seatsImpliedLng2019": 227,
+        "seatsImpliedSrt2019": 148,
+        "kwhKmLng2000": 109.0,
+        "kwhKmLng2019": 67.3,
+        "kwhKmSrt2000": 67.3,
+        "kwhKmSrt2019": 69.1,
+        "fuelChangeLngPct2019": -38.3,
+        "fuelChangeSrtPct2019": 2.6,
+        "lngKwhPkm2019": 0.358,
+        "srtKwhPkm2019": 0.566,
+        "keroTwh": 16.2,
+        "keroTwhTarget": 7.17
+      },
+      "spoilers": [
+        "freightTwhTarget",
+        "gainLngPct",
+        "gainSrtPct",
+        "keroTwhTarget",
+        "occuAllGainPct",
+        "occuAllTarget",
+        "occuLngTarget",
+        "occuSrtTarget",
+        "topicShareTransportTarget"
+      ],
+      "notebook": "../notebooks/nW_BE_demand_model_transports.html#section_2",
+      "reference": "nW-BE §2.3"
+    },
     "hydrogen-flights": {
       "topic": "international-mobility",
       "name": "Hydrogen share of intra-EU flights",
@@ -1089,6 +1303,10 @@ window.NW_LEVERS["transport"] = {
         }
       },
       "shiftBasketIntensityTarget": 0.0741,
+      "passengersPerFlightAll": {
+        "2019": 152.44,
+        "2050": 189.69
+      },
       "referenceTrip": {
         "longHaulKm": 18000.0,
         "shortHaulKm": 2168.0,
