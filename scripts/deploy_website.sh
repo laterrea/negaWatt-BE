@@ -7,7 +7,7 @@ cd /home/sylvain/svn/negaWatt-BE
 rsync -avz --no-perms --omit-dir-times \
       --exclude '.DS_Store' --exclude '__pycache__' \
       --exclude '*.md' \
-      -e "ssh -i ~/.ssh/rsa_nopasswd" \
+      -e "ssh -i ~/.ssh/rsa_labothap" \
       website/ negawatt@negawatt.squoilin.eu:public_html/
 echo
 echo "--- verifying ---"
