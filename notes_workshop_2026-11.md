@@ -36,7 +36,26 @@ $PY/jupyter nbconvert --to notebook --execute --output /tmp/o.ipynb nW_BE_demand
 ```
 
 Restore point: `git checkout pre-workshop-2026-11` (tag on 7e0d3be, the state before any
-of this). Server backup of the deployed files: see WP8.
+of this). The live site was identical to that tag on 2026-10-30 (checked file by file).
+
+**Putting the live site back as it was** (either way works; answers in the database are
+never touched by a deploy):
+
+```bash
+# a) from the server-side snapshot taken before the first deploy (whole site but intervec/,
+#    RFNBO_final_results/ and api/config.php, which were left out of it and are never touched)
+ssh negawatt@negawatt.squoilin.eu 'tar -xzf ~/backups/public_html_2026-10-30_pre-workshop-2026-11.tgz -C ~'
+# b) from git: publish the tagged website/ (rsync without --delete, like the deploy script)
+git worktree add /tmp/nw-restore pre-workshop-2026-11
+rsync -avz --no-perms --omit-dir-times --exclude '*.md' /tmp/nw-restore/website/ negawatt@negawatt.squoilin.eu:public_html/
+git worktree remove /tmp/nw-restore
+```
+
+A deploy of this work changes exactly 18 files on the server (dry run with `--checksum`):
+`assets/css/workshop.css`, `assets/js/workshop/{cards,impact,join,play,reveal}.js`,
+`data/{history_transport,levers_transport,workshop_content}.js`,
+`workshop/{index,play}.html`, and the seven YAML files under `workshop/content/` (two of them
+new; YAML is never served, `.htaccess` answers 403).
 
 ---
 
