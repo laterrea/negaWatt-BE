@@ -77,6 +77,29 @@
                 "&lang=" + encodeURIComponent(T.lang());
     $("link-reveal").href = "reveal.html" + query;
     $("link-cards").href = "cards.html" + query;
+    archivedLinks();
+  }
+
+  /* Themes the line-up no longer offers keep their past sittings: one reveal
+     link each, its window opened from 1 January 2026 to today -- every sitting
+     so far, since none of them is played today. */
+  function archivedLinks() {
+    var box = $("archived-themes");
+    var ids = Object.keys(topics()).filter(function (id) {
+      return topics()[id].offered === false;
+    });
+    box.innerHTML = "";
+    box.classList.toggle("ws-hidden", !ids.length);
+    if (!ids.length) return;
+    box.appendChild(document.createTextNode(T.t("start.archived") + " "));
+    ids.forEach(function (id, i) {
+      if (i) box.appendChild(document.createTextNode(" · "));
+      var a = document.createElement("a");
+      a.href = "reveal.html?topic=" + encodeURIComponent(id) + "&from=2026-01-01" +
+               "&lang=" + encodeURIComponent(T.lang());
+      a.textContent = T.pick(topics()[id].title) || id;
+      box.appendChild(a);
+    });
   }
 
   function fail(message) {

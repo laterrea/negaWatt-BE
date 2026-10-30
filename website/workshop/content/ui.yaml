@@ -64,6 +64,11 @@ strings:
     fr: Imprimer les fiches
     nl: Kaarten afdrukken
     en: Print the fact cards
+  # Themes kept out of the current line-up (D69): their past sittings stay readable
+  start.archived:
+    fr: "Anciens thèmes, pour revoir leurs réponses :"
+    nl: "Vroegere thema's, om hun antwoorden te herbekijken:"
+    en: "Earlier themes, to review their answers:"
 
   # ------------------------------------------------------------------ groups
   group.autoPrefix:
