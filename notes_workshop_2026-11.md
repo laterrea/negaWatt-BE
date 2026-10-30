@@ -23,8 +23,8 @@ Status: ⬜ todo · 🟡 in progress · ✅ done · ⛔ dropped (with reason)
 
 ## Resume here
 
-> **Next step:** WP8 — deploy for testing (restore procedure above) and check the live
-> site read-only; then WP9 final docs.
+> **All work packages done (2026-10-30).** The live site plays the 2 November line-up.
+> What is left is for the organisers — see "Before the workshop" at the end.
 
 Environment: no `data_processing` env on this machine; the `pypsa-eur` env has every
 dependency (numpy, pandas, scipy, matplotlib, nbformat, nbconvert, yaml, jupyter):
@@ -121,8 +121,8 @@ new; YAML is never served, `.htaccess` answers 403).
 | WP5 | Content — buildings heat (theme + 3 cards) | agent 2 (Sonnet) + review | ✅ |
 | WP6 | Content — international mobility (3 cards) | agent 3 (Sonnet) + review | ✅ |
 | WP7 | Tests: build, helpers, export, API, browser FR/NL/EN, print | orchestrator | ✅ |
-| WP8 | Server backup, deploy for testing, live check | orchestrator | ⬜ |
-| WP9 | README + `docs/workshop_module.md` (D69–D72, review round), final notes | orchestrator | ⬜ |
+| WP8 | Server backup, deploy for testing, live check | orchestrator | ✅ |
+| WP9 | README + `docs/workshop_module.md` (D69–D75, §18), final notes | orchestrator | ✅ |
 
 ---
 
@@ -253,3 +253,31 @@ new; YAML is never served, `.htaccess` answers 403).
   values; the aviation one shows the combined km per group. Print (`cards.html` → PDF,
   headless Chromium): inland 3 pages, aviation 5 (the two-slider card runs over two pages),
   buildings 3 — the same in FR, NL and EN.
+- 2026-10-30 — WP8 done. Final dry run: the same 18 files. `scripts/deploy_website.sh` →
+  all 12 verified files identical at https://workshop.negawatt.be/. Read-only checks on the
+  live site: entry page offers the three themes and links the two archived ones; reveal of
+  *Mobilité intérieure* from 2026-01-01: 151 answers / 70 groups (3 played cards with 20, 20,
+  19 groups, then the 5 archived ones with their old letters); *Chaleur des logements*: 12
+  answers / 15 groups on its 8 archived cards; play page opened with `api=http://127.0.0.1:9`
+  (offline, nothing written; storage cleared). Live DB counts unchanged:
+  106 groups / 213 answers / 1 459 log rows.
+- 2026-10-30 — WP9 done: D73 (both thermostat charts inverted), D74 (archived themes on
+  the entry page), D75 (ids never reused; registry); §18 completed.
+
+## Before the workshop (for the organisers)
+
+1. **Read the nine cards** in the language(s) you will use:
+   https://workshop.negawatt.be/cards.html?topic=inland-mobility (then
+   `international-mobility`, `buildings-heat`; `&lang=nl` / `&lang=en`). The Dutch was not
+   written by a native speaker.
+2. **Print** them from the same page: 3 + 5 + 3 A4 pages, one card per page (the two-slider
+   aviation card runs over two pages).
+3. **On the day**: share https://workshop.negawatt.be/ — the entry page offers the three
+   themes; open the reveal from its facilitator panel. Groups playing different themes are
+   kept apart; a group plays one theme, so a table doing all nine questions plays the three
+   themes one after the other (three groups on the reveal).
+4. **To change the questions**: edit `active:` or the lists in
+   `website/workshop/content/programme.yaml`, run `python scripts/build_workshop_content.py`,
+   then `bash scripts/deploy_website.sh`. `full` gives back the thirty questions of
+   September–October.
+5. **To undo everything** on the live site: see "Putting the live site back" at the top.

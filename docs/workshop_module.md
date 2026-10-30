@@ -270,6 +270,9 @@ Each decision records *why*, so it can be revisited on purpose rather than by ac
 | D70 | **A theme may play questions worded in other files: `include:`** | The 2 November line-up merges residential and tertiary heat into one theme, *Chaleur des bâtiments*, with two residential questions and one tertiary one. Copying their wording into a new file would have forked it; renaming their topic would have orphaned the groups already stored under it. `buildings-heat.yaml` carries only its title, introduction and summary chart, and `include: [residential-heat, tertiary-heat]`; the line-up lists the questions it plays, and the build compiles each one from its home file, lettered for the theme that plays it. Each compiled question carries the `sector` of its numbers, so a theme could even mix transport and buildings. New groups are stored under `buildings-heat`; the older sittings stay under their own theme, whose reveal still shows them as archived questions. |
 | D71 | **The card follows the structure the organisers proposed: question, introduction, reference points, answer, condition, what the answer changes** | Proposal for the 2 November workshop ("changer la structure de toutes les fiches"). The play screen and the printed card now put the reference points *before* the answer, so a group reads them before it drags; the condition field ("Pour que cela arrive, il faudrait que…") follows the answer; the last block, "Ce que votre réponse change", gathers the tangible reading of the answer and the TWh of this lever alone, which used to sit under the slider. The introduction is the `subtitle`, which may now cite an external figure (`subtitleSource` + `subtitleUrl`, held to rule 2 like a fact). On paper the condition gets two lines to write on. No API change: the condition was always stored with the answer. |
 | D72 | **Two pairs of aviation questions became two questions, with new ids: `plane-trips` and `plane-load`** | The organisers merged long- and short-haul trips into one card (with "two graphs"), and long- and short-haul occupancy into one. `plane-trips` is one card with two sliders that are *exactly* the old levers (same unit, values, targets, impact records — asserted), weighted into air km per person per year so that the chart extends the measured curve (`aviation_km_year`, 3 176 km in 2019; a `sum` part now takes a `weight`). Its effect on demand cannot come from the combined kilometres — a long-haul km and a short-haul one differ in energy and only the latter shifts to rail — so a new impact kind, `parts`, sums each slider's own effect (`NW_IMPACT.leverContribution`). `plane-load` is passengers per flight over all flights (kerosene pkm over kerosene aircraft-km, 152.4 in 2019, curve `avia_occupancy_all`); read as one relative change on both haul types it is exactly inversely proportional to the kerosene demand, and at négaWatt's split (+17 % / +25 %) it lands on the scenario. Checked: a uniform +10 % gives −0.6518 TWh either way. New ids because the units changed (the D62 rule); the four old levers keep theirs and stay archived with their answers, and each new record lists them under `model.supersedes`. No model number moved: `energy_totals_overrides.csv` byte-identical, no existing lever record changed. |
+| D73 | **Both thermostat charts are drawn upside down (`chartInvertY`), the residential one too** | D60 inverted the tertiary chart and left its residential twin "for its owner to decide". The 2 November line-up plays both in one theme, *Chaleur des bâtiments*, where a line that falls for one thermostat and rises for the other would read as a contradiction. Drawing only, as in D60: the slider, the stored answer and every number keep the lever's sign. Their `short` labels became "Thermostat du logement" / "Thermostat du tertiaire" so that the summary table tells them apart. |
+| D74 | **The entry page links the reveal of every theme the line-up leaves out** | A theme off the line-up keeps its sittings, but its reveal was reachable only by typing its URL. The facilitator panel now lists those themes ("Anciens thèmes, pour revoir leurs réponses"), each opened on every sitting since 1 January 2026. |
+| D75 | **An id that held answers is never reused, and every id is listed** | The database stores an answer by question id alone. `programme.yaml` lists under `retired:` the six ids no file defines any more (three of them hold live answers: `truck-load`, `car-energy__speed`, `car-energy__size`), with the commit that last defined them; the build refuses a lever or slider id that matches one. `scripts/question_registry.py` writes `docs/workshop_question_ids.md`, which maps every id — played, archived or retired — to its question, unit, theme and line-ups (`--check` fails when it is stale). |
 
 ---
 
@@ -1015,3 +1018,34 @@ cards got new ones, and every older id is still defined and worded as an archive
 question — except six retired before line-ups existed, which `programme.yaml` lists under
 `retired:` with the commit that last defined them. `docs/workshop_question_ids.md`
 (generated) maps every id to its question and unit.
+
+**What the reviewers' text needed, at the source.** Every new figure was checked before it
+went on a card, and a dozen statements of the request had to be corrected or qualified: the
+rail vision is *Vision Rail 2040*, with a 2019 baseline; 76,3 % is Flanders outside its
+cities; the federal survey's 1,21 counts adults; Eurostat's under-occupation rate counts
+people (59,2 % in 2021), not dwellings; the rebound after insulation is sourced to a field
+study (Aydin, Kok & Brounen 2017) and worded "en partie", since the study measures
+consumption, not thermostat settings; Belgian airports passed their 2019 traffic in 2025
+while the kilometres flown per Belgian were still 12 % below it in 2023; aviation's +68 % in
+Belgium is international aviation, outside the national total (Eurostat `env_air_gge`);
+sustainable aviation fuels are mostly biofuels, and their 11 % is a share of renewable-fuel
+*capacity*; Ryanair fills 94 % of its seats over the year, 96 % only in summer. The details
+are in the tracker.
+
+**Verified before the test deploy of 2026-10-30.** Both line-ups build; helper tests 17/17;
+export checks 450/450; API contract 61/61 against `dev_api.py`; a scripted walk of the nine
+cards in French, Dutch and English (readouts, "Ce que votre réponse change", the ± summary
+chart, the reveal); `cards.html` printed to PDF: 3 + 5 + 3 pages. After the deploy, read-only
+on the live site: the entry page offers the three themes; the reveal of *Mobilité intérieure*
+over every sitting shows its 151 stored answers from 70 groups — the three cards played and
+the five archived ones — and the archived theme *Chaleur des logements* its 12; the play page
+was opened with an unreachable API, so that no test group was written (the database counts,
+106 groups / 213 answers / 1 459 log rows, were the same before and after).
+
+**Follow-ups left open.** The Dutch of the new cards was written by agents, not native
+speakers (Q5 still applies). The archived `renovation-depth` debate quotes Aydin et al. as
+"about 56 %", which does not match the 27 % / 41 % of the paper's abstract — worth checking
+before that card is played again. The archived `cooking` block carries two `url:` keys (YAML
+keeps the last). The covering e-mail mentioned with the request was not received; the .docx
+was the only source.
+
