@@ -40,3 +40,10 @@ lineups:
                                short-haul-load, plane-fuel, hydrogen-flights, air-freight]
       residential-heat: all
       tertiary-heat: all
+
+  # The workshop of 2 November 2026: nine questions in three themes, "the collective,
+  # sufficiency and clarity first" (docs/workshop_2026-11/request_scenario_fiches.md).
+  # Built up theme by theme while the cards are rewritten; activate when complete.
+  workshop-2026-11:
+    topics:
+      inland-mobility: [car-share, car-occupancy, car-energy]
