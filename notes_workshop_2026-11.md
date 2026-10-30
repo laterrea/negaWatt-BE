@@ -23,8 +23,8 @@ Status: ⬜ todo · 🟡 in progress · ✅ done · ⛔ dropped (with reason)
 
 ## Resume here
 
-> **Next step:** WP6 — launch agent 3 (aviation: full wording of `plane-trips`/`plane-load`,
-> `air-freight` edits, comments C4–C13, footnotes fn2/fn3), then review.
+> **Next step:** WP6 is running (agent 3: aviation). Then: review it; set `active:
+> workshop-2026-11`; rebuild; WP7 tests (FR/NL/EN walk, print), WP8 deploy, WP9 docs.
 
 Environment: no `data_processing` env on this machine; the `pypsa-eur` env has every
 dependency (numpy, pandas, scipy, matplotlib, nbformat, nbconvert, yaml, jupyter):
@@ -193,3 +193,9 @@ of this). Server backup of the deployed files: see WP8.
   Follow-up noted, not done: the archived `renovation-depth` debate quotes Aydin et al. as
   "about 56 %" — check against the paper; the archived `cooking` block carries two `url:`
   keys (YAML keeps the last). Printed card A is 244 mm (8 reference points).
+- 2026-10-30 — While agent 3 ran: buildings-heat checked in the browser (entry page, the three
+  cards with readouts and TWh effects, summary chart with three bars, reveal with négaWatt
+  values and the summary table). Entry page: the facilitator panel now links the reveal of
+  every theme left out of the line-up (from 2026-01-01 to today). Print: `cards.html` to PDF
+  with headless Chromium — inland 3 pages, buildings 3 pages (FR), one card per A4 page, the
+  new order visible (question+intro, facts, answer box, two lines for the condition).
