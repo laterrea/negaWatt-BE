@@ -547,19 +547,24 @@ python scripts/dev_api.py --port 8787 &
 #   …/workshop/reveal.html?topic=inland-mobility&api=http://127.0.0.1:8787
 
 # 4. tests
-python scripts/test_workshop_helpers.py       # the export helpers
-python scripts/verify_workshop_export.py      # 366 checks, inland-mobility only
-python scripts/build_workshop_content.py --check
+python scripts/test_workshop_helpers.py       # the export helpers (17)
+python scripts/verify_workshop_export.py      # 450 checks on the transport export
+python scripts/build_workshop_content.py --check                     # the active line-up
+python scripts/build_workshop_content.py --check --lineup full       # and the others
+python scripts/question_registry.py --check   # docs/workshop_question_ids.md up to date
 python scripts/test_workshop_api.py --base http://127.0.0.1:8787            # 61 checks
-#   Coverage note: only `build_workshop_content.py --check` sees all four topics.
-#   `verify_workshop_export.py` reads levers_transport.js / history_transport.js and
-#   is scoped to inland-mobility; nothing yet verifies the buildings export, so a
-#   change to residential- or tertiary-heat is checked by the build and by eye.
+#   Coverage note: every topic file is compiled by every build, whatever the line-up,
+#   so archived questions are checked too. `verify_workshop_export.py` reads
+#   levers_transport.js / history_transport.js only (inland mobility in depth, the
+#   aviation parts and curves of D72); nothing yet verifies the buildings export
+#   beyond the build, so a change to residential- or tertiary-heat is checked by the
+#   build and by eye. test_workshop_api.py writes "contract-test" groups into the
+#   topic it tests: run it against dev_api.py, not against the live database.
 
 # 5. publish — no root, no --delete (intervec/ and RFNBO_final_results/ survive);
 #    the script re-checks a few files against the server afterwards
 bash scripts/deploy_website.sh
-python scripts/test_workshop_api.py --base https://workshop.negawatt.be/api   # writes test groups: see the script
+curl -s https://workshop.negawatt.be/api/selftest.php     # read-only check of the live API
 ```
 
 A wording-only change is steps 2, 3 and 5. Check all three languages in the browser
