@@ -45,9 +45,9 @@ can hold answers, so that any row of `ws_answers` / `ws_answer_log` can be read.
 | id | question (fr) | unit | answer ids of its sliders | played in | stands for |
 |---|---|---|---|---|---|
 | `ground-km-day` | Augmenter la mobilité douce pour diminuer le nombre de km motorisés ? | km/person/day | — | `full` ★ | — |
-| `car-share` | Quelle place laisser à la voiture dans nos déplacements motorisés ? | % of motorised km | — | `full` ★, `workshop-2026-11` | — |
+| `car-share` | Quelle place pour la voiture dans nos déplacements motorisés ? | % of motorised km | — | `full` ★, `workshop-2026-11` | — |
 | `car-occupancy` | Combien de personnes par voiture, en moyenne ? | persons/car | — | `full` ★, `workshop-2026-11` | — |
-| `car-energy` | Des voitures qui consomment moins : jusqu'où ? | % of 2019 | `car-energy__speed-kmh` (km/h), `car-energy__driving` (%), `car-energy__mass` (kg) | `full` ★, `workshop-2026-11` | — |
+| `car-energy` | Des voitures qui consomment moins | % of 2019 | `car-energy__speed-kmh` (km/h), `car-energy__driving` (%), `car-energy__mass` (kg) | `full` ★, `workshop-2026-11` | — |
 | `bike-km-day` | Combien de kilomètres à vélo par jour ? | km/person/day | — | `full` ★ | — |
 | `freight-tkm` | Transporter moins de marchandises : de combien ? | tkm/person/year | — | `full` ★ | — |
 | `truck-share` | Quelle part des marchandises garder sur la route ? | % of tonne-km | — | `full` ★ | — |

@@ -40,20 +40,20 @@ lead:
 
 intro:
   fr: >
-    Vous allez fixer huit hypothèses de comportement et de politique publique pour
+    Vous allez fixer {questionCount} hypothèses de comportement et de politique publique pour
     2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt.
     Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de
     décider ce qui vous paraît à la fois souhaitable et atteignable. Chaque
     question tient sur un écran, avec quelques repères factuels pour nourrir la
     discussion.
   nl: >
-    Jullie stellen acht gedrags- en beleidsveronderstellingen voor 2050 vast —
+    Jullie stellen {questionCount} gedrags- en beleidsveronderstellingen voor 2050 vast —
     precies die welke de energiecijfers van het negaWatt-scenario *voortbrengen*.
     De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel
     wenselijk als haalbaar vinden. Elke vraag past op één scherm, met een paar
     feitelijke referentiepunten voor de discussie.
   en: >
-    You are going to set eight behavioural and policy assumptions for 2050 — the
+    You are going to set {questionCount} behavioural and policy assumptions for 2050 — the
     ones that *produce* the negaWatt scenario's energy figures. You do not yet
     know the values negaWatt chose: decide what strikes you as both desirable and
     achievable. Each question fits on one screen, with a few factual anchors to
@@ -80,15 +80,15 @@ summaryChart:
       mobility in 2050 — compared with keeping today's level of the same indicator.
   note:
     fr: >
-      Chaque barre est exacte pour son levier pris seul, les sept autres restant à leur
+      Chaque barre est exacte pour son levier pris seul, les {otherCount} autres restant à leur
       valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur
       somme n'est qu'un ordre de grandeur.
     nl: >
-      Elke balk is exact voor zijn eigen hefboom alleen, met de zeven andere op hun
+      Elke balk is exact voor zijn eigen hefboom alleen, met de {otherCount} andere op hun
       scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een
       grootteorde.
     en: >
-      Each bar is exact for its own lever taken alone, with the other seven left at their
+      Each bar is exact for its own lever taken alone, with the other {otherCount} left at their
       scenario value. The levers compound multiplicatively, so their sum is an order of
       magnitude only.
 
@@ -295,23 +295,29 @@ levers:
       nl: Aandeel van de auto
       en: Car share
     question:
-      fr: "Quelle place laisser à la voiture dans nos déplacements motorisés ?"
-      nl: "Hoeveel plaats laten we voor de auto in onze gemotoriseerde verplaatsingen?"
-      en: "How much room should the car keep in our motorised travel?"
+      fr: "Quelle place pour la voiture dans nos déplacements motorisés ?"
+      nl: "Hoeveel plaats voor de auto in onze gemotoriseerde verplaatsingen?"
+      en: "How much room for the car in our motorised travel?"
     subtitle:
       fr: >
-        En part des kilomètres parcourus en voiture, bus, tram, métro, train et deux-roues
-        motorisés. Le reste se répartit entre ces autres modes.
+        Ici, la place de la voiture, c'est la part des kilomètres faits en voiture parmi tous
+        les kilomètres motorisés parcourus par les Belges (en voiture, bus, tram, métro, train
+        et deux-roues motorisés). La marche et le vélo ne comptent pas. C'est une moyenne
+        nationale : elle cache des situations très différentes en ville et à la campagne.
       nl: >
-        Als aandeel van de kilometers met auto, bus, tram, metro, trein en gemotoriseerde
-        tweewielers. De rest verdeelt zich over die andere modi.
+        De plaats van de auto is hier het aandeel van de kilometers met de auto, binnen alle
+        gemotoriseerde kilometers die Belgen afleggen (met auto, bus, tram, metro, trein en
+        gemotoriseerde tweewielers). Stappen en fietsen tellen niet mee. Het is een nationaal
+        gemiddelde: het verbergt zeer verschillende situaties in de stad en op het platteland.
       en: >
-        As a share of the kilometres travelled by car, bus, tram, metro, train and motorbike.
-        The rest is shared among those other modes.
+        Here, the room the car takes is the share of kilometres travelled by car, out of all
+        the motorised kilometres Belgians travel (by car, bus, tram, metro, train and
+        motorised two-wheeler). Walking and cycling do not count. It is a national average: it
+        hides very different situations in town and in the countryside.
     tangible:
-      fr: "{value} % en voiture — le reste par les transports publics et les deux-roues."
-      nl: "{value} % met de auto — de rest met openbaar vervoer en tweewielers."
-      en: "{value}% by car — the rest by public transport and two-wheelers."
+      fr: "{value} % des kilomètres motorisés se font en voiture ; le reste en transports publics et en deux-roues motorisés."
+      nl: "{value} % van de gemotoriseerde kilometers gebeurt met de auto; de rest met openbaar vervoer en gemotoriseerde tweewielers."
+      en: "{value}% of motorised kilometres are by car; the rest by public transport and motorised two-wheelers."
     facts:
       - kind: trend
         text:
@@ -331,33 +337,42 @@ levers:
       - kind: caution
         text:
           fr: >
-            Attention au raccourci : ce sont les Pays-Bas qui affichent la *plus forte* part de
-            la voiture (85,3 % en 2023), parce que les kilomètres à vélo ne comptent pas dans
-            cet indicateur. Rouler beaucoup à vélo ne suffit pas à faire baisser cette part.
+            Attention au raccourci : ce sont les Pays-Bas qui affichent la *plus forte* part de
+            la voiture parmi les pays voisins de la Belgique (85,3 % en 2023), parce que les
+            kilomètres à vélo ne comptent pas dans cet indicateur. Rouler beaucoup à vélo ne
+            suffit pas à faire baisser cette part.
           nl: >
-            Pas op met de conclusie: Nederland heeft juist het *hoogste* autoaandeel (85,3 % in
-            2023), omdat fietskilometers niet in deze indicator meetellen. Veel fietsen alleen
-            verlaagt dit aandeel niet.
+            Pas op met de conclusie: Nederland heeft juist het *hoogste* autoaandeel van de
+            buurlanden van België (85,3 % in 2023), omdat fietskilometers niet in deze
+            indicator meetellen. Veel fietsen alleen verlaagt dit aandeel niet.
           en: >
-            Careful with the shortcut: the Netherlands has the *highest* car share of all
-            (85.3% in 2023), because cycling kilometres are not counted in this indicator.
-            Cycling a lot is not by itself enough to bring this share down.
+            Careful with the shortcut: the Netherlands has the *highest* car share among
+            Belgium's neighbours (85.3% in 2023), because cycling kilometres are not counted
+            in this indicator. Cycling a lot is not by itself enough to bring this share down.
         source: "Eurostat, tran_hv_psmod"
         url: https://ec.europa.eu/eurostat/databrowser/view/tran_hv_psmod/default/table?lang=en
       - kind: benchmark
         text:
           fr: >
-            La Suisse est le pays le moins dépendant de la voiture d'Europe occidentale :
-            72,5 % des voyageurs-kilomètres en voiture et 21,2 % en train (2023), contre
-            80,4 % et 9,4 % en Belgique.
+            La Suisse est le pays le moins dépendant de la voiture d'Europe occidentale : en
+            2023, 72,5 % des kilomètres parcourus par les passagers s'y font en voiture et
+            21,2 % en train, contre 80,4 % et 9,4 % en Belgique. Ces chiffres d'Eurostat ne
+            comptent que la voiture, le bus ou le car, et le train — ni le tram, ni le métro,
+            ni les deux-roues motorisés. C'est ce qui explique que la Belgique y soit à
+            80,4 % et non à 78,5 % comme dans la tendance passée.
           nl: >
-            Zwitserland is het minst autoafhankelijke land van West-Europa: 72,5 % van de
-            reizigerskilometers met de auto en 21,2 % met de trein (2023), tegenover 80,4 %
-            en 9,4 % in België.
+            Zwitserland is het minst autoafhankelijke land van West-Europa: in 2023 gebeurt
+            daar 72,5 % van de kilometers die reizigers afleggen met de auto en 21,2 % met de
+            trein, tegenover 80,4 % en 9,4 % in België. Deze cijfers van Eurostat tellen alleen
+            auto, bus of touringcar en trein mee — geen tram, metro of gemotoriseerde
+            tweewielers. Daardoor staat België hier op 80,4 % en niet op 78,5 % zoals bij de
+            trend uit het verleden.
           en: >
-            Switzerland is western Europe's least car-dependent country: 72.5% of
-            passenger-kilometres by car and 21.2% by train (2023), against 80.4% and 9.4% in
-            Belgium.
+            Switzerland is western Europe's least car-dependent country: in 2023, 72.5% of the
+            kilometres travelled by passengers there are by car and 21.2% by train, against
+            80.4% and 9.4% in Belgium. These Eurostat figures count only car, bus or coach and
+            train — no tram, metro or motorised two-wheeler. That is why Belgium shows 80.4%
+            here rather than the 78.5% of the past trend.
         source: "Eurostat, tran_hv_psmod"
         url: https://ec.europa.eu/eurostat/databrowser/view/tran_hv_psmod/default/table?lang=en
       - kind: structure
@@ -379,47 +394,54 @@ levers:
       - kind: structure
         text:
           fr: >
-            Avoir une voiture est d'abord une question de revenu. À Bruxelles, *26 %* des ménages
-            gagnant moins de 2 000 € net par mois possèdent une voiture, contre *91 %* de ceux
-            qui dépassent 10 000 € ; deux voitures ou plus, c'est 2 % contre environ la moitié.
-            À l'échelle du pays, 22,7 % des Belges sous le seuil de pauvreté déclarent ne pas
-            pouvoir s'offrir de voiture, contre 3,6 % au-dessus.
+            Avoir une voiture est d'abord une question de revenu. À Bruxelles, *26 %* des
+            ménages gagnant moins de 2 000 € par mois possèdent une voiture, contre *91 %* de
+            ceux qui dépassent 10 000 €. Seulement 2 % des ménages gagnant moins de 2 000 € par
+            mois possèdent deux voitures ou plus. À l'inverse, environ la moitié des ménages
+            gagnant plus de 10 000 € par mois en possèdent deux ou plus.
           nl: >
             Een auto hebben is in de eerste plaats een kwestie van inkomen. In Brussel heeft
-            *26 %* van de huishoudens met minder dan 2.000 € netto per maand een auto, tegenover
-            *91 %* van wie boven 10.000 € zit; twee auto's of meer is 2 % tegenover ongeveer de
-            helft. Landelijk zegt 22,7 % van de Belgen onder de armoedegrens zich geen auto te
-            kunnen veroorloven, tegenover 3,6 % erboven.
+            *26 %* van de huishoudens met minder dan 2.000 € per maand een auto, tegenover
+            *91 %* van de huishoudens met meer dan 10.000 € per maand. Slechts 2 % van de
+            huishoudens met minder dan 2.000 € per maand heeft twee auto's of meer.
+            Daartegenover heeft ongeveer de helft van de huishoudens met meer dan 10.000 € per
+            maand twee auto's of meer.
           en: >
-            Owning a car is first of all a question of income. In Brussels, *26%* of households
-            earning under €2,000 net a month have a car, against *91%* of those above €10,000;
-            for two cars or more it is 2% against roughly half. Nationally, 22.7% of Belgians
-            below the poverty line say they cannot afford a car, against 3.6% above it.
-        source: "Observatoire de la mobilité de Bruxelles-Capitale (2022) ; Eurostat ilc_mddu05 (2025)"
+            Owning a car is first of all a question of income. In Brussels, *26%* of
+            households earning under €2,000 a month have a car, against *91%* of those earning
+            above €10,000. Only 2% of households earning under €2,000 a month have two cars or
+            more. By contrast, about half of households earning over €10,000 a month have two
+            or more.
+        source: "Observatoire de la mobilité de Bruxelles-Capitale (2022)"
         url: https://be.brussels/fr/transport-mobilite/enjeux-de-la-mobilite/observatoire-thematique/automobile/equipements-automobiles-des-menages
       - kind: structure
+        label:
+          fr: Ville et campagne
+          nl: Stad en platteland
+          en: Town and country
         text:
           fr: >
-            La géographie pèse autant que le revenu. En 2025, un habitant de la Wallonie rurale
-            parcourt *25,8 km par jour en voiture*, un Bruxellois *7,8* — trois fois moins. La
-            voiture assure 86,7 % des distances en Wallonie rurale contre 52,3 % à Bruxelles.
-            Là où l'offre de transport public est faible, 5 % seulement des ménages se passent
-            de voiture ; là où elle est bonne, 37 %. Sans desserte rurale, cet indicateur ne
-            bouge pas.
+            La géographie pèse autant que le revenu. En 2024-2025, un adulte vivant en Wallonie
+            hors des villes parcourt *25,8 km par jour en voiture*, un adulte bruxellois
+            *7,8* — trois fois moins. La voiture assure 86,7 % des distances parcourues en
+            Wallonie hors des villes, 76,3 % en Flandre hors des villes et 52,3 % à Bruxelles
+            (marche et vélo compris dans le total). Bien sûr, la dépendance à la voiture est
+            fortement influencée par l'accessibilité des transports en commun.
           nl: >
-            Geografie weegt even zwaar als inkomen. In 2025 legt een inwoner van landelijk
-            Wallonië *25,8 km per dag met de auto* af, een Brusselaar *7,8* — drie keer minder.
-            De auto zorgt voor 86,7 % van de afstanden in landelijk Wallonië tegenover 52,3 % in
-            Brussel. Waar het openbaarvervoeraanbod zwak is, doet slechts 5 % van de huishoudens
-            het zonder auto; waar het goed is, 37 %. Zonder plattelandsbediening beweegt deze
-            indicator niet.
+            Geografie weegt even zwaar als inkomen. In 2024-2025 legt een volwassene die in
+            Wallonië buiten de steden woont *25,8 km per dag met de auto* af, een volwassen
+            Brusselaar *7,8* — drie keer minder. De auto neemt 86,7 % van de afgelegde afstand
+            voor zijn rekening in Wallonië buiten de steden, 76,3 % in Vlaanderen buiten de
+            steden en 52,3 % in Brussel (stappen en fietsen zitten in het totaal). Uiteraard
+            hangt de autoafhankelijkheid sterk af van de bereikbaarheid met het openbaar vervoer.
           en: >
-            Geography weighs as much as income. In 2025 someone living in rural Wallonia covers
-            *25.8 km a day by car*, a Brussels resident *7.8* — three times less. The car carries
-            86.7% of distance travelled in rural Wallonia against 52.3% in Brussels. Where public
-            transport supply is poor, only 5% of households manage without a car; where it is
-            good, 37%. Without rural service, this indicator does not move.
-        source: "SPF Mobilité, Enquête fédérale sur la mobilité 2025 ; Bureau fédéral du Plan, WP 02-25"
+            Geography weighs as much as income. In 2024-2025 an adult living in Wallonia
+            outside the cities covers *25.8 km a day by car*, an adult in Brussels *7.8* —
+            three times less. The car accounts for 86.7% of the distance travelled in Wallonia
+            outside the cities, 76.3% in Flanders outside the cities and 52.3% in Brussels
+            (walking and cycling are in the total). Of course, car dependence is strongly
+            shaped by how accessible public transport is.
+        source: "SPF Mobilité, Enquête fédérale sur la mobilité 2024-2025, tableau 2 p. 14 et chap. 9 p. 23 (voiture, camionnette et moto ; villes selon Degurba)"
         url: https://mobilit.belgium.be/sites/default/files/documents/publications/2026/EFM2025_update.pdf
         chart:
           kind: bars
@@ -430,49 +452,28 @@ levers:
             - {fr: Bruxelles, nl: Brussel, en: Brussels}
             - {fr: Villes, nl: Steden, en: Cities}
             - {fr: Hors villes, nl: Buiten steden, en: Outside cities}
-            - {fr: Wallonie rurale, nl: Landelijk Wallonië, en: Rural Wallonia}
+            - {fr: Wallonie hors villes, nl: Wallonië buiten steden, en: Wallonia outside cities}
           y: [7.8, 10.7, 21.8, 25.8]
           caption:
-            fr: Kilomètres parcourus en voiture par personne et par jour, 2025
-            nl: Autokilometers per persoon per dag, 2025
-            en: Car kilometres per person per day, 2025
-      - kind: trend
-        text:
-          fr: >
-            La Belgique a déjà eu un réseau rural dense, et l'a démantelé. Les *tramways
-            vicinaux* culminaient à environ *4 800 km de lignes en 1945* — davantage que les
-            3 619 km du réseau ferré actuel — et desservaient les villages. Il n'en restait
-            978 km en 1960 ; les dernières lignes ont fermé en 1978. Seul le tram côtier,
-            67 km, a survécu.
-          nl: >
-            België had ooit een dicht plattelandsnet en heeft het afgebroken. De
-            *buurtspoorwegen* piekten rond *4.800 km lijnen in 1945* — meer dan de 3.619 km
-            van het huidige spoornet — en bedienden de dorpen. In 1960 restte er 978 km; de
-            laatste lijnen sloten in 1978. Alleen de Kusttram, 67 km, overleefde.
-          en: >
-            Belgium once had a dense rural network and dismantled it. The *vicinal tramways*
-            peaked at about *4,800 km of line in 1945* — more than today's 3,619 km railway —
-            and served the villages. Only 978 km were left by 1960; the last lines closed in
-            1978. The 67 km Coast Tram is the sole survivor.
-        source: "VlaTAM (Vlaams Tram- en Autobusmuseum) ; Science Museum Group, SNCV ; Infrabel (3 619 km, 2023)"
-        url: https://www.vlatam.be/buurtspoorwegen/
+            fr: Kilomètres parcourus en voiture par adulte et par jour, 2024-2025
+            nl: Autokilometers per volwassene per dag, 2024-2025
+            en: Car kilometres per adult per day, 2024-2025
       - kind: tangible
         text:
           fr: >
-            Le train transporte aujourd'hui environ 9 % des voyageurs-kilomètres belges. Faire
-            reculer nettement la voiture suppose d'augmenter l'offre par habitant alors que la
-            population croît de 10 % d'ici 2050. Vision Rail 2040 vise
-            {railShareTarget2040} % de part modale pour le rail.
+            La « Vision Rail 2040 », adoptée par le gouvernement fédéral en 2022, vise à faire
+            passer la part du train dans le transport de personnes de 8 % (en 2019) à
+            {railShareTarget2040} % en 2040, soit presque le double.
           nl: >
-            De trein vervoert vandaag ongeveer 9 % van de Belgische reizigerskilometers. De auto
-            duidelijk terugdringen vraagt meer aanbod per inwoner, terwijl de bevolking tot 2050
-            met 10 % groeit. Vision Rail 2040 mikt op {railShareTarget2040} % modaal aandeel voor
-            het spoor.
+            De "Vision Rail 2040", in 2022 goedgekeurd door de federale regering, wil het
+            aandeel van de trein in het personenvervoer optrekken van 8 % (in 2019) tot
+            {railShareTarget2040} % in 2040, bijna een verdubbeling.
           en: >
-            Rail carries about 9% of Belgian passenger-kilometres today. Pushing the car back
-            substantially means more service per inhabitant while the population grows 10% by
-            2050. Vision Rail 2040 targets a {railShareTarget2040}% rail modal share.
-        source: nW-BE §2.1.3, Vision Rail 2040
+            The federal government's "Vision Rail 2040", adopted in 2022, aims to raise the
+            train's share of passenger transport from 8% (in 2019) to {railShareTarget2040}% in
+            2040, almost double.
+        source: "Gouvernement fédéral, Vision Rail 2040 (Conseil des ministres du 6 mai 2022), p. 10-11, d'après Eurostat 2019"
+        url: https://web.archive.org/web/20240512121757/https://gilkinet.belgium.be/sites/default/files/articles/Vision%20Rail%202040.pdf
     justification:
       fr: >
         négaWatt retient {targetValue} %. C'est la pièce maîtresse du volet voyageurs :
@@ -512,57 +513,91 @@ levers:
       nl: "Hoeveel mensen per auto, gemiddeld?"
       en: "How many people per car, on average?"
     subtitle:
-      fr: "Moyenne sur tous les trajets : voyageurs-kilomètres divisés par kilomètres-voiture."
-      nl: "Gemiddelde over alle ritten: reizigerskilometers gedeeld door autokilometers."
-      en: "Averaged over all trips: passenger-kilometres divided by car-kilometres."
+      fr: >
+        Ne pas utiliser la voiture est la meilleure façon de diminuer les émissions de CO₂.
+        Pour les déplacements qui se font quand même en voiture, covoiturer permet de
+        diminuer les émissions par personne. En Belgique, en 2024-2025, une voiture
+        transportait en moyenne 1,21 personne, conducteur compris (adultes seulement) : de
+        1,03 pour le travail et les études à 1,40 pour les loisirs.
+      nl: >
+        Niet met de auto rijden is de beste manier om de CO₂-uitstoot te verminderen. Voor de
+        verplaatsingen die toch met de auto gebeuren, kan carpoolen de uitstoot per persoon
+        verminderen. In België zaten er in 2024-2025 gemiddeld 1,21 personen in een auto, de
+        bestuurder meegerekend (enkel volwassenen): van 1,03 voor werk en studie tot 1,40
+        voor vrijetijdsverplaatsingen.
+      en: >
+        Not using the car is the best way to cut CO₂ emissions. For the trips that are made
+        by car anyway, carpooling can cut the emissions per person. In Belgium in 2024-2025,
+        a car carried 1.21 people on average, driver included (adults only): from 1.03 for
+        work and study to 1.40 for leisure.
+    subtitleSource: "SPF Mobilité, Enquête fédérale sur la mobilité 2024-2025 (version de mai 2026), p. 26"
+    subtitleUrl: https://mobilit.belgium.be/sites/default/files/documents/publications/2026/EFM2025_update.pdf
     tangible:
-      fr: "{value} personne par voiture en moyenne, sur tous les trajets confondus."
-      nl: "{value} personen per auto, gemiddeld over alle ritten samen."
-      en: "{value} people per car, averaged over every trip."
+      fr: "Avec {value} personnes par voiture en moyenne, les mêmes personnes sont transportées avec {inverseIndex} % des kilomètres de voiture de 2019."
+      nl: "Met gemiddeld {value} personen per auto worden dezelfde mensen vervoerd met {inverseIndex} % van de autokilometers van 2019."
+      en: "With {value} people per car on average, the same people are carried with {inverseIndex}% of the 2019 car-kilometres."
     facts:
       - kind: trend
         text:
           fr: >
-            Immobile depuis des décennies. En Europe de l'Ouest, ce chiffre est resté entre 1,2
-            et 1,5 pendant trente ans malgré de nombreuses initiatives de covoiturage. En
-            Angleterre il vaut 1,6 chaque année de 2002 à 2019 sans bouger d'un dixième ; en
-            France il est « quasi stable entre 2008 et 2019 », après une baisse de 9 % entre
-            1994 et 2008 — et 3 % seulement des passagers déclarent avoir covoituré.
+            Immobile depuis des décennies. En Europe de l'Ouest, ce chiffre est resté entre
+            1,2 et 1,5 pendant trente ans malgré de nombreuses initiatives de covoiturage. En
+            Angleterre, il vaut 1,6 chaque année de 2002 à 2019, sans bouger d'un dixième.
           nl: >
-            Al decennia onveranderd. In West-Europa bleef dit cijfer dertig jaar lang tussen 1,2
-            en 1,5, ondanks talrijke carpoolinitiatieven. In Engeland is het elk jaar van 2002
-            tot 2019 exact 1,6; in Frankrijk is het "quasi stabiel tussen 2008 en 2019", na een
-            daling van 9 % tussen 1994 en 2008 — en amper 3 % van de passagiers zegt gecarpoold
-            te hebben.
+            Al decennia onveranderd. In West-Europa bleef dit cijfer dertig jaar lang tussen
+            1,2 en 1,5, ondanks talrijke carpoolinitiatieven. In Engeland is het elk jaar van
+            2002 tot 2019 exact 1,6.
           en: >
-            Motionless for decades. In western Europe the figure stayed between 1.2 and 1.5 for
-            thirty years despite many carpooling initiatives. In England it reads 1.6 every
-            single year from 2002 to 2019 without moving a decimal; in France it is "almost
-            stable between 2008 and 2019", after a 9% fall between 1994 and 2008 — and just 3%
-            of car passengers say they have carpooled.
-        source: "Revue critique du modèle nW-BE §6.1 ; DfT National Travel Survey NTS0905a ; SDES, Enquête mobilité des personnes 2018-2019"
+            Motionless for decades. In western Europe the figure stayed between 1.2 and 1.5
+            for thirty years despite many carpooling initiatives. In England it reads 1.6
+            every single year from 2002 to 2019, without moving a decimal.
+        source: "Revue critique du modèle nW-BE §6.1 ; DfT National Travel Survey NTS0905a"
         url: https://www.gov.uk/government/statistical-data-sets/nts09-vehicle-mileage-and-occupancy
+      - kind: trend
+        label:
+          fr: En France
+          nl: In Frankrijk
+          en: In France
+        text:
+          fr: >
+            Le nombre de personnes par voiture est « quasi stable entre 2008 et 2019 », après
+            une baisse de 9 % entre 1994 et 2008. Seuls 3 % des passagers déclarent avoir
+            covoituré (la question n'est posée qu'à ceux qui voyagent dans la voiture d'un
+            autre ménage).
+          nl: >
+            Het aantal personen per auto is "quasi stabiel tussen 2008 en 2019", na een daling
+            van 9 % tussen 1994 en 2008. Slechts 3 % van de passagiers zegt gecarpoold te
+            hebben (de vraag wordt alleen gesteld aan wie meerijdt in de auto van een ander
+            huishouden).
+          en: >
+            The number of people per car is "almost stable between 2008 and 2019", after a 9%
+            fall between 1994 and 2008. Only 3% of passengers say they have carpooled (the
+            question is only asked of those riding in another household's car).
+        source: "SDES, Se déplacer en voiture : seul, à plusieurs ou en covoiturage ? (juillet 2022), enquête mobilité des personnes 2018-2019"
+        url: https://www.ecologie.gouv.fr/sites/default/files/documents/DE_4p_covoiturage-v4-050722_SH_OK.pdf
       - kind: benchmark
         text:
           fr: >
-            1,2 n'est pas un plafond physique : la Roumanie affiche *1,87* personne par voiture
-            et la Lettonie *1,74*, contre 1,28 pour la Belgique et 1,17 pour l'Italie. Mais le
-            moteur n'est pas le covoiturage — c'est la *rareté de la voiture*. La Lettonie
-            compte 381 voitures pour 1 000 habitants contre 510 en Belgique, pour une taille de
-            ménage identique : quand une famille n'a qu'une voiture, elle y monte ensemble.
-            L'Italie, championne d'Europe du taux d'équipement, est bonne dernière.
+            1,2 n'est pas un plafond physique : la Roumanie affiche *1,87* personne par voiture
+            et la Lettonie *1,74*, contre 1,28 pour la Belgique et 1,17 pour l'Italie (mobilité
+            urbaine, une base différente de celle de la question). Mais la cause n'est pas la
+            volonté de covoiturer — c'est la *rareté de la voiture*. La Lettonie, par exemple,
+            compte 381 voitures pour 1 000 habitants contre 510 en Belgique, pour une taille de
+            ménage identique. Quand une famille n'a qu'une voiture, elle y monte ensemble.
           nl: >
             1,2 is geen fysiek plafond: Roemenië haalt *1,87* personen per auto en Letland
-            *1,74*, tegenover 1,28 voor België en 1,17 voor Italië. Maar de motor is niet
-            carpoolen — het is de *schaarste aan auto's*. Letland telt 381 auto's per 1.000
-            inwoners tegen 510 in België, bij een identieke gezinsgrootte: heeft een gezin maar
-            één auto, dan stapt het samen in. Italië, Europees kampioen autobezit, staat laatst.
+            *1,74*, tegenover 1,28 voor België en 1,17 voor Italië (stedelijke mobiliteit, een
+            andere basis dan die van de vraag). Maar de oorzaak is niet de wil om te carpoolen
+            — het is de *schaarste aan auto's*. Letland telt bijvoorbeeld 381 auto's per
+            1.000 inwoners tegen 510 in België, bij een identieke gezinsgrootte. Heeft een
+            gezin maar één auto, dan stapt het samen in.
           en: >
-            1.2 is no physical ceiling: Romania reaches *1.87* people per car and Latvia *1.74*,
-            against 1.28 for Belgium and 1.17 for Italy. But the driver is not carpooling — it
-            is *car scarcity*. Latvia has 381 cars per 1,000 inhabitants against Belgium's 510,
-            at an identical household size: when a family owns one car, it travels in it
-            together. Italy, Europe's most car-equipped country, comes last.
+            1.2 is no physical ceiling: Romania reaches *1.87* people per car and Latvia
+            *1.74*, against 1.28 for Belgium and 1.17 for Italy (urban mobility, a different
+            basis from the question). But the cause is not a will to carpool — it is *car
+            scarcity*. Latvia, for example, has 381 cars per 1,000 inhabitants against
+            Belgium's 510, at an identical household size. When a family owns only one car, it
+            travels in it together.
         source: "Eurostat, Passenger mobility statistics (fig. 3, mobilité urbaine, pkm/vkm, enquêtes 2015-2019) ; Eurostat road_eqs_carhab (2019)"
         url: https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Passenger_mobility_statistics
         chart:
@@ -588,6 +623,26 @@ levers:
               Average car occupancy, urban mobility, 2015-2019 surveys — a different basis
               from the question above, which covers every trip
       - kind: structure
+        label:
+          fr: Promotion du covoiturage
+          nl: Carpoolen stimuleren
+          en: Promoting carpooling
+        text:
+          fr: >
+            En Belgique, il existe un avantage fiscal pour le covoiturage entre le domicile et
+            le travail, lorsqu'il est organisé avec l'employeur. Des initiatives comme Mpact
+            asbl et sa plateforme Carpool.be aident les Belges à covoiturer.
+          nl: >
+            In België bestaat er een fiscaal voordeel voor carpoolen tussen huis en werk, als
+            het met de werkgever georganiseerd is. Initiatieven zoals Mpact en zijn platform
+            Carpool.be helpen Belgen om te carpoolen.
+          en: >
+            In Belgium there is a tax advantage for carpooling between home and work, when it
+            is organised with the employer. Initiatives such as the non-profit Mpact and its
+            Carpool.be platform help Belgians to carpool.
+        source: "SPF Finances, « Covoiturage » ; Mpact, Carpool.be"
+        url: https://finances.belgium.be/fr/node/3322
+      - kind: structure
         reveal: true
         text:
           fr: >
@@ -602,25 +657,6 @@ levers:
             This is the most powerful lever in the workshop. Car energy in 2050 is
             {carTwhTarget} TWh at 2.0 people per car; at 1.5 it would be 9.3 TWh, a third more.
         source: nW-BE §2.3.5, computed from the scenario
-      - kind: caution
-        text:
-          fr: >
-            Les sources ne s'accordent pas. JRC-IDEES donne {occupancyIdees} pour 2019, les
-            enquêtes fédérales {occupancySurvey:d2}, et certains indicateurs belges approchent 1,8
-            sur une base différente (par trajet plutôt que par kilomètre). Cette question porte
-            sur la première définition.
-          nl: >
-            De bronnen spreken elkaar tegen. JRC-IDEES geeft {occupancyIdees} voor 2019, de
-            federale enquêtes {occupancySurvey:d2}, en sommige Belgische indicatoren komen op bijna
-            1,8 uit op een andere basis (per rit in plaats van per kilometer). Deze vraag gaat
-            over de eerste definitie.
-          en: >
-            The sources disagree. JRC-IDEES gives {occupancyIdees} for 2019, the federal travel
-            surveys {occupancySurvey:d2}, and some Belgian indicators approach 1.8 on a different
-            basis (per trip rather than per kilometre). This question is about the first
-            definition.
-        source: nW-BE §2.1; CE monitor
-        url: https://cemonitor.be/en/indicator/mobility/market/car-use-efficiency/
       - kind: tangible
         reveal: true
         text:
@@ -639,9 +675,9 @@ levers:
         source: nW-BE, calcul 2050
     historyAbsent: true
     historyNote:
-      fr: Aucune série historique d'occupation des voitures n'existe dans les données du projet ; seul le point de 2019 est connu.
-      nl: Er bestaat geen historische reeks van autobezetting in de projectdata; alleen het punt van 2019 is bekend.
-      en: No historical car-occupancy series exists in the project's data; only the 2019 point is known.
+      fr: Aucune série historique d'occupation des voitures n'existe dans les données du projet ; seul le point de 2019 est connu ({occupancyIdees} personne par voiture, base JRC-IDEES, différente de celle de l'enquête fédérale citée plus haut).
+      nl: Er bestaat geen historische reeks van autobezetting in de projectdata; alleen het punt van 2019 is bekend ({occupancyIdees} personen per auto, volgens JRC-IDEES, een andere basis dan de hierboven vermelde federale enquête).
+      en: No historical car-occupancy series exists in the project's data; only the 2019 point is known ({occupancyIdees} people per car, from JRC-IDEES, a different basis from the federal survey quoted above).
     justification:
       fr: >
         négaWatt retient {targetValue} personnes par voiture, contre {refValue} en 2019
@@ -679,24 +715,28 @@ levers:
       nl: Verbruik per km
       en: Energy use per km
     question:
-      fr: "Des voitures qui consomment moins : jusqu'où ?"
-      nl: "Auto's die minder verbruiken: hoe ver kan dat gaan?"
-      en: "Cars that use less energy: how far can we go?"
+      fr: "Des voitures qui consomment moins"
+      nl: "Auto's die minder verbruiken"
+      en: "Cars that use less energy"
     subtitle:
       fr: >
-        Consommation d'énergie par km de la voiture moyenne, par rapport à 2019. L'énergie qu'il
-        faut dépenser pour déplacer le véhicule lui-même : vitesse, masse, aérodynamique,
-        conduite. Le passage du thermique à l'électrique, qui pèse bien plus lourd encore sur la
-        consommation, est compté séparément.
+        La consommation d'énergie par km d'une voiture dépend de plusieurs facteurs, entre
+        autres sa vitesse moyenne, sa masse et la façon de la conduire. Ici, on part de la
+        situation de 2019 et on vous demande de faire glisser trois curseurs, un par facteur.
+        (Le passage d'un moteur à essence ou diesel à un moteur électrique pèse bien plus
+        lourd encore sur la consommation : il est compté séparément.)
       nl: >
-        Energieverbruik per km van de gemiddelde auto, tegenover 2019. De energie die nodig is
-        om het voertuig zelf te verplaatsen: snelheid, massa, aerodynamica, rijstijl. De
-        overstap van brandstof naar elektrisch, die nog veel zwaarder doorweegt, wordt apart
-        geteld.
+        Het energieverbruik per km van een auto hangt van verschillende factoren af, onder
+        meer van de gemiddelde snelheid, de massa en de rijstijl. Hier vragen we jullie om,
+        vertrekkend van de situatie in 2019, drie schuifknoppen te verschuiven, één per
+        factor. (De overstap van een benzine- of dieselmotor naar een elektrische motor
+        weegt nog veel zwaarder door op het verbruik: die wordt apart geteld.)
       en: >
-        Energy use per km of the average car, against 2019. The energy it takes to move the
-        vehicle itself: speed, mass, aerodynamics, driving style. The switch from combustion to
-        electric, which weighs far more heavily on consumption still, is counted separately.
+        The energy a car uses per km depends on several factors, including its average speed,
+        its mass and the way it is driven. Here, starting from the 2019 situation, you are
+        asked to move three sliders, one per factor. (Switching from a petrol or diesel engine
+        to an electric one weighs far more heavily on consumption still: it is counted
+        separately.)
     parts:
       speed-kmh:
         short:
@@ -746,107 +786,110 @@ levers:
           en: Average car mass
         subtitle:
           fr: >
-            En 2019, une voiture neuve vendue en Belgique pesait {refValue} kg en moyenne. À
-            motorisation égale : le poids des batteries est compté avec la motorisation. Une
+            En 2019, une voiture neuve vendue en Belgique pesait {refValue} kg en moyenne. Une
             voiture plus légère est aussi plus petite, et ce curseur compte les deux.
           nl: >
             In 2019 woog een nieuwe auto die in België verkocht werd gemiddeld {refValue} kg.
-            Bij gelijke aandrijving: het gewicht van de batterijen wordt bij de aandrijflijn
-            geteld. Een lichtere auto is ook kleiner, en deze schuifknop telt beide.
+            Een lichtere auto is ook kleiner, en deze schuifknop telt beide.
           en: >
-            In 2019 a new car sold in Belgium weighed {refValue} kg on average. For an
-            equivalent powertrain: battery weight is counted with the powertrain. A lighter car
+            In 2019 a new car sold in Belgium weighed {refValue} kg on average. A lighter car
             is also a smaller one, and this slider counts both.
     tangible:
-      fr: "{value} % de la consommation de 2019, à motorisation équivalente."
-      nl: "{value} % van het verbruik in 2019, bij gelijke motorisering."
-      en: "{value}% of the 2019 figure, for an equivalent powertrain."
+      fr: "Chaque kilomètre demanderait {value} % de l'énergie de 2019, à type de moteur inchangé."
+      nl: "Elke kilometer zou {value} % van de energie van 2019 vragen, met hetzelfde type motor."
+      en: "Each kilometre would take {value}% of the 2019 energy, with the same type of engine."
     facts:
-      - kind: structure
-        text:
-          fr: >
-            Trois leviers, un seul chiffre : abaissement des vitesses, éco-conduite, et
-            voitures plus petites et plus légères. Rien d'autre — le rendement de la
-            motorisation est compté à part. Leurs réductions se multiplient en une
-            consommation par km ; les trois fiches suivantes donnent l'ordre de grandeur de
-            chacune.
-          nl: >
-            Drie hefbomen, één cijfer: lagere snelheden, ecodriving, en kleinere en lichtere
-            auto's. Niets anders — het rendement van de aandrijflijn wordt apart geteld. Hun
-            besparingen vermenigvuldigen zich tot één verbruik per km; de drie volgende fiches
-            geven de grootteorde van elk.
-          en: >
-            Three levers, one figure: lower speeds, eco-driving, and smaller, lighter cars.
-            Nothing else — powertrain efficiency is counted separately. Their cuts multiply into
-            one energy use per km; the next three cards give the order of magnitude of each.
-        source: nW-BE §2.3.5
       - kind: lever
+        label:
+          fr: "Un levier, chiffré : la vitesse, route par route"
+          nl: "Eén hefboom, becijferd: de snelheid, weg per weg"
+          en: "One lever, quantified: speed, road by road"
         text:
           fr: >
-            *La vitesse, route par route.* Les voitures belges font environ {motorwayShare} %
-            de leurs kilomètres sur autoroute (à 119 km/h en moyenne quand le trafic est
-            fluide), {ruralShare} % sur les routes régionales et {urbanShare} % en ville. Ramené
-            à l'ensemble des kilomètres, l'autoroute à 100 au lieu de 120 km/h, c'est *environ
-            −{kmhMotorway} km/h* ; les routes régionales à 80 au lieu de 90, −{kmhRural} km/h ;
-            le 30 km/h partout en ville, −{kmhUrban} km/h. Pour une voiture électrique, chaque
-            km/h en moins sur autoroute économise environ 1 % d'énergie ; en ville, presque
-            rien.
+            Le curseur « Baisse de la vitesse moyenne » porte sur la vitesse *moyenne* de tous
+            les kilomètres parcourus en voiture, et non sur la vitesse maximale autorisée. Les
+            voitures belges font environ {motorwayShare} % de leurs kilomètres sur autoroute (à
+            119 km/h en moyenne quand le trafic est fluide), {ruralShare} % sur les routes
+            régionales et {urbanShare} % en ville. Quand on abaisse la limite de vitesse sur un
+            type de route, les voitures y roulent réellement moins vite, mais sur ce type de
+            route seulement. Prenons l'autoroute à 100 au lieu de 120 km/h : comme elle ne
+            représente que {motorwayShare} % des kilomètres, la vitesse moyenne de tous les
+            kilomètres baisse d'*environ {kmhMotorway} km/h*. De même, la vitesse moyenne baisse
+            de {kmhRural} km/h avec les routes régionales à 80 au lieu de 90, et de
+            {kmhUrban} km/h avec le 30 km/h partout en ville. Pour une voiture électrique,
+            chaque km/h de moins roulé sur autoroute économise environ 1 % d'énergie ; en ville,
+            presque rien.
           nl: >
-            *De snelheid, weg per weg.* Belgische auto's rijden ongeveer {motorwayShare} % van
-            hun kilometers op de snelweg (gemiddeld 119 km/u bij vlot verkeer), {ruralShare} %
-            op gewestwegen en {urbanShare} % in de stad. Omgerekend naar alle kilometers is de
-            snelweg op 100 in plaats van 120 km/u *ongeveer −{kmhMotorway} km/u*; gewestwegen
-            op 80 in plaats van 90, −{kmhRural} km/u; overal 30 km/u in de stad,
-            −{kmhUrban} km/u. Voor een elektrische auto spaart elke km/u minder op de snelweg
-            ongeveer 1 % energie uit; in de stad bijna niets.
+            De schuifknop "Daling van de gemiddelde snelheid" gaat over de *gemiddelde* snelheid
+            van alle kilometers die met de auto worden gereden, niet over de maximaal toegelaten
+            snelheid. Belgische auto's rijden ongeveer {motorwayShare} % van hun kilometers op
+            de snelweg (gemiddeld 119 km/u bij vlot verkeer), {ruralShare} % op gewestwegen en
+            {urbanShare} % in de stad. Als je de snelheidslimiet op één type weg verlaagt,
+            rijden de auto's daar echt trager, maar alleen op dat type weg. Neem de snelweg op
+            100 in plaats van 120 km/u: omdat die maar {motorwayShare} % van de kilometers
+            uitmaakt, daalt de gemiddelde snelheid over alle kilometers met *ongeveer
+            {kmhMotorway} km/u*. Voor gewestwegen op 80 in plaats van 90 km/u is dat
+            {kmhRural} km/u, en voor overal 30 km/u in de stad {kmhUrban} km/u. Voor een
+            elektrische auto spaart elke km/u minder op de snelweg ongeveer 1 % energie uit;
+            in de stad bijna niets.
           en: >
-            *Speed, road by road.* Belgian cars drive about {motorwayShare}% of their kilometres
-            on motorways (119 km/h on average when traffic flows), {ruralShare}% on regional
-            roads and {urbanShare}% in town. Averaged over every kilometre, motorways at 100
-            instead of 120 km/h come to *about −{kmhMotorway} km/h*; regional roads at 80
-            instead of 90, −{kmhRural} km/h; 30 km/h everywhere in town, −{kmhUrban} km/h. For an
-            electric car, each km/h less on the motorway saves about 1% of its energy; in town,
-            almost nothing.
+            The "Lower average speed" slider is about the *average* speed over all the
+            kilometres driven by car, not about the maximum speed allowed. Belgian cars drive
+            about {motorwayShare}% of their kilometres on motorways (119 km/h on average when
+            traffic flows), {ruralShare}% on regional roads and {urbanShare}% in town. When the
+            speed limit is lowered on one type of road, cars really do drive slower there, but
+            only on that type of road. Take motorways at 100 instead of 120 km/h: since they
+            are only {motorwayShare}% of the kilometres, the average speed over all kilometres
+            falls by *about {kmhMotorway} km/h*. Likewise, the average speed falls by
+            {kmhRural} km/h with regional roads at 80 instead of 90, and by {kmhUrban} km/h
+            with 30 km/h everywhere in town. For an electric car, each km/h less on the
+            motorway saves about 1% of its energy; in town, almost nothing.
         source: "Vias, Nationale gedragsmeting snelheid 2021, p. 9 ; Vias 2017 §2.5 et 2022 p. 7 ; SERV, Kerncijfers, tabel 6 ; ADAC ; calcul nW-BE §2.3.5"
         url: https://www.vias.be/publications/Nationale%20gedragsmeting%20snelheid%202021/Nationale_gedragsmeting_snelheid_2021.pdf
       - kind: lever
+        label:
+          fr: "Un levier, chiffré : l'éco-conduite"
+          nl: "Eén hefboom, becijferd: ecodriving"
+          en: "One lever, quantified: eco-driving"
         text:
           fr: >
-            *L'éco-conduite.* Le style de conduite fait varier la consommation d'une thermique
-            de 15 à 25 %. Mais l'effet d'une formation *s'érode* : mesuré en ville, il retombe
-            de 4,6 % à 2,5 % en dix mois, et devient statistiquement indétectable sur autoroute
-            après trente semaines. Ce qui tient dans la durée, c'est l'assistance embarquée en
-            permanence : *5 à 10 %*.
+            Le style de conduite fait varier la consommation d'une voiture thermique (essence
+            ou diesel) de 15 à 25 %. Mais l'effet d'une formation *s'érode* : mesuré en ville,
+            il retombe de 4,6 % à 2,5 % en dix mois, et devient indétectable sur autoroute
+            après trente semaines. Ce qui tient dans la durée, c'est l'assistance
+            éco-conduite embarquée en permanence : elle permet une réduction de *5 à 10 %*.
           nl: >
-            *Ecodriving.* De rijstijl laat het verbruik van een brandstofauto met 15 tot 25 %
-            variëren. Maar het effect van een opleiding *slijt*: in de stad gemeten zakt het in
-            tien maanden van 4,6 % naar 2,5 %, en op de snelweg is het na dertig weken
-            statistisch niet meer meetbaar. Wat wél blijft, is permanente hulp aan boord:
-            *5 tot 10 %*.
+            De rijstijl laat het verbruik van een brandstofauto (benzine of diesel) met 15 tot
+            25 % variëren. Maar het effect van een opleiding *slijt*: in de stad gemeten zakt
+            het in tien maanden van 4,6 % naar 2,5 %, en op de snelweg is het na dertig weken
+            niet meer meetbaar. Wat wél blijft, is permanente ecodrivinghulp aan boord: die
+            zorgt voor een besparing van *5 tot 10 %*.
           en: >
-            *Eco-driving.* Driving style alone swings a combustion car's fuel use by 15 to 25%.
-            But the effect of a training course *decays*: measured in town it falls from 4.6% to
-            2.5% within ten months, and on the motorway it becomes statistically undetectable
-            after thirty weeks. What lasts is permanent in-car assistance: *5 to 10%*.
+            Driving style alone swings the fuel use of a combustion-engine car (petrol or
+            diesel) by 15 to 25%. But the effect of a training course *decays*: measured in
+            town it falls from 4.6% to 2.5% within ten months, and on the motorway it can no
+            longer be detected after thirty weeks. What lasts is permanent in-car eco-driving
+            assistance, which allows a reduction of *5 to 10%*.
         source: "Xu, Li, Liu & Zhao, An Overview of Eco-Driving Theory, Capability Evaluation and Training Applications, Sensors, 2021"
         url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8512309/
       - kind: lever
+        label:
+          fr: "Un levier, chiffré : taille et poids"
+          nl: "Eén hefboom, becijferd: grootte en gewicht"
+          en: "One lever, quantified: size and weight"
         text:
           fr: >
-            *La taille et le poids.* Alléger une voiture de 10 % réduit sa consommation de
-            *6 à 7 %* si le moteur est redimensionné en conséquence, de 4 à 5 % sinon — soit
-            environ 3 à 5 % pour 100 kg sur une voiture de 1 400 kg. Un SUV pèse 200 à 300 kg
-            de plus qu'une berline moyenne et émet de l'ordre de 20 % de CO₂ en plus.
+            Alléger une voiture de 10 % réduit sa consommation de *6 à 7 %* si l'on réduit aussi
+            la taille du moteur, et de 4 à 5 % sinon. Un SUV pèse 200 à 300 kg de plus qu'une
+            berline moyenne et émet de l'ordre de 20 % de CO₂ en plus.
           nl: >
-            *Grootte en gewicht.* Een auto 10 % lichter maken verlaagt het verbruik met
-            *6 tot 7 %* als de motor navenant kleiner wordt, en met 4 tot 5 % zo niet — dus
-            ongeveer 3 tot 5 % per 100 kg op een auto van 1.400 kg. Een SUV weegt 200 tot 300 kg
-            meer dan een gemiddelde middenklasser en stoot zo'n 20 % meer CO₂ uit.
+            Een auto 10 % lichter maken verlaagt het verbruik met *6 tot 7 %* als ook de motor
+            kleiner wordt gemaakt, en met 4 tot 5 % zo niet. Een SUV weegt 200 tot 300 kg meer
+            dan een gemiddelde middenklasser en stoot zo'n 20 % meer CO₂ uit.
           en: >
-            *Size and weight.* Taking 10% off a car's mass cuts its fuel use by *6 to 7%* if the
-            engine is downsized to match, and by 4 to 5% if it is not — so roughly 3 to 5% per
-            100 kg on a 1,400 kg car. An SUV weighs 200 to 300 kg more than an average
-            medium-sized car and emits on the order of 20% more CO₂.
+            Taking 10% off a car's mass cuts its fuel use by *6 to 7%* if the engine is also
+            made smaller, and by 4 to 5% if it is not. An SUV weighs 200 to 300 kg more than an
+            average medium-sized car and emits on the order of 20% more CO₂.
         source: "ICCT, Lightweighting technology developments, 2017, p. 2 ; AIE, SUVs are setting new sales records each year, 2024"
         url: https://theicct.org/sites/default/files/publications/PV-Lightweighting_Tech-Briefing_ICCT_07032017_0.pdf
       - kind: trend

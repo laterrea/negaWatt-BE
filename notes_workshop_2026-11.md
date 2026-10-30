@@ -23,7 +23,7 @@ Status: ⬜ todo · 🟡 in progress · ✅ done · ⛔ dropped (with reason)
 
 ## Resume here
 
-> **Next step:** WP4 — brief and launch agent 1 (inland mobility content), then review.
+> **Next step:** WP5 — brief and launch agent 2 (buildings heat: new `buildings-heat.yaml` + `floor-area`, `thermostat`, `ter-thermostat`), then review.
 
 Environment: no `data_processing` env on this machine; the `pypsa-eur` env has every
 dependency (numpy, pandas, scipy, matplotlib, nbformat, nbconvert, yaml, jupyter):
@@ -97,7 +97,7 @@ of this). Server backup of the deployed files: see WP8.
 | WP1 | Line-ups: `programme.yaml`, build, join/play/cards/reveal, per-lever sector | orchestrator | ✅ |
 | WP2 | New card structure: play screen + printed card | orchestrator | ✅ |
 | WP3 | Model: `plane-trips`, `plane-load`, weighted parts, per-part impacts, new history series, notebook re-runs | orchestrator | ✅ |
-| WP4 | Content — inland mobility (3 cards) | agent 1 (Sonnet) + review | ⬜ |
+| WP4 | Content — inland mobility (3 cards) | agent 1 (Sonnet) + review | ✅ |
 | WP5 | Content — buildings heat (theme + 3 cards) | agent 2 (Sonnet) + review | ⬜ |
 | WP6 | Content — international mobility (3 cards) | agent 3 (Sonnet) + review | ⬜ |
 | WP7 | Tests: build, helpers, export, API, browser FR/NL/EN, print | orchestrator | ⬜ |
@@ -141,3 +141,25 @@ of this). Server backup of the deployed files: see WP8.
   lists the seven old aviation questions explicitly. Tests: helpers 17/17, export
   438/438 (verifier taught `parts` impacts and weights), API 61/61 on dev_api, browser:
   two sliders → 2 264 km/pers./an and −3 TWh for 4 long-haul trips.
+- 2026-10-30 — Side work while agent 1 ran: server tarball
+  `~negawatt/backups/public_html_2026-10-30_pre-workshop-2026-11.tgz` (live == tag, checked
+  on five files); the workshop is now served at https://workshop.negawatt.be/ (the old
+  URLs redirect; same `public_html`), so `deploy_website.sh` was made path-independent and
+  verifies there; D69–D72 written; README updated; `scripts/question_registry.py` →
+  `docs/workshop_question_ids.md` (every id, incl. `retired:` ids in programme.yaml —
+  `truck-load`, `car-energy__speed`, `car-energy__size` hold live answers). Live DB at that
+  time: 106 groups, 213 answers. The API contract test writes into the real topic: never
+  run it against the live server. Reveal checked on dev_api: 3 played cards, then the
+  archived ones that have answers in the window ("question archivée").
+- 2026-10-30 — WP4 done (agent 1 + review). The three inland cards follow the docx;
+  C0 (national average hides town/country) in the intro; C1 (80.4 vs 78.5: Eurostat counts
+  car/bus/train only) stated in the comparison; C2/C3 (speed) rewritten: the slider is the
+  average speed over all car-km, a limit change only acts on its road type and is diluted
+  by its share of km. Docx corrections, all verified by the agent: "Vision Rail **2040**"
+  (adopted 2022; baseline 8 % is **2019**, Eurostat), "76,3 %" is Flanders *outside the
+  cities* (all Flanders 71.9 %), federal survey 1.21/1.03/1.40 = adults, fieldwork
+  2024-25 (report Nov 2025, updated May 2026), with `subtitleSource`/`subtitleUrl`.
+  Vision Rail url is an archive.org copy (the official PDF is offline). Reviewer fix:
+  "Quelle place à la voiture" → "Quelle place **pour** la voiture". Topic intro/notes use
+  `{questionCount}`/`{otherCount}`. Archived inland blocks byte-identical. Printed cards
+  of this theme are each longer than half a page (as before): one card per A4 page.
