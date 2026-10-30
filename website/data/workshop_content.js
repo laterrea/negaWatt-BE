@@ -80,6 +80,11 @@ window.NW_WS_CONTENT = {
       "nl": "Kaarten afdrukken",
       "en": "Print the fact cards"
     },
+    "start.archived": {
+      "fr": "Anciens thèmes, pour revoir leurs réponses :",
+      "nl": "Vroegere thema's, om hun antwoorden te herbekijken:",
+      "en": "Earlier themes, to review their answers:"
+    },
     "group.autoPrefix": {
       "fr": "Groupe",
       "nl": "Groep",
