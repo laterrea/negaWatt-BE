@@ -1,0 +1,99 @@
+# =============================================================================
+# negaWatt-BE workshop — theme: heat in buildings (homes and tertiary)
+#
+# HAND-EDITED. A theme made of other themes' questions (D70): it words none of its
+# own. The questions it plays — floor-area and thermostat (worded in
+# residential-heat.yaml), ter-thermostat (worded in tertiary-heat.yaml) — are listed by
+# the line-up in programme.yaml, and each is compiled from its home file, lettered for
+# this theme. All that lives here is the theme's own title, lead, introduction and
+# summary chart; `include` names the files it may play questions from.
+#
+# Groups are stored under this theme (`buildings-heat`): a sitting of this theme and an
+# older one of residential-heat or tertiary-heat stay apart on the reveal.
+#
+# Built by scripts/build_workshop_content.py (see the header of residential-heat.yaml
+# for what it refuses). {questionCount} and {otherCount} count the questions the
+# line-up plays in this theme.
+#
+# NOTE: the Dutch was written by the implementer, not a native speaker, and needs
+# a review pass before a real workshop (docs/workshop_module.md, Q5).
+# =============================================================================
+
+topic: buildings-heat
+sector: buildings
+
+# The files its questions are worded in. The line-up says which of them are played.
+include: [residential-heat, tertiary-heat]
+
+# Each group plays the questions in its own random order (D63).
+questionOrder: random
+
+title:
+  fr: Chaleur des bâtiments
+  nl: Warmte in gebouwen
+  en: Heat in buildings
+
+lead:
+  fr: >
+    Chauffer les logements et les bâtiments tertiaires (bureaux, écoles, commerces…) en
+    Belgique : quelle surface, à quelle température ?
+  nl: >
+    Woningen en tertiaire gebouwen (kantoren, scholen, winkels…) verwarmen in België:
+    hoeveel oppervlakte, op welke temperatuur?
+  en: >
+    Heating homes and service-sector buildings (offices, schools, shops…) in Belgium: how
+    much floor area, at what temperature?
+
+intro:
+  fr: >
+    Vous allez fixer {questionCount} hypothèses de comportement et de politique publique
+    pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour
+    les logements et les bâtiments tertiaires. Vous ne connaissez pas encore les valeurs
+    retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et
+    atteignable. Chaque question tient sur un écran, avec quelques repères factuels pour
+    nourrir la discussion.
+  nl: >
+    Jullie stellen {questionCount} gedrags- en beleidsveronderstellingen voor 2050 vast —
+    precies die welke de energiecijfers van het negaWatt-scenario voor woningen en
+    tertiaire gebouwen *voortbrengen*. De waarden van negaWatt kennen jullie nog niet:
+    beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Elke vraag past op één
+    scherm, met een paar feitelijke referentiepunten voor de discussie.
+  en: >
+    You are going to set {questionCount} behavioural and policy assumptions for 2050 — the
+    ones that *produce* the negaWatt scenario's energy figures for homes and service-sector
+    buildings. You do not yet know the values negaWatt chose: decide what strikes you as
+    both desirable and achievable. Each question fits on one screen, with a few factual
+    anchors to feed the discussion.
+
+# The +/- effects chart on the summary screen (D40). Every question played here carries
+# an `impact` response in the buildings export, which the build checks.
+summaryChart:
+  enabled: true
+  unit: TWh
+  decimals: 2
+  caption:
+    fr: >
+      Ce que chacune de vos réponses fait, à elle seule, à la demande d'énergie thermique
+      des bâtiments belges en 2050 — logements et bâtiments tertiaires — par rapport au
+      maintien du niveau d'aujourd'hui pour le même indicateur.
+    nl: >
+      Wat elk van jullie antwoorden op zichzelf doet met de thermische energievraag van de
+      Belgische gebouwen in 2050 — woningen en tertiaire gebouwen — vergeleken met het
+      behoud van het huidige niveau voor dezelfde indicator.
+    en: >
+      What each of your answers does, on its own, to the thermal energy demand of Belgian
+      buildings in 2050 — homes and service-sector buildings — compared with keeping
+      today's level of the same indicator.
+  note:
+    fr: >
+      Chaque barre est exacte pour son levier pris seul, les {otherCount} autres restant à leur
+      valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme
+      n'est qu'un ordre de grandeur.
+    nl: >
+      Elke balk is exact voor zijn eigen hefboom alleen, met de {otherCount} andere op hun
+      scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een
+      grootteorde.
+    en: >
+      Each bar is exact for its own lever taken alone, with the other {otherCount} left at their
+      scenario value. The levers compound multiplicatively, so their sum is an order of
+      magnitude only.

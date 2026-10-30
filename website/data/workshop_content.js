@@ -3700,9 +3700,9 @@ window.NW_WS_CONTENT = {
         "en": "Heating, cooling, washing and cooking in Belgian homes. Non-residential buildings are the subject of a separate workshop."
       },
       "intro": {
-        "fr": "Vous allez fixer huit hypothèses de comportement et de politique publique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour le logement. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Chaque question tient sur un écran, avec quelques repères factuels pour nourrir la discussion.",
-        "nl": "Jullie stellen acht gedrags- en beleidsveronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario voor woningen *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Elke vraag past op één scherm, met een paar feitelijke referentiepunten voor de discussie.",
-        "en": "You are going to set eight behavioural and policy assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures for housing. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. Each question fits on one screen, with a few factual anchors to feed the discussion."
+        "fr": "Vous allez fixer 8 hypothèses de comportement et de politique publique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour le logement. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Chaque question tient sur un écran, avec quelques repères factuels pour nourrir la discussion.",
+        "nl": "Jullie stellen 8 gedrags- en beleidsveronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario voor woningen *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Elke vraag past op één scherm, met een paar feitelijke referentiepunten voor de discussie.",
+        "en": "You are going to set 8 behavioural and policy assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures for housing. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. Each question fits on one screen, with a few factual anchors to feed the discussion."
       },
       "offered": true,
       "order": [
@@ -3754,14 +3754,14 @@ window.NW_WS_CONTENT = {
             "en": "Home floor area"
           },
           "subtitle": {
-            "fr": "Surface utile de l'ensemble du parc de logements, divisée par la population.",
-            "nl": "Nuttige oppervlakte van het hele woningbestand, gedeeld door de bevolking.",
-            "en": "Useful floor area of the whole dwelling stock, divided by the population."
+            "fr": "Quelle taille doit avoir votre logement par personne ? Par exemple, si vous êtes dans un appartement de 90 m² à deux, votre surface par habitant est de 45 m². Quelle est la surface que vous considérez comme acceptable ? Votre réponse est une moyenne pour tous les Belges : c'est la surface de l'ensemble des logements du pays, vides et secondaires compris, divisée par la population.",
+            "nl": "Hoe groot moet jullie woning per persoon zijn? Als jullie bijvoorbeeld met twee in een appartement van 90 m² wonen, is de oppervlakte per inwoner 45 m². Welke oppervlakte vinden jullie aanvaardbaar? Het antwoord is een gemiddelde voor alle Belgen: de oppervlakte van alle woningen in het land, ook de leegstaande woningen en de tweede verblijven, gedeeld door de bevolking.",
+            "en": "How big should your home be, per person? For example, if two of you live in a 90 m² flat, your floor area per inhabitant is 45 m². What area would you consider acceptable? Your answer is an average for all Belgians: it is the area of all the homes in the country, empty homes and second homes included, divided by the population."
           },
           "tangible": {
-            "fr": "{value} m² pour chaque personne du ménage, à chauffer tout l'hiver.",
-            "nl": "{value} m² voor elk lid van het huishouden, de hele winter te verwarmen.",
-            "en": "{value} m² for every member of the household, heated all winter."
+            "fr": "{value} m² de logement par habitant en moyenne, soit {vsRef} % par rapport à 2019 — des mètres carrés à chauffer et à rafraîchir.",
+            "nl": "Gemiddeld {value} m² woning per inwoner, ofwel {vsRef} % ten opzichte van 2019 — vierkante meters om te verwarmen en te koelen.",
+            "en": "On average {value} m² of home per inhabitant, i.e. {vsRef}% against 2019 — square metres to heat and to cool."
           },
           "justification": {
             "fr": "négaWatt retient 49,2 m² par personne, soit −10 % par rapport aux 54,7 m² de 2019 — un renversement de la tendance observée. L'objectif est double : réduire l'empreinte matérielle de la construction et la surface à chauffer et rafraîchir. Les leviers évoqués sont l'habitat partagé, le déménagement vers plus petit une fois les enfants partis, et l'habitat léger. Comme la taille des ménages recule de −5,5 % sur la même période (projection Statbel, non modifiable ici), la surface par ménage doit baisser plus vite que la surface par personne : −14,9 %, soit 107,5 m² par ménage.",
@@ -3775,6 +3775,15 @@ window.NW_WS_CONTENT = {
           },
           "facts": [
             {
+              "kind": "structure",
+              "text": {
+                "fr": "Le ménage belge moyen occupe 126,4 m² pour 2,31 personnes, et Statbel projette une taille de ménage en baisse à 2,18 personnes en 2050 (−5,5 %). Chauffage et climatisation sont les deux postes qui dépendent le plus de la surface : 82,9 % de l'énergie thermique du logement (42,9 TWh sur 51,7).",
+                "nl": "Het gemiddelde Belgische huishouden bewoont 126,4 m² voor 2,31 personen, en Statbel projecteert een daling van de huishoudgrootte naar 2,18 personen in 2050 (−5,5 %). Verwarming en koeling zijn de twee posten die het sterkst afhangen van de oppervlakte: 82,9 % van de thermische energie van de woning (42,9 TWh op 51,7).",
+                "en": "The average Belgian household occupies 126.4 m² for 2.31 people, and Statbel projects household size falling to 2.18 people by 2050 (−5.5%). Heating and cooling are the two services that depend most on floor area: 82.9% of the home's thermal energy (42.9 TWh out of 51.7)."
+              },
+              "source": "nW-BE §1.2.1 and §2.1 (JRC-IDEES-2023, Statbel projections)"
+            },
+            {
               "kind": "trend",
               "text": {
                 "fr": "En hausse lente, et sans interruption depuis 2013 : 53,2 m² par personne en 2000, 54,7 en 2019, 55,3 en 2023. Les ménages rétrécissent, mais les logements ne suivent pas.",
@@ -3787,18 +3796,39 @@ window.NW_WS_CONTENT = {
             {
               "kind": "structure",
               "text": {
-                "fr": "Le ménage belge moyen occupe 126,4 m² pour 2,31 personnes, et Statbel projette une taille de ménage en baisse à 2,18 personnes en 2050 (−5,5 %). Chauffage et climatisation sont les deux postes qui suivent la surface : 42,9 TWh sur 51,7, soit 82,9 % de l'énergie thermique du logement.",
-                "nl": "Het gemiddelde Belgische huishouden bewoont 126,4 m² voor 2,31 personen, en Statbel projecteert een daling van de huishoudgrootte naar 2,18 personen in 2050 (−5,5 %). Verwarming en koeling zijn de twee posten die de oppervlakte volgen: 42,9 TWh op 51,7, ofwel 82,9 % van de thermische energie van de woning.",
-                "en": "The average Belgian household occupies 126.4 m² for 2.31 people, and Statbel projects household size falling to 2.18 people by 2050 (−5.5%). Heating and cooling are the two services that follow floor area: 42.9 TWh out of 51.7, or 82.9% of the home's thermal energy."
+                "fr": "En 2021, 59,2 % des Belges vivaient dans un logement « sous-occupé » : il compte plus de pièces que le minimum nécessaire pour le ménage. Dans l'Union européenne, c'est 33,4 % en moyenne.",
+                "nl": "In 2021 woonde 59,2 % van de Belgen in een \"onderbezette\" woning: een woning met meer kamers dan het minimum dat het huishouden nodig heeft. In de Europese Unie is dat gemiddeld 33,4 %.",
+                "en": "In 2021, 59.2% of Belgians lived in an \"under-occupied\" home: one with more rooms than the minimum its household needs. Across the European Union the average is 33.4%."
               },
-              "source": "nW-BE §1.2.1 and §2.1 (JRC-IDEES-2023, Statbel projections)"
+              "source": "Eurostat, ilc_lvho50a (share of people living in under-occupied dwellings), 2021",
+              "label": {
+                "fr": "Occupation des logements",
+                "nl": "Bezetting van de woningen",
+                "en": "Occupancy of homes"
+              },
+              "url": "https://ec.europa.eu/eurostat/databrowser/view/ilc_lvho50a/default/table?lang=en"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "À l'inverse, en 2024, 30 % de la population bruxelloise vivait dans un logement « surpeuplé » : il manquait au moins une pièce pour la taille du ménage. En Flandre et en Wallonie, c'était environ 4 %.",
+                "nl": "Daartegenover woonde in 2024 30 % van de Brusselse bevolking in een \"overbevolkte\" woning: er ontbrak minstens één kamer voor de grootte van het huishouden. In Vlaanderen en Wallonië was dat ongeveer 4 %.",
+                "en": "By contrast, in 2024, 30% of the Brussels population lived in an \"overcrowded\" home: at least one room was missing for the size of the household. In Flanders and Wallonia it was about 4%."
+              },
+              "source": "Observatoire de la Santé et du Social de Bruxelles-Capitale, Baromètre social 2025, §7.5.1, p. 162 (enquête EU-SILC 2024, définition de Statbel)",
+              "label": {
+                "fr": "Surpeuplement à Bruxelles",
+                "nl": "Overbevolkte woningen in Brussel",
+                "en": "Overcrowding in Brussels"
+              },
+              "url": "https://www.vivalis.brussels/sites/default/files/2026-04/Barometre-2025-FR_compression_1.pdf#page=164"
             },
             {
               "kind": "benchmark",
               "text": {
-                "fr": "Sur une base voisine — les pièces, pas les mètres carrés — la Belgique est largement au-dessus de la moyenne : 2,1 pièces par personne en 2024, contre 1,7 dans l'UE27, 1,7 en Allemagne et 1,8 en France.",
-                "nl": "Op een verwante basis — kamers, niet vierkante meters — zit België ruim boven het gemiddelde: 2,1 kamers per persoon in 2024, tegenover 1,7 in de EU27, 1,7 in Duitsland en 1,8 in Frankrijk.",
-                "en": "On a neighbouring basis — rooms, not square metres — Belgium sits well above the average: 2.1 rooms per person in 2024, against 1.7 in the EU27, 1.7 in Germany and 1.8 in France."
+                "fr": "En regardant les pièces, pas les mètres carrés, la Belgique est largement au-dessus de la moyenne : 2,1 pièces par personne en 2024, contre 1,7 dans l'UE27, 1,7 en Allemagne et 1,8 en France.",
+                "nl": "Als we naar de kamers kijken in plaats van naar de vierkante meters, zit België ruim boven het gemiddelde: 2,1 kamers per persoon in 2024, tegenover 1,7 in de EU27, 1,7 in Duitsland en 1,8 in Frankrijk.",
+                "en": "Looking at rooms rather than square metres, Belgium sits well above the average: 2.1 rooms per person in 2024, against 1.7 in the EU27, 1.7 in Germany and 1.8 in France."
               },
               "source": "Eurostat, ilc_lvho03 (average number of rooms per person), 2024",
               "url": "https://ec.europa.eu/eurostat/databrowser/view/ilc_lvho03/default/table",
@@ -3845,9 +3875,9 @@ window.NW_WS_CONTENT = {
             {
               "kind": "lever",
               "text": {
-                "fr": "Au recensement 2021, 46,6 % des logements occupés en Belgique — 2,3 millions — offrent trois pièces ou plus par occupant. En Wallonie, l'IWEPS isole 233 617 maisons occupées par un propriétaire de 65 ans ou plus : 99,6 % n'y abritent qu'une ou deux personnes, et 89 % comptent cinq pièces ou plus. Accueillir quelqu'un sous le même toit, ou couper la maison en deux logements (habitat kangourou, colocation, division), fait baisser la surface par personne sans poser une brique. Le frein est réglementaire plutôt que technique : diviser demande un permis communal, et le *statut de cohabitant* ampute les allocations de ceux qui s'installent ensemble.",
-                "nl": "Bij de census 2021 telde 46,6 % van de bewoonde woningen in België — 2,3 miljoen — drie kamers of meer per bewoner. In Wallonië zondert het IWEPS 233 617 huizen af die bewoond worden door een eigenaar van 65 jaar of ouder: 99,6 % daarvan huisvest maar één of twee personen, en 89 % telt vijf kamers of meer. Iemand onder hetzelfde dak opnemen, of het huis in twee woningen opdelen (kangoeroewonen, samenhuizen, opdeling), verlaagt de oppervlakte per persoon zonder één steen te leggen. De rem is eerder regelgevend dan technisch: opdelen vergt een gemeentelijke vergunning, en het *statuut van samenwonende* snijdt in de uitkeringen van wie samen gaat wonen.",
-                "en": "At the 2021 census, 46.6% of occupied dwellings in Belgium — 2.3 million — had three rooms or more per occupant. In Wallonia, IWEPS singles out 233,617 houses occupied by an owner aged 65 or over: 99.6% of them hold only one or two people, and 89% have five rooms or more. Taking someone in under the same roof, or splitting the house into two dwellings (kangaroo housing, house-sharing, subdivision), lowers floor area per person without laying a brick. The obstacle is regulatory rather than technical: subdividing needs a municipal permit, and the *cohabitant status* cuts the benefits of people who move in together."
+                "fr": "Au recensement 2021, 46,6 % des logements occupés en Belgique — 2,3 millions — offrent trois pièces ou plus par occupant. En Wallonie, l'IWEPS isole 233 617 maisons occupées par un propriétaire de 65 ans ou plus : 99,6 % n'y abritent qu'une ou deux personnes, et 89 % comptent cinq pièces ou plus. Accueillir quelqu'un sous le même toit, ou couper la maison en deux logements (habitat kangourou, colocation, division), fait baisser la surface par personne sans poser une brique. Le frein est réglementaire plutôt que technique : diviser demande un permis communal, et le *statut de cohabitant* ampute les allocations de ceux qui s'installent ensemble. Mutualiser certains espaces permet également de diminuer la surface par logement (buanderie, garage…).",
+                "nl": "Bij de census 2021 telde 46,6 % van de bewoonde woningen in België — 2,3 miljoen — drie kamers of meer per bewoner. In Wallonië zondert het IWEPS 233 617 huizen af die bewoond worden door een eigenaar van 65 jaar of ouder: 99,6 % daarvan huisvest maar één of twee personen, en 89 % telt vijf kamers of meer. Iemand onder hetzelfde dak opnemen, of het huis in twee woningen opdelen (kangoeroewonen, samenhuizen, opdeling), verlaagt de oppervlakte per persoon zonder één steen te leggen. De rem is eerder regelgevend dan technisch: opdelen vergt een gemeentelijke vergunning, en het *statuut van samenwonende* snijdt in de uitkeringen van wie samen gaat wonen. Ook het delen van bepaalde ruimtes (wasplaats, garage…) kan de oppervlakte per woning verkleinen.",
+                "en": "At the 2021 census, 46.6% of occupied dwellings in Belgium — 2.3 million — had three rooms or more per occupant. In Wallonia, IWEPS singles out 233,617 houses occupied by an owner aged 65 or over: 99.6% of them hold only one or two people, and 89% have five rooms or more. Taking someone in under the same roof, or splitting the house into two dwellings (kangaroo housing, house-sharing, subdivision), lowers floor area per person without laying a brick. The obstacle is regulatory rather than technical: subdividing needs a municipal permit, and the *cohabitant status* cuts the benefits of people who move in together. Sharing some spaces (laundry room, garage…) also reduces the floor area per dwelling."
               },
               "source": "IWEPS, Décryptage n°10 — maisons occupées par leur propriétaire de 65 ans et plus (2026); Statbel, Census 2021, table T04_DRM",
               "label": {
@@ -4286,14 +4316,14 @@ window.NW_WS_CONTENT = {
             "en": "What average thermostat level is reasonable in 2050, without a loss of comfort?"
           },
           "short": {
-            "fr": "Thermostat",
-            "nl": "Thermostaat",
-            "en": "Thermostat"
+            "fr": "Thermostat du logement",
+            "nl": "Thermostaat in woningen",
+            "en": "Home thermostat"
           },
           "subtitle": {
-            "fr": "Répondez en degrés en moins par rapport à 2019, en moyenne sur tout le parc : personne ne mesure la consigne absolue des logements belges, seul l'écart est modélisable. Zéro = on ne change rien, négatif = on chauffe davantage.",
-            "nl": "Antwoord in graden minder dan in 2019, gemiddeld over het hele bestand: niemand meet de absolute instelling van Belgische woningen, alleen het verschil is modelleerbaar. Nul = niets verandert, negatief = warmer stoken.",
-            "en": "Answer in degrees less than in 2019, averaged over the whole stock: nobody measures the absolute setpoint of Belgian homes, only the change can be modelled. Zero = nothing changes, negative = heating more."
+            "fr": "De combien de degrés accepteriez-vous de descendre la température de votre logement sans diminuer votre confort ? La réponse attendue est un nombre de degrés en moins par rapport à 2019, en moyenne sur tout le parc résidentiel belge. Personne ne mesure la température réglée sur le thermostat (la « consigne ») dans les logements belges : seul l'écart est modélisable. Zéro = on ne change rien, négatif = on chauffe davantage.",
+            "nl": "Met hoeveel graden zouden jullie bereid zijn de temperatuur in jullie woning te verlagen zonder aan comfort in te boeten? Het verwachte antwoord is een aantal graden minder dan in 2019, gemiddeld over het hele Belgische woningbestand. Niemand meet de ingestelde temperatuur op de thermostaat (de \"instelling\") in Belgische woningen: alleen het verschil is modelleerbaar. Nul = niets verandert, negatief = warmer stoken.",
+            "en": "By how many degrees would you be willing to lower the temperature in your home without reducing your comfort? The answer is a number of degrees less than in 2019, averaged over the whole Belgian housing stock. Nobody measures the temperature set on the thermostat (the \"setpoint\") in Belgian homes: only the change can be modelled. Zero = nothing changes, negative = heating more."
           },
           "tangible": {
             "fr": "{value} °C de moins sur le thermostat, en moyenne, pendant toute la saison de chauffe.",
@@ -4311,20 +4341,20 @@ window.NW_WS_CONTENT = {
             "en": "The report itself concedes that making *SlowHeat* general is \"rather unrealistic\". Two degrees less on average across a whole stock is not two degrees for everyone: it is far more for some households, and a fuel-poverty risk that a demand model does not see."
           },
           "historyNote": {
-            "fr": "Aucune série mesurée des températures de consigne des logements belges n'existe ; seule la consommation de chauffage est observée, et elle mélange l'effet du thermostat, de l'isolation et de la météo.",
-            "nl": "Er bestaat geen gemeten reeks van de ingestelde temperaturen in Belgische woningen; alleen het verwarmingsverbruik wordt waargenomen, en dat mengt het effect van de thermostaat, de isolatie en het weer.",
-            "en": "No measured series of Belgian home setpoints exists; only heating consumption is observed, and it mixes the effect of the thermostat, of insulation and of the weather."
+            "fr": "Le graphe porte l'écart de consigne par rapport à 2019 — abaisser le thermostat fait descendre la courbe. Aucune série mesurée des températures de consigne des logements belges n'existe ; seule la consommation de chauffage est observée, et elle mélange l'effet du thermostat, de l'isolation et de la météo.",
+            "nl": "De grafiek toont het verschil in ingestelde temperatuur tegenover 2019 — de thermostaat lager zetten laat de curve dalen. Er bestaat geen gemeten reeks van de ingestelde temperaturen in Belgische woningen; alleen het verwarmingsverbruik wordt waargenomen, en dat mengt het effect van de thermostaat, de isolatie en het weer.",
+            "en": "The chart plots the setpoint change against 2019, so turning the thermostat down takes the line down. No measured series of Belgian home setpoints exists; only heating consumption is observed, and it mixes the effect of the thermostat, of insulation and of the weather."
           },
           "facts": [
             {
               "kind": "structure",
               "text": {
-                "fr": "Une recherche collective menée en Belgique, *SlowHeat*, conclut qu'une température intérieure moyenne de 15 °C peut être pleinement acceptable et même désirable dès lors que l'on chauffe les corps plutôt que les volumes — vêtements adaptés, couvertures et vêtements chauffants — le seuil de vigilance se situant vers 12 °C.",
-                "nl": "Een collectief onderzoek in België, *SlowHeat*, concludeert dat een gemiddelde binnentemperatuur van 15 °C volledig acceptabel en zelfs wenselijk kan zijn zodra men de lichamen verwarmt in plaats van de volumes — aangepaste kleding, dekens en verwarmde kledij — met een waakzaamheidsdrempel rond 12 °C.",
-                "en": "A collective research project run in Belgium, *SlowHeat*, concludes that an average indoor temperature of 15 °C can be entirely acceptable and even desirable once you heat bodies rather than volumes — suitable clothing, blankets and heated garments — with the vigilance threshold sitting around 12 °C."
+                "fr": "Une recherche collective menée en Belgique, *SlowHeat*, conclut qu'une température intérieure moyenne de 15 °C peut être pleinement acceptable et même désirable dès lors que l'on chauffe les corps plutôt que les volumes — vêtements adaptés, couvertures et vêtements chauffants — le seuil de vigilance se situant vers 12 °C. Descendre trop bas peut aussi poser problème au logement lui-même : sous 12 °C, l'air qui entre ne se réchauffe pas toujours assez pour rester sec, même avec une bonne ventilation, d'où un risque d'humidité.",
+                "nl": "Een collectief onderzoek in België, *SlowHeat*, concludeert dat een gemiddelde binnentemperatuur van 15 °C volledig acceptabel en zelfs wenselijk kan zijn zodra men de lichamen verwarmt in plaats van de volumes — aangepaste kleding, dekens en verwarmde kledij — met een waakzaamheidsdrempel rond 12 °C. Te laag gaan kan ook problemen opleveren voor de woning zelf: onder 12 °C wordt de binnenkomende lucht niet altijd genoeg opgewarmd om droog te blijven, zelfs bij goede ventilatie, met een risico op vocht.",
+                "en": "A collective research project run in Belgium, *SlowHeat*, concludes that an average indoor temperature of 15 °C can be entirely acceptable and even desirable once you heat bodies rather than volumes — suitable clothing, blankets and heated garments — with the vigilance threshold sitting around 12 °C. Going too low can also cause problems for the dwelling itself: below 12 °C the incoming air is not always warmed enough to stay dry, even with good ventilation, hence a risk of damp."
               },
-              "source": "De Grave & Van Moeseke (2024), SlowHeat : chauffer les corps, moins les logements, Presses universitaires de Louvain",
-              "url": "https://pul.uclouvain.be/book/?GCOI=29303100724760"
+              "source": "De Grave & Van Moeseke (2024), SlowHeat : chauffer les corps, moins les logements, Presses universitaires de Louvain, p. 118 (accès libre)",
+              "url": "https://pul.uclouvain.be/html/WYSIWYGfiles/files/107333-PUL-LOCI-Slowheat-C1-INT-C4.pdf#page=119"
             },
             {
               "kind": "benchmark",
@@ -4346,15 +4376,31 @@ window.NW_WS_CONTENT = {
               "source": "nW-BE §2.1.2, arithmetic on the 2019 stock"
             },
             {
+              "kind": "lever",
+              "text": {
+                "fr": "Certaines études ont montré que l'isolation des logements n'apporte pas toute la réduction de consommation attendue, en partie parce que les occupants chauffent davantage une fois leur logement devenu plus économe : c'est l'« effet rebond ». Aux Pays-Bas, sur 563 000 ménages, il a repris en moyenne 27 % des économies attendues chez les propriétaires et 41 % chez les locataires. Une réflexion sur les comportements est donc nécessaire pour diminuer la consommation d'énergie.",
+                "nl": "Sommige studies hebben aangetoond dat het isoleren van woningen niet de volledige verwachte daling van het verbruik oplevert, deels omdat bewoners meer gaan stoken zodra hun woning zuiniger is: dat is het \"rebound-effect\". In Nederland nam dat effect bij 563.000 huishoudens gemiddeld 27 % van de verwachte besparing terug bij eigenaars en 41 % bij huurders. Nadenken over gedrag is dus nodig om het energieverbruik te verminderen.",
+                "en": "Some studies have shown that insulating homes does not deliver all of the expected drop in consumption, partly because occupants heat more once their home has become more efficient: this is the \"rebound effect\". In the Netherlands, across 563,000 households, it took back on average 27% of the expected savings among owners and 41% among tenants. We therefore also need to think about behaviour to reduce energy consumption."
+              },
+              "source": "Aydin, E., Kok, N. & Brounen, D. (2017), \"Energy efficiency and household behavior: the rebound effect in the residential sector\", RAND Journal of Economics 48(3), pp. 749-782",
+              "label": {
+                "fr": "En complément de l'isolation",
+                "nl": "Als aanvulling op isolatie",
+                "en": "Alongside insulation"
+              },
+              "url": "https://doi.org/10.1111/1756-2171.12190"
+            },
+            {
               "kind": "caution",
               "text": {
-                "fr": "La pratique se heurte à de fortes résistances sociales et psychologiques : en 2022, année de tous les records de prix, 19 °C a souvent constitué un plancher plutôt qu'un objectif. Et personne ne mesure la consigne réelle des logements belges : on n'observe que la consommation, qui mélange thermostat, isolation et météo.",
-                "nl": "De praktijk stoot op sterke sociale en psychologische weerstand: in 2022, het jaar van alle prijsrecords, was 19 °C vaak eerder een ondergrens dan een doel. En niemand meet de werkelijke instelling in Belgische woningen: men observeert alleen het verbruik, dat thermostaat, isolatie en weer door elkaar mengt.",
-                "en": "The practice meets strong social and psychological resistance: in 2022, the year of record prices, 19 °C was often a floor rather than a target. And nobody measures the actual setpoint of Belgian homes: only consumption is observed, and it mixes thermostat, insulation and weather together."
+                "fr": "La pratique se heurte à de fortes résistances sociales et psychologiques : en 2022, année de tous les records de prix, 19 °C a souvent constitué un plancher plutôt qu'un objectif. Et personne ne mesure la consigne réelle des logements belges. On n'observe que la consommation, qui dépend de plusieurs facteurs : le thermostat (les habitudes des occupants), l'isolation et la météo.",
+                "nl": "De praktijk stoot op sterke sociale en psychologische weerstand: in 2022, het jaar van alle prijsrecords, was 19 °C vaak eerder een ondergrens dan een doel. En niemand meet de werkelijke instelling in Belgische woningen. Men observeert alleen het verbruik, dat van meerdere factoren afhangt: de thermostaat (de gewoonten van de bewoners), de isolatie en het weer.",
+                "en": "The practice meets strong social and psychological resistance: in 2022, the year of record prices, 19 °C was often a floor rather than a target. And nobody measures the actual setpoint of Belgian homes. Only consumption is observed, and it depends on several factors: the thermostat (the occupants' habits), insulation and weather."
               },
               "source": "nW-BE §2.1.2, citing De Grave & Van Moeseke (2024)"
             }
           ],
+          "chartInvertY": true,
           "historyAbsent": true,
           "code": "D",
           "sector": "buildings"
@@ -4964,9 +5010,9 @@ window.NW_WS_CONTENT = {
           "en": "What each of your answers does, on its own, to the thermal energy demand of Belgian homes in 2050 — heating, cooling, hot water and cooking — compared with keeping today's level of the same indicator."
         },
         "note": {
-          "fr": "Chaque barre est exacte pour son levier pris seul, les sept autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur. Les réseaux de chaleur ne déplacent aucune barre : ils changent la source de la chaleur, pas la quantité.",
-          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de zeven andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde. Warmtenetten verplaatsen geen enkele balk: ze veranderen de bron van de warmte, niet de hoeveelheid.",
-          "en": "Each bar is exact for its own lever taken alone, with the other seven left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only. District heating moves no bar at all: it changes where the heat comes from, not how much of it is needed."
+          "fr": "Chaque barre est exacte pour son levier pris seul, les 7 autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur. Les réseaux de chaleur ne déplacent aucune barre : ils changent la source de la chaleur, pas la quantité.",
+          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de 7 andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde. Warmtenetten verplaatsen geen enkele balk: ze veranderen de bron van de warmte, niet de hoeveelheid.",
+          "en": "Each bar is exact for its own lever taken alone, with the other 7 left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only. District heating moves no bar at all: it changes where the heat comes from, not how much of it is needed."
         }
       }
     },
@@ -4983,9 +5029,9 @@ window.NW_WS_CONTENT = {
         "en": "Heating, cooling, washing and cooking in offices, shops, schools, hospitals and restaurants. Housing is the subject of a separate workshop."
       },
       "intro": {
-        "fr": "Vous allez fixer sept hypothèses de comportement et de politique publique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour le secteur tertiaire. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Une particularité de ce secteur : depuis 2000, sa demande de froid a explosé pendant que sa demande de chaleur stagnait. Chaque question tient sur un écran, avec quelques repères factuels pour nourrir la discussion.",
-        "nl": "Jullie stellen zeven gedrags- en beleidsveronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario voor de tertiaire sector *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Eén bijzonderheid van deze sector: sinds 2000 is de koudevraag geëxplodeerd terwijl de warmtevraag stagneerde. Elke vraag past op één scherm, met een paar feitelijke referentiepunten voor de discussie.",
-        "en": "You are going to set seven behavioural and policy assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures for the service sector. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. One peculiarity of this sector: since 2000 its demand for cooling has exploded while its demand for heat stood still. Each question fits on one screen, with a few factual anchors to feed the discussion."
+        "fr": "Vous allez fixer 7 hypothèses de comportement et de politique publique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour le secteur tertiaire. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Une particularité de ce secteur : depuis 2000, sa demande de froid a explosé pendant que sa demande de chaleur stagnait. Chaque question tient sur un écran, avec quelques repères factuels pour nourrir la discussion.",
+        "nl": "Jullie stellen 7 gedrags- en beleidsveronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario voor de tertiaire sector *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Eén bijzonderheid van deze sector: sinds 2000 is de koudevraag geëxplodeerd terwijl de warmtevraag stagneerde. Elke vraag past op één scherm, met een paar feitelijke referentiepunten voor de discussie.",
+        "en": "You are going to set 7 behavioural and policy assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures for the service sector. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. One peculiarity of this sector: since 2000 its demand for cooling has exploded while its demand for heat stood still. Each question fits on one screen, with a few factual anchors to feed the discussion."
       },
       "offered": true,
       "order": [
@@ -5240,9 +5286,9 @@ window.NW_WS_CONTENT = {
             "en": "Service thermostat"
           },
           "subtitle": {
-            "fr": "Écart moyen de la température de consigne par rapport à 2019, sur tout le parc tertiaire. Zéro = on ne change rien, négatif = on chauffe davantage.",
-            "nl": "Gemiddeld verschil van de ingestelde temperatuur tegenover 2019, over het hele tertiaire bestand. Nul = niets verandert, negatief = warmer stoken.",
-            "en": "Average setpoint change against 2019, across the whole service stock. Zero = nothing changes, negative = heating more."
+            "fr": "De combien de degrés accepteriez-vous de descendre la température de votre bureau, de votre école, de votre magasin… sans diminuer votre confort ? La réponse attendue est un nombre de degrés en moins par rapport à 2019, en moyenne sur tout le parc tertiaire belge (horeca, administration publique, finance…). Personne ne mesure la température réglée sur le thermostat (la « consigne ») dans les bâtiments tertiaires belges : seul l'écart est modélisable. Zéro = on ne change rien, négatif = on chauffe davantage.",
+            "nl": "Met hoeveel graden zouden jullie bereid zijn de temperatuur in jullie kantoor, school, winkel… te verlagen zonder aan comfort in te boeten? Het verwachte antwoord is een aantal graden minder dan in 2019, gemiddeld over het hele Belgische tertiaire bestand (horeca, openbaar bestuur, financiële sector…). Niemand meet de ingestelde temperatuur op de thermostaat (de \"instelling\") in Belgische tertiaire gebouwen: alleen het verschil is modelleerbaar. Nul = niets verandert, negatief = warmer stoken.",
+            "en": "By how many degrees would you be willing to lower the temperature in your office, school, shop… without reducing your comfort? The answer is a number of degrees less than in 2019, averaged over the whole Belgian service-sector stock (hospitality, public administration, finance…). Nobody measures the temperature set on the thermostat (the \"setpoint\") in Belgian service buildings: only the change can be modelled. Zero = nothing changes, negative = heating more."
           },
           "tangible": {
             "fr": "{value} °C de moins dans les bureaux, les classes et les magasins, toute la saison de chauffe.",
@@ -5295,11 +5341,26 @@ window.NW_WS_CONTENT = {
               "source": "nW-BE §3.1.2, arithmetic on the 2019 stock"
             },
             {
+              "kind": "lever",
+              "text": {
+                "fr": "Dans les logements, certaines études ont montré que l'isolation n'apporte pas toute la réduction de consommation attendue, en partie parce que les occupants chauffent davantage une fois leur logement devenu plus économe : c'est l'« effet rebond ». Aux Pays-Bas, sur 563 000 ménages, il a repris en moyenne 27 % des économies attendues chez les propriétaires et 41 % chez les locataires. Une réflexion sur les comportements est donc nécessaire pour diminuer la consommation d'énergie.",
+                "nl": "In woningen hebben sommige studies aangetoond dat isolatie niet de volledige verwachte daling van het verbruik oplevert, deels omdat bewoners meer gaan stoken zodra hun woning zuiniger is: dat is het \"rebound-effect\". In Nederland nam dat effect bij 563.000 huishoudens gemiddeld 27 % van de verwachte besparing terug bij eigenaars en 41 % bij huurders. Nadenken over gedrag is dus nodig om het energieverbruik te verminderen.",
+                "en": "In homes, some studies have shown that insulation does not deliver all of the expected drop in consumption, partly because occupants heat more once their home has become more efficient: this is the \"rebound effect\". In the Netherlands, across 563,000 households, it took back on average 27% of the expected savings among owners and 41% among tenants. We therefore also need to think about behaviour to reduce energy consumption."
+              },
+              "source": "Aydin, E., Kok, N. & Brounen, D. (2017), \"Energy efficiency and household behavior: the rebound effect in the residential sector\", RAND Journal of Economics 48(3), pp. 749-782",
+              "label": {
+                "fr": "En complément de l'isolation",
+                "nl": "Als aanvulling op isolatie",
+                "en": "Alongside insulation"
+              },
+              "url": "https://doi.org/10.1111/1756-2171.12190"
+            },
+            {
               "kind": "caution",
               "text": {
-                "fr": "Dans un bâtiment partagé, la consigne est un compromis et non un choix individuel : c'est ce qui rend ce levier plus difficile qu'à la maison, où chacun décide chez soi. Et personne ne mesure la consigne réelle du parc tertiaire belge : on n'observe que la consommation, qui mélange thermostat, isolation et météo.",
-                "nl": "In een gedeeld gebouw is de instelling een compromis en geen individuele keuze: dat maakt deze hefboom moeilijker dan thuis, waar ieder voor zich beslist. En niemand meet de werkelijke instelling in het Belgische tertiaire bestand: men observeert alleen het verbruik, dat thermostaat, isolatie en weer door elkaar mengt.",
-                "en": "In a shared building the setpoint is a compromise, not an individual choice: that is what makes this lever harder than at home, where each household decides for itself. And nobody measures the actual setpoint of the Belgian service stock: only consumption is observed, and it mixes thermostat, insulation and weather together."
+                "fr": "Dans un bâtiment partagé, la consigne est un compromis et non un choix individuel : c'est ce qui rend ce levier plus difficile qu'à la maison, où chacun décide chez soi. Et personne ne mesure la consigne réelle du parc tertiaire belge. On n'observe que la consommation, qui dépend de plusieurs facteurs : le thermostat (les habitudes des occupants), l'isolation et la météo.",
+                "nl": "In een gedeeld gebouw is de instelling een compromis en geen individuele keuze: dat maakt deze hefboom moeilijker dan thuis, waar ieder voor zich beslist. En niemand meet de werkelijke instelling in het Belgische tertiaire bestand. Men observeert alleen het verbruik, dat van meerdere factoren afhangt: de thermostaat (de gewoonten van de gebruikers), de isolatie en het weer.",
+                "en": "In a shared building the setpoint is a compromise, not an individual choice: that is what makes this lever harder than at home, where each household decides for itself. And nobody measures the actual setpoint of the Belgian service stock. Only consumption is observed, and it depends on several factors: the thermostat (the occupants' habits), insulation and weather."
               },
               "source": "nW-BE §3.1.2"
             }
@@ -5689,9 +5750,51 @@ window.NW_WS_CONTENT = {
           "en": "What each of your answers does, on its own, to the thermal energy demand of Belgian service-sector buildings in 2050 — heating, cooling, hot water and catering — compared with keeping today's level of the same indicator."
         },
         "note": {
-          "fr": "Chaque barre est exacte pour son levier pris seul, les six autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur. Les réseaux de chaleur ne déplacent aucune barre : ils changent la source de la chaleur, pas la quantité.",
-          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de zes andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde. Warmtenetten verplaatsen geen enkele balk: ze veranderen de bron van de warmte, niet de hoeveelheid.",
-          "en": "Each bar is exact for its own lever taken alone, with the other six left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only. District heating moves no bar at all: it changes where the heat comes from, not how much of it is needed."
+          "fr": "Chaque barre est exacte pour son levier pris seul, les 6 autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur. Les réseaux de chaleur ne déplacent aucune barre : ils changent la source de la chaleur, pas la quantité.",
+          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de 6 andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde. Warmtenetten verplaatsen geen enkele balk: ze veranderen de bron van de warmte, niet de hoeveelheid.",
+          "en": "Each bar is exact for its own lever taken alone, with the other 6 left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only. District heating moves no bar at all: it changes where the heat comes from, not how much of it is needed."
+        }
+      }
+    },
+    "buildings-heat": {
+      "sector": "buildings",
+      "title": {
+        "fr": "Chaleur des bâtiments",
+        "nl": "Warmte in gebouwen",
+        "en": "Heat in buildings"
+      },
+      "lead": {
+        "fr": "Chauffer les logements et les bâtiments tertiaires (bureaux, écoles, commerces…) en Belgique : quelle surface, à quelle température ?",
+        "nl": "Woningen en tertiaire gebouwen (kantoren, scholen, winkels…) verwarmen in België: hoeveel oppervlakte, op welke temperatuur?",
+        "en": "Heating homes and service-sector buildings (offices, schools, shops…) in Belgium: how much floor area, at what temperature?"
+      },
+      "intro": {
+        "fr": "Vous allez fixer 0 hypothèses de comportement et de politique publique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour les logements et les bâtiments tertiaires. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Chaque question tient sur un écran, avec quelques repères factuels pour nourrir la discussion.",
+        "nl": "Jullie stellen 0 gedrags- en beleidsveronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario voor woningen en tertiaire gebouwen *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Elke vraag past op één scherm, met een paar feitelijke referentiepunten voor de discussie.",
+        "en": "You are going to set 0 behavioural and policy assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures for homes and service-sector buildings. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. Each question fits on one screen, with a few factual anchors to feed the discussion."
+      },
+      "offered": false,
+      "order": [],
+      "archive": [],
+      "questionOrder": "random",
+      "units": [],
+      "levers": {},
+      "include": [
+        "residential-heat",
+        "tertiary-heat"
+      ],
+      "summaryChart": {
+        "unit": "TWh",
+        "decimals": 2,
+        "caption": {
+          "fr": "Ce que chacune de vos réponses fait, à elle seule, à la demande d'énergie thermique des bâtiments belges en 2050 — logements et bâtiments tertiaires — par rapport au maintien du niveau d'aujourd'hui pour le même indicateur.",
+          "nl": "Wat elk van jullie antwoorden op zichzelf doet met de thermische energievraag van de Belgische gebouwen in 2050 — woningen en tertiaire gebouwen — vergeleken met het behoud van het huidige niveau voor dezelfde indicator.",
+          "en": "What each of your answers does, on its own, to the thermal energy demand of Belgian buildings in 2050 — homes and service-sector buildings — compared with keeping today's level of the same indicator."
+        },
+        "note": {
+          "fr": "Chaque barre est exacte pour son levier pris seul, les 0 autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur.",
+          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de 0 andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde.",
+          "en": "Each bar is exact for its own lever taken alone, with the other 0 left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only."
         }
       }
     }

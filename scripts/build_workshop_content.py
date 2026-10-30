@@ -878,6 +878,27 @@ def build(check_only=False, lineup=None):
     if lineup_topics is not None and not plays and not errors:
         errors.append("the line-up offers no theme")
 
+    # An id that once held answers must never come back with another meaning: the
+    # database stores answers by id alone, so an old answer would silently be read
+    # in the new question's unit. programme.yaml lists the retired ids (D69).
+    retired = {}
+    if os.path.isfile(PROGRAMME):
+        retired = (yaml.safe_load(open(PROGRAMME, encoding="utf-8")) or {}).get("retired") or {}
+        if not isinstance(retired, dict):
+            errors.append("programme.yaml.retired: expected one block per retired id")
+            retired = {}
+    for sector in sorted({doc["sector"] for _, doc in files.values()}):
+        for lid, lv in sector_data(sector)[0]["levers"].items():
+            for answer_id in [lid] + [p.get("answerId", "") for p in lv.get("parts") or []]:
+                if answer_id in retired:
+                    errors.append(f"levers_{sector}.js: {answer_id!r} is a retired id "
+                                  f"(programme.yaml, retired:) and may hold old answers in "
+                                  f"another unit — give the question a new id")
+    for lid in home:
+        if lid in retired:
+            errors.append(f"{files[home[lid]][0]}: {lid!r} is a retired id "
+                          f"(programme.yaml, retired:) — give the question a new id")
+
     # ------------------------------------------------------------- the themes
     topics = {}
     for topic_id in list(plays) + [t for t in files if t not in plays]:

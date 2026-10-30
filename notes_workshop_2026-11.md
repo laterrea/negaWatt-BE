@@ -23,9 +23,8 @@ Status: ⬜ todo · 🟡 in progress · ✅ done · ⛔ dropped (with reason)
 
 ## Resume here
 
-> **Next step:** WP5 is running (agent 2: buildings heat). Then: review it; add the
-> build guard refusing ids listed under `retired:`; launch agent 3 (aviation: full
-> wording of `plane-trips`/`plane-load`, `air-freight` edits, comments C4–C13, fn2/fn3).
+> **Next step:** WP6 — launch agent 3 (aviation: full wording of `plane-trips`/`plane-load`,
+> `air-freight` edits, comments C4–C13, footnotes fn2/fn3), then review.
 
 Environment: no `data_processing` env on this machine; the `pypsa-eur` env has every
 dependency (numpy, pandas, scipy, matplotlib, nbformat, nbconvert, yaml, jupyter):
@@ -100,7 +99,7 @@ of this). Server backup of the deployed files: see WP8.
 | WP2 | New card structure: play screen + printed card | orchestrator | ✅ |
 | WP3 | Model: `plane-trips`, `plane-load`, weighted parts, per-part impacts, new history series, notebook re-runs | orchestrator | ✅ |
 | WP4 | Content — inland mobility (3 cards) | agent 1 (Sonnet) + review | ✅ |
-| WP5 | Content — buildings heat (theme + 3 cards) | agent 2 (Sonnet) + review | ⬜ |
+| WP5 | Content — buildings heat (theme + 3 cards) | agent 2 (Sonnet) + review | ✅ |
 | WP6 | Content — international mobility (3 cards) | agent 3 (Sonnet) + review | ⬜ |
 | WP7 | Tests: build, helpers, export, API, browser FR/NL/EN, print | orchestrator | ⬜ |
 | WP8 | Server backup, deploy for testing, live check | orchestrator | ⬜ |
@@ -172,3 +171,25 @@ of this). Server backup of the deployed files: see WP8.
   gains). Notebooks run in a throw-away git worktree and the two generated files swapped
   in atomically, so the agent's builds never read a half-written file. Additive only.
   §18 of `docs/workshop_module.md` drafted.
+- 2026-10-30 — WP5 done (agent 2 + review). New `buildings-heat.yaml` (title "Chaleur des
+  bâtiments", `include: [residential-heat, tertiary-heat]`, summary chart on the heat demand
+  of homes and tertiary buildings). `floor-area`: the reviewers' personal introduction plus
+  one clause saying the answer is the national average (empty and second homes included);
+  the docx's "59,4 % des logements sous-occupés" is in fact **59,2 % of people** (Eurostat
+  `ilc_lvho50a` measures people; 59,4 % was the women-only row), EU 33,4 %; Brussels
+  overcrowding 30 % (Baromètre social 2025, EU-SILC 2024; IBSA gives 31 % for 2023) — two
+  cards so that each figure has its link. `thermostat` and `ter-thermostat`: the reviewers'
+  introductions (the tertiary one said "logements" by mistake); the new "En complément de
+  l'isolation" card is sourced to Aydin, Kok & Brounen 2017 (RAND J. Econ., 563 000 Dutch
+  households, rebound 27 % owners / 41 % tenants) and says "en partie", because the
+  performance gap has several causes and the study measures consumption, not setpoints
+  (Fowlie et al. 2018 found no higher indoor temperatures); "dans les logements" on the
+  tertiary card since the study covers homes only. The 12 °C humidity sentence is checked
+  in the SlowHeat book (p. 118). The residential thermostat chart is now inverted like the
+  tertiary one (D60), so both read the same way in one theme — also in the legacy theme.
+  `short` labels "Thermostat du logement" / "Thermostat du tertiaire" tell them apart.
+  Home files: `{questionCount}`/`{otherCount}`. Archived blocks byte-identical.
+  Build guard added: an id listed under `retired:` cannot come back (tested).
+  Follow-up noted, not done: the archived `renovation-depth` debate quotes Aydin et al. as
+  "about 56 %" — check against the paper; the archived `cooking` block carries two `url:`
+  keys (YAML keeps the last). Printed card A is 244 mm (8 reference points).

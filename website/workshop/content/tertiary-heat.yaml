@@ -40,7 +40,7 @@ lead:
 
 intro:
   fr: >
-    Vous allez fixer sept hypothèses de comportement et de politique publique pour
+    Vous allez fixer {questionCount} hypothèses de comportement et de politique publique pour
     2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour
     le secteur tertiaire. Vous ne connaissez pas encore les valeurs retenues par
     négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et
@@ -48,7 +48,7 @@ intro:
     a explosé pendant que sa demande de chaleur stagnait. Chaque question tient sur
     un écran, avec quelques repères factuels pour nourrir la discussion.
   nl: >
-    Jullie stellen zeven gedrags- en beleidsveronderstellingen voor 2050 vast —
+    Jullie stellen {questionCount} gedrags- en beleidsveronderstellingen voor 2050 vast —
     precies die welke de energiecijfers van het negaWatt-scenario voor de tertiaire
     sector *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis
     zelf wat jullie zowel wenselijk als haalbaar vinden. Eén bijzonderheid van deze
@@ -56,7 +56,7 @@ intro:
     stagneerde. Elke vraag past op één scherm, met een paar feitelijke
     referentiepunten voor de discussie.
   en: >
-    You are going to set seven behavioural and policy assumptions for 2050 — the
+    You are going to set {questionCount} behavioural and policy assumptions for 2050 — the
     ones that *produce* the negaWatt scenario's energy figures for the service
     sector. You do not yet know the values negaWatt chose: decide what strikes you
     as both desirable and achievable. One peculiarity of this sector: since 2000 its
@@ -130,17 +130,17 @@ summaryChart:
       compared with keeping today's level of the same indicator.
   note:
     fr: >
-      Chaque barre est exacte pour son levier pris seul, les six autres restant à leur
+      Chaque barre est exacte pour son levier pris seul, les {otherCount} autres restant à leur
       valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme
       n'est qu'un ordre de grandeur. Les réseaux de chaleur ne déplacent aucune barre : ils
       changent la source de la chaleur, pas la quantité.
     nl: >
-      Elke balk is exact voor zijn eigen hefboom alleen, met de zes andere op hun
+      Elke balk is exact voor zijn eigen hefboom alleen, met de {otherCount} andere op hun
       scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een
       grootteorde. Warmtenetten verplaatsen geen enkele balk: ze veranderen de bron van de
       warmte, niet de hoeveelheid.
     en: >
-      Each bar is exact for its own lever taken alone, with the other six left at their
+      Each bar is exact for its own lever taken alone, with the other {otherCount} left at their
       scenario value. The levers compound multiplicatively, so their sum is an order of
       magnitude only. District heating moves no bar at all: it changes where the heat comes
       from, not how much of it is needed.
@@ -494,9 +494,29 @@ levers:
       nl: "Met hoeveel kan de thermostaat in tertiaire gebouwen tegen 2050 redelijkerwijs worden verlaagd?"
       en: "By how much can the service-building thermostat reasonably be brought down by 2050?"
     subtitle:
-      fr: "Écart moyen de la température de consigne par rapport à 2019, sur tout le parc tertiaire. Zéro = on ne change rien, négatif = on chauffe davantage."
-      nl: "Gemiddeld verschil van de ingestelde temperatuur tegenover 2019, over het hele tertiaire bestand. Nul = niets verandert, negatief = warmer stoken."
-      en: "Average setpoint change against 2019, across the whole service stock. Zero = nothing changes, negative = heating more."
+      fr: >
+        De combien de degrés accepteriez-vous de descendre la température de votre bureau,
+        de votre école, de votre magasin… sans diminuer votre confort ? La réponse attendue
+        est un nombre de degrés en moins par rapport à 2019, en moyenne sur tout le parc
+        tertiaire belge (horeca, administration publique, finance…). Personne ne mesure la
+        température réglée sur le thermostat (la « consigne ») dans les bâtiments
+        tertiaires belges : seul l'écart est modélisable. Zéro = on ne change rien,
+        négatif = on chauffe davantage.
+      nl: >
+        Met hoeveel graden zouden jullie bereid zijn de temperatuur in jullie kantoor,
+        school, winkel… te verlagen zonder aan comfort in te boeten? Het verwachte antwoord
+        is een aantal graden minder dan in 2019, gemiddeld over het hele Belgische tertiaire
+        bestand (horeca, openbaar bestuur, financiële sector…). Niemand meet de ingestelde
+        temperatuur op de thermostaat (de "instelling") in Belgische tertiaire gebouwen:
+        alleen het verschil is modelleerbaar. Nul = niets verandert, negatief = warmer
+        stoken.
+      en: >
+        By how many degrees would you be willing to lower the temperature in your office,
+        school, shop… without reducing your comfort? The answer is a number of degrees less
+        than in 2019, averaged over the whole Belgian service-sector stock (hospitality,
+        public administration, finance…). Nobody measures the temperature set on the
+        thermostat (the "setpoint") in Belgian service buildings: only the change can be
+        modelled. Zero = nothing changes, negative = heating more.
     tangible:
       fr: "{value} °C de moins dans les bureaux, les classes et les magasins, toute la saison de chauffe."
       nl: "{value} °C minder in kantoren, klaslokalen en winkels, het hele stookseizoen."
@@ -563,24 +583,59 @@ levers:
             service stock of 2019, out of a heating bill of {heatTwh} TWh — {heatSharePct}% of
             the sector's thermal energy.
         source: nW-BE §3.1.2, arithmetic on the 2019 stock
+      - kind: lever
+        label:
+          fr: En complément de l'isolation
+          nl: Als aanvulling op isolatie
+          en: Alongside insulation
+        text:
+          fr: >
+            Dans les logements, certaines études ont montré que l'isolation n'apporte pas
+            toute la réduction de consommation attendue, en partie parce que les occupants
+            chauffent davantage une fois leur logement devenu plus économe : c'est l'« effet
+            rebond ». Aux Pays-Bas, sur 563 000 ménages, il a repris en moyenne 27 % des
+            économies attendues chez les propriétaires et 41 % chez les locataires. Une
+            réflexion sur les comportements est donc nécessaire pour diminuer la
+            consommation d'énergie.
+          nl: >
+            In woningen hebben sommige studies aangetoond dat isolatie niet de volledige
+            verwachte daling van het verbruik oplevert, deels omdat bewoners meer gaan stoken
+            zodra hun woning zuiniger is: dat is het "rebound-effect". In Nederland nam dat
+            effect bij 563.000 huishoudens gemiddeld 27 % van de verwachte besparing terug bij
+            eigenaars en 41 % bij huurders. Nadenken over gedrag is dus nodig om het
+            energieverbruik te verminderen.
+          en: >
+            In homes, some studies have shown that insulation does not deliver all of the
+            expected drop in consumption, partly because occupants heat more once their home
+            has become more efficient: this is the "rebound effect". In the Netherlands,
+            across 563,000 households, it took back on average 27% of the expected savings
+            among owners and 41% among tenants. We therefore also need to think about
+            behaviour to reduce energy consumption.
+        source: >-
+          Aydin, E., Kok, N. & Brounen, D. (2017), "Energy efficiency and household behavior:
+          the rebound effect in the residential sector", RAND Journal of Economics 48(3),
+          pp. 749-782
+        url: https://doi.org/10.1111/1756-2171.12190
       - kind: caution
         text:
           fr: >
             Dans un bâtiment partagé, la consigne est un compromis et non un choix individuel :
             c'est ce qui rend ce levier plus difficile qu'à la maison, où chacun décide chez
-            soi. Et personne ne mesure la consigne réelle du parc tertiaire belge : on
-            n'observe que la consommation, qui mélange thermostat, isolation et météo.
+            soi. Et personne ne mesure la consigne réelle du parc tertiaire belge. On
+            n'observe que la consommation, qui dépend de plusieurs facteurs : le thermostat
+            (les habitudes des occupants), l'isolation et la météo.
           nl: >
             In een gedeeld gebouw is de instelling een compromis en geen individuele keuze:
             dat maakt deze hefboom moeilijker dan thuis, waar ieder voor zich beslist. En
-            niemand meet de werkelijke instelling in het Belgische tertiaire bestand: men
-            observeert alleen het verbruik, dat thermostaat, isolatie en weer door elkaar
-            mengt.
+            niemand meet de werkelijke instelling in het Belgische tertiaire bestand. Men
+            observeert alleen het verbruik, dat van meerdere factoren afhangt: de thermostaat
+            (de gewoonten van de gebruikers), de isolatie en het weer.
           en: >
             In a shared building the setpoint is a compromise, not an individual choice: that
             is what makes this lever harder than at home, where each household decides for
-            itself. And nobody measures the actual setpoint of the Belgian service stock: only
-            consumption is observed, and it mixes thermostat, insulation and weather together.
+            itself. And nobody measures the actual setpoint of the Belgian service stock.
+            Only consumption is observed, and it depends on several factors: the thermostat
+            (the occupants' habits), insulation and weather.
         source: nW-BE §3.1.2
     historyAbsent: true
     chartInvertY: true          # the graph plots the setpoint change, so lowering goes down

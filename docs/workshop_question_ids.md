@@ -19,10 +19,10 @@ can hold answers, so that any row of `ws_answers` / `ws_answer_log` can be read.
 
 | id | question (fr) | unit | answer ids of its sliders | played in | stands for |
 |---|---|---|---|---|---|
-| `floor-area` | Quelle surface de logement par personne est un objectif 2050 réaliste ? | m² of home per person | — | `full` ★ | — |
+| `floor-area` | Quelle surface de logement par personne est un objectif 2050 réaliste ? | m² of home per person | — | `full` ★, `workshop-2026-11` (in `buildings-heat`) | — |
 | `renovation-rate` | Quelle part du parc de logements faut-il rénover chaque année d'ici 2050 ? | % of homes renovated per year | — | `full` ★ | — |
 | `renovation-depth` | De combien une rénovation doit-elle réduire le besoin de chauffage du logement qu'elle touche ? | % of the heating need cut | — | `full` ★ | — |
-| `thermostat` | Quel niveau moyen de thermostat est raisonnable en 2050, sans perte de confort ? | °C less on the home thermostat | — | `full` ★ | — |
+| `thermostat` | Quel niveau moyen de thermostat est raisonnable en 2050, sans perte de confort ? | °C less on the home thermostat | — | `full` ★, `workshop-2026-11` (in `buildings-heat`) | — |
 | `hot-water` | Quelle consommation d'eau chaude sanitaire par personne est un objectif 2050 réaliste ? | kWh/person/year of home hot water | — | `full` ★ | — |
 | `cooling` | Quel niveau de climatisation des logements est un objectif 2050 acceptable ? | kWh/m²/year of home cooling | — | `full` ★ | — |
 | `cooking` | Quelle consommation d'énergie pour cuisiner à la maison est un objectif 2050 réaliste ? | kWh/household/year of home cooking | — | `full` ★ | — |
@@ -34,7 +34,7 @@ can hold answers, so that any row of `ws_answers` / `ws_answer_log` can be read.
 |---|---|---|---|---|---|
 | `ter-floor-area` | Quelle surface de bâtiments tertiaires par personne est un objectif 2050 réaliste ? | m² of service building per person | — | `full` ★ | — |
 | `ter-insulation` | Quel besoin de chauffage par mètre carré est un objectif 2050 réaliste pour les bâtiments tertiaires ? | kWh/m²/year of service heating need | — | `full` ★ | — |
-| `ter-thermostat` | De combien peut-on raisonnablement abaisser le thermostat des bâtiments tertiaires d'ici 2050 ? | °C less in service buildings | — | `full` ★ | — |
+| `ter-thermostat` | De combien peut-on raisonnablement abaisser le thermostat des bâtiments tertiaires d'ici 2050 ? | °C less in service buildings | — | `full` ★, `workshop-2026-11` (in `buildings-heat`) | — |
 | `ter-cooling` | Quel niveau de climatisation des bâtiments tertiaires est un objectif 2050 acceptable ? | kWh/m²/year of service cooling | — | `full` ★ | — |
 | `ter-hot-water` | Quelle consommation d'eau chaude des bâtiments tertiaires par personne est un objectif 2050 réaliste ? | kWh/person/year of service hot water | — | `full` ★ | — |
 | `ter-catering` | Quelle consommation d'énergie pour la restauration est un objectif 2050 réaliste ? | kWh/person/year of catering | — | `full` ★ | — |
@@ -68,6 +68,15 @@ can hold answers, so that any row of `ws_answers` / `ws_answer_log` can be read.
 | `plane-trips` | Combien de voyages en avion par personne et par vie ? | km/person/year by air | `plane-trips__long-haul` (long-haul return trips per lifetime), `plane-trips__short-haul` (short-haul return trips per lifetime) | — (archived) | `long-haul-flights`, `short-haul-flights` |
 | `plane-load` | Quel remplissage des vols viser en 2050 ? | passengers per flight | — | — (archived) | `long-haul-load`, `short-haul-load` |
 | `hydrogen-flights` | Quelle part des vols intra-européens à l'hydrogène est un objectif 2050 réaliste ? | % of intra-EU flights on hydrogen | — | `full` ★ | — |
+
+## Themes made of other themes' questions (D70)
+
+Their groups are stored under their own topic id; the questions keep their
+ids, so the same question id can hold answers under several topics.
+
+| topic | file | includes |
+|---|---|---|
+| `buildings-heat` | `buildings-heat.yaml` | `residential-heat`, `tertiary-heat` |
 
 ## Retired ids (no longer defined anywhere)
 

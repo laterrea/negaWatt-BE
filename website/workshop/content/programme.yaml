@@ -47,6 +47,7 @@ lineups:
   workshop-2026-11:
     topics:
       inland-mobility: [car-share, car-occupancy, car-energy]
+      buildings-heat: [floor-area, thermostat, ter-thermostat]
 
 # -----------------------------------------------------------------------------
 # Question ids retired before line-ups existed: no file defines them any more, but
