@@ -261,22 +261,30 @@
   }
 
   /* --------------------------------------------------------------- leverage */
+  /* « Ce que votre réponse change », the last block of the card (D71): the answer
+     read back in tangible terms, then what this lever alone does to the 2050
+     demand. A lever that cannot move the demand (a carrier split) keeps the
+     tangible line only. */
   function drawLeverage(lever, value) {
     var box = $("leverage");
-    if (!lever.impact || lever.impact.kind === "negligible") {
-      box.classList.add("ws-hidden");
-      return;
-    }
-    box.classList.remove("ws-hidden");
+    var usable = !!(lever.impact && lever.impact.kind !== "negligible");
+    var tangible = !!T.pick(leverContent(lever.id).tangible);
+    box.classList.toggle("ws-hidden", !usable && !tangible);
+    $("leverage-delta").classList.toggle("ws-hidden", !usable);
+    $("leverage-caveat").classList.toggle("ws-hidden", !usable);
 
     if (value === null || value === undefined) {
       box.classList.add("is-hidden");
+      $("leverage-value").classList.remove("ws-hidden");
       $("leverage-value").textContent = T.t("play.leverage.hidden");
+      $("leverage-value").removeAttribute("data-dir");
       $("leverage-delta").textContent = "";
       $("leverage-delta").removeAttribute("data-dir");
       return;
     }
     box.classList.remove("is-hidden");
+    $("leverage-value").classList.toggle("ws-hidden", !usable);
+    if (!usable) return;
 
     // What THIS answer contributes, against simply keeping today's level of the
     // same indicator. Never the sector total (which reads as the combined effect
@@ -311,6 +319,25 @@
           ref: T.num(lever.refValue, lever.decimals) + " " + T.unit(lever.unit)
         });
     sub.dataset.dir = "flat";
+  }
+
+  /* The introduction may quote a figure; it then cites it like a fact does. */
+  function drawSubtitleSource(content) {
+    var box = $("subtitle-source");
+    box.innerHTML = "";
+    box.classList.toggle("ws-hidden", !content.subtitleSource);
+    if (!content.subtitleSource) return;
+    box.appendChild(document.createTextNode(T.t("common.source") + ": "));
+    if (content.subtitleUrl) {
+      var a = document.createElement("a");
+      a.href = content.subtitleUrl;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = content.subtitleSource;
+      box.appendChild(a);
+    } else {
+      box.appendChild(document.createTextNode(content.subtitleSource));
+    }
   }
 
   /* ------------------------------------------------------------------ facts */
@@ -418,6 +445,7 @@
     eyebrow.appendChild(badge);
     $("question").textContent = T.pick(content.question) || lever.name;
     $("subtitle").textContent = T.pick(content.subtitle);
+    drawSubtitleSource(content);
 
     $("slider-wrap").classList.toggle("ws-hidden", parted(lever));
     $("parts").classList.toggle("ws-hidden", !parted(lever));

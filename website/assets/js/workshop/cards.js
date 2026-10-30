@@ -2,6 +2,8 @@
    negaWatt Belgium — printable discussion cards (cards.html)
    Same questions and the same four facts as the screen, laid out A5 so a group
    can argue over paper. Deliberately does NOT show the negaWatt value.
+   The card follows the order of the screen (D71): the question and its
+   introduction, the reference points, the answer, then the condition it takes.
    ========================================================================== */
 (function () {
   "use strict";
@@ -82,6 +84,12 @@
         var sub = document.createElement("p");
         sub.className = "ws-card__sub";
         sub.textContent = T.pick(text.subtitle);
+        // an introduction quoting a figure cites it, like a fact
+        if (text.subtitleSource) {
+          var subCite = document.createElement("cite");
+          subCite.textContent = " (" + T.t("cards.source") + ": " + text.subtitleSource + ")";
+          sub.appendChild(subCite);
+        }
         title.appendChild(sub);
       }
       // the question's letter, not its position: each group plays its own order,
@@ -93,6 +101,31 @@
       head.appendChild(title);
       head.appendChild(n);
       card.appendChild(head);
+
+      var facts = document.createElement("div");
+      facts.className = "ws-card__facts";
+      card.appendChild(facts);
+      // reveal-only facts state negaWatt's answer: they must not be printed
+      (text.facts || []).filter(function (f) { return !f.reveal; }).forEach(function (fact) {
+        var p = document.createElement("div");
+        p.className = "ws-card__fact";
+        facts.appendChild(p);
+        var kind = document.createElement("b");
+        kind.textContent = T.pick(fact.label)
+          || T.t("play.facts.kind." + (fact.kind || "structure"));
+        p.appendChild(kind);
+        var span = document.createElement("span");
+        T.rich(span, T.pick(fact.text));
+        p.appendChild(span);
+        if (fact.chart) {
+          window.NW_SPARK.factChart(p, fact.chart, { className: "ws-card__chart" });
+        }
+        if (fact.source) {
+          var cite = document.createElement("cite");
+          cite.textContent = T.t("cards.source") + ": " + fact.source;
+          p.appendChild(cite);
+        }
+      });
 
       var anchor = document.createElement("div");
       anchor.className = "ws-card__anchor";
@@ -148,30 +181,18 @@
       }
       card.appendChild(anchor);
 
-      var facts = document.createElement("div");
-      facts.className = "ws-card__facts";
-      card.appendChild(facts);
-      // reveal-only facts state negaWatt's answer: they must not be printed
-      (text.facts || []).filter(function (f) { return !f.reveal; }).forEach(function (fact) {
-        var p = document.createElement("div");
-        p.className = "ws-card__fact";
-        facts.appendChild(p);
-        var kind = document.createElement("b");
-        kind.textContent = T.pick(fact.label)
-          || T.t("play.facts.kind." + (fact.kind || "structure"));
-        p.appendChild(kind);
-        var span = document.createElement("span");
-        T.rich(span, T.pick(fact.text));
-        p.appendChild(span);
-        if (fact.chart) {
-          window.NW_SPARK.factChart(p, fact.chart, { className: "ws-card__chart" });
-        }
-        if (fact.source) {
-          var cite = document.createElement("cite");
-          cite.textContent = T.t("cards.source") + ": " + fact.source;
-          p.appendChild(cite);
-        }
-      });
+      // « Pour que cela arrive, il faudrait que… »: on paper, lines to write on
+      var condition = document.createElement("div");
+      condition.className = "ws-card__condition";
+      var conditionLabel = document.createElement("b");
+      conditionLabel.textContent = T.t("play.condition.label");
+      condition.appendChild(conditionLabel);
+      for (var line = 0; line < 2; line++) {
+        var rule = document.createElement("span");
+        rule.className = "ws-card__line";
+        condition.appendChild(rule);
+      }
+      card.appendChild(condition);
 
       var foot = document.createElement("div");
       foot.className = "ws-card__foot";

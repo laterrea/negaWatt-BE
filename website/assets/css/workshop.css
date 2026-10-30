@@ -147,6 +147,21 @@
   color: var(--ink-soft);
   font-size: .93rem;
 }
+.ws-subtitle__source { margin: 6px 0 0; font-size: .72rem; color: var(--muted); }
+.ws-subtitle__source a { color: var(--nw-teal-dark); }
+/* The card's sections, in the order of the docx structure (D71): reference
+   points, the answer, the condition, what the answer changes. */
+.ws-section-title,
+.ws-facts h2 {
+  font-size: .78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+.ws-answer > * + * { margin-top: 12px; }
+.ws-field--condition > label { font-size: .95rem; color: var(--ink); }
 
 /* ------------------------------------------------------------------ chart */
 .ws-chart {
@@ -298,12 +313,6 @@
 .ws-readout.is-empty .ws-readout__num { color: var(--muted); font-size: 1.15rem; }
 .ws-readout__unit { font-size: .95rem; font-weight: 700; color: #8a4419; }
 .ws-readout.is-empty .ws-readout__unit { display: none; }
-.ws-readout__tangible {
-  flex: 1 0 100%;
-  font-size: .88rem;
-  color: #6c5526;
-  margin: 0;
-}
 
 /* --------------------------------------------------------------- leverage */
 .ws-leverage {
@@ -333,18 +342,12 @@
 .ws-leverage__value[data-dir="flat"] { color: var(--flat); }
 .ws-leverage__delta { margin: 3px 0 0; font-size: .84rem; color: var(--ink-soft); }
 .ws-leverage__caveat { margin: 7px 0 0; font-size: .74rem; color: var(--muted); }
+.ws-leverage__tangible { margin: 0 0 6px; font-size: .92rem; color: var(--ink); }
+.ws-leverage__tangible:empty { display: none; }
 .ws-leverage.is-hidden .ws-leverage__value,
 .ws-leverage.is-hidden .ws-leverage__delta { color: var(--muted); font-weight: 600; }
 
 /* ------------------------------------------------------------------ facts */
-.ws-facts h2 {
-  font-size: .78rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: var(--muted);
-  margin: 0 0 10px;
-}
 .ws-facts__grid {
   display: grid;
   gap: 10px;
@@ -723,6 +726,11 @@
 .ws-card__part .ws-card__scale { flex: 0 0 auto; }
 .ws-card__blank { flex: 0 0 22mm; border-bottom: 1px solid var(--ink-soft); height: 1em; }
 .ws-card__rule { margin: 0; font-size: .7rem; color: var(--muted); }
+.ws-card__sub cite { font-style: normal; color: var(--muted); }
+/* « Pour que cela arrive, il faudrait que… »: two lines to write on (D71) */
+.ws-card__condition { font-size: .8rem; color: var(--ink); }
+.ws-card__condition b { display: block; margin-bottom: 2px; }
+.ws-card__line { display: block; height: 1.6em; border-bottom: 1px solid var(--ink-soft); }
 .ws-card__today { font-weight: 500; color: var(--muted); }
 
 .ws-cards__grid { display: grid; gap: 14px; grid-template-columns: 1fr; }

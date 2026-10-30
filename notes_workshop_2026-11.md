@@ -23,7 +23,7 @@ Status: ⬜ todo · 🟡 in progress · ✅ done · ⛔ dropped (with reason)
 
 ## Resume here
 
-> **Next step:** WP2 (new card structure: play.html / play.js / cards.js / CSS).
+> **Next step:** WP3 (model: merged aviation levers, weighted parts, per-part impacts, history series, notebook re-runs).
 
 Environment: no `data_processing` env on this machine; the `pypsa-eur` env has every
 dependency (numpy, pandas, scipy, matplotlib, nbformat, nbconvert, yaml, jupyter):
@@ -95,7 +95,7 @@ of this). Server backup of the deployed files: see WP8.
 |---|---|---|---|
 | WP0 | Restore point (tag), docx extraction, this tracker | orchestrator | ✅ |
 | WP1 | Line-ups: `programme.yaml`, build, join/play/cards/reveal, per-lever sector | orchestrator | ✅ |
-| WP2 | New card structure: play screen + printed card | orchestrator | ⬜ |
+| WP2 | New card structure: play screen + printed card | orchestrator | ✅ |
 | WP3 | Model: `plane-trips`, `plane-load`, weighted parts, per-part impacts, new history series, notebook re-runs | orchestrator | ⬜ |
 | WP4 | Content — inland mobility (3 cards) | agent 1 (Sonnet) + review | ⬜ |
 | WP5 | Content — buildings heat (theme + 3 cards) | agent 2 (Sonnet) + review | ⬜ |
@@ -119,3 +119,9 @@ of this). Server backup of the deployed files: see WP8.
   print the line-up (`?all=1` adds archived cards); reveal walks played questions plus
   archived ones that have answers in the window (dashed grey letter, "question archivée").
   Each question carries its `sector`, so a theme can mix files and sectors.
+- 2026-10-30 — WP2 done. Play screen: question → introduction (subtitle, with an optional
+  source line) → "Quelques repères" → "Votre réponse pour 2050" (chart, slider, number) →
+  "Pour que cela arrive, il faudrait que…" (3-line field) → "Ce que votre réponse change"
+  (the tangible reading, then the TWh of this lever alone). Printed card: question +
+  introduction → facts → 2019 value and range → two lines for the condition. Checked in
+  the browser (FR, inland mobility, slider moved: box fills, no console error).

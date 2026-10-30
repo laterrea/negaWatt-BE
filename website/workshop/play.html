@@ -31,48 +31,52 @@
       <span id="progress-dots" style="display:flex;gap:6px"></span>
     </div>
 
+    <!-- The screen follows the order of the card (D71): the question, what it is
+         about, the reference points, the answer, the condition it takes, and what
+         the answer changes. -->
+
+    <!-- 1. the question, 2. its introduction -->
     <div>
       <p class="ws-eyebrow" id="topic-title"></p>
       <h1 class="ws-question" id="question"></h1>
       <p class="ws-subtitle" id="subtitle"></p>
+      <p class="ws-subtitle__source ws-hidden" id="subtitle-source"></p>
     </div>
 
-    <div class="ws-chart">
-      <div id="chart" style="min-height:190px"></div>
-      <div class="ws-chart__legend" id="chart-legend"></div>
-      <p class="ws-chart__note" id="chart-note"></p>
-    </div>
-
-    <div class="ws-slider" id="slider-wrap">
-      <p class="ws-slider__hint" data-ui="play.dragHint"></p>
-      <input type="range" id="slider" aria-describedby="readout">
-      <div class="ws-slider__scale">
-        <span id="scale-min"></span>
-        <span id="scale-max"></span>
-      </div>
-    </div>
-
-    <!-- A question answered in parts (D61): one slider per part, built by
-         play.js in place of the slider above. The readout below then shows
-         the value the parts make together. -->
-    <div class="ws-parts ws-hidden" id="parts"></div>
-
-    <div class="ws-readout is-empty" id="readout" aria-live="polite">
-      <span class="ws-readout__num" id="readout-num"></span>
-      <span class="ws-readout__unit" id="readout-unit"></span>
-      <p class="ws-readout__tangible" id="readout-tangible"></p>
-    </div>
-
-    <div class="ws-leverage is-hidden" id="leverage">
-      <p class="ws-leverage__label" data-ui="play.leverage.title"></p>
-      <p class="ws-leverage__value" id="leverage-value"></p>
-      <p class="ws-leverage__delta" id="leverage-delta"></p>
-      <p class="ws-leverage__caveat" data-ui="play.leverage.caveat"></p>
-    </div>
-
+    <!-- 3. reference points -->
     <section class="ws-facts">
       <h2 data-ui="play.facts.title"></h2>
       <div class="ws-facts__grid" id="facts"></div>
+    </section>
+
+    <!-- 4. the answer: the observed curve, and the slider that extends it to 2050 -->
+    <section class="ws-answer">
+      <h2 class="ws-section-title" data-ui="play.yourAnswer"></h2>
+
+      <div class="ws-chart">
+        <div id="chart" style="min-height:190px"></div>
+        <div class="ws-chart__legend" id="chart-legend"></div>
+        <p class="ws-chart__note" id="chart-note"></p>
+      </div>
+
+      <div class="ws-slider" id="slider-wrap">
+        <p class="ws-slider__hint" data-ui="play.dragHint"></p>
+        <input type="range" id="slider" aria-describedby="readout">
+        <div class="ws-slider__scale">
+          <span id="scale-min"></span>
+          <span id="scale-max"></span>
+        </div>
+      </div>
+
+      <!-- A question answered in parts (D61): one slider per part, built by
+           play.js in place of the slider above. The readout below then shows
+           the value the parts make together. -->
+      <div class="ws-parts ws-hidden" id="parts"></div>
+
+      <div class="ws-readout is-empty" id="readout" aria-live="polite">
+        <span class="ws-readout__num" id="readout-num"></span>
+        <span class="ws-readout__unit" id="readout-unit"></span>
+      </div>
     </section>
 
     <!-- Opt-in per topic: `confidence: true` in the topic YAML. Off by default,
@@ -82,10 +86,21 @@
       <div class="ws-segmented" id="confidence" role="group"></div>
     </div>
 
-    <div class="ws-field">
+    <!-- 5. « Pour que cela arrive, il faudrait que… » -->
+    <div class="ws-field ws-field--condition">
       <label for="condition" data-ui="play.condition.label"></label>
-      <textarea class="ws-textarea" id="condition" maxlength="280" rows="2"></textarea>
+      <textarea class="ws-textarea" id="condition" maxlength="280" rows="3"></textarea>
     </div>
+
+    <!-- 6. « Ce que votre réponse change »: the answer read back in tangible terms,
+         and what this lever alone does to the 2050 demand -->
+    <section class="ws-leverage is-hidden" id="leverage">
+      <h2 class="ws-leverage__label" data-ui="play.leverage.title"></h2>
+      <p class="ws-leverage__tangible" id="readout-tangible"></p>
+      <p class="ws-leverage__value" id="leverage-value"></p>
+      <p class="ws-leverage__delta" id="leverage-delta"></p>
+      <p class="ws-leverage__caveat" id="leverage-caveat" data-ui="play.leverage.caveat"></p>
+    </section>
 
   </main>
 
