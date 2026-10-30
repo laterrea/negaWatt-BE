@@ -160,9 +160,12 @@ seeing négaWatt's answer, helped by factual anchors. Values are collected live,
 reveal screen then shows the group spread next to négaWatt's value and its written
 justification, one lever at a time.
 
-Live at **https://negawatt.squoilin.eu/workshop/** (unlisted, trilingual FR/NL/EN).
-Four topics, 30 questions: inland mobility (8), international mobility (7),
-residential heat (8), tertiary heat (7).
+Live at **https://workshop.negawatt.be/** (unlisted, trilingual FR/NL/EN; the old
+`negawatt.squoilin.eu/workshop/` redirects there).
+32 questions are written, in four topic files: inland mobility (8), international
+mobility (9), residential heat (8), tertiary heat (7). Which of them are *played* is set by
+the line-up in `content/programme.yaml` (below): the line-up of the 2 November 2026
+workshop plays nine, in three themes; `full` plays the thirty of September–October 2026.
 
 ```
 website/workshop/
@@ -171,6 +174,7 @@ website/workshop/
   reveal.html       the projector: live group answers, then the negaWatt value
   cards.html        printable A5 discussion cards (two per A4 page)
   content/*.yaml    HAND-EDITED wording, facts and justifications (FR/NL/EN)
+  content/programme.yaml  HAND-EDITED: which questions are played (the line-up)
 workshop_levers/*.py  one module per topic: which notebook quantities are levers
 website/api/*.php     PHP 8.3 + PDO/MySQL value collection
 website/data/
@@ -212,6 +216,52 @@ Only the reveal's dot radius reads it, and that falls back to the middle value, 
 can leave it off without losing anything. The API and the schema are unchanged — `confidence`
 has always been nullable. See D48.
 
+### Choosing the questions: line-ups
+
+`website/workshop/content/programme.yaml` is the one place to switch questions on and off:
+
+```yaml
+active: workshop-2026-11            # the line-up in use
+
+lineups:
+  full:                             # every question as played until October 2026
+    topics:
+      inland-mobility: all          # `all`: every question of the file, in file order
+      residential-heat: all
+      ...
+  workshop-2026-11:
+    topics:                         # the themes offered, in this order
+      inland-mobility: [car-share, car-occupancy, car-energy]     # letters A, B, C
+      international-mobility: [plane-trips, plane-load, air-freight]
+      buildings-heat: [floor-area, thermostat, ter-thermostat]
+```
+
+Edit the list, then rebuild the content (`python scripts/build_workshop_content.py`) — no
+notebook run. `--lineup <name>` builds another line-up without editing the file, and
+`--check --lineup <name>` validates one.
+
+- **Nothing is deleted.** A question left out stays in its topic file and its lever
+  module, is still built and checked, and becomes *archived*: it leaves the play screen
+  and the printed cards (`cards.html?topic=…&all=1` still prints it), and the reveal shows
+  it — after the played ones, with a dashed grey letter — whenever the date window holds
+  answers to it. Answers are stored by question id, so a question switched off and on
+  again finds its answers.
+- **Letters follow the line-up**: a theme playing three questions has cards A, B, C. An
+  archived question keeps the letter it was printed with.
+- **A theme can be made of other themes' questions**: `buildings-heat.yaml` has no
+  `levers:` block, only its title, introduction and summary chart, and
+  `include: [residential-heat, tertiary-heat]`; the line-up then lists questions worded in
+  those files. Groups are stored under the theme they played, so a sitting of
+  *Chaleur des bâtiments* and an older one of *Chaleur des logements* stay apart.
+- Theme-level text that counts the questions writes `{questionCount}` / `{otherCount}`.
+  A played card that points to an archived one with `{question:<id>}` fails the build.
+- **An id is never reused.** A question whose unit or meaning changes gets a new id; the
+  old one stays archived with its answers (`truck-load` → `truck-fill`, D62; the four
+  long-/short-haul levers → `plane-trips` and `plane-load`, D72). Every id that ever held
+  answers is listed in `docs/workshop_question_ids.md`.
+
+See D69–D72 in `docs/workshop_module.md`.
+
 ### Editing the cards
 
 Two kinds of card, both written in `website/workshop/content/<topic>.yaml`. (Not to be
@@ -244,6 +294,12 @@ fails rather than warns, so none of them can be got wrong quietly:
    key, not the words "négaWatt" or "the scenario". A fact that does describe the
    scenario carries `reveal: true`.
 
+**The order of a card** (D71), on the screen and on paper: the question; its
+introduction (`subtitle`); the reference points (`facts`); the answer — the observed curve
+and the slider that extends it to 2050; « Pour que cela arrive, il faudrait que… » (the
+group's condition, a free-text field); « Ce que votre réponse change » (the `tangible`
+reading of the answer, then what this lever alone does to the 2050 demand).
+
 Anatomy of a question card and its facts — the play order is the order of these blocks:
 
 ```yaml
@@ -251,7 +307,9 @@ levers:
   truck-fill:                              # id — must match make_lever(...) in the module
     short:    {fr: …, nl: …, en: …}        # progress dots and the summary table
     question: {fr: …, nl: …, en: …}        # the headline: ask for an objective, not a forecast
-    subtitle: {fr: …, nl: …, en: …}        # what the number covers, and what it excludes
+    subtitle: {fr: …, nl: …, en: …}        # the introduction: what the number covers, and what it excludes
+    subtitleSource: "Enquête fédérale…"    # optional: an introduction quoting a figure cites it…
+    subtitleUrl: https://…                 # …with a link that opens it (rule 2)
     tangible: {fr: "… {inverseIndex} % des km de camion", nl: …, en: …}   # reads back the answer
     facts:                                 # the information cards, in display order
       - kind: benchmark                    # trend | structure | benchmark | tangible | caution
@@ -299,7 +357,16 @@ make_lever("car-energy", ..., slider={"min": 45, "max": 115, "step": 1},
 
 A part speaks its own unit: its cut is `cut_per_unit × (value − ref_value)` percent, so a
 slider can ask for km/h less or for a mass in kg starting from today's. Without
-`cut_per_unit` the slider value is the cut itself (eco-driving, in %).
+`cut_per_unit` the slider value is the cut itself (eco-driving, in %). Under `combine="sum"`
+a part may carry a `weight`: `plane-trips` adds long-haul trips per lifetime × 225 km/year
+(18 000 km over 80 years) and short-haul ones × 27.1 km/year into air km per person per
+year, the measured curve.
+
+When the parts do not act on the demand through the combined figure alone — a long-haul
+kilometre and a short-haul one differ in energy, and only the second shifts to rail — give
+each part its own `impact=` record and the lever `impact={"kind": "parts", "total": …}`:
+the readout and the ± summary chart then add up the parts' effects, slider by slider
+(`NW_IMPACT.leverContribution`, D72).
 
 and word them in the YAML, under the lever, with the same ids:
 
@@ -329,7 +396,8 @@ What it changes, and what it does not:
   not move the result.
 - The printed card lists the parts, each with its range and a blank to write on.
 
-Working example: `car-energy` in `inland-mobility.yaml`. See D61.
+Working examples: `car-energy` in `inland-mobility.yaml` (cuts, D61/D64) and `plane-trips`
+in `international-mobility.yaml` (weighted sum, per-part impacts, D72).
 
 **Adding or removing an information card.** Add or delete a block under that lever's
 `facts:` — nothing else to touch, and no notebook run. Aim for four pre-answer facts
@@ -343,10 +411,13 @@ the build refuses to let the two disagree:
 
 1. `workshop_levers/<topic>.py` — add or delete the `make_lever(...)` call. It reads
    quantities the notebook has already computed; never re-declare an assumption there.
-   List in `spoilers=[…]` any `facts` key that states the scenario's own choice. To
-   retire a question without deleting its definition, pass `shown=False`.
-2. The YAML — add or delete the block with the same id, in the position you want it
-   asked.
+   List in `spoilers=[…]` any `facts` key that states the scenario's own choice. **To
+   stop playing a question, take it out of the line-up** (`programme.yaml`) — never delete
+   its block, which keeps its stored answers readable. `shown=False` is only for spare
+   levers that have no wording at all (`bus-occupancy`, `train-occupancy`).
+2. The YAML — add the block with the same id. A new question goes **after** the existing
+   ones, so that archived questions keep the letters they were printed with; the order it
+   is played in is the line-up's.
 3. Re-run the sector notebook and rebuild (below). This is not optional: the slider
    range, the units, négaWatt's value and every `{placeholder}` come from
    `levers_<sector>.js`.
@@ -488,7 +559,7 @@ python scripts/test_workshop_api.py --base http://127.0.0.1:8787            # 61
 # 5. publish — no root, no --delete (intervec/ and RFNBO_final_results/ survive);
 #    the script re-checks a few files against the server afterwards
 bash scripts/deploy_website.sh
-python scripts/test_workshop_api.py --base https://negawatt.squoilin.eu/api
+python scripts/test_workshop_api.py --base https://workshop.negawatt.be/api   # writes test groups: see the script
 ```
 
 A wording-only change is steps 2, 3 and 5. Check all three languages in the browser
@@ -512,8 +583,11 @@ curl https://negawatt.squoilin.eu/api/selftest.php     # expect {"ok":true,...}
 
 ### Running a workshop
 
-1. Print `workshop/cards.html` and hand the cards out. Each card has a letter; every group
-   plays the questions in its own order, and its screen says which card to pick up.
+0. Check the line-up: `active:` in `content/programme.yaml`, then rebuild and deploy. The
+   entry page offers its themes only.
+1. Print `workshop/cards.html` (one theme at a time: `?topic=…`) and hand the cards out.
+   Each card has a letter; every group plays the questions in its own order, and its screen
+   says which card to pick up.
 2. **Share `…/workshop/` — that is the whole invitation.** Participants type nothing and
    land on question 1; a group that wants to be "Table 3" renames itself in one tap.
    Answers autosave, and the network can drop without anyone losing work.

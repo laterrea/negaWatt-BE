@@ -47,3 +47,48 @@ lineups:
   workshop-2026-11:
     topics:
       inland-mobility: [car-share, car-occupancy, car-energy]
+
+# -----------------------------------------------------------------------------
+# Question ids retired before line-ups existed: no file defines them any more, but
+# the database may hold answers under them (truck-load, car-energy__speed and
+# car-energy__size do, from September-October 2026). Listed so that every stored
+# answer can be traced to what was asked; the build refuses to reuse one of these
+# ids, since an old answer would then be read with a new meaning.
+# docs/workshop_question_ids.md is generated from this and the lever exports.
+retired:
+  truck-load:
+    topic: inland-mobility
+    unit: tonnes (average payload per vehicle-km, empty runs included)
+    commit: aa62082
+    replacedBy: [truck-fill]
+    why: "a payload in tonnes became a filling rate in %, D62"
+  car-energy__speed:
+    topic: inland-mobility
+    unit: "% less energy per km (speed slider of car-energy)"
+    commit: b21345c
+    replacedBy: [car-energy__speed-kmh]
+    why: "the slider now speaks km/h less on average, D64"
+  car-energy__size:
+    topic: inland-mobility
+    unit: "% less energy per km (size slider of car-energy)"
+    commit: b21345c
+    replacedBy: [car-energy__mass]
+    why: "the slider now speaks an average car mass in kg, D64"
+  long-haul-fuel:
+    topic: international-mobility
+    unit: kWh per long-haul aircraft-km
+    commit: 1f10348
+    replacedBy: [plane-fuel]
+    why: "merged with short-haul-fuel into the fleet average, D45"
+  short-haul-fuel:
+    topic: international-mobility
+    unit: kWh per short-haul aircraft-km
+    commit: 1f10348
+    replacedBy: [plane-fuel]
+    why: "merged with long-haul-fuel into the fleet average, D45"
+  insulation:
+    topic: residential-heat
+    unit: kWh/m²/year of heating need
+    commit: e4f58a4
+    replacedBy: [renovation-rate, renovation-depth]
+    why: "split into the rate and the depth of renovation, D51"
