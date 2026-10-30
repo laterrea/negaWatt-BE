@@ -23,8 +23,8 @@ Status: ⬜ todo · 🟡 in progress · ✅ done · ⛔ dropped (with reason)
 
 ## Resume here
 
-> **Next step:** WP7 — browser walk of the three themes in FR/NL/EN and print page counts;
-> then WP8 deploy for testing (restore procedure above), WP9 final docs.
+> **Next step:** WP8 — deploy for testing (restore procedure above) and check the live
+> site read-only; then WP9 final docs.
 
 Environment: no `data_processing` env on this machine; the `pypsa-eur` env has every
 dependency (numpy, pandas, scipy, matplotlib, nbformat, nbconvert, yaml, jupyter):
@@ -120,7 +120,7 @@ new; YAML is never served, `.htaccess` answers 403).
 | WP4 | Content — inland mobility (3 cards) | agent 1 (Sonnet) + review | ✅ |
 | WP5 | Content — buildings heat (theme + 3 cards) | agent 2 (Sonnet) + review | ✅ |
 | WP6 | Content — international mobility (3 cards) | agent 3 (Sonnet) + review | ✅ |
-| WP7 | Tests: build, helpers, export, API, browser FR/NL/EN, print | orchestrator | ⬜ |
+| WP7 | Tests: build, helpers, export, API, browser FR/NL/EN, print | orchestrator | ✅ |
 | WP8 | Server backup, deploy for testing, live check | orchestrator | ⬜ |
 | WP9 | README + `docs/workshop_module.md` (D69–D72, review round), final notes | orchestrator | ⬜ |
 
@@ -244,3 +244,12 @@ new; YAML is never served, `.htaccess` answers 403).
   `{question:…}` to archived cards. Review fix: the trend fact no longer repeats the answer
   chart (third chart on the card). Line-up `workshop-2026-11` **activated**; all checks green
   (build both line-ups, registry, helpers 17, export 450, API 61 on dev_api).
+- 2026-10-30 — WP7 done. Scripted walk of every card (dev servers): inland FR, aviation NL
+  and FR, buildings EN — question, introduction, reference points (4–10), charts, sliders,
+  readout, "Ce que votre réponse change" (tangible + TWh) filled on every card, no raw
+  placeholder, no console error; end screen with the summary table and the ± chart (3 bars);
+  e.g. 4 long-haul + 30 short-haul trips → 1 713 km/pers./an and −5,7 TWh, which matches
+  the hand computation (−2,96 − 2,78). Reveal: the three themes walk A–C with négaWatt's
+  values; the aviation one shows the combined km per group. Print (`cards.html` → PDF,
+  headless Chromium): inland 3 pages, aviation 5 (the two-slider card runs over two pages),
+  buildings 3 — the same in FR, NL and EN.
