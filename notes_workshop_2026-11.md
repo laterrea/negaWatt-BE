@@ -23,7 +23,9 @@ Status: ⬜ todo · 🟡 in progress · ✅ done · ⛔ dropped (with reason)
 
 ## Resume here
 
-> **Next step:** WP5 — brief and launch agent 2 (buildings heat: new `buildings-heat.yaml` + `floor-area`, `thermostat`, `ter-thermostat`), then review.
+> **Next step:** WP5 is running (agent 2: buildings heat). Then: review it; add the
+> build guard refusing ids listed under `retired:`; launch agent 3 (aviation: full
+> wording of `plane-trips`/`plane-load`, `air-freight` edits, comments C4–C13, fn2/fn3).
 
 Environment: no `data_processing` env on this machine; the `pypsa-eur` env has every
 dependency (numpy, pandas, scipy, matplotlib, nbformat, nbconvert, yaml, jupyter):
@@ -163,3 +165,10 @@ of this). Server backup of the deployed files: see WP8.
   "Quelle place à la voiture" → "Quelle place **pour** la voiture". Topic intro/notes use
   `{questionCount}`/`{otherCount}`. Archived inland blocks byte-identical. Printed cards
   of this theme are each longer than half a page (as before): one card per A4 page.
+- 2026-10-30 — While agent 2 ran: per-haul curves for C4 (`avia_lng_trips_life`,
+  `avia_srt_trips_life`, in return trips per lifetime; 2019 = the sliders' start, checked by
+  the verifier, 450/450) and the fact keys the merged aviation cards need (people/years per
+  long-haul trip, months per short-haul trip, plane vs car per pkm, 2000-2023 occupancy
+  gains). Notebooks run in a throw-away git worktree and the two generated files swapped
+  in atomically, so the agent's builds never read a half-written file. Additive only.
+  §18 of `docs/workshop_module.md` drafted.

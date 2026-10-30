@@ -987,3 +987,31 @@ line, which is 3,4 mm). Final heights, all three languages on four sheets:
 (128 mm is the `min-height`; a page holds 277 mm and a card carries a 6 mm bottom margin.)
 The lesson for the next topic: **a `line` chart costs about 31 mm of plot plus its caption,
 and the caption is where a verbose `source:` quietly buys a second line.**
+
+---
+
+## 18. Adaptation round, 2026-10-30 — the workshop of 2 November 2026
+
+The organisers' proposal for the 2 November sitting came as a Word file with tracked
+changes and fourteen comments (`scenario_fiches.docx`, extracted with its revisions in
+`docs/workshop_2026-11/request_scenario_fiches.md`). Its three asks, and where each landed:
+
+| ask | answer |
+|---|---|
+| fewer questions — "focus on the collective, sufficiency and clarity; a few efficiency ones are fine" — nine cards in three themes | the line-up `workshop-2026-11` in `programme.yaml` (D69); the other questions are archived, not deleted |
+| one theme for the heat of all buildings | `buildings-heat.yaml`, a theme that plays residential and tertiary questions from their own files (D70) |
+| a new card structure for every card | question → introduction → reference points → answer → « Pour que cela arrive, il faudrait que… » → « Ce que votre réponse change », on screen and on paper (D71) |
+| long- and short-haul trips on one card, and long- and short-haul occupancy on one card | `plane-trips` (two sliders) and `plane-load`, new ids, the four old levers archived (D72) |
+| clearer questions and reference points, card by card | the reviewers' French applied, then Dutch and English written to match; every new figure checked at its source |
+
+The working tracker — the order things were done in, what each agent was asked and
+returned, and every docx statement that had to be corrected against its source — is
+`notes_workshop_2026-11.md` at the repository root.
+
+**What the database keeps.** Answers are stored by question id, and no id changed meaning:
+the cards whose wording changed kept their ids (`car-share`, `car-occupancy`,
+`car-energy`, `air-freight`, `floor-area`, `thermostat`, `ter-thermostat`), the two merged
+cards got new ones, and every older id is still defined and worded as an archived
+question — except six retired before line-ups existed, which `programme.yaml` lists under
+`retired:` with the commit that last defined them. `docs/workshop_question_ids.md`
+(generated) maps every id to its question and unit.
