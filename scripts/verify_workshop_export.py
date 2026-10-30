@@ -219,6 +219,21 @@ def main():
                       f"{lid}: lever {lv['refValue']} and history {hist} disagree in "
                       f"{lv['refYear']} — the two are on different bases")
 
+    # The two sliders of plane-trips each have their own measured curve, drawn on
+    # the card (D72); it must start where the slider does.
+    for part_id, key in (("long-haul", "avia_lng_trips_life"),
+                         ("short-haul", "avia_srt_trips_life")):
+        part = next((p for p in (levers.get("plane-trips") or {}).get("parts") or []
+                     if p["id"] == part_id), None)
+        s = series.get(key)
+        check(part is not None and s is not None,
+              f"plane-trips: part {part_id!r} or series {key!r} is missing")
+        if part is not None and s is not None:
+            hist = next((v for x, v in zip(s["x"], s["y"]) if x == 2019), None)
+            check(hist is not None and abs(hist - part["refValue"]) <= 0.005 * part["refValue"],
+                  f"plane-trips.{part_id}: slider starts at {part['refValue']} but {key} "
+                  f"reads {hist} in 2019")
+
     print(f"levers_transport.js   {len(levers)} levers ({len(shown)} shown), "
           f"generated {levers_doc['generated']}")
     print(f"history_transport.js  {len(series)} series, generated {history_doc['generated']}")

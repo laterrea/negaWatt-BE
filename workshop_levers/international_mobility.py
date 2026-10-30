@@ -724,11 +724,35 @@ def build(ctx):
              "kwhPerSrtTrip2019": round(_kwh_per_srt_trip),
              "litresPerSrtTrip2019": round(_kwh_per_srt_trip / ref_kwh_per_l_kero),
              "paxTwh2019": round(_pax_twh[_Y0], 1),
-             "paxTwhTarget": round(_pax_twh[_Y1], 2)}),
+             "paxTwhTarget": round(_pax_twh[_Y1], 2),
+             # what the old long-haul card said in people and years (section 2.1's
+             # own equity arithmetic) and the old short-haul card in months
+             "people2019": round(_lng_people[_Y0]),
+             "peopleTarget": round(_lng_people[_Y1]),
+             "pctPopTarget": round(_lng_pct_pop[_Y1], 1),
+             "yearsPerLngTrip2019": round(_lng_years_per_trip[_Y0], 1),
+             "yearsPerLngTripTarget": round(_lng_years_per_trip[_Y1], 1),
+             "monthsPerSrtTrip2019": round(12.0 * ref_trip_srt_km / _srt_pkm[_Y0], 1),
+             "monthsPerSrtTripTarget": round(12.0 * ref_trip_srt_km / _srt_pkm[_Y1], 1),
+             # the plane against the car, per passenger-km (the old short-haul card)
+             "carKwhPkm2019": round(_intensity(_pm_twh, df_PM, "car", "Gpkm", _Y0), 3),
+             "carOccupancy2019": round(_occ_car_2019, 2),
+             "srtKwhPkmTarget": round(_intensity(_pm_twh, df_PM, "plane-intra EU",
+                                                 "Gpkm", _Y1), 3),
+             "lngKwhPkmTarget": round(_intensity(_pm_twh, df_PM, "plane-extra EU",
+                                                 "Gpkm", _Y1), 3),
+             "carKwhPkmTarget": round(_intensity(_pm_twh, df_PM, "car", "Gpkm", _Y1), 3),
+             "railKwhPkmTarget": round(_srt_basket, 3),
+             "lngTwh": round(_twh(_pm_twh, "plane-extra EU", _Y0), 1),
+             "srtTwh": round(_twh(_pm_twh, "plane-intra EU", _Y0), 1),
+             "lngTwhTarget": round(_twh(_pm_twh, "plane-extra EU", _Y1), 2),
+             "srtTwhTarget": round(_twh(_pm_twh, "plane-intra EU", _Y1), 2)}),
          spoilers=["lngTripsTarget", "srtTripsTarget", "airKmYearTarget", "airChangePct",
                    "lngChangePct", "srtShiftPct", "toRailCnvPct", "toRailSpdPct",
-                   "toCoachPct", "paxTwhTarget", "topicShareTransportTarget",
-                   "freightTwhTarget"],
+                   "toCoachPct", "paxTwhTarget", "peopleTarget", "pctPopTarget",
+                   "yearsPerLngTripTarget", "monthsPerSrtTripTarget", "srtKwhPkmTarget",
+                   "lngKwhPkmTarget", "railKwhPkmTarget", "lngTwhTarget", "srtTwhTarget",
+                   "topicShareTransportTarget", "freightTwhTarget"],
          notebook=_NB + "#section_2", reference="nW-BE §2.1")
 
     # Passengers per flight, all flights: kerosene passenger-km over kerosene
@@ -749,6 +773,14 @@ def build(ctx):
     # 2019 has no hydrogen: the kerosene passenger-km are all the passenger-km
     assert abs(sum(_kero_pkm[_Y0].values()) / _pop[_Y0] - _air_pkm[_Y0]) < 0.5, (
         "2019 kerosene passenger-km per person disagree with the model's air pkm")
+    # Per passenger-km, long-haul uses far less than short-haul (0.358 against 0.566
+    # kWh in 2019) although an aircraft-km costs about the same (67 and 69 kWh): the
+    # gap is the number of people on board. The card explains it that way, so check it.
+    for _m, _f, _o in (("plane-extra EU", _fuel_lng, _occ_lng),
+                       ("plane-intra EU", _fuel_srt, _occ_srt)):
+        assert abs(_intensity(_pm_twh, df_PM, _m, "Gpkm", _Y0) - _f[_Y0] / _o[_Y0]) < 0.002, (
+            f"{_m}: kWh per passenger-km is not fuel per aircraft-km over passengers per "
+            f"flight in {_Y0}")
     _add("plane-load", _T, "Passengers per flight, all flights", "passengers per flight",
          _occ_all[_Y0], _occ_all[_Y1], ref_year=_Y0, target_year=_Y1,
          slider={"min": 100, "max": 250, "step": 5},
@@ -792,7 +824,11 @@ def build(ctx):
              "srtKwhPkm2019": round(_intensity(_pm_twh, df_PM, "plane-intra EU",
                                                "Gpkm", _Y0), 3),
              "keroTwh": round(_kero_twh[_Y0], 1),
-             "keroTwhTarget": round(_kero_twh[_Y1], 2)}),
+             "keroTwhTarget": round(_kero_twh[_Y1], 2),
+             # the old cards' trend over 2000-2023 and the hydrogen aircraft's seats
+             "histGainLngPct": round(100 * (ref_extra_occu_2023 / ref_extra_occu_2000 - 1), 1),
+             "histGainSrtPct": round(100 * (ref_intra_occu_2023 / ref_intra_occu_2000 - 1), 1),
+             "zeroeSeats": ref_zeroe_seats}),
          spoilers=["occuAllTarget", "occuAllGainPct", "occuLngTarget", "occuSrtTarget",
                    "gainLngPct", "gainSrtPct", "keroTwhTarget",
                    "topicShareTransportTarget", "freightTwhTarget"],
