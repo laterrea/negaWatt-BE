@@ -199,3 +199,6 @@ of this). Server backup of the deployed files: see WP8.
   every theme left out of the line-up (from 2026-01-01 to today). Print: `cards.html` to PDF
   with headless Chromium — inland 3 pages, buildings 3 pages (FR), one card per A4 page, the
   new order visible (question+intro, facts, answer box, two lines for the condition).
+- 2026-10-30 — Agent 3 stopped on the session limit right after starting (nothing written;
+  checked: only the bundle differed, by the new `start.archived` string, rebuilt and
+  committed). Relaunched with the same brief once the limit reset.
