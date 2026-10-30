@@ -45,12 +45,21 @@
     return (c && c.topics) || {};
   }
 
-  function topic() { return $("topic").value || Object.keys(topics())[0]; }
+  /* The themes of the line-up in use (programme.yaml, D69), in its order. The
+     bundle also carries archived themes, for the reveal of past sittings: they
+     are not offered here. */
+  function offered() {
+    return Object.keys(topics()).filter(function (id) {
+      return topics()[id].offered !== false;
+    });
+  }
+
+  function topic() { return $("topic").value || offered()[0]; }
 
   function buildTopics() {
     var select = $("topic");
     var keep = select.value;
-    var ids = Object.keys(topics());
+    var ids = offered();
     select.innerHTML = "";
     ids.forEach(function (id) {
       var option = document.createElement("option");
@@ -106,7 +115,7 @@
     buildTopics();
 
     var wanted = /[?&]topic=([A-Za-z0-9_-]+)/.exec(window.location.search);
-    if (wanted && topics()[wanted[1]]) $("topic").value = wanted[1];
+    if (wanted && offered().indexOf(wanted[1]) !== -1) $("topic").value = wanted[1];
     refreshLinks();
 
     $("topic").addEventListener("change", refreshLinks);

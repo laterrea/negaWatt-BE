@@ -94,8 +94,9 @@ def question_refs(node, codes, where, errors):
         def sub(match):
             lid = match.group(1)
             if lid not in codes:
-                errors.append(f"{where}: {{question:{lid}}} names no question of this "
-                              f"topic (known: {', '.join(codes)})")
+                errors.append(f"{where}: {{question:{lid}}} names no question played "
+                              f"in this theme (played: {', '.join(codes) or 'none'}) — "
+                              f"reword it, or add {lid!r} to the line-up in programme.yaml")
                 return match.group(0)
             return codes[lid]
         return QUESTION_REF_RE.sub(sub, node)
@@ -125,8 +126,8 @@ def positional_wording(node, where, errors):
 def shuffle_units(name, order, linked, errors):
     """The units a random order shuffles: one per question, or one per linked block.
 
-    A block keeps its questions together and in their YAML order, and must already
-    be adjacent there, so that their letters are consecutive as well.
+    A block keeps its questions together and in their order, and must already be
+    adjacent among the questions played, so that their letters are consecutive.
     """
     if linked is None:
         linked = []
@@ -150,7 +151,7 @@ def shuffle_units(name, order, linked, errors):
         at = [order.index(lid) for lid in block]
         if at != list(range(at[0], at[0] + len(block))):
             errors.append(f"{where}: {block} must be adjacent and in this order among "
-                          f"the levers of the YAML, so that their letters follow")
+                          f"the questions played, so that their letters follow")
             continue
         seen.update(block)
         first[block[0]] = block
@@ -469,7 +470,290 @@ def check_chart(chart, languages, where, errors, values, decimals_by_key, histor
     return out
 
 
-def build(check_only=False):
+# ------------------------------------------------------------------ line-ups (D69)
+# Which themes the entry page offers, and which questions each plays. Every
+# question ever written stays in its topic file and is built and checked like any
+# other; a question the active line-up does not list is "archived": kept out of the
+# play screen and the printed cards, and still shown by the reveal for the sittings
+# that answered it. Nothing is deleted when a question is switched off.
+PROGRAMME = os.path.join(CONTENT_DIR, "programme.yaml")
+NOT_TOPIC_FILES = {"ui.yaml", "programme.yaml"}
+# Topic-level wording may count the questions of the line-up, so that a theme cut
+# from eight questions to three does not keep saying "the seven others".
+COUNT_PLACEHOLDERS = ("questionCount", "otherCount")
+
+
+def load_programme(override, errors):
+    """The line-up to build: (its id, {topic: [lever ids] | "all"}), or None if no file.
+
+    Without programme.yaml every topic file is offered with all its questions, in
+    YAML order -- the behaviour from before line-ups existed.
+    """
+    if not os.path.isfile(PROGRAMME):
+        if override:
+            errors.append(f"--lineup {override!r}: there is no programme.yaml")
+        return None, None
+    doc = yaml.safe_load(open(PROGRAMME, encoding="utf-8")) or {}
+    lineups = doc.get("lineups")
+    if not isinstance(lineups, dict) or not lineups:
+        errors.append("programme.yaml: expected a 'lineups' block with at least one line-up")
+        return None, None
+    chosen = override or doc.get("active")
+    if chosen not in lineups:
+        errors.append(f"programme.yaml: line-up {chosen!r} is not one of {sorted(lineups)} "
+                      f"(set 'active', or pass --lineup)")
+        return chosen, None
+    topics = (lineups[chosen] or {}).get("topics")
+    if not isinstance(topics, dict) or not topics:
+        errors.append(f"programme.yaml.lineups.{chosen}: expected a 'topics' block naming "
+                      f"at least one theme")
+        return chosen, None
+    return chosen, topics
+
+
+def compile_lever(lid, content, lv, codes, where, languages, history_doc, errors):
+    """One question's wording, checked and resolved against its notebook record.
+
+    `codes` are the letters of the theme it is compiled for: a question played in
+    another theme than the one whose file words it (D70) is lettered there.
+    """
+    # every {question:id} becomes a letter before anything else reads the text
+    content = question_refs(content, codes, where, errors)
+    values = dict(lv.get("facts") or {})
+    values.update({
+        "refValue": lv["refValue"], "targetValue": lv["targetValue"],
+        "refYear": lv["refYear"], "targetYear": lv["targetYear"],
+        "unit": lv["unit"],
+    })
+    # The lever's own values keep the precision the lever declares, so
+    # 2.0 persons/car reads "2,00" rather than "2".
+    decimals = lv.get("decimals", 1)
+    decimals_by_key = {"refValue": decimals, "targetValue": decimals}
+
+    rec = {}
+    for field in TRANSLATABLE_FIELDS:
+        if field in content:
+            rec[field] = check_multilang(content[field], languages,
+                                         f"{where}.{field}", errors, values,
+                                         decimals_by_key)
+            if field not in EMPHASIS_FIELDS:
+                for lang, text in rec[field].items():
+                    if EMPHASIS_RE.search(text):
+                        errors.append(
+                            f"{where}.{field}.{lang}: *emphasis* is only rendered in a "
+                            f"fact's text, the justification and the debate — here the "
+                            f"asterisks would show on screen. Reword it.")
+            if field in PRE_ANSWER_FIELDS:
+                for lang, text in rec[field].items():
+                    spoiler_check(raw_text(content[field], lang), text, lang,
+                                  f"{where}.{field}.{lang}", lv, errors)
+    for field in ("question", "short", "justification"):
+        if field not in rec:
+            errors.append(f"{where}: '{field}' is required")
+
+    # The introduction under the question may quote a figure (D71). Like a fact, it
+    # then says where the figure comes from, with a link that opens it.
+    sub_source, sub_url = content.get("subtitleSource"), content.get("subtitleUrl")
+    if sub_url and not str(sub_url).startswith(("http://", "https://")):
+        errors.append(f"{where}.subtitleUrl: {sub_url!r} does not look like a URL")
+    if sub_url and not sub_source:
+        errors.append(f"{where}: 'subtitleUrl' needs a 'subtitleSource' naming it")
+    if sub_source:
+        rec["subtitleSource"] = str(sub_source)
+        if sub_url:
+            rec["subtitleUrl"] = str(sub_url)
+        elif not INTERNAL_SOURCE_RE.search(str(sub_source)):
+            errors.append(f"{where}: 'subtitleSource' {sub_source!r} needs a 'subtitleUrl' "
+                          f"that opens it")
+
+    # --- a question answered in parts (D61) -------------------------
+    # The notebook declares the parts and how they combine; the YAML
+    # words each one. Same rule as the levers themselves: the two id
+    # sets must agree, and nothing on a slider may give the answer away.
+    exported_parts = {p["id"]: p for p in lv.get("parts") or []}
+    yaml_parts = content.get("parts") or {}
+    if not isinstance(yaml_parts, dict):
+        errors.append(f"{where}.parts: expected one block per part id")
+        yaml_parts = {}
+    for pid in sorted(set(yaml_parts) - set(exported_parts)):
+        errors.append(f"{where}.parts.{pid}: the notebook exports no such part "
+                      f"of this lever")
+    for pid in sorted(set(exported_parts) - set(yaml_parts)):
+        errors.append(f"{where}: the notebook exports part {pid!r} with no "
+                      f"wording under 'parts'")
+    if exported_parts:
+        rec["parts"] = {}
+    for pid, ptext in yaml_parts.items():
+        part = exported_parts.get(pid)
+        if part is None:
+            continue
+        pwhere = f"{where}.parts.{pid}"
+        pvalues = dict(values, refValue=part["refValue"])
+        pdecimals = {"refValue": part["decimals"]}
+        if "targetValue" in part:
+            pvalues["targetValue"] = part["targetValue"]
+            pdecimals["targetValue"] = part["decimals"]
+        prec = {}
+        for field in set(ptext or {}) - set(PART_FIELDS):
+            errors.append(f"{pwhere}: unknown field {field!r} (a part takes "
+                          f"{', '.join(PART_FIELDS)})")
+        for field in PART_FIELDS:
+            if field not in (ptext or {}):
+                if field != "subtitle":
+                    errors.append(f"{pwhere}: '{field}' is required")
+                continue
+            prec[field] = check_multilang(ptext[field], languages,
+                                          f"{pwhere}.{field}", errors, pvalues,
+                                          pdecimals)
+            for lang, text in prec[field].items():
+                if EMPHASIS_RE.search(text):
+                    errors.append(f"{pwhere}.{field}.{lang}: *emphasis* does not "
+                                  f"render on a slider label. Reword it.")
+                # A part is on screen before the group answers, so it is
+                # held to the lever's own spoiler rule, and to its own
+                # target where the scenario gives one.
+                spoiler_check(raw_text(ptext[field], lang), text, lang,
+                              f"{pwhere}.{field}.{lang}", lv, errors)
+                if "targetValue" in part:
+                    spoiler_check(raw_text(ptext[field], lang), text, lang,
+                                  f"{pwhere}.{field}.{lang}",
+                                  dict(part, spoilers=lv.get("spoilers")), errors)
+        rec["parts"][pid] = prec
+    # The question above the sliders must not print a part's own value
+    # either. The facts are not checked against the parts: they quote
+    # literature ranges, and "6 to 7%" for lighter cars says nothing
+    # about the eco-driving slider that happens to land on 7.
+    for part in exported_parts.values():
+        if "targetValue" not in part:
+            continue
+        as_lever = dict(part, spoilers=lv.get("spoilers"))
+        for field in PRE_ANSWER_FIELDS:
+            for lang, text in rec.get(field, {}).items():
+                spoiler_check(raw_text(content[field], lang), text, lang,
+                              f"{where}.{field}.{lang} (part {part['id']})",
+                              as_lever, errors)
+
+    facts = content.get("facts") or []
+    rec["facts"] = []
+    for i, fact in enumerate(facts):
+        fwhere = f"{where}.facts[{i}]"
+        kind = fact.get("kind")
+        if kind not in FACT_KINDS:
+            errors.append(f"{fwhere}: kind {kind!r} is not one of {sorted(FACT_KINDS)}")
+        source = fact.get("source")
+        if not source:
+            errors.append(f"{fwhere}: every fact needs a 'source'")
+        url = fact.get("url")
+        if url and not str(url).startswith(("http://", "https://")):
+            errors.append(f"{fwhere}: url {url!r} does not look like a URL")
+        entry = {"kind": kind,
+                 "text": check_multilang(fact.get("text"), languages,
+                                         f"{fwhere}.text", errors, values,
+                                         decimals_by_key),
+                 "source": source}
+        # A fact may retitle itself: the kind still sets the colour and
+        # the printed order, but the heading says what *this* card is
+        # about ("Décarbonation de l'aviation" rather than the generic
+        # "Comparaison internationale"). Trilingual like every other
+        # string, and plain text — the heading does not render emphasis.
+        if "label" in fact:
+            label = check_multilang(fact.get("label"), languages,
+                                    f"{fwhere}.label", errors, values,
+                                    decimals_by_key)
+            for lang, text in label.items():
+                if EMPHASIS_RE.search(text):
+                    errors.append(f"{fwhere}.label.{lang}: a fact heading is plain "
+                                  f"text, so the asterisks would show on screen.")
+            entry["label"] = label
+        # A card that quotes a figure has to let the reader check it.
+        quoted = "".join(str(v) for v in (fact.get("text") or {}).values())
+        if (not url and QUOTES_A_FIGURE_RE.search(quoted)
+                and not INTERNAL_SOURCE_RE.search(str(source or ""))):
+            errors.append(f"{fwhere}: quotes a figure but has no 'url' — give the "
+                          f"link that opens {source!r} itself, or cite the nW-BE "
+                          f"section if the model computes the figure")
+        if url:
+            entry["url"] = url
+        if "chart" in fact:
+            chart = check_chart(fact["chart"], languages, f"{fwhere}.chart",
+                                errors, values, decimals_by_key, history_doc)
+            if chart:
+                entry["chart"] = chart
+                chart_source = chart.get("source", source)
+                if (not chart.get("url", url if "source" not in chart else None)
+                        and not INTERNAL_SOURCE_RE.search(str(chart_source or ""))):
+                    errors.append(f"{fwhere}.chart: plotted data needs a 'url' "
+                                  f"opening {chart_source!r}")
+        if fact.get("reveal"):
+            entry["reveal"] = True      # held back until the reveal screen
+        else:
+            for lang, text in entry["text"].items():
+                spoiler_check(raw_text(fact.get("text"), lang), text, lang,
+                              f"{fwhere}.text.{lang}", lv, errors)
+            for lang, text in entry.get("label", {}).items():
+                spoiler_check(raw_text(fact.get("label"), lang), text, lang,
+                              f"{fwhere}.label.{lang}", lv, errors)
+            # a plotted bar sitting exactly on negaWatt's value gives the
+            # answer away as surely as printing it. Only for a chart drawn
+            # in the lever's own unit: a curve of something else entirely
+            # (a cumulative share, a count of countries) can land on the
+            # same number by pure coincidence and gives nothing away.
+            places = lv.get("decimals", 1)
+            chart_unit = entry.get("chart", {}).get("unit")
+            same_unit = chart_unit in (None, lv.get("unit"))
+            for j, value in enumerate(
+                    (entry.get("chart", {}).get("y") or []) if same_unit else []):
+                if isinstance(value, (int, float)) and not isinstance(value, bool) \
+                        and round(value, places) == round(lv["targetValue"], places):
+                    errors.append(f"{fwhere}.chart: y[{j}] is negaWatt's own value "
+                                  f"for this lever — flag the fact 'reveal: true' "
+                                  f"or leave the point out")
+        rec["facts"].append(entry)
+
+    # --- which way is down on the chart ------------------------------
+    # A lever counted as a reduction ("°C less on the thermostat") draws
+    # a rising line for a falling quantity, which reads backwards. The
+    # flag makes the chart plot the signed change instead; nothing else
+    # about the lever moves. See D60.
+    invert = content.get("chartInvertY", False)
+    if not isinstance(invert, bool):
+        errors.append(f"{where}.chartInvertY: expected true/false, got {invert!r}")
+    elif invert:
+        rec["chartInvertY"] = True
+
+    # --- the historical curve ---------------------------------------
+    key = lv.get("history")
+    if content.get("history"):                 # hand-curated in the YAML
+        series = content["history"]
+        for field in ("unit", "source", "x", "y"):
+            if field not in series:
+                errors.append(f"{where}.history: '{field}' is required")
+        if series.get("x") and len(series["x"]) != len(series.get("y", [])):
+            errors.append(f"{where}.history: x and y have different lengths")
+        rec["history"] = {
+            "label": check_multilang(series.get("label", {}), languages,
+                                     f"{where}.history.label", errors),
+            "unit": series.get("unit"), "source": series.get("source"),
+            "url": series.get("url"),
+            "x": series.get("x"), "y": series.get("y"), "curated": True,
+        }
+    elif content.get("historyAbsent"):
+        if "historyNote" not in rec:
+            errors.append(f"{where}: historyAbsent needs a 'historyNote' explaining why")
+        rec["historyAbsent"] = True
+    elif key and key not in history_doc["series"]:
+        errors.append(f"{where}: the notebook points this lever at history series "
+                      f"'{key}', which does not exist. Either supply a curated "
+                      f"'history' block or declare 'historyAbsent: true' with a "
+                      f"'historyNote'.")
+    elif not key:
+        errors.append(f"{where}: no history series and no 'historyAbsent: true'")
+
+    rec["code"] = codes.get(lid, "?")
+    return rec, len([f for f in facts if not f.get("reveal")])
+
+
+def build(check_only=False, lineup=None):
     errors, warnings = [], []
 
     # ---------------------------------------------------------------- ui.yaml
@@ -486,28 +770,63 @@ def build(check_only=False):
     for key, node in (ui_doc.get("strings") or {}).items():
         ui_strings[key] = check_multilang(node, languages, f"ui.{key}", errors)
 
-    # ------------------------------------------------------------- topic files
-    topics = {}
+    # ------------------------------------------------- topic files, first pass
+    # Read every file before building any theme: a theme may play questions worded
+    # in another file (D70), so where each question lives has to be known first.
     topic_files = sorted(glob.glob(os.path.join(CONTENT_DIR, "*.yaml")))
-    topic_files = [p for p in topic_files if os.path.basename(p) != "ui.yaml"]
+    topic_files = [p for p in topic_files if os.path.basename(p) not in NOT_TOPIC_FILES]
     if not topic_files:
         errors.append("no topic YAML found in website/workshop/content/")
 
+    files = {}          # topic id -> (file name, parsed YAML)
+    home = {}           # lever id -> the topic whose file words it
     for path in topic_files:
         name = os.path.basename(path)
         doc = yaml.safe_load(open(path, encoding="utf-8"))
         topic_id = doc.get("topic")
-        sector = doc.get("sector")
-        if not topic_id or not sector:
+        if not topic_id or not doc.get("sector"):
             errors.append(f"{name}: both 'topic' and 'sector' are required")
             continue
+        if topic_id in files:
+            errors.append(f"{name}: topic {topic_id!r} is also declared by {files[topic_id][0]}")
+            continue
+        files[topic_id] = (name, doc)
+        for lid in (doc.get("levers") or {}):
+            if lid in home:
+                errors.append(f"{name}: question {lid!r} is already worded in "
+                              f"{files[home[lid]][0]}; a question has one home")
+                continue
+            home[lid] = topic_id
 
-        levers_doc = load_generated(f"levers_{sector}.js")
-        history_doc = load_generated(f"history_{sector}.js")
-        exported = {lid: lv for lid, lv in levers_doc["levers"].items()
-                    if lv.get("topic") == topic_id and lv.get("shown")}
+    generated = {}
 
+    def sector_data(sector):
+        if sector not in generated:
+            generated[sector] = (load_generated(f"levers_{sector}.js"),
+                                 load_generated(f"history_{sector}.js"))
+        return generated[sector]
+
+    def exported_for(topic_id):
+        """The notebook's shown levers of one topic."""
+        levers_doc = sector_data(files[topic_id][1]["sector"])[0]
+        return {lid: lv for lid, lv in levers_doc["levers"].items()
+                if lv.get("topic") == topic_id and lv.get("shown")}
+
+    # Each file and the notebook must agree on its questions, whether they are
+    # played today or not: an archived question is still built and checked.
+    own_order = {}
+    for topic_id, (name, doc) in files.items():
         yaml_levers = doc.get("levers") or {}
+        if doc.get("include") is not None:
+            if yaml_levers:
+                errors.append(f"{name}: a theme made of other themes' questions "
+                              f"('include') words none of its own — move 'levers' to "
+                              f"a topic file of its own")
+            if not isinstance(doc["include"], list) or not all(
+                    t in files for t in doc["include"]):
+                errors.append(f"{name}.include: expected a list of topic ids among "
+                              f"{sorted(files)}")
+        exported = exported_for(topic_id)
         only_yaml = set(yaml_levers) - set(exported)
         only_export = set(exported) - set(yaml_levers)
         if only_yaml:
@@ -516,35 +835,112 @@ def build(check_only=False):
         if only_export:
             errors.append(f"{name}: the notebook exports shown lever(s) "
                           f"{sorted(only_export)} with no content here")
+        own_order[topic_id] = [lid for lid in yaml_levers if lid in exported]
+
+    # ---------------------------------------------------------------- line-up
+    lineup_id, lineup_topics = load_programme(lineup, errors)
+    if lineup_topics is None and lineup_id is None:
+        lineup_topics = {tid: "all" for tid in files}
+    plays = {}          # offered theme -> its questions, in letter order
+    for topic_id, spec in (lineup_topics or {}).items():
+        where = f"programme.yaml.lineups.{lineup_id}.{topic_id}"
+        if topic_id not in files:
+            errors.append(f"{where}: no topic file declares {topic_id!r} "
+                          f"(known: {', '.join(files)})")
+            continue
+        doc = files[topic_id][1]
+        if spec == "all":
+            if doc.get("include") is not None:
+                errors.append(f"{where}: a theme made of other themes' questions has to "
+                              f"list them")
+                continue
+            ids = list(own_order[topic_id])
+        elif isinstance(spec, list) and spec and all(isinstance(x, str) for x in spec):
+            ids = list(spec)
+        else:
+            errors.append(f"{where}: expected 'all' or a list of question ids")
+            continue
+        allowed = {topic_id} | set(doc.get("include") or [])
+        twice = sorted({lid for lid in ids if ids.count(lid) > 1})
+        if twice:
+            errors.append(f"{where}: {twice} listed more than once")
+        for lid in ids:
+            owner = home.get(lid)
+            if owner is None:
+                errors.append(f"{where}: no topic file words a question {lid!r}")
+            elif owner not in allowed:
+                errors.append(f"{where}: {lid!r} is worded in {files[owner][0]}, which "
+                              f"{topic_id!r} does not include")
+            elif lid not in own_order[owner]:
+                errors.append(f"{where}: {lid!r} is not exported as a shown lever by "
+                              f"the notebook")
+        plays[topic_id] = ids
+    if lineup_topics is not None and not plays and not errors:
+        errors.append("the line-up offers no theme")
+
+    # ------------------------------------------------------------- the themes
+    topics = {}
+    for topic_id in list(plays) + [t for t in files if t not in plays]:
+        name, doc = files[topic_id]
+        sector = doc["sector"]
+        offered = topic_id in plays
+        order = plays.get(topic_id, [])
+        archive = [lid for lid in own_order[topic_id] if lid not in order]
 
         # --- question order and letters (D63) ------------------------------
-        order = [lid for lid in yaml_levers if lid in exported]
-        if len(order) > len(LETTERS):
-            errors.append(f"{name}: {len(order)} questions, more than there are letters")
+        # The letters of the questions played follow the line-up; an archived
+        # question keeps the letter its place in the file gave it, which is the
+        # one printed on the cards of the sittings that answered it.
+        if len(order) > len(LETTERS) or len(own_order[topic_id]) > len(LETTERS):
+            errors.append(f"{name}: more questions than there are letters")
         codes = {lid: LETTERS[i] for i, lid in enumerate(order[:len(LETTERS)])}
+        legacy = {lid: LETTERS[i]
+                  for i, lid in enumerate(own_order[topic_id][:len(LETTERS)])}
         question_order = doc.get("questionOrder", "random")
         if question_order not in QUESTION_ORDERS:
             errors.append(f"{name}.questionOrder: {question_order!r} is not one of "
                           f"{list(QUESTION_ORDERS)}")
-        units = shuffle_units(name, order, doc.get("linked"), errors)
-        # every {question:id} becomes a letter before anything else reads the text
-        doc = question_refs(doc, codes, name, errors)
-        yaml_levers = doc.get("levers") or {}
+        # a linked block moves only when all of it is played; one half on its own
+        # is just a question
+        linked = doc.get("linked")
+        if isinstance(linked, list) and all(isinstance(b, list) for b in linked):
+            kept = []
+            for block in linked:
+                played = [lid for lid in block if lid in order]
+                if played and len(played) < len(block):
+                    warnings.append(f"{name}.linked: {block} is only partly in the line-up "
+                                    f"— {played} played as independent question(s)")
+                elif played:
+                    kept.append(block)
+            linked = kept
+        units = shuffle_units(name, order, linked, errors)
+
+        counts = {"questionCount": len(order), "otherCount": max(len(order) - 1, 0)}
+        head = question_refs({k: doc.get(k) for k in ("title", "lead", "intro")
+                              if doc.get(k) is not None}, codes, name, errors)
         if question_order == "random":
-            positional_wording({k: v for k, v in doc.items()
-                                if k not in ("questionOrder", "linked")}, name, errors)
+            positional_wording(head, name, errors)
 
         topic = {
             "sector": sector,
-            "title": check_multilang(doc.get("title"), languages, f"{name}.title", errors),
-            "lead": check_multilang(doc.get("lead"), languages, f"{name}.lead", errors),
-            "intro": check_multilang(doc.get("intro"), languages, f"{name}.intro", errors),
+            "title": check_multilang(head.get("title"), languages, f"{name}.title",
+                                     errors, counts),
+            "lead": check_multilang(head.get("lead"), languages, f"{name}.lead",
+                                    errors, counts),
+            "intro": check_multilang(head.get("intro"), languages, f"{name}.intro",
+                                     errors, counts),
+            "offered": offered,
             # letter order: the printed cards, the reveal and the end summary
             "order": order,
+            # questions of this file not played in the line-up: the reveal still
+            # shows them for the sittings that answered them
+            "archive": archive,
             "questionOrder": question_order,
             "units": units,
             "levers": {},
         }
+        if doc.get("include") is not None:
+            topic["include"] = list(doc["include"])
 
         # Optional: the "how sure are you?" question under each lever. Off
         # unless the topic asks for it -- the screen already carries the slider,
@@ -574,8 +970,10 @@ def build(check_only=False):
                 errors.append(f"{name}.summaryChart: expected a block with 'enabled', "
                               f"'caption' and 'note'")
             elif summary.get("enabled"):
-                blind = sorted(lid for lid, lv in exported.items()
-                               if not (lv.get("impact") or {}).get("kind"))
+                blind = sorted(lid for lid in order if lid in home
+                               and lid in own_order.get(home[lid], [])
+                               and not (exported_for(home[lid])[lid].get("impact")
+                                        or {}).get("kind"))
                 if blind:
                     errors.append(f"{name}.summaryChart: lever(s) {blind} carry no impact "
                                   f"record at all, so their bar would be blank -- give them "
@@ -585,236 +983,37 @@ def build(check_only=False):
                     "unit": summary.get("unit", "TWh"),
                     "decimals": summary.get("decimals", 2),
                     "caption": check_multilang(summary.get("caption"), languages,
-                                               f"{name}.summaryChart.caption", errors),
+                                               f"{name}.summaryChart.caption", errors,
+                                               counts),
                     "note": check_multilang(summary.get("note"), languages,
-                                            f"{name}.summaryChart.note", errors),
+                                            f"{name}.summaryChart.note", errors, counts),
                 }
 
-        for lid, content in yaml_levers.items():
-            lv = exported.get(lid)
-            if lv is None:
-                continue
-            where = f"{name}.{lid}"
-            values = dict(lv.get("facts") or {})
-            values.update({
-                "refValue": lv["refValue"], "targetValue": lv["targetValue"],
-                "refYear": lv["refYear"], "targetYear": lv["targetYear"],
-                "unit": lv["unit"],
-            })
-            # The lever's own values keep the precision the lever declares, so
-            # 2.0 persons/car reads "2,00" rather than "2".
-            decimals = lv.get("decimals", 1)
-            decimals_by_key = {"refValue": decimals, "targetValue": decimals}
-
-            rec = {}
-            for field in TRANSLATABLE_FIELDS:
-                if field in content:
-                    rec[field] = check_multilang(content[field], languages,
-                                                 f"{where}.{field}", errors, values,
-                                                 decimals_by_key)
-                    if field not in EMPHASIS_FIELDS:
-                        for lang, text in rec[field].items():
-                            if EMPHASIS_RE.search(text):
-                                errors.append(
-                                    f"{where}.{field}.{lang}: *emphasis* is only rendered in a "
-                                    f"fact's text, the justification and the debate — here the "
-                                    f"asterisks would show on screen. Reword it.")
-                    if field in PRE_ANSWER_FIELDS:
-                        for lang, text in rec[field].items():
-                            spoiler_check(raw_text(content[field], lang), text, lang,
-                                          f"{where}.{field}.{lang}", lv, errors)
-            for field in ("question", "short", "justification"):
-                if field not in rec:
-                    errors.append(f"{where}: '{field}' is required")
-
-            # --- a question answered in parts (D61) -------------------------
-            # The notebook declares the parts and how they combine; the YAML
-            # words each one. Same rule as the levers themselves: the two id
-            # sets must agree, and nothing on a slider may give the answer away.
-            exported_parts = {p["id"]: p for p in lv.get("parts") or []}
-            yaml_parts = content.get("parts") or {}
-            if not isinstance(yaml_parts, dict):
-                errors.append(f"{where}.parts: expected one block per part id")
-                yaml_parts = {}
-            for pid in sorted(set(yaml_parts) - set(exported_parts)):
-                errors.append(f"{where}.parts.{pid}: the notebook exports no such part "
-                              f"of this lever")
-            for pid in sorted(set(exported_parts) - set(yaml_parts)):
-                errors.append(f"{where}: the notebook exports part {pid!r} with no "
-                              f"wording under 'parts'")
-            if exported_parts:
-                rec["parts"] = {}
-            for pid, ptext in yaml_parts.items():
-                part = exported_parts.get(pid)
-                if part is None:
-                    continue
-                pwhere = f"{where}.parts.{pid}"
-                pvalues = dict(values, refValue=part["refValue"])
-                pdecimals = {"refValue": part["decimals"]}
-                if "targetValue" in part:
-                    pvalues["targetValue"] = part["targetValue"]
-                    pdecimals["targetValue"] = part["decimals"]
-                prec = {}
-                for field in set(ptext or {}) - set(PART_FIELDS):
-                    errors.append(f"{pwhere}: unknown field {field!r} (a part takes "
-                                  f"{', '.join(PART_FIELDS)})")
-                for field in PART_FIELDS:
-                    if field not in (ptext or {}):
-                        if field != "subtitle":
-                            errors.append(f"{pwhere}: '{field}' is required")
-                        continue
-                    prec[field] = check_multilang(ptext[field], languages,
-                                                  f"{pwhere}.{field}", errors, pvalues,
-                                                  pdecimals)
-                    for lang, text in prec[field].items():
-                        if EMPHASIS_RE.search(text):
-                            errors.append(f"{pwhere}.{field}.{lang}: *emphasis* does not "
-                                          f"render on a slider label. Reword it.")
-                        # A part is on screen before the group answers, so it is
-                        # held to the lever's own spoiler rule, and to its own
-                        # target where the scenario gives one.
-                        spoiler_check(raw_text(ptext[field], lang), text, lang,
-                                      f"{pwhere}.{field}.{lang}", lv, errors)
-                        if "targetValue" in part:
-                            spoiler_check(raw_text(ptext[field], lang), text, lang,
-                                          f"{pwhere}.{field}.{lang}",
-                                          dict(part, spoilers=lv.get("spoilers")), errors)
-                rec["parts"][pid] = prec
-            # The question above the sliders must not print a part's own value
-            # either. The facts are not checked against the parts: they quote
-            # literature ranges, and "6 to 7%" for lighter cars says nothing
-            # about the eco-driving slider that happens to land on 7.
-            for part in exported_parts.values():
-                if "targetValue" not in part:
-                    continue
-                as_lever = dict(part, spoilers=lv.get("spoilers"))
-                for field in PRE_ANSWER_FIELDS:
-                    for lang, text in rec.get(field, {}).items():
-                        spoiler_check(raw_text(content[field], lang), text, lang,
-                                      f"{where}.{field}.{lang} (part {part['id']})",
-                                      as_lever, errors)
-
-            facts = content.get("facts") or []
-            pre_answer = [f for f in facts if not f.get("reveal")]
-            if len(pre_answer) < 3:
-                warnings.append(f"{where}: only {len(pre_answer)} fact(s) shown before the "
+        for lid in order + archive:
+            owner = home.get(lid)
+            if owner is None or lid not in own_order.get(owner, []):
+                continue                      # already reported above
+            active = lid in codes
+            content = files[owner][1]["levers"][lid]
+            lv = exported_for(owner)[lid]
+            where = (f"{name}.{lid}" if owner == topic_id
+                     else f"{name}.{lid} (worded in {files[owner][0]})")
+            if active and question_order == "random":
+                positional_wording(content, where, errors)
+            owner_sector = files[owner][1]["sector"]
+            rec, shown_facts = compile_lever(lid, content, lv,
+                                             codes if active else legacy, where,
+                                             languages, sector_data(owner_sector)[1],
+                                             errors)
+            if active and shown_facts < 3:
+                warnings.append(f"{where}: only {shown_facts} fact(s) shown before the "
                                 f"group answers; four work best on the printed card")
-            rec["facts"] = []
-            for i, fact in enumerate(facts):
-                fwhere = f"{where}.facts[{i}]"
-                kind = fact.get("kind")
-                if kind not in FACT_KINDS:
-                    errors.append(f"{fwhere}: kind {kind!r} is not one of {sorted(FACT_KINDS)}")
-                source = fact.get("source")
-                if not source:
-                    errors.append(f"{fwhere}: every fact needs a 'source'")
-                url = fact.get("url")
-                if url and not str(url).startswith(("http://", "https://")):
-                    errors.append(f"{fwhere}: url {url!r} does not look like a URL")
-                entry = {"kind": kind,
-                         "text": check_multilang(fact.get("text"), languages,
-                                                 f"{fwhere}.text", errors, values,
-                                                 decimals_by_key),
-                         "source": source}
-                # A fact may retitle itself: the kind still sets the colour and
-                # the printed order, but the heading says what *this* card is
-                # about ("Décarbonation de l'aviation" rather than the generic
-                # "Comparaison internationale"). Trilingual like every other
-                # string, and plain text — the heading does not render emphasis.
-                if "label" in fact:
-                    label = check_multilang(fact.get("label"), languages,
-                                            f"{fwhere}.label", errors, values,
-                                            decimals_by_key)
-                    for lang, text in label.items():
-                        if EMPHASIS_RE.search(text):
-                            errors.append(f"{fwhere}.label.{lang}: a fact heading is plain "
-                                          f"text, so the asterisks would show on screen.")
-                    entry["label"] = label
-                # A card that quotes a figure has to let the reader check it.
-                quoted = "".join(str(v) for v in (fact.get("text") or {}).values())
-                if (not url and QUOTES_A_FIGURE_RE.search(quoted)
-                        and not INTERNAL_SOURCE_RE.search(str(source or ""))):
-                    errors.append(f"{fwhere}: quotes a figure but has no 'url' — give the "
-                                  f"link that opens {source!r} itself, or cite the nW-BE "
-                                  f"section if the model computes the figure")
-                if url:
-                    entry["url"] = url
-                if "chart" in fact:
-                    chart = check_chart(fact["chart"], languages, f"{fwhere}.chart",
-                                        errors, values, decimals_by_key, history_doc)
-                    if chart:
-                        entry["chart"] = chart
-                        chart_source = chart.get("source", source)
-                        if (not chart.get("url", url if "source" not in chart else None)
-                                and not INTERNAL_SOURCE_RE.search(str(chart_source or ""))):
-                            errors.append(f"{fwhere}.chart: plotted data needs a 'url' "
-                                          f"opening {chart_source!r}")
-                if fact.get("reveal"):
-                    entry["reveal"] = True      # held back until the reveal screen
-                else:
-                    for lang, text in entry["text"].items():
-                        spoiler_check(raw_text(fact.get("text"), lang), text, lang,
-                                      f"{fwhere}.text.{lang}", lv, errors)
-                    for lang, text in entry.get("label", {}).items():
-                        spoiler_check(raw_text(fact.get("label"), lang), text, lang,
-                                      f"{fwhere}.label.{lang}", lv, errors)
-                    # a plotted bar sitting exactly on negaWatt's value gives the
-                    # answer away as surely as printing it. Only for a chart drawn
-                    # in the lever's own unit: a curve of something else entirely
-                    # (a cumulative share, a count of countries) can land on the
-                    # same number by pure coincidence and gives nothing away.
-                    places = lv.get("decimals", 1)
-                    chart_unit = entry.get("chart", {}).get("unit")
-                    same_unit = chart_unit in (None, lv.get("unit"))
-                    for i, value in enumerate(
-                            (entry.get("chart", {}).get("y") or []) if same_unit else []):
-                        if isinstance(value, (int, float)) and not isinstance(value, bool) \
-                                and round(value, places) == round(lv["targetValue"], places):
-                            errors.append(f"{fwhere}.chart: y[{i}] is negaWatt's own value "
-                                          f"for this lever — flag the fact 'reveal: true' "
-                                          f"or leave the point out")
-                rec["facts"].append(entry)
-
-            # --- which way is down on the chart ------------------------------
-            # A lever counted as a reduction ("°C less on the thermostat") draws
-            # a rising line for a falling quantity, which reads backwards. The
-            # flag makes the chart plot the signed change instead; nothing else
-            # about the lever moves. See D60.
-            invert = content.get("chartInvertY", False)
-            if not isinstance(invert, bool):
-                errors.append(f"{where}.chartInvertY: expected true/false, got {invert!r}")
-            elif invert:
-                rec["chartInvertY"] = True
-
-            # --- the historical curve ---------------------------------------
-            key = lv.get("history")
-            if content.get("history"):                 # hand-curated in the YAML
-                series = content["history"]
-                for field in ("unit", "source", "x", "y"):
-                    if field not in series:
-                        errors.append(f"{where}.history: '{field}' is required")
-                if series.get("x") and len(series["x"]) != len(series.get("y", [])):
-                    errors.append(f"{where}.history: x and y have different lengths")
-                rec["history"] = {
-                    "label": check_multilang(series.get("label", {}), languages,
-                                             f"{where}.history.label", errors),
-                    "unit": series.get("unit"), "source": series.get("source"),
-                    "url": series.get("url"),
-                    "x": series.get("x"), "y": series.get("y"), "curated": True,
-                }
-            elif content.get("historyAbsent"):
-                if "historyNote" not in rec:
-                    errors.append(f"{where}: historyAbsent needs a 'historyNote' explaining why")
-                rec["historyAbsent"] = True
-            elif key and key not in history_doc["series"]:
-                errors.append(f"{where}: the notebook points this lever at history series "
-                              f"'{key}', which does not exist. Either supply a curated "
-                              f"'history' block or declare 'historyAbsent: true' with a "
-                              f"'historyNote'.")
-            elif not key:
-                errors.append(f"{where}: no history series and no 'historyAbsent: true'")
-
-            rec["code"] = codes.get(lid, "?")
+            # where its numbers are: a theme may play another sector's questions
+            rec["sector"] = owner_sector
+            if owner != topic_id:
+                rec["home"] = owner
+            if not active:
+                rec["archived"] = True
             topic["levers"][lid] = rec
 
         # A topic may add interface strings of its own, so that a new topic can
@@ -841,19 +1040,26 @@ def build(check_only=False):
 
     payload = {
         "generated": dt.date.today().isoformat(),
+        "lineup": lineup_id,
         "languages": languages,
         "defaultLanguage": default_lang,
         "ui": ui_strings,
         "topics": topics,
     }
 
+    played = [(t, len(topics[t]["order"])) for t in plays]
     n_levers = sum(len(t["levers"]) for t in topics.values())
+    n_archived = sum(1 for t in topics.values() for l in t["levers"].values()
+                     if l.get("archived"))
     n_facts = sum(len(l["facts"]) for t in topics.values() for l in t["levers"].values())
     n_charts = sum(1 for t in topics.values() for l in t["levers"].values()
                    for f in l["facts"] if f.get("chart"))
     print(f"ui strings   {len(ui_strings)} x {len(languages)} languages")
+    print(f"line-up      {lineup_id or '(no programme.yaml: every topic, every question)'}")
+    print(f"offered      {', '.join(f'{t} ({n})' for t, n in played) or 'none'}")
     print(f"topics       {len(topics)} ({', '.join(topics)})")
-    print(f"levers       {n_levers} with {n_facts} facts ({n_charts} carrying a plot)")
+    print(f"levers       {n_levers - n_archived} played, {n_archived} archived, "
+          f"with {n_facts} facts ({n_charts} carrying a plot)")
 
     if check_only:
         print("\nvalidation only — nothing written")
@@ -871,9 +1077,11 @@ def build(check_only=False):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true", help="validate without writing")
+    ap.add_argument("--lineup", help="build this line-up of programme.yaml instead of "
+                                     "the active one")
     args = ap.parse_args()
     try:
-        return build(check_only=args.check)
+        return build(check_only=args.check, lineup=args.lineup)
     except BuildError as exc:
         print(f"\nBUILD FAILED: {exc}", file=sys.stderr)
         return 1

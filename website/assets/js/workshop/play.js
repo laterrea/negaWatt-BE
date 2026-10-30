@@ -31,7 +31,8 @@
     index: 0,
     answers: {},        // leverId or part answerId -> {value, confidence, condition}
     dirty: {},          // leverId -> debounce timer
-    finished: false
+    finished: false,
+    leverData: null     // the notebook records of the questions played, by id
   };
 
   /* ------------------------------------------------------------------ utils */
@@ -42,13 +43,25 @@
     return m ? decodeURIComponent(m[1].replace(/\+/g, " ")) : null;
   }
 
+  /* The notebook records of the questions this theme plays. A theme may play
+     questions of another file, even of another sector (D70), so each question
+     names the sector its numbers come from; the theme's own is the fallback. */
   function levers() {
-    var data = window.NW_LEVERS && window.NW_LEVERS[state.sector];
-    return (data && data.levers) || {};
+    if (state.leverData) return state.leverData;      // one theme per page load
+    var t = topicContent();
+    var out = {};
+    ((t && t.order) || []).forEach(function (id) {
+      var sector = ((t.levers || {})[id] || {}).sector || state.sector;
+      var data = window.NW_LEVERS && window.NW_LEVERS[sector];
+      if (data && data.levers && data.levers[id]) out[id] = data.levers[id];
+    });
+    if (t) state.leverData = out;
+    return out;
   }
 
-  function historySeries() {
-    var data = window.NW_HISTORY && window.NW_HISTORY[state.sector];
+  function historySeries(id) {
+    var sector = leverContent(id).sector || state.sector;
+    var data = window.NW_HISTORY && window.NW_HISTORY[sector];
     return (data && data.series) || {};
   }
 
@@ -206,8 +219,8 @@
     var series = null;
     if (content.history && content.history.x) {
       series = content.history;                       // hand-curated in the YAML
-    } else if (lever.history && historySeries()[lever.history]) {
-      series = historySeries()[lever.history];
+    } else if (lever.history && historySeries(lever.id)[lever.history]) {
+      series = historySeries(lever.id)[lever.history];
     }
 
     window.NW_SPARK.history($("chart"), {
@@ -785,12 +798,19 @@
   }
 
   /* Which topic this device is answering. The link decides; a group created
-     earlier today decides if the link says nothing. */
+     earlier today decides if the link says nothing. Only a theme of the line-up
+     can be played (D69): an archived one has no question left to ask. */
+  function offered(content) {
+    return Object.keys(content.topics).filter(function (id) {
+      return content.topics[id].offered !== false;
+    });
+  }
+
   function decideTopic(content) {
     var id = API.identity();
-    return param("topic") ||
-           (API.fresh(id) ? id.topic : null) ||
-           Object.keys(content.topics)[0];
+    var stored = API.fresh(id) ? id.topic : null;
+    if (stored && offered(content).indexOf(stored) === -1) stored = null;
+    return param("topic") || stored || offered(content)[0];
   }
 
   /* This device answers as a group, created on first load — the participant types
@@ -833,6 +853,9 @@
     state.topic = decideTopic(content);
     var topic = content.topics[state.topic];
     if (!topic) return fail("Unknown workshop topic: " + state.topic);
+    if (topic.offered === false) {
+      return fail("This theme is not part of the current workshop: " + state.topic);
+    }
     state.sector = topic.sector;
     state.canonical = (topic.order || []).filter(function (id) { return !!levers()[id]; });
     state.order = state.canonical.slice();       // until init() draws the group's order

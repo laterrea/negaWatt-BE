@@ -26,6 +26,7 @@
 
   var state = {
     topic: null, sector: null, order: [], index: 0,
+    leverData: null,            // the notebook records of the theme's questions, by id
     from: null, to: null,       // local 'YYYY-MM-DD', or null for an open end
     revealed: {},               // leverId -> true once the nW value is shown
     results: null,
@@ -42,9 +43,60 @@
     var m = new RegExp("[?&]" + name + "=([^&]*)").exec(window.location.search);
     return m ? decodeURIComponent(m[1]) : null;
   }
+  /* The notebook records of every question of the theme, played or archived
+     (D69). A theme may play another sector's questions (D70): each question
+     names the sector its numbers come from, the theme's own being the fallback. */
   function levers() {
-    var d = window.NW_LEVERS && window.NW_LEVERS[state.sector];
-    return (d && d.levers) || {};
+    if (state.leverData) return state.leverData;
+    var t = topicContent();
+    if (!t) return {};
+    var out = {};
+    (t.order || []).concat(t.archive || []).forEach(function (id) {
+      var sector = ((t.levers || {})[id] || {}).sector || state.sector;
+      var d = window.NW_LEVERS && window.NW_LEVERS[sector];
+      if (d && d.levers && d.levers[id]) out[id] = d.levers[id];
+    });
+    state.leverData = out;
+    return out;
+  }
+
+  /* The questions the walk shows: those of the line-up, in letter order, then
+     any archived question the window holds answers to -- a sitting from before
+     the line-up changed keeps its questions on the projector (D69). */
+  function walk() {
+    var t = topicContent() || {};
+    var answered = {};
+    ((state.results && state.results.answers) || []).forEach(function (a) {
+      answered[a.lever_id] = true;
+    });
+    return (t.order || []).concat((t.archive || []).filter(function (id) {
+      return answered[id];
+    })).filter(function (id) { return !!levers()[id]; });
+  }
+
+  /* Follow the window: keep the question on screen where it is, if it still is. */
+  function refreshOrder() {
+    var keep = current();
+    var next = walk();
+    if (next.join("|") === state.order.join("|")) return;
+    state.order = next;
+    var at = keep ? next.indexOf(keep) : -1;
+    state.index = at !== -1 ? at : Math.max(0, Math.min(state.index, next.length - 1));
+    if (!next.length && state.screen !== "setup") {
+      state.resume = "lever";
+      state.screen = "setup";
+    }
+  }
+
+  function archived(id) { return !!leverContent(id).archived; }
+
+  /* The letter badge of a question; an archived one says so. */
+  function letterBadge(id) {
+    var badge = document.createElement("span");
+    badge.className = "ws-letter" + (archived(id) ? " ws-letter--archived" : "");
+    badge.textContent = leverContent(id).code || "";
+    if (archived(id)) badge.title = T.t("reveal.archived");
+    return badge;
   }
   function topicContent() {
     var c = window.NW_WS_CONTENT;
@@ -133,6 +185,7 @@
     state.to = to || null;
     state.results = null;
     state.failed = false;
+    refreshOrder();
     showWindow();
     render();
     startPolling();
@@ -184,7 +237,7 @@
   function answerCount() {
     if (!state.results) return null;
     var asked = {};
-    state.order.forEach(function (id) { asked[id] = true; });
+    walk().forEach(function (id) { asked[id] = true; });
     return (state.results.answers || []).filter(function (a) {
       return asked[a.lever_id];
     }).length;
@@ -214,8 +267,9 @@
   }
 
   function render() {
-    if (!state.order.length) return;          // init failed: the error stays up
+    if (state.broken) return;                 // init failed: the error stays up
     if (state.screen === "setup") { renderSetup(); return; }
+    if (!state.order.length) { state.screen = "setup"; renderSetup(); return; }
     if (state.screen === "summary") { renderSummary(); return; }
 
     var id = current();
@@ -238,11 +292,11 @@
     eyebrow.textContent = t ? T.pick(t.title) : "";
     // the projector walks the questions in letter order, the order of the cards;
     // each group answered them in its own (D63)
-    var badge = document.createElement("span");
-    badge.className = "ws-letter";
-    badge.textContent = content.code || "";
     eyebrow.appendChild(document.createTextNode(" · " + T.t("play.cardWord") + " "));
-    eyebrow.appendChild(badge);
+    eyebrow.appendChild(letterBadge(id));
+    if (archived(id)) {
+      eyebrow.appendChild(document.createTextNode(" · " + T.t("reveal.archived")));
+    }
     $("question").textContent = T.pick(content.question) || lever.name;
     $("subtitle").textContent = T.pick(content.subtitle);
 
@@ -380,6 +434,8 @@
     $("btn-prev").classList.add("ws-hidden");
     $("btn-next").classList.add("ws-hidden");
     $("btn-reveal").textContent = state.started ? T.t("reveal.resume") : T.t("reveal.start");
+    // an archived theme has nothing to walk until the window holds its answers
+    $("btn-reveal").disabled = !state.order.length;
   }
 
   function buildProgress() {
@@ -391,6 +447,7 @@
       dot.className = "ws-progress__dot";
       dot.dataset.state = i === state.index ? "current"
                         : (state.revealed[id] ? "answered" : "todo");
+      if (archived(id)) dot.classList.add("is-archived");
       dot.setAttribute("aria-label", T.t("play.card", { code: leverContent(id).code || String(i + 1) }));
       dot.title = T.t("play.card", { code: leverContent(id).code || String(i + 1) });
       dot.addEventListener("click", function () { go(i); });
@@ -428,7 +485,8 @@
       var tr = table.insertRow();
       tr.insertCell().textContent = (leverContent(id).code ? leverContent(id).code + " · " : "") +
                                     (T.pick(leverContent(id).short) ||
-                                     T.pick(leverContent(id).question) || lever.name);
+                                     T.pick(leverContent(id).question) || lever.name) +
+                                    (archived(id) ? " (" + T.t("reveal.archived") + ")" : "");
       var c1 = tr.insertCell(); c1.className = "num";
       c1.textContent = avg === null ? "—" : T.num(avg, lever.decimals);
       var c2 = tr.insertCell(); c2.className = "num";
@@ -498,6 +556,7 @@
   }
 
   function leaveSetup() {
+    if (!state.order.length) return;          // nothing in this window to walk
     state.started = true;
     state.screen = state.resume;
     render();
@@ -555,6 +614,7 @@
       $("live-badge").textContent = groupsText((doc.groups || []).length);
       if (!fresh) return;
       relabel();
+      refreshOrder();
       render();
     }).catch(function () {
       if (asked !== windowKey()) return;
@@ -572,6 +632,7 @@
 
   /* ------------------------------------------------------------------- init */
   function fail(message) {
+    state.broken = true;
     show("error");
     $("actions").classList.add("ws-hidden");
     $("error-text").textContent = message;
@@ -586,12 +647,15 @@
     buildLangSwitch();
     applyStaticText();
 
-    state.topic = param("topic") || Object.keys(window.NW_WS_CONTENT.topics)[0];
+    var all = window.NW_WS_CONTENT.topics;
+    state.topic = param("topic") || Object.keys(all).filter(function (id) {
+      return all[id].offered !== false;
+    })[0] || Object.keys(all)[0];
     var topic = topicContent();
     if (!topic) return fail("Unknown workshop topic: " + state.topic);
     state.sector = topic.sector;
-    state.order = (topic.order || []).filter(function (id) { return !!levers()[id]; });
-    if (!state.order.length) return fail("No levers to reveal for topic " + state.topic);
+    state.order = walk();
+    if (!Object.keys(levers()).length) return fail("No levers to reveal for topic " + state.topic);
 
     $("btn-prev").addEventListener("click", back);
     $("btn-next").addEventListener("click", function () {

@@ -1,0 +1,39 @@
+# =============================================================================
+# negaWatt-BE workshop — which questions are played (the line-up)
+#
+# HAND-EDITED. The one place to switch questions on and off.
+#
+#   active      the line-up in use. Change it, then rebuild:
+#                   python scripts/build_workshop_content.py
+#               (no notebook run needed). `--lineup <name>` builds another one
+#               without editing this file; `--check --lineup <name>` validates it.
+#   lineups     each line-up names the themes the entry page offers, in that order,
+#               and for each theme the questions it plays, in letter order (A, B, C…
+#               on the screen, on the printed cards and on the reveal). `all` plays
+#               every question of the theme's file, in file order.
+#
+# A question left out is NOT deleted: it stays in its topic file and its lever
+# module, is still built and checked, and becomes "archived" — off the play screen
+# and the printed cards (cards.html?all=1 still prints it), but shown on the reveal
+# whenever the date window holds answers to it. Answers are stored by question id,
+# so switching a question off and on again loses nothing.
+#
+# A theme may play questions worded in another theme's file if its own file says
+# `include: [<topic>, …]` — `buildings-heat` does this with residential and tertiary
+# questions. Groups are stored under the theme they played, so a sitting of
+# `buildings-heat` and an older one of `residential-heat` stay apart on the reveal.
+#
+# See docs/workshop_module.md, D69 and D70.
+# =============================================================================
+
+active: full
+
+lineups:
+
+  # Every question, as played until October 2026 (four themes, 30 questions).
+  full:
+    topics:
+      inland-mobility: all
+      international-mobility: all
+      residential-heat: all
+      tertiary-heat: all

@@ -37,16 +37,33 @@
     });
   }
 
+  /* The notebook record of one question. A theme may play another file's
+     questions, even another sector's (D70): each names where its numbers are. */
+  function leverData(topic, id) {
+    var sector = (topic.levers[id] || {}).sector || topic.sector;
+    return ((window.NW_LEVERS[sector] || {}).levers || {})[id];
+  }
+
   function build() {
     var content = window.NW_WS_CONTENT;
-    var topicId = param("topic") || Object.keys(content.topics)[0];
+    var ids = Object.keys(content.topics);
+    var topicId = param("topic") || ids.filter(function (id) {
+      return content.topics[id].offered !== false;
+    })[0] || ids[0];
     var topic = content.topics[topicId];
-    var levers = (window.NW_LEVERS[topic.sector] || {}).levers || {};
     var box = document.getElementById("cards");
     box.innerHTML = "";
+    if (!topic) {
+      box.innerHTML = '<div class="ws-note ws-note--warn"></div>';
+      box.firstChild.textContent = "Unknown workshop topic: " + topicId;
+      return;
+    }
 
-    (topic.order || []).forEach(function (id, index) {
-      var lever = levers[id];
+    // the questions of the line-up; ?all=1 adds the archived ones (D69), each
+    // with the letter it was printed with when it was last played
+    var printed = (topic.order || []).concat(param("all") ? (topic.archive || []) : []);
+    printed.forEach(function (id, index) {
+      var lever = leverData(topic, id);
       var text = topic.levers[id];
       if (!lever || !text) return;
 

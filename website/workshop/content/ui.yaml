@@ -410,6 +410,12 @@ strings:
     fr: Reprendre la mise en commun
     nl: Terug naar de resultaten
     en: Back to the reveal
+  # A question no longer in the line-up (programme.yaml, D69), shown because the
+  # date window holds answers to it
+  reveal.archived:
+    fr: question archivée
+    nl: gearchiveerde vraag
+    en: archived question
   # The overview recalls the filter its totals were made with
   reveal.recap:
     fr: Réponses prises en compte

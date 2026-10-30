@@ -692,6 +692,11 @@
   font-size: 1.05rem; min-width: 1.4em; height: 1.4em; flex: 0 0 auto;
 }
 .ws-eyebrow .ws-letter { font-size: .78rem; margin-left: 6px; vertical-align: 1px; }
+/* An archived question (D69): no longer in the line-up, shown on the reveal for
+   the sittings that answered it. Its letter is the one it was printed with, so it
+   can coincide with a played question's: the dashed grey tells them apart. */
+.ws-letter--archived { border-style: dashed; border-color: var(--muted); color: var(--muted); }
+.ws-progress__dot.is-archived { outline: 1px dashed var(--muted); outline-offset: 1px; }
 .ws-card__q { font-size: 1.02rem; font-weight: 800; margin: 0; line-height: 1.25; }
 .ws-card__sub { font-size: .78rem; color: var(--ink-soft); margin: 4px 0 0; }
 .ws-card__anchor {
