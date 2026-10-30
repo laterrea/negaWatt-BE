@@ -26,7 +26,7 @@
 # See docs/workshop_module.md, D69 and D70.
 # =============================================================================
 
-active: full
+active: workshop-2026-11
 
 lineups:
 
@@ -43,10 +43,12 @@ lineups:
 
   # The workshop of 2 November 2026: nine questions in three themes, "the collective,
   # sufficiency and clarity first" (docs/workshop_2026-11/request_scenario_fiches.md).
-  # Built up theme by theme while the cards are rewritten; activate when complete.
+  # Active since 30 October 2026; `full` gives back the thirty questions of September-
+  # October 2026 (python scripts/build_workshop_content.py --lineup full).
   workshop-2026-11:
     topics:
       inland-mobility: [car-share, car-occupancy, car-energy]
+      international-mobility: [plane-trips, plane-load, air-freight]
       buildings-heat: [floor-area, thermostat, ter-thermostat]
 
 # -----------------------------------------------------------------------------

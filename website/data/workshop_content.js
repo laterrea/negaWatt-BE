@@ -2,7 +2,7 @@
    website/workshop/content/*.yaml — do not edit by hand. */
 window.NW_WS_CONTENT = {
   "generated": "2026-10-30",
-  "lineup": "full",
+  "lineup": "workshop-2026-11",
   "languages": [
     "fr",
     "nl",
@@ -815,27 +815,25 @@ window.NW_WS_CONTENT = {
         "en": "Moving people and goods inside Belgium. Aviation is the subject of a separate workshop."
       },
       "intro": {
-        "fr": "Vous allez fixer 8 hypothèses de comportement et de politique publique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Chaque question tient sur un écran, avec quelques repères factuels pour nourrir la discussion.",
-        "nl": "Jullie stellen 8 gedrags- en beleidsveronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Elke vraag past op één scherm, met een paar feitelijke referentiepunten voor de discussie.",
-        "en": "You are going to set 8 behavioural and policy assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. Each question fits on one screen, with a few factual anchors to feed the discussion."
+        "fr": "Vous allez fixer 3 hypothèses de comportement et de politique publique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Chaque question tient sur un écran, avec quelques repères factuels pour nourrir la discussion.",
+        "nl": "Jullie stellen 3 gedrags- en beleidsveronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Elke vraag past op één scherm, met een paar feitelijke referentiepunten voor de discussie.",
+        "en": "You are going to set 3 behavioural and policy assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. Each question fits on one screen, with a few factual anchors to feed the discussion."
       },
       "offered": true,
       "order": [
-        "ground-km-day",
         "car-share",
         "car-occupancy",
-        "car-energy",
+        "car-energy"
+      ],
+      "archive": [
+        "ground-km-day",
         "bike-km-day",
         "freight-tkm",
         "truck-share",
         "truck-fill"
       ],
-      "archive": [],
       "questionOrder": "random",
       "units": [
-        [
-          "ground-km-day"
-        ],
         [
           "car-share"
         ],
@@ -844,21 +842,478 @@ window.NW_WS_CONTENT = {
         ],
         [
           "car-energy"
-        ],
-        [
-          "bike-km-day"
-        ],
-        [
-          "freight-tkm"
-        ],
-        [
-          "truck-share"
-        ],
-        [
-          "truck-fill"
         ]
       ],
       "levers": {
+        "car-share": {
+          "question": {
+            "fr": "Quelle place pour la voiture dans nos déplacements motorisés ?",
+            "nl": "Hoeveel plaats voor de auto in onze gemotoriseerde verplaatsingen?",
+            "en": "How much room for the car in our motorised travel?"
+          },
+          "short": {
+            "fr": "Part de la voiture",
+            "nl": "Aandeel van de auto",
+            "en": "Car share"
+          },
+          "subtitle": {
+            "fr": "Ici, la place de la voiture, c'est la part des kilomètres faits en voiture parmi tous les kilomètres motorisés parcourus par les Belges (en voiture, bus, tram, métro, train et deux-roues motorisés). La marche et le vélo ne comptent pas. C'est une moyenne nationale : elle cache des situations très différentes en ville et à la campagne.",
+            "nl": "De plaats van de auto is hier het aandeel van de kilometers met de auto, binnen alle gemotoriseerde kilometers die Belgen afleggen (met auto, bus, tram, metro, trein en gemotoriseerde tweewielers). Stappen en fietsen tellen niet mee. Het is een nationaal gemiddelde: het verbergt zeer verschillende situaties in de stad en op het platteland.",
+            "en": "Here, the room the car takes is the share of kilometres travelled by car, out of all the motorised kilometres Belgians travel (by car, bus, tram, metro, train and motorised two-wheeler). Walking and cycling do not count. It is a national average: it hides very different situations in town and in the countryside."
+          },
+          "tangible": {
+            "fr": "{value} % des kilomètres motorisés se font en voiture ; le reste en transports publics et en deux-roues motorisés.",
+            "nl": "{value} % van de gemotoriseerde kilometers gebeurt met de auto; de rest met openbaar vervoer en gemotoriseerde tweewielers.",
+            "en": "{value}% of motorised kilometres are by car; the rest by public transport and motorised two-wheelers."
+          },
+          "justification": {
+            "fr": "négaWatt retient 55 %. C'est la pièce maîtresse du volet voyageurs : 30 % des kilomètres-voiture sont repris par d'autres modes, en supposant un investissement massif dans le rail, le bus et le vélo. La voiture reste néanmoins le premier mode.",
+            "nl": "negaWatt kiest 55 %. Dit is het hart van het personenvervoerluik: 30 % van de autokilometers wordt door andere modi overgenomen, met een massale investering in spoor, bus en fiets. De auto blijft toch de belangrijkste modus.",
+            "en": "negaWatt settles on 55%. This is the centrepiece of the passenger scenario: 30% of car-kilometres are taken over by other modes, assuming massive investment in rail, buses and cycling. The car still remains the leading mode."
+          },
+          "debate": {
+            "fr": "Aucun pays de l'UE n'a réalisé un report modal de cette ampleur en trente ans sans un investissement transformateur. Les auteurs signalent eux-mêmes que le triplement du tram et du métro est « probablement trop élevé ».",
+            "nl": "Geen enkel EU-land heeft in dertig jaar een modale verschuiving van deze omvang gerealiseerd zonder transformerende investeringen. De auteurs geven zelf aan dat de verdrievoudiging van tram en metro \"waarschijnlijk te hoog\" is.",
+            "en": "No EU country has achieved a modal shift of this magnitude within thirty years without transformative investment. The authors themselves flag the tripling of tram and metro use as \"likely too high\"."
+          },
+          "facts": [
+            {
+              "kind": "trend",
+              "text": {
+                "fr": "Presque immobile depuis vingt ans : 81,4 % en 2000, 79 % en 2019, 78,5 % en 2023. Le pic de 83 % en 2021 était un effet Covid — on a fui les transports publics.",
+                "nl": "Al twintig jaar bijna onveranderd: 81,4 % in 2000, 79 % in 2019, 78,5 % in 2023. De piek van 83 % in 2021 was een covid-effect — men meed het openbaar vervoer.",
+                "en": "Almost motionless for twenty years: 81.4% in 2000, 79% in 2019, 78.5% in 2023. The 83% spike in 2021 was a Covid effect — people avoided public transport."
+              },
+              "source": "JRC-IDEES-2023, population Statbel",
+              "url": "https://joint-research-centre.ec.europa.eu/potencia/jrc-idees_en"
+            },
+            {
+              "kind": "caution",
+              "text": {
+                "fr": "Attention au raccourci : ce sont les Pays-Bas qui affichent la *plus forte* part de la voiture parmi les pays voisins de la Belgique (85,3 % en 2023), parce que les kilomètres à vélo ne comptent pas dans cet indicateur. Rouler beaucoup à vélo ne suffit pas à faire baisser cette part.",
+                "nl": "Pas op met de conclusie: Nederland heeft juist het *hoogste* autoaandeel van de buurlanden van België (85,3 % in 2023), omdat fietskilometers niet in deze indicator meetellen. Veel fietsen alleen verlaagt dit aandeel niet.",
+                "en": "Careful with the shortcut: the Netherlands has the *highest* car share among Belgium's neighbours (85.3% in 2023), because cycling kilometres are not counted in this indicator. Cycling a lot is not by itself enough to bring this share down."
+              },
+              "source": "Eurostat, tran_hv_psmod",
+              "url": "https://ec.europa.eu/eurostat/databrowser/view/tran_hv_psmod/default/table?lang=en"
+            },
+            {
+              "kind": "benchmark",
+              "text": {
+                "fr": "La Suisse est le pays le moins dépendant de la voiture d'Europe occidentale : en 2023, 72,5 % des kilomètres parcourus par les passagers s'y font en voiture et 21,2 % en train, contre 80,4 % et 9,4 % en Belgique. Ces chiffres d'Eurostat ne comptent que la voiture, le bus ou le car, et le train — ni le tram, ni le métro, ni les deux-roues motorisés. C'est ce qui explique que la Belgique y soit à 80,4 % et non à 78,5 % comme dans la tendance passée.",
+                "nl": "Zwitserland is het minst autoafhankelijke land van West-Europa: in 2023 gebeurt daar 72,5 % van de kilometers die reizigers afleggen met de auto en 21,2 % met de trein, tegenover 80,4 % en 9,4 % in België. Deze cijfers van Eurostat tellen alleen auto, bus of touringcar en trein mee — geen tram, metro of gemotoriseerde tweewielers. Daardoor staat België hier op 80,4 % en niet op 78,5 % zoals bij de trend uit het verleden.",
+                "en": "Switzerland is western Europe's least car-dependent country: in 2023, 72.5% of the kilometres travelled by passengers there are by car and 21.2% by train, against 80.4% and 9.4% in Belgium. These Eurostat figures count only car, bus or coach and train — no tram, metro or motorised two-wheeler. That is why Belgium shows 80.4% here rather than the 78.5% of the past trend."
+              },
+              "source": "Eurostat, tran_hv_psmod",
+              "url": "https://ec.europa.eu/eurostat/databrowser/view/tran_hv_psmod/default/table?lang=en"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "négaWatt déplace 30 % des kilomètres-voiture : 10 points vers le bus, 8 vers le train, 7 vers le vélo, le reste vers tram, métro, deux-roues et marche.",
+                "nl": "negaWatt verschuift 30 % van de autokilometers: 10 punten naar de bus, 8 naar de trein, 7 naar de fiets, de rest naar tram, metro, tweewielers en wandelen.",
+                "en": "negaWatt moves 30% of car-kilometres away: 10 points to buses, 8 to trains, 7 to cycling, the rest to trams, metro, two-wheelers and walking."
+              },
+              "source": "nW-BE §2.1.2",
+              "reveal": true
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "Avoir une voiture est d'abord une question de revenu. À Bruxelles, *26 %* des ménages gagnant moins de 2 000 € par mois possèdent une voiture, contre *91 %* de ceux qui dépassent 10 000 €. Seulement 2 % des ménages gagnant moins de 2 000 € par mois possèdent deux voitures ou plus. À l'inverse, environ la moitié des ménages gagnant plus de 10 000 € par mois en possèdent deux ou plus.",
+                "nl": "Een auto hebben is in de eerste plaats een kwestie van inkomen. In Brussel heeft *26 %* van de huishoudens met minder dan 2.000 € per maand een auto, tegenover *91 %* van de huishoudens met meer dan 10.000 € per maand. Slechts 2 % van de huishoudens met minder dan 2.000 € per maand heeft twee auto's of meer. Daartegenover heeft ongeveer de helft van de huishoudens met meer dan 10.000 € per maand twee auto's of meer.",
+                "en": "Owning a car is first of all a question of income. In Brussels, *26%* of households earning under €2,000 a month have a car, against *91%* of those earning above €10,000. Only 2% of households earning under €2,000 a month have two cars or more. By contrast, about half of households earning over €10,000 a month have two or more."
+              },
+              "source": "Observatoire de la mobilité de Bruxelles-Capitale (2022)",
+              "url": "https://be.brussels/fr/transport-mobilite/enjeux-de-la-mobilite/observatoire-thematique/automobile/equipements-automobiles-des-menages"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "La géographie pèse autant que le revenu. En 2024-2025, un adulte vivant en Wallonie hors des villes parcourt *25,8 km par jour en voiture*, un adulte bruxellois *7,8* — trois fois moins. La voiture assure 86,7 % des distances parcourues en Wallonie hors des villes, 76,3 % en Flandre hors des villes et 52,3 % à Bruxelles (marche et vélo compris dans le total). Bien sûr, la dépendance à la voiture est fortement influencée par l'accessibilité des transports en commun.",
+                "nl": "Geografie weegt even zwaar als inkomen. In 2024-2025 legt een volwassene die in Wallonië buiten de steden woont *25,8 km per dag met de auto* af, een volwassen Brusselaar *7,8* — drie keer minder. De auto neemt 86,7 % van de afgelegde afstand voor zijn rekening in Wallonië buiten de steden, 76,3 % in Vlaanderen buiten de steden en 52,3 % in Brussel (stappen en fietsen zitten in het totaal). Uiteraard hangt de autoafhankelijkheid sterk af van de bereikbaarheid met het openbaar vervoer.",
+                "en": "Geography weighs as much as income. In 2024-2025 an adult living in Wallonia outside the cities covers *25.8 km a day by car*, an adult in Brussels *7.8* — three times less. The car accounts for 86.7% of the distance travelled in Wallonia outside the cities, 76.3% in Flanders outside the cities and 52.3% in Brussels (walking and cycling are in the total). Of course, car dependence is strongly shaped by how accessible public transport is."
+              },
+              "source": "SPF Mobilité, Enquête fédérale sur la mobilité 2024-2025, tableau 2 p. 14 et chap. 9 p. 23 (voiture, camionnette et moto ; villes selon Degurba)",
+              "label": {
+                "fr": "Ville et campagne",
+                "nl": "Stad en platteland",
+                "en": "Town and country"
+              },
+              "url": "https://mobilit.belgium.be/sites/default/files/documents/publications/2026/EFM2025_update.pdf",
+              "chart": {
+                "kind": "bars",
+                "y": [
+                  7.8,
+                  10.7,
+                  21.8,
+                  25.8
+                ],
+                "caption": {
+                  "fr": "Kilomètres parcourus en voiture par adulte et par jour, 2024-2025",
+                  "nl": "Autokilometers per volwassene per dag, 2024-2025",
+                  "en": "Car kilometres per adult per day, 2024-2025"
+                },
+                "labels": [
+                  {
+                    "fr": "Bruxelles",
+                    "nl": "Brussel",
+                    "en": "Brussels"
+                  },
+                  {
+                    "fr": "Villes",
+                    "nl": "Steden",
+                    "en": "Cities"
+                  },
+                  {
+                    "fr": "Hors villes",
+                    "nl": "Buiten steden",
+                    "en": "Outside cities"
+                  },
+                  {
+                    "fr": "Wallonie hors villes",
+                    "nl": "Wallonië buiten steden",
+                    "en": "Wallonia outside cities"
+                  }
+                ],
+                "unit": "km/person/day",
+                "decimals": 1,
+                "highlight": 3
+              }
+            },
+            {
+              "kind": "tangible",
+              "text": {
+                "fr": "La « Vision Rail 2040 », adoptée par le gouvernement fédéral en 2022, vise à faire passer la part du train dans le transport de personnes de 8 % (en 2019) à 15 % en 2040, soit presque le double.",
+                "nl": "De \"Vision Rail 2040\", in 2022 goedgekeurd door de federale regering, wil het aandeel van de trein in het personenvervoer optrekken van 8 % (in 2019) tot 15 % in 2040, bijna een verdubbeling.",
+                "en": "The federal government's \"Vision Rail 2040\", adopted in 2022, aims to raise the train's share of passenger transport from 8% (in 2019) to 15% in 2040, almost double."
+              },
+              "source": "Gouvernement fédéral, Vision Rail 2040 (Conseil des ministres du 6 mai 2022), p. 10-11, d'après Eurostat 2019",
+              "url": "https://web.archive.org/web/20240512121757/https://gilkinet.belgium.be/sites/default/files/articles/Vision%20Rail%202040.pdf"
+            }
+          ],
+          "code": "A",
+          "sector": "transport"
+        },
+        "car-occupancy": {
+          "question": {
+            "fr": "Combien de personnes par voiture, en moyenne ?",
+            "nl": "Hoeveel mensen per auto, gemiddeld?",
+            "en": "How many people per car, on average?"
+          },
+          "short": {
+            "fr": "Occupation des voitures",
+            "nl": "Autobezetting",
+            "en": "Car occupancy"
+          },
+          "subtitle": {
+            "fr": "Ne pas utiliser la voiture est la meilleure façon de diminuer les émissions de CO₂. Pour les déplacements qui se font quand même en voiture, covoiturer permet de diminuer les émissions par personne. En Belgique, en 2024-2025, une voiture transportait en moyenne 1,21 personne, conducteur compris (adultes seulement) : de 1,03 pour le travail et les études à 1,40 pour les loisirs.",
+            "nl": "Niet met de auto rijden is de beste manier om de CO₂-uitstoot te verminderen. Voor de verplaatsingen die toch met de auto gebeuren, kan carpoolen de uitstoot per persoon verminderen. In België zaten er in 2024-2025 gemiddeld 1,21 personen in een auto, de bestuurder meegerekend (enkel volwassenen): van 1,03 voor werk en studie tot 1,40 voor vrijetijdsverplaatsingen.",
+            "en": "Not using the car is the best way to cut CO₂ emissions. For the trips that are made by car anyway, carpooling can cut the emissions per person. In Belgium in 2024-2025, a car carried 1.21 people on average, driver included (adults only): from 1.03 for work and study to 1.40 for leisure."
+          },
+          "tangible": {
+            "fr": "Avec {value} personnes par voiture en moyenne, les mêmes personnes sont transportées avec {inverseIndex} % des kilomètres de voiture de 2019.",
+            "nl": "Met gemiddeld {value} personen per auto worden dezelfde mensen vervoerd met {inverseIndex} % van de autokilometers van 2019.",
+            "en": "With {value} people per car on average, the same people are carried with {inverseIndex}% of the 2019 car-kilometres."
+          },
+          "justification": {
+            "fr": "négaWatt retient 2 personnes par voiture, contre 1,22 en 2019 (+63,8 %), grâce au covoiturage. Cette seule hypothèse fait passer l'énergie des voitures de 57,5 TWh en 2019 à 6,95 TWh en 2050, avec le report modal et l'électrification.",
+            "nl": "negaWatt kiest 2 personen per auto, tegenover 1,22 in 2019 (+63,8 %), dankzij carpoolen. Deze ene veronderstelling brengt de auto-energie van 57,5 TWh in 2019 naar 6,95 TWh in 2050, samen met de modale verschuiving en de elektrificatie.",
+            "en": "negaWatt settles on 2 people per car, against 1.22 in 2019 (+63.8%), through carpooling. This assumption alone helps take car energy from 57.5 TWh in 2019 to 6.95 TWh in 2050, together with the modal shift and electrification."
+          },
+          "debate": {
+            "fr": "La revue qualifie cette hypothèse de « la plus déterminante et la moins étayée de tout le modèle » : aucun pays n'a durablement dépassé 1,6 par la seule politique publique, et la ramener à 1,5 augmenterait d'un tiers la consommation des voitures.",
+            "nl": "De review noemt dit \"de meest bepalende en minst onderbouwde veronderstelling van het hele model\": geen enkel land is via beleid duurzaam boven 1,6 gekomen, en een verlaging naar 1,5 zou het autoverbruik met een derde verhogen.",
+            "en": "The review calls this \"the single most impactful and least supported assumption in the entire model\": no country has sustained a value above 1.6 through policy alone, and relaxing it to 1.5 would raise car energy demand by a third."
+          },
+          "historyNote": {
+            "fr": "Aucune série historique d'occupation des voitures n'existe dans les données du projet ; seul le point de 2019 est connu (1,22 personne par voiture, base JRC-IDEES, différente de celle de l'enquête fédérale citée plus haut).",
+            "nl": "Er bestaat geen historische reeks van autobezetting in de projectdata; alleen het punt van 2019 is bekend (1,22 personen per auto, volgens JRC-IDEES, een andere basis dan de hierboven vermelde federale enquête).",
+            "en": "No historical car-occupancy series exists in the project's data; only the 2019 point is known (1.22 people per car, from JRC-IDEES, a different basis from the federal survey quoted above)."
+          },
+          "subtitleSource": "SPF Mobilité, Enquête fédérale sur la mobilité 2024-2025 (version de mai 2026), p. 26",
+          "subtitleUrl": "https://mobilit.belgium.be/sites/default/files/documents/publications/2026/EFM2025_update.pdf",
+          "facts": [
+            {
+              "kind": "trend",
+              "text": {
+                "fr": "Immobile depuis des décennies. En Europe de l'Ouest, ce chiffre est resté entre 1,2 et 1,5 pendant trente ans malgré de nombreuses initiatives de covoiturage. En Angleterre, il vaut 1,6 chaque année de 2002 à 2019, sans bouger d'un dixième.",
+                "nl": "Al decennia onveranderd. In West-Europa bleef dit cijfer dertig jaar lang tussen 1,2 en 1,5, ondanks talrijke carpoolinitiatieven. In Engeland is het elk jaar van 2002 tot 2019 exact 1,6.",
+                "en": "Motionless for decades. In western Europe the figure stayed between 1.2 and 1.5 for thirty years despite many carpooling initiatives. In England it reads 1.6 every single year from 2002 to 2019, without moving a decimal."
+              },
+              "source": "Revue critique du modèle nW-BE §6.1 ; DfT National Travel Survey NTS0905a",
+              "url": "https://www.gov.uk/government/statistical-data-sets/nts09-vehicle-mileage-and-occupancy"
+            },
+            {
+              "kind": "trend",
+              "text": {
+                "fr": "Le nombre de personnes par voiture est « quasi stable entre 2008 et 2019 », après une baisse de 9 % entre 1994 et 2008. Seuls 3 % des passagers déclarent avoir covoituré (la question n'est posée qu'à ceux qui voyagent dans la voiture d'un autre ménage).",
+                "nl": "Het aantal personen per auto is \"quasi stabiel tussen 2008 en 2019\", na een daling van 9 % tussen 1994 en 2008. Slechts 3 % van de passagiers zegt gecarpoold te hebben (de vraag wordt alleen gesteld aan wie meerijdt in de auto van een ander huishouden).",
+                "en": "The number of people per car is \"almost stable between 2008 and 2019\", after a 9% fall between 1994 and 2008. Only 3% of passengers say they have carpooled (the question is only asked of those riding in another household's car)."
+              },
+              "source": "SDES, Se déplacer en voiture : seul, à plusieurs ou en covoiturage ? (juillet 2022), enquête mobilité des personnes 2018-2019",
+              "label": {
+                "fr": "En France",
+                "nl": "In Frankrijk",
+                "en": "In France"
+              },
+              "url": "https://www.ecologie.gouv.fr/sites/default/files/documents/DE_4p_covoiturage-v4-050722_SH_OK.pdf"
+            },
+            {
+              "kind": "benchmark",
+              "text": {
+                "fr": "1,2 n'est pas un plafond physique : la Roumanie affiche *1,87* personne par voiture et la Lettonie *1,74*, contre 1,28 pour la Belgique et 1,17 pour l'Italie (mobilité urbaine, une base différente de celle de la question). Mais la cause n'est pas la volonté de covoiturer — c'est la *rareté de la voiture*. La Lettonie, par exemple, compte 381 voitures pour 1 000 habitants contre 510 en Belgique, pour une taille de ménage identique. Quand une famille n'a qu'une voiture, elle y monte ensemble.",
+                "nl": "1,2 is geen fysiek plafond: Roemenië haalt *1,87* personen per auto en Letland *1,74*, tegenover 1,28 voor België en 1,17 voor Italië (stedelijke mobiliteit, een andere basis dan die van de vraag). Maar de oorzaak is niet de wil om te carpoolen — het is de *schaarste aan auto's*. Letland telt bijvoorbeeld 381 auto's per 1.000 inwoners tegen 510 in België, bij een identieke gezinsgrootte. Heeft een gezin maar één auto, dan stapt het samen in.",
+                "en": "1.2 is no physical ceiling: Romania reaches *1.87* people per car and Latvia *1.74*, against 1.28 for Belgium and 1.17 for Italy (urban mobility, a different basis from the question). But the cause is not a will to carpool — it is *car scarcity*. Latvia, for example, has 381 cars per 1,000 inhabitants against Belgium's 510, at an identical household size. When a family owns only one car, it travels in it together."
+              },
+              "source": "Eurostat, Passenger mobility statistics (fig. 3, mobilité urbaine, pkm/vkm, enquêtes 2015-2019) ; Eurostat road_eqs_carhab (2019)",
+              "url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Passenger_mobility_statistics",
+              "chart": {
+                "kind": "bars",
+                "y": [
+                  1.17,
+                  1.28,
+                  1.35,
+                  1.74,
+                  1.87
+                ],
+                "caption": {
+                  "fr": "Occupation moyenne des voitures, mobilité urbaine, enquêtes 2015-2019 — base différente de celle de la question, qui porte sur tous les trajets",
+                  "nl": "Gemiddelde autobezetting, stedelijke mobiliteit, enquêtes 2015-2019 — andere basis dan de vraag hierboven, die over alle ritten gaat",
+                  "en": "Average car occupancy, urban mobility, 2015-2019 surveys — a different basis from the question above, which covers every trip"
+                },
+                "labels": [
+                  {
+                    "fr": "Italie",
+                    "nl": "Italië",
+                    "en": "Italy"
+                  },
+                  {
+                    "fr": "Belgique",
+                    "nl": "België",
+                    "en": "Belgium"
+                  },
+                  {
+                    "fr": "Danemark",
+                    "nl": "Denemarken",
+                    "en": "Denmark"
+                  },
+                  {
+                    "fr": "Lettonie",
+                    "nl": "Letland",
+                    "en": "Latvia"
+                  },
+                  {
+                    "fr": "Roumanie",
+                    "nl": "Roemenië",
+                    "en": "Romania"
+                  }
+                ],
+                "unit": "persons/car",
+                "decimals": 2,
+                "highlight": 1
+              }
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "En Belgique, il existe un avantage fiscal pour le covoiturage entre le domicile et le travail, lorsqu'il est organisé avec l'employeur. Des initiatives comme Mpact asbl et sa plateforme Carpool.be aident les Belges à covoiturer.",
+                "nl": "In België bestaat er een fiscaal voordeel voor carpoolen tussen huis en werk, als het met de werkgever georganiseerd is. Initiatieven zoals Mpact en zijn platform Carpool.be helpen Belgen om te carpoolen.",
+                "en": "In Belgium there is a tax advantage for carpooling between home and work, when it is organised with the employer. Initiatives such as the non-profit Mpact and its Carpool.be platform help Belgians to carpool."
+              },
+              "source": "SPF Finances, « Covoiturage » ; Mpact, Carpool.be",
+              "label": {
+                "fr": "Promotion du covoiturage",
+                "nl": "Carpoolen stimuleren",
+                "en": "Promoting carpooling"
+              },
+              "url": "https://finances.belgium.be/fr/node/3322"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "C'est le levier le plus puissant de cet atelier. L'énergie des voitures en 2050 vaut 6,95 TWh à 2,0 personnes par voiture ; à 1,5 elle serait de 9,3 TWh, soit un tiers de plus.",
+                "nl": "Dit is de krachtigste hefboom van deze workshop. De auto-energie in 2050 bedraagt 6,95 TWh bij 2,0 personen per auto; bij 1,5 zou dat 9,3 TWh zijn, een derde meer.",
+                "en": "This is the most powerful lever in the workshop. Car energy in 2050 is 6.95 TWh at 2.0 people per car; at 1.5 it would be 9.3 TWh, a third more."
+              },
+              "source": "nW-BE §2.3.5, computed from the scenario",
+              "reveal": true
+            },
+            {
+              "kind": "tangible",
+              "text": {
+                "fr": "2,0 signifie que le trajet moyen — trajet domicile-travail, école, courses, vacances — transporte toujours un passager. C'est sur les trajets domicile-travail, qui font l'essentiel du trafic de semaine, que le taux est le plus bas.",
+                "nl": "2,0 betekent dat de gemiddelde rit — woon-werk, school, boodschappen, vakantie — altijd een passagier vervoert. Juist bij woon-werkverkeer, het gros van het weekdagverkeer, is de bezetting het laagst.",
+                "en": "2.0 means the average trip — commute, school run, shopping, holiday — always carries a passenger. Commuting, which is the bulk of weekday traffic, is where occupancy is lowest."
+              },
+              "source": "nW-BE, calcul 2050",
+              "reveal": true
+            }
+          ],
+          "historyAbsent": true,
+          "code": "B",
+          "sector": "transport"
+        },
+        "car-energy": {
+          "question": {
+            "fr": "Des voitures qui consomment moins",
+            "nl": "Auto's die minder verbruiken",
+            "en": "Cars that use less energy"
+          },
+          "short": {
+            "fr": "Consommation par km",
+            "nl": "Verbruik per km",
+            "en": "Energy use per km"
+          },
+          "subtitle": {
+            "fr": "La consommation d'énergie par km d'une voiture dépend de plusieurs facteurs, entre autres sa vitesse moyenne, sa masse et la façon de la conduire. Ici, on part de la situation de 2019 et on vous demande de faire glisser trois curseurs, un par facteur. (Le passage d'un moteur à essence ou diesel à un moteur électrique pèse bien plus lourd encore sur la consommation : il est compté séparément.)",
+            "nl": "Het energieverbruik per km van een auto hangt van verschillende factoren af, onder meer van de gemiddelde snelheid, de massa en de rijstijl. Hier vragen we jullie om, vertrekkend van de situatie in 2019, drie schuifknoppen te verschuiven, één per factor. (De overstap van een benzine- of dieselmotor naar een elektrische motor weegt nog veel zwaarder door op het verbruik: die wordt apart geteld.)",
+            "en": "The energy a car uses per km depends on several factors, including its average speed, its mass and the way it is driven. Here, starting from the 2019 situation, you are asked to move three sliders, one per factor. (Switching from a petrol or diesel engine to an electric one weighs far more heavily on consumption still: it is counted separately.)"
+          },
+          "tangible": {
+            "fr": "Chaque kilomètre demanderait {value} % de l'énergie de 2019, à type de moteur inchangé.",
+            "nl": "Elke kilometer zou {value} % van de energie van 2019 vragen, met hetzelfde type motor.",
+            "en": "Each kilometre would take {value}% of the 2019 energy, with the same type of engine."
+          },
+          "justification": {
+            "fr": "négaWatt retient 75 % de la consommation de 2019, soit −25 %, en trois réductions qui se multiplient. *−5 % par des vitesses plus basses* : une baisse moyenne de 5,6 km/h sur tous les kilomètres, à peu près l'autoroute à 100 km/h avec un peu de 80 sur les routes régionales. *−7 % par l'éco-conduite* : l'effet qui dure, avec une aide à bord généralisée. *−15,1 % par des voitures plus petites et plus légères* : une masse moyenne d'environ 1 050 kg au lieu de 1 430, ce qui reste pour atteindre −25 %. Le gain propre à la motorisation — passage à l'électrique, freinage récupératif — n'est pas dans ce chiffre : il est porté par la composition du parc.",
+            "nl": "negaWatt kiest 75 % van het verbruik van 2019, dus −25 %, in drie besparingen die zich vermenigvuldigen. *−5 % door lagere snelheden*: gemiddeld 5,6 km/u trager over alle kilometers, ongeveer de snelweg op 100 km/u met wat 80 op de gewestwegen. *−7 % door ecodriving*: het effect dat blijft, met hulp aan boord in elke auto. *−15,1 % door kleinere, lichtere auto's*: een gemiddelde massa van ongeveer 1.050 kg in plaats van 1.430, wat overblijft om −25 % te halen. De winst van de aandrijflijn zelf — overstap naar elektrisch, remenergierecuperatie — zit niet in dit cijfer: die zit in de samenstelling van het wagenpark.",
+            "en": "negaWatt settles on 75% of the 2019 figure, i.e. −25%, in three cuts that multiply. *−5% from lower speeds*: an average 5.6 km/h less over every kilometre, roughly motorways at 100 km/h with some 80 on regional roads. *−7% from eco-driving*: the effect that lasts, with in-car assistance in every car. *−15.1% from smaller, lighter cars*: an average mass of about 1,050 kg instead of 1,430, what is left to reach −25%. The gain from the powertrain itself — the switch to electric, regenerative braking — is not in this figure: it is carried by the composition of the fleet."
+          },
+          "debate": {
+            "fr": "Seul le total entre dans le modèle : la décomposition a été faite après coup, et c'est le poste le moins documenté — la masse des voitures — qui porte le reste : environ 1 050 kg, moins que la moyenne de 2001, alors que la tendance va dans l'autre sens. Les km/h sont convertis pour un parc surtout électrique ; une voiture thermique y gagne à peu près moitié moins. Et le modèle ne contient aucun effet rebond : rouler moins cher, c'est souvent rouler plus.",
+            "nl": "Alleen het totaal gaat het model in: de opsplitsing is achteraf gemaakt, en het minst gedocumenteerde deel — de massa van de auto's — draagt de rest: ongeveer 1.050 kg, minder dan het gemiddelde van 2001, terwijl de trend net de andere kant op gaat. De km/u zijn omgerekend voor een vooral elektrisch wagenpark; een brandstofauto wint er ongeveer half zoveel bij. Bovendien bevat het model geen enkel reboundeffect: goedkoper rijden betekent vaak meer rijden.",
+            "en": "Only the total enters the model: the split was made afterwards, and the least documented part — the mass of the cars — carries the remainder: about 1,050 kg, less than the 2001 average, while the trend runs the other way. The km/h are converted for a mostly electric fleet; a combustion car gains about half as much from them. And the model contains no rebound effect at all: cheaper driving usually means more driving."
+          },
+          "historyNote": {
+            "fr": "L'intensité énergétique des voitures n'est pas disponible en série historique dans les données du projet.",
+            "nl": "De energie-intensiteit van auto's is niet als historische reeks beschikbaar in de projectdata.",
+            "en": "Car energy intensity is not available as a historical series in the project's data."
+          },
+          "parts": {
+            "speed-kmh": {
+              "short": {
+                "fr": "Baisse de vitesse",
+                "nl": "Snelheidsdaling",
+                "en": "Speed reduction"
+              },
+              "question": {
+                "fr": "Baisse de la vitesse moyenne",
+                "nl": "Daling van de gemiddelde snelheid",
+                "en": "Lower average speed"
+              },
+              "subtitle": {
+                "fr": "En km/h de moins, en moyenne sur tous les kilomètres parcourus : autoroutes, routes régionales et villes confondues.",
+                "nl": "In km/u minder, gemiddeld over alle gereden kilometers: snelwegen, gewestwegen en steden samen.",
+                "en": "In km/h less, averaged over every kilometre driven: motorways, regional roads and towns together."
+              }
+            },
+            "driving": {
+              "short": {
+                "fr": "Éco-conduite",
+                "nl": "Ecodriving",
+                "en": "Eco-driving"
+              },
+              "question": {
+                "fr": "Éco-conduite",
+                "nl": "Ecodriving",
+                "en": "Eco-driving"
+              },
+              "subtitle": {
+                "fr": "Anticiper, rouler souplement, aide à la conduite à bord : l'énergie économisée par km, de façon durable.",
+                "nl": "Anticiperen, soepel rijden, hulp aan boord: de bespaarde energie per km, blijvend.",
+                "en": "Anticipating, driving smoothly, in-car assistance: the energy saved per km, for good."
+              }
+            },
+            "mass": {
+              "short": {
+                "fr": "Masse des voitures",
+                "nl": "Massa van de auto's",
+                "en": "Car mass"
+              },
+              "question": {
+                "fr": "Masse moyenne des voitures",
+                "nl": "Gemiddelde massa van de auto's",
+                "en": "Average car mass"
+              },
+              "subtitle": {
+                "fr": "En 2019, une voiture neuve vendue en Belgique pesait 1 430 kg en moyenne. Une voiture plus légère est aussi plus petite, et ce curseur compte les deux.",
+                "nl": "In 2019 woog een nieuwe auto die in België verkocht werd gemiddeld 1.430 kg. Een lichtere auto is ook kleiner, en deze schuifknop telt beide.",
+                "en": "In 2019 a new car sold in Belgium weighed 1,430 kg on average. A lighter car is also a smaller one, and this slider counts both."
+              }
+            }
+          },
+          "facts": [
+            {
+              "kind": "lever",
+              "text": {
+                "fr": "Le curseur « Baisse de la vitesse moyenne » porte sur la vitesse *moyenne* de tous les kilomètres parcourus en voiture, et non sur la vitesse maximale autorisée. Les voitures belges font environ 36 % de leurs kilomètres sur autoroute (à 119 km/h en moyenne quand le trafic est fluide), 40 % sur les routes régionales et 24 % en ville. Quand on abaisse la limite de vitesse sur un type de route, les voitures y roulent réellement moins vite, mais sur ce type de route seulement. Prenons l'autoroute à 100 au lieu de 120 km/h : comme elle ne représente que 36 % des kilomètres, la vitesse moyenne de tous les kilomètres baisse d'*environ 4,7 km/h*. De même, la vitesse moyenne baisse de 1,3 km/h avec les routes régionales à 80 au lieu de 90, et de 1,2 km/h avec le 30 km/h partout en ville. Pour une voiture électrique, chaque km/h de moins roulé sur autoroute économise environ 1 % d'énergie ; en ville, presque rien.",
+                "nl": "De schuifknop \"Daling van de gemiddelde snelheid\" gaat over de *gemiddelde* snelheid van alle kilometers die met de auto worden gereden, niet over de maximaal toegelaten snelheid. Belgische auto's rijden ongeveer 36 % van hun kilometers op de snelweg (gemiddeld 119 km/u bij vlot verkeer), 40 % op gewestwegen en 24 % in de stad. Als je de snelheidslimiet op één type weg verlaagt, rijden de auto's daar echt trager, maar alleen op dat type weg. Neem de snelweg op 100 in plaats van 120 km/u: omdat die maar 36 % van de kilometers uitmaakt, daalt de gemiddelde snelheid over alle kilometers met *ongeveer 4,7 km/u*. Voor gewestwegen op 80 in plaats van 90 km/u is dat 1,3 km/u, en voor overal 30 km/u in de stad 1,2 km/u. Voor een elektrische auto spaart elke km/u minder op de snelweg ongeveer 1 % energie uit; in de stad bijna niets.",
+                "en": "The \"Lower average speed\" slider is about the *average* speed over all the kilometres driven by car, not about the maximum speed allowed. Belgian cars drive about 36% of their kilometres on motorways (119 km/h on average when traffic flows), 40% on regional roads and 24% in town. When the speed limit is lowered on one type of road, cars really do drive slower there, but only on that type of road. Take motorways at 100 instead of 120 km/h: since they are only 36% of the kilometres, the average speed over all kilometres falls by *about 4.7 km/h*. Likewise, the average speed falls by 1.3 km/h with regional roads at 80 instead of 90, and by 1.2 km/h with 30 km/h everywhere in town. For an electric car, each km/h less on the motorway saves about 1% of its energy; in town, almost nothing."
+              },
+              "source": "Vias, Nationale gedragsmeting snelheid 2021, p. 9 ; Vias 2017 §2.5 et 2022 p. 7 ; SERV, Kerncijfers, tabel 6 ; ADAC ; calcul nW-BE §2.3.5",
+              "label": {
+                "fr": "Un levier, chiffré : la vitesse, route par route",
+                "nl": "Eén hefboom, becijferd: de snelheid, weg per weg",
+                "en": "One lever, quantified: speed, road by road"
+              },
+              "url": "https://www.vias.be/publications/Nationale%20gedragsmeting%20snelheid%202021/Nationale_gedragsmeting_snelheid_2021.pdf"
+            },
+            {
+              "kind": "lever",
+              "text": {
+                "fr": "Le style de conduite fait varier la consommation d'une voiture thermique (essence ou diesel) de 15 à 25 %. Mais l'effet d'une formation *s'érode* : mesuré en ville, il retombe de 4,6 % à 2,5 % en dix mois, et devient indétectable sur autoroute après trente semaines. Ce qui tient dans la durée, c'est l'assistance éco-conduite embarquée en permanence : elle permet une réduction de *5 à 10 %*.",
+                "nl": "De rijstijl laat het verbruik van een brandstofauto (benzine of diesel) met 15 tot 25 % variëren. Maar het effect van een opleiding *slijt*: in de stad gemeten zakt het in tien maanden van 4,6 % naar 2,5 %, en op de snelweg is het na dertig weken niet meer meetbaar. Wat wél blijft, is permanente ecodrivinghulp aan boord: die zorgt voor een besparing van *5 tot 10 %*.",
+                "en": "Driving style alone swings the fuel use of a combustion-engine car (petrol or diesel) by 15 to 25%. But the effect of a training course *decays*: measured in town it falls from 4.6% to 2.5% within ten months, and on the motorway it can no longer be detected after thirty weeks. What lasts is permanent in-car eco-driving assistance, which allows a reduction of *5 to 10%*."
+              },
+              "source": "Xu, Li, Liu & Zhao, An Overview of Eco-Driving Theory, Capability Evaluation and Training Applications, Sensors, 2021",
+              "label": {
+                "fr": "Un levier, chiffré : l'éco-conduite",
+                "nl": "Eén hefboom, becijferd: ecodriving",
+                "en": "One lever, quantified: eco-driving"
+              },
+              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8512309/"
+            },
+            {
+              "kind": "lever",
+              "text": {
+                "fr": "Alléger une voiture de 10 % réduit sa consommation de *6 à 7 %* si l'on réduit aussi la taille du moteur, et de 4 à 5 % sinon. Un SUV pèse 200 à 300 kg de plus qu'une berline moyenne et émet de l'ordre de 20 % de CO₂ en plus.",
+                "nl": "Een auto 10 % lichter maken verlaagt het verbruik met *6 tot 7 %* als ook de motor kleiner wordt gemaakt, en met 4 tot 5 % zo niet. Een SUV weegt 200 tot 300 kg meer dan een gemiddelde middenklasser en stoot zo'n 20 % meer CO₂ uit.",
+                "en": "Taking 10% off a car's mass cuts its fuel use by *6 to 7%* if the engine is also made smaller, and by 4 to 5% if it is not. An SUV weighs 200 to 300 kg more than an average medium-sized car and emits on the order of 20% more CO₂."
+              },
+              "source": "ICCT, Lightweighting technology developments, 2017, p. 2 ; AIE, SUVs are setting new sales records each year, 2024",
+              "label": {
+                "fr": "Un levier, chiffré : taille et poids",
+                "nl": "Eén hefboom, becijferd: grootte en gewicht",
+                "en": "One lever, quantified: size and weight"
+              },
+              "url": "https://theicct.org/sites/default/files/publications/PV-Lightweighting_Tech-Briefing_ICCT_07032017_0.pdf"
+            },
+            {
+              "kind": "trend",
+              "text": {
+                "fr": "La tendance va exactement dans l'autre sens. La masse moyenne d'une voiture neuve dans l'UE est passée d'environ 1 275 kg en 2001 à *1 518 kg en 2022*, soit +19 %. La largeur suit : 170,5 cm en 2001, 180,2 cm en 2020 — *un centimètre de plus tous les deux ans*. En Belgique, les SUV sont le premier segment des immatriculations neuves depuis 2017 : 42 % en 2020, 47,2 % au premier semestre 2021.",
+                "nl": "De trend gaat precies de andere kant op. De gemiddelde massa van een nieuwe auto in de EU steeg van ongeveer 1.275 kg in 2001 naar *1.518 kg in 2022*, oftewel +19 %. De breedte volgt: 170,5 cm in 2001, 180,2 cm in 2020 — *een centimeter meer om de twee jaar*. In België zijn SUV's sinds 2017 het grootste segment van de nieuwe inschrijvingen: 42 % in 2020, 47,2 % in de eerste helft van 2021.",
+                "en": "The trend runs exactly the other way. The average mass of a new car in the EU went from about 1,275 kg in 2001 to *1,518 kg in 2022*, up 19%. Width follows: 170.5 cm in 2001, 180.2 cm in 2020 — *one centimetre wider every two years*. In Belgium SUVs have been the largest new-registration segment since 2017: 42% in 2020, 47.2% in the first half of 2021."
+              },
+              "source": "ICCT, European Vehicle Market Statistics Pocketbook 2023/24, p. 6 ; Transport & Environment (2024) ; Vias institute, Les SUV et la sécurité routière, 2022, p. 3 (FEBIAC)",
+              "url": "https://theicct.org/wp-content/uploads/2024/01/Pocketbook_202324_Web.pdf"
+            },
+            {
+              "kind": "tangible",
+              "text": {
+                "fr": "−25 % appliqués à une électrique de 2019 donneraient environ 0,16 kWh/km au lieu de 0,211.",
+                "nl": "−25 % toegepast op een elektrische auto van 2019 geeft ongeveer 0,16 kWh/km in plaats van 0,211.",
+                "en": "−25% applied to a 2019 electric car would give about 0.16 kWh/km instead of 0.211."
+              },
+              "source": "nW-BE, calcul 2050",
+              "reveal": true
+            }
+          ],
+          "historyAbsent": true,
+          "code": "C",
+          "sector": "transport"
+        },
         "ground-km-day": {
           "question": {
             "fr": "Augmenter la mobilité douce pour diminuer le nombre de km motorisés ?",
@@ -1023,476 +1478,8 @@ window.NW_WS_CONTENT = {
             }
           ],
           "code": "A",
-          "sector": "transport"
-        },
-        "car-share": {
-          "question": {
-            "fr": "Quelle place pour la voiture dans nos déplacements motorisés ?",
-            "nl": "Hoeveel plaats voor de auto in onze gemotoriseerde verplaatsingen?",
-            "en": "How much room for the car in our motorised travel?"
-          },
-          "short": {
-            "fr": "Part de la voiture",
-            "nl": "Aandeel van de auto",
-            "en": "Car share"
-          },
-          "subtitle": {
-            "fr": "Ici, la place de la voiture, c'est la part des kilomètres faits en voiture parmi tous les kilomètres motorisés parcourus par les Belges (en voiture, bus, tram, métro, train et deux-roues motorisés). La marche et le vélo ne comptent pas. C'est une moyenne nationale : elle cache des situations très différentes en ville et à la campagne.",
-            "nl": "De plaats van de auto is hier het aandeel van de kilometers met de auto, binnen alle gemotoriseerde kilometers die Belgen afleggen (met auto, bus, tram, metro, trein en gemotoriseerde tweewielers). Stappen en fietsen tellen niet mee. Het is een nationaal gemiddelde: het verbergt zeer verschillende situaties in de stad en op het platteland.",
-            "en": "Here, the room the car takes is the share of kilometres travelled by car, out of all the motorised kilometres Belgians travel (by car, bus, tram, metro, train and motorised two-wheeler). Walking and cycling do not count. It is a national average: it hides very different situations in town and in the countryside."
-          },
-          "tangible": {
-            "fr": "{value} % des kilomètres motorisés se font en voiture ; le reste en transports publics et en deux-roues motorisés.",
-            "nl": "{value} % van de gemotoriseerde kilometers gebeurt met de auto; de rest met openbaar vervoer en gemotoriseerde tweewielers.",
-            "en": "{value}% of motorised kilometres are by car; the rest by public transport and motorised two-wheelers."
-          },
-          "justification": {
-            "fr": "négaWatt retient 55 %. C'est la pièce maîtresse du volet voyageurs : 30 % des kilomètres-voiture sont repris par d'autres modes, en supposant un investissement massif dans le rail, le bus et le vélo. La voiture reste néanmoins le premier mode.",
-            "nl": "negaWatt kiest 55 %. Dit is het hart van het personenvervoerluik: 30 % van de autokilometers wordt door andere modi overgenomen, met een massale investering in spoor, bus en fiets. De auto blijft toch de belangrijkste modus.",
-            "en": "negaWatt settles on 55%. This is the centrepiece of the passenger scenario: 30% of car-kilometres are taken over by other modes, assuming massive investment in rail, buses and cycling. The car still remains the leading mode."
-          },
-          "debate": {
-            "fr": "Aucun pays de l'UE n'a réalisé un report modal de cette ampleur en trente ans sans un investissement transformateur. Les auteurs signalent eux-mêmes que le triplement du tram et du métro est « probablement trop élevé ».",
-            "nl": "Geen enkel EU-land heeft in dertig jaar een modale verschuiving van deze omvang gerealiseerd zonder transformerende investeringen. De auteurs geven zelf aan dat de verdrievoudiging van tram en metro \"waarschijnlijk te hoog\" is.",
-            "en": "No EU country has achieved a modal shift of this magnitude within thirty years without transformative investment. The authors themselves flag the tripling of tram and metro use as \"likely too high\"."
-          },
-          "facts": [
-            {
-              "kind": "trend",
-              "text": {
-                "fr": "Presque immobile depuis vingt ans : 81,4 % en 2000, 79 % en 2019, 78,5 % en 2023. Le pic de 83 % en 2021 était un effet Covid — on a fui les transports publics.",
-                "nl": "Al twintig jaar bijna onveranderd: 81,4 % in 2000, 79 % in 2019, 78,5 % in 2023. De piek van 83 % in 2021 was een covid-effect — men meed het openbaar vervoer.",
-                "en": "Almost motionless for twenty years: 81.4% in 2000, 79% in 2019, 78.5% in 2023. The 83% spike in 2021 was a Covid effect — people avoided public transport."
-              },
-              "source": "JRC-IDEES-2023, population Statbel",
-              "url": "https://joint-research-centre.ec.europa.eu/potencia/jrc-idees_en"
-            },
-            {
-              "kind": "caution",
-              "text": {
-                "fr": "Attention au raccourci : ce sont les Pays-Bas qui affichent la *plus forte* part de la voiture parmi les pays voisins de la Belgique (85,3 % en 2023), parce que les kilomètres à vélo ne comptent pas dans cet indicateur. Rouler beaucoup à vélo ne suffit pas à faire baisser cette part.",
-                "nl": "Pas op met de conclusie: Nederland heeft juist het *hoogste* autoaandeel van de buurlanden van België (85,3 % in 2023), omdat fietskilometers niet in deze indicator meetellen. Veel fietsen alleen verlaagt dit aandeel niet.",
-                "en": "Careful with the shortcut: the Netherlands has the *highest* car share among Belgium's neighbours (85.3% in 2023), because cycling kilometres are not counted in this indicator. Cycling a lot is not by itself enough to bring this share down."
-              },
-              "source": "Eurostat, tran_hv_psmod",
-              "url": "https://ec.europa.eu/eurostat/databrowser/view/tran_hv_psmod/default/table?lang=en"
-            },
-            {
-              "kind": "benchmark",
-              "text": {
-                "fr": "La Suisse est le pays le moins dépendant de la voiture d'Europe occidentale : en 2023, 72,5 % des kilomètres parcourus par les passagers s'y font en voiture et 21,2 % en train, contre 80,4 % et 9,4 % en Belgique. Ces chiffres d'Eurostat ne comptent que la voiture, le bus ou le car, et le train — ni le tram, ni le métro, ni les deux-roues motorisés. C'est ce qui explique que la Belgique y soit à 80,4 % et non à 78,5 % comme dans la tendance passée.",
-                "nl": "Zwitserland is het minst autoafhankelijke land van West-Europa: in 2023 gebeurt daar 72,5 % van de kilometers die reizigers afleggen met de auto en 21,2 % met de trein, tegenover 80,4 % en 9,4 % in België. Deze cijfers van Eurostat tellen alleen auto, bus of touringcar en trein mee — geen tram, metro of gemotoriseerde tweewielers. Daardoor staat België hier op 80,4 % en niet op 78,5 % zoals bij de trend uit het verleden.",
-                "en": "Switzerland is western Europe's least car-dependent country: in 2023, 72.5% of the kilometres travelled by passengers there are by car and 21.2% by train, against 80.4% and 9.4% in Belgium. These Eurostat figures count only car, bus or coach and train — no tram, metro or motorised two-wheeler. That is why Belgium shows 80.4% here rather than the 78.5% of the past trend."
-              },
-              "source": "Eurostat, tran_hv_psmod",
-              "url": "https://ec.europa.eu/eurostat/databrowser/view/tran_hv_psmod/default/table?lang=en"
-            },
-            {
-              "kind": "structure",
-              "text": {
-                "fr": "négaWatt déplace 30 % des kilomètres-voiture : 10 points vers le bus, 8 vers le train, 7 vers le vélo, le reste vers tram, métro, deux-roues et marche.",
-                "nl": "negaWatt verschuift 30 % van de autokilometers: 10 punten naar de bus, 8 naar de trein, 7 naar de fiets, de rest naar tram, metro, tweewielers en wandelen.",
-                "en": "negaWatt moves 30% of car-kilometres away: 10 points to buses, 8 to trains, 7 to cycling, the rest to trams, metro, two-wheelers and walking."
-              },
-              "source": "nW-BE §2.1.2",
-              "reveal": true
-            },
-            {
-              "kind": "structure",
-              "text": {
-                "fr": "Avoir une voiture est d'abord une question de revenu. À Bruxelles, *26 %* des ménages gagnant moins de 2 000 € par mois possèdent une voiture, contre *91 %* de ceux qui dépassent 10 000 €. Seulement 2 % des ménages gagnant moins de 2 000 € par mois possèdent deux voitures ou plus. À l'inverse, environ la moitié des ménages gagnant plus de 10 000 € par mois en possèdent deux ou plus.",
-                "nl": "Een auto hebben is in de eerste plaats een kwestie van inkomen. In Brussel heeft *26 %* van de huishoudens met minder dan 2.000 € per maand een auto, tegenover *91 %* van de huishoudens met meer dan 10.000 € per maand. Slechts 2 % van de huishoudens met minder dan 2.000 € per maand heeft twee auto's of meer. Daartegenover heeft ongeveer de helft van de huishoudens met meer dan 10.000 € per maand twee auto's of meer.",
-                "en": "Owning a car is first of all a question of income. In Brussels, *26%* of households earning under €2,000 a month have a car, against *91%* of those earning above €10,000. Only 2% of households earning under €2,000 a month have two cars or more. By contrast, about half of households earning over €10,000 a month have two or more."
-              },
-              "source": "Observatoire de la mobilité de Bruxelles-Capitale (2022)",
-              "url": "https://be.brussels/fr/transport-mobilite/enjeux-de-la-mobilite/observatoire-thematique/automobile/equipements-automobiles-des-menages"
-            },
-            {
-              "kind": "structure",
-              "text": {
-                "fr": "La géographie pèse autant que le revenu. En 2024-2025, un adulte vivant en Wallonie hors des villes parcourt *25,8 km par jour en voiture*, un adulte bruxellois *7,8* — trois fois moins. La voiture assure 86,7 % des distances parcourues en Wallonie hors des villes, 76,3 % en Flandre hors des villes et 52,3 % à Bruxelles (marche et vélo compris dans le total). Bien sûr, la dépendance à la voiture est fortement influencée par l'accessibilité des transports en commun.",
-                "nl": "Geografie weegt even zwaar als inkomen. In 2024-2025 legt een volwassene die in Wallonië buiten de steden woont *25,8 km per dag met de auto* af, een volwassen Brusselaar *7,8* — drie keer minder. De auto neemt 86,7 % van de afgelegde afstand voor zijn rekening in Wallonië buiten de steden, 76,3 % in Vlaanderen buiten de steden en 52,3 % in Brussel (stappen en fietsen zitten in het totaal). Uiteraard hangt de autoafhankelijkheid sterk af van de bereikbaarheid met het openbaar vervoer.",
-                "en": "Geography weighs as much as income. In 2024-2025 an adult living in Wallonia outside the cities covers *25.8 km a day by car*, an adult in Brussels *7.8* — three times less. The car accounts for 86.7% of the distance travelled in Wallonia outside the cities, 76.3% in Flanders outside the cities and 52.3% in Brussels (walking and cycling are in the total). Of course, car dependence is strongly shaped by how accessible public transport is."
-              },
-              "source": "SPF Mobilité, Enquête fédérale sur la mobilité 2024-2025, tableau 2 p. 14 et chap. 9 p. 23 (voiture, camionnette et moto ; villes selon Degurba)",
-              "label": {
-                "fr": "Ville et campagne",
-                "nl": "Stad en platteland",
-                "en": "Town and country"
-              },
-              "url": "https://mobilit.belgium.be/sites/default/files/documents/publications/2026/EFM2025_update.pdf",
-              "chart": {
-                "kind": "bars",
-                "y": [
-                  7.8,
-                  10.7,
-                  21.8,
-                  25.8
-                ],
-                "caption": {
-                  "fr": "Kilomètres parcourus en voiture par adulte et par jour, 2024-2025",
-                  "nl": "Autokilometers per volwassene per dag, 2024-2025",
-                  "en": "Car kilometres per adult per day, 2024-2025"
-                },
-                "labels": [
-                  {
-                    "fr": "Bruxelles",
-                    "nl": "Brussel",
-                    "en": "Brussels"
-                  },
-                  {
-                    "fr": "Villes",
-                    "nl": "Steden",
-                    "en": "Cities"
-                  },
-                  {
-                    "fr": "Hors villes",
-                    "nl": "Buiten steden",
-                    "en": "Outside cities"
-                  },
-                  {
-                    "fr": "Wallonie hors villes",
-                    "nl": "Wallonië buiten steden",
-                    "en": "Wallonia outside cities"
-                  }
-                ],
-                "unit": "km/person/day",
-                "decimals": 1,
-                "highlight": 3
-              }
-            },
-            {
-              "kind": "tangible",
-              "text": {
-                "fr": "La « Vision Rail 2040 », adoptée par le gouvernement fédéral en 2022, vise à faire passer la part du train dans le transport de personnes de 8 % (en 2019) à 15 % en 2040, soit presque le double.",
-                "nl": "De \"Vision Rail 2040\", in 2022 goedgekeurd door de federale regering, wil het aandeel van de trein in het personenvervoer optrekken van 8 % (in 2019) tot 15 % in 2040, bijna een verdubbeling.",
-                "en": "The federal government's \"Vision Rail 2040\", adopted in 2022, aims to raise the train's share of passenger transport from 8% (in 2019) to 15% in 2040, almost double."
-              },
-              "source": "Gouvernement fédéral, Vision Rail 2040 (Conseil des ministres du 6 mai 2022), p. 10-11, d'après Eurostat 2019",
-              "url": "https://web.archive.org/web/20240512121757/https://gilkinet.belgium.be/sites/default/files/articles/Vision%20Rail%202040.pdf"
-            }
-          ],
-          "code": "B",
-          "sector": "transport"
-        },
-        "car-occupancy": {
-          "question": {
-            "fr": "Combien de personnes par voiture, en moyenne ?",
-            "nl": "Hoeveel mensen per auto, gemiddeld?",
-            "en": "How many people per car, on average?"
-          },
-          "short": {
-            "fr": "Occupation des voitures",
-            "nl": "Autobezetting",
-            "en": "Car occupancy"
-          },
-          "subtitle": {
-            "fr": "Ne pas utiliser la voiture est la meilleure façon de diminuer les émissions de CO₂. Pour les déplacements qui se font quand même en voiture, covoiturer permet de diminuer les émissions par personne. En Belgique, en 2024-2025, une voiture transportait en moyenne 1,21 personne, conducteur compris (adultes seulement) : de 1,03 pour le travail et les études à 1,40 pour les loisirs.",
-            "nl": "Niet met de auto rijden is de beste manier om de CO₂-uitstoot te verminderen. Voor de verplaatsingen die toch met de auto gebeuren, kan carpoolen de uitstoot per persoon verminderen. In België zaten er in 2024-2025 gemiddeld 1,21 personen in een auto, de bestuurder meegerekend (enkel volwassenen): van 1,03 voor werk en studie tot 1,40 voor vrijetijdsverplaatsingen.",
-            "en": "Not using the car is the best way to cut CO₂ emissions. For the trips that are made by car anyway, carpooling can cut the emissions per person. In Belgium in 2024-2025, a car carried 1.21 people on average, driver included (adults only): from 1.03 for work and study to 1.40 for leisure."
-          },
-          "tangible": {
-            "fr": "Avec {value} personnes par voiture en moyenne, les mêmes personnes sont transportées avec {inverseIndex} % des kilomètres de voiture de 2019.",
-            "nl": "Met gemiddeld {value} personen per auto worden dezelfde mensen vervoerd met {inverseIndex} % van de autokilometers van 2019.",
-            "en": "With {value} people per car on average, the same people are carried with {inverseIndex}% of the 2019 car-kilometres."
-          },
-          "justification": {
-            "fr": "négaWatt retient 2 personnes par voiture, contre 1,22 en 2019 (+63,8 %), grâce au covoiturage. Cette seule hypothèse fait passer l'énergie des voitures de 57,5 TWh en 2019 à 6,95 TWh en 2050, avec le report modal et l'électrification.",
-            "nl": "negaWatt kiest 2 personen per auto, tegenover 1,22 in 2019 (+63,8 %), dankzij carpoolen. Deze ene veronderstelling brengt de auto-energie van 57,5 TWh in 2019 naar 6,95 TWh in 2050, samen met de modale verschuiving en de elektrificatie.",
-            "en": "negaWatt settles on 2 people per car, against 1.22 in 2019 (+63.8%), through carpooling. This assumption alone helps take car energy from 57.5 TWh in 2019 to 6.95 TWh in 2050, together with the modal shift and electrification."
-          },
-          "debate": {
-            "fr": "La revue qualifie cette hypothèse de « la plus déterminante et la moins étayée de tout le modèle » : aucun pays n'a durablement dépassé 1,6 par la seule politique publique, et la ramener à 1,5 augmenterait d'un tiers la consommation des voitures.",
-            "nl": "De review noemt dit \"de meest bepalende en minst onderbouwde veronderstelling van het hele model\": geen enkel land is via beleid duurzaam boven 1,6 gekomen, en een verlaging naar 1,5 zou het autoverbruik met een derde verhogen.",
-            "en": "The review calls this \"the single most impactful and least supported assumption in the entire model\": no country has sustained a value above 1.6 through policy alone, and relaxing it to 1.5 would raise car energy demand by a third."
-          },
-          "historyNote": {
-            "fr": "Aucune série historique d'occupation des voitures n'existe dans les données du projet ; seul le point de 2019 est connu (1,22 personne par voiture, base JRC-IDEES, différente de celle de l'enquête fédérale citée plus haut).",
-            "nl": "Er bestaat geen historische reeks van autobezetting in de projectdata; alleen het punt van 2019 is bekend (1,22 personen per auto, volgens JRC-IDEES, een andere basis dan de hierboven vermelde federale enquête).",
-            "en": "No historical car-occupancy series exists in the project's data; only the 2019 point is known (1.22 people per car, from JRC-IDEES, a different basis from the federal survey quoted above)."
-          },
-          "subtitleSource": "SPF Mobilité, Enquête fédérale sur la mobilité 2024-2025 (version de mai 2026), p. 26",
-          "subtitleUrl": "https://mobilit.belgium.be/sites/default/files/documents/publications/2026/EFM2025_update.pdf",
-          "facts": [
-            {
-              "kind": "trend",
-              "text": {
-                "fr": "Immobile depuis des décennies. En Europe de l'Ouest, ce chiffre est resté entre 1,2 et 1,5 pendant trente ans malgré de nombreuses initiatives de covoiturage. En Angleterre, il vaut 1,6 chaque année de 2002 à 2019, sans bouger d'un dixième.",
-                "nl": "Al decennia onveranderd. In West-Europa bleef dit cijfer dertig jaar lang tussen 1,2 en 1,5, ondanks talrijke carpoolinitiatieven. In Engeland is het elk jaar van 2002 tot 2019 exact 1,6.",
-                "en": "Motionless for decades. In western Europe the figure stayed between 1.2 and 1.5 for thirty years despite many carpooling initiatives. In England it reads 1.6 every single year from 2002 to 2019, without moving a decimal."
-              },
-              "source": "Revue critique du modèle nW-BE §6.1 ; DfT National Travel Survey NTS0905a",
-              "url": "https://www.gov.uk/government/statistical-data-sets/nts09-vehicle-mileage-and-occupancy"
-            },
-            {
-              "kind": "trend",
-              "text": {
-                "fr": "Le nombre de personnes par voiture est « quasi stable entre 2008 et 2019 », après une baisse de 9 % entre 1994 et 2008. Seuls 3 % des passagers déclarent avoir covoituré (la question n'est posée qu'à ceux qui voyagent dans la voiture d'un autre ménage).",
-                "nl": "Het aantal personen per auto is \"quasi stabiel tussen 2008 en 2019\", na een daling van 9 % tussen 1994 en 2008. Slechts 3 % van de passagiers zegt gecarpoold te hebben (de vraag wordt alleen gesteld aan wie meerijdt in de auto van een ander huishouden).",
-                "en": "The number of people per car is \"almost stable between 2008 and 2019\", after a 9% fall between 1994 and 2008. Only 3% of passengers say they have carpooled (the question is only asked of those riding in another household's car)."
-              },
-              "source": "SDES, Se déplacer en voiture : seul, à plusieurs ou en covoiturage ? (juillet 2022), enquête mobilité des personnes 2018-2019",
-              "label": {
-                "fr": "En France",
-                "nl": "In Frankrijk",
-                "en": "In France"
-              },
-              "url": "https://www.ecologie.gouv.fr/sites/default/files/documents/DE_4p_covoiturage-v4-050722_SH_OK.pdf"
-            },
-            {
-              "kind": "benchmark",
-              "text": {
-                "fr": "1,2 n'est pas un plafond physique : la Roumanie affiche *1,87* personne par voiture et la Lettonie *1,74*, contre 1,28 pour la Belgique et 1,17 pour l'Italie (mobilité urbaine, une base différente de celle de la question). Mais la cause n'est pas la volonté de covoiturer — c'est la *rareté de la voiture*. La Lettonie, par exemple, compte 381 voitures pour 1 000 habitants contre 510 en Belgique, pour une taille de ménage identique. Quand une famille n'a qu'une voiture, elle y monte ensemble.",
-                "nl": "1,2 is geen fysiek plafond: Roemenië haalt *1,87* personen per auto en Letland *1,74*, tegenover 1,28 voor België en 1,17 voor Italië (stedelijke mobiliteit, een andere basis dan die van de vraag). Maar de oorzaak is niet de wil om te carpoolen — het is de *schaarste aan auto's*. Letland telt bijvoorbeeld 381 auto's per 1.000 inwoners tegen 510 in België, bij een identieke gezinsgrootte. Heeft een gezin maar één auto, dan stapt het samen in.",
-                "en": "1.2 is no physical ceiling: Romania reaches *1.87* people per car and Latvia *1.74*, against 1.28 for Belgium and 1.17 for Italy (urban mobility, a different basis from the question). But the cause is not a will to carpool — it is *car scarcity*. Latvia, for example, has 381 cars per 1,000 inhabitants against Belgium's 510, at an identical household size. When a family owns only one car, it travels in it together."
-              },
-              "source": "Eurostat, Passenger mobility statistics (fig. 3, mobilité urbaine, pkm/vkm, enquêtes 2015-2019) ; Eurostat road_eqs_carhab (2019)",
-              "url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Passenger_mobility_statistics",
-              "chart": {
-                "kind": "bars",
-                "y": [
-                  1.17,
-                  1.28,
-                  1.35,
-                  1.74,
-                  1.87
-                ],
-                "caption": {
-                  "fr": "Occupation moyenne des voitures, mobilité urbaine, enquêtes 2015-2019 — base différente de celle de la question, qui porte sur tous les trajets",
-                  "nl": "Gemiddelde autobezetting, stedelijke mobiliteit, enquêtes 2015-2019 — andere basis dan de vraag hierboven, die over alle ritten gaat",
-                  "en": "Average car occupancy, urban mobility, 2015-2019 surveys — a different basis from the question above, which covers every trip"
-                },
-                "labels": [
-                  {
-                    "fr": "Italie",
-                    "nl": "Italië",
-                    "en": "Italy"
-                  },
-                  {
-                    "fr": "Belgique",
-                    "nl": "België",
-                    "en": "Belgium"
-                  },
-                  {
-                    "fr": "Danemark",
-                    "nl": "Denemarken",
-                    "en": "Denmark"
-                  },
-                  {
-                    "fr": "Lettonie",
-                    "nl": "Letland",
-                    "en": "Latvia"
-                  },
-                  {
-                    "fr": "Roumanie",
-                    "nl": "Roemenië",
-                    "en": "Romania"
-                  }
-                ],
-                "unit": "persons/car",
-                "decimals": 2,
-                "highlight": 1
-              }
-            },
-            {
-              "kind": "structure",
-              "text": {
-                "fr": "En Belgique, il existe un avantage fiscal pour le covoiturage entre le domicile et le travail, lorsqu'il est organisé avec l'employeur. Des initiatives comme Mpact asbl et sa plateforme Carpool.be aident les Belges à covoiturer.",
-                "nl": "In België bestaat er een fiscaal voordeel voor carpoolen tussen huis en werk, als het met de werkgever georganiseerd is. Initiatieven zoals Mpact en zijn platform Carpool.be helpen Belgen om te carpoolen.",
-                "en": "In Belgium there is a tax advantage for carpooling between home and work, when it is organised with the employer. Initiatives such as the non-profit Mpact and its Carpool.be platform help Belgians to carpool."
-              },
-              "source": "SPF Finances, « Covoiturage » ; Mpact, Carpool.be",
-              "label": {
-                "fr": "Promotion du covoiturage",
-                "nl": "Carpoolen stimuleren",
-                "en": "Promoting carpooling"
-              },
-              "url": "https://finances.belgium.be/fr/node/3322"
-            },
-            {
-              "kind": "structure",
-              "text": {
-                "fr": "C'est le levier le plus puissant de cet atelier. L'énergie des voitures en 2050 vaut 6,95 TWh à 2,0 personnes par voiture ; à 1,5 elle serait de 9,3 TWh, soit un tiers de plus.",
-                "nl": "Dit is de krachtigste hefboom van deze workshop. De auto-energie in 2050 bedraagt 6,95 TWh bij 2,0 personen per auto; bij 1,5 zou dat 9,3 TWh zijn, een derde meer.",
-                "en": "This is the most powerful lever in the workshop. Car energy in 2050 is 6.95 TWh at 2.0 people per car; at 1.5 it would be 9.3 TWh, a third more."
-              },
-              "source": "nW-BE §2.3.5, computed from the scenario",
-              "reveal": true
-            },
-            {
-              "kind": "tangible",
-              "text": {
-                "fr": "2,0 signifie que le trajet moyen — trajet domicile-travail, école, courses, vacances — transporte toujours un passager. C'est sur les trajets domicile-travail, qui font l'essentiel du trafic de semaine, que le taux est le plus bas.",
-                "nl": "2,0 betekent dat de gemiddelde rit — woon-werk, school, boodschappen, vakantie — altijd een passagier vervoert. Juist bij woon-werkverkeer, het gros van het weekdagverkeer, is de bezetting het laagst.",
-                "en": "2.0 means the average trip — commute, school run, shopping, holiday — always carries a passenger. Commuting, which is the bulk of weekday traffic, is where occupancy is lowest."
-              },
-              "source": "nW-BE, calcul 2050",
-              "reveal": true
-            }
-          ],
-          "historyAbsent": true,
-          "code": "C",
-          "sector": "transport"
-        },
-        "car-energy": {
-          "question": {
-            "fr": "Des voitures qui consomment moins",
-            "nl": "Auto's die minder verbruiken",
-            "en": "Cars that use less energy"
-          },
-          "short": {
-            "fr": "Consommation par km",
-            "nl": "Verbruik per km",
-            "en": "Energy use per km"
-          },
-          "subtitle": {
-            "fr": "La consommation d'énergie par km d'une voiture dépend de plusieurs facteurs, entre autres sa vitesse moyenne, sa masse et la façon de la conduire. Ici, on part de la situation de 2019 et on vous demande de faire glisser trois curseurs, un par facteur. (Le passage d'un moteur à essence ou diesel à un moteur électrique pèse bien plus lourd encore sur la consommation : il est compté séparément.)",
-            "nl": "Het energieverbruik per km van een auto hangt van verschillende factoren af, onder meer van de gemiddelde snelheid, de massa en de rijstijl. Hier vragen we jullie om, vertrekkend van de situatie in 2019, drie schuifknoppen te verschuiven, één per factor. (De overstap van een benzine- of dieselmotor naar een elektrische motor weegt nog veel zwaarder door op het verbruik: die wordt apart geteld.)",
-            "en": "The energy a car uses per km depends on several factors, including its average speed, its mass and the way it is driven. Here, starting from the 2019 situation, you are asked to move three sliders, one per factor. (Switching from a petrol or diesel engine to an electric one weighs far more heavily on consumption still: it is counted separately.)"
-          },
-          "tangible": {
-            "fr": "Chaque kilomètre demanderait {value} % de l'énergie de 2019, à type de moteur inchangé.",
-            "nl": "Elke kilometer zou {value} % van de energie van 2019 vragen, met hetzelfde type motor.",
-            "en": "Each kilometre would take {value}% of the 2019 energy, with the same type of engine."
-          },
-          "justification": {
-            "fr": "négaWatt retient 75 % de la consommation de 2019, soit −25 %, en trois réductions qui se multiplient. *−5 % par des vitesses plus basses* : une baisse moyenne de 5,6 km/h sur tous les kilomètres, à peu près l'autoroute à 100 km/h avec un peu de 80 sur les routes régionales. *−7 % par l'éco-conduite* : l'effet qui dure, avec une aide à bord généralisée. *−15,1 % par des voitures plus petites et plus légères* : une masse moyenne d'environ 1 050 kg au lieu de 1 430, ce qui reste pour atteindre −25 %. Le gain propre à la motorisation — passage à l'électrique, freinage récupératif — n'est pas dans ce chiffre : il est porté par la composition du parc.",
-            "nl": "negaWatt kiest 75 % van het verbruik van 2019, dus −25 %, in drie besparingen die zich vermenigvuldigen. *−5 % door lagere snelheden*: gemiddeld 5,6 km/u trager over alle kilometers, ongeveer de snelweg op 100 km/u met wat 80 op de gewestwegen. *−7 % door ecodriving*: het effect dat blijft, met hulp aan boord in elke auto. *−15,1 % door kleinere, lichtere auto's*: een gemiddelde massa van ongeveer 1.050 kg in plaats van 1.430, wat overblijft om −25 % te halen. De winst van de aandrijflijn zelf — overstap naar elektrisch, remenergierecuperatie — zit niet in dit cijfer: die zit in de samenstelling van het wagenpark.",
-            "en": "negaWatt settles on 75% of the 2019 figure, i.e. −25%, in three cuts that multiply. *−5% from lower speeds*: an average 5.6 km/h less over every kilometre, roughly motorways at 100 km/h with some 80 on regional roads. *−7% from eco-driving*: the effect that lasts, with in-car assistance in every car. *−15.1% from smaller, lighter cars*: an average mass of about 1,050 kg instead of 1,430, what is left to reach −25%. The gain from the powertrain itself — the switch to electric, regenerative braking — is not in this figure: it is carried by the composition of the fleet."
-          },
-          "debate": {
-            "fr": "Seul le total entre dans le modèle : la décomposition a été faite après coup, et c'est le poste le moins documenté — la masse des voitures — qui porte le reste : environ 1 050 kg, moins que la moyenne de 2001, alors que la tendance va dans l'autre sens. Les km/h sont convertis pour un parc surtout électrique ; une voiture thermique y gagne à peu près moitié moins. Et le modèle ne contient aucun effet rebond : rouler moins cher, c'est souvent rouler plus.",
-            "nl": "Alleen het totaal gaat het model in: de opsplitsing is achteraf gemaakt, en het minst gedocumenteerde deel — de massa van de auto's — draagt de rest: ongeveer 1.050 kg, minder dan het gemiddelde van 2001, terwijl de trend net de andere kant op gaat. De km/u zijn omgerekend voor een vooral elektrisch wagenpark; een brandstofauto wint er ongeveer half zoveel bij. Bovendien bevat het model geen enkel reboundeffect: goedkoper rijden betekent vaak meer rijden.",
-            "en": "Only the total enters the model: the split was made afterwards, and the least documented part — the mass of the cars — carries the remainder: about 1,050 kg, less than the 2001 average, while the trend runs the other way. The km/h are converted for a mostly electric fleet; a combustion car gains about half as much from them. And the model contains no rebound effect at all: cheaper driving usually means more driving."
-          },
-          "historyNote": {
-            "fr": "L'intensité énergétique des voitures n'est pas disponible en série historique dans les données du projet.",
-            "nl": "De energie-intensiteit van auto's is niet als historische reeks beschikbaar in de projectdata.",
-            "en": "Car energy intensity is not available as a historical series in the project's data."
-          },
-          "parts": {
-            "speed-kmh": {
-              "short": {
-                "fr": "Baisse de vitesse",
-                "nl": "Snelheidsdaling",
-                "en": "Speed reduction"
-              },
-              "question": {
-                "fr": "Baisse de la vitesse moyenne",
-                "nl": "Daling van de gemiddelde snelheid",
-                "en": "Lower average speed"
-              },
-              "subtitle": {
-                "fr": "En km/h de moins, en moyenne sur tous les kilomètres parcourus : autoroutes, routes régionales et villes confondues.",
-                "nl": "In km/u minder, gemiddeld over alle gereden kilometers: snelwegen, gewestwegen en steden samen.",
-                "en": "In km/h less, averaged over every kilometre driven: motorways, regional roads and towns together."
-              }
-            },
-            "driving": {
-              "short": {
-                "fr": "Éco-conduite",
-                "nl": "Ecodriving",
-                "en": "Eco-driving"
-              },
-              "question": {
-                "fr": "Éco-conduite",
-                "nl": "Ecodriving",
-                "en": "Eco-driving"
-              },
-              "subtitle": {
-                "fr": "Anticiper, rouler souplement, aide à la conduite à bord : l'énergie économisée par km, de façon durable.",
-                "nl": "Anticiperen, soepel rijden, hulp aan boord: de bespaarde energie per km, blijvend.",
-                "en": "Anticipating, driving smoothly, in-car assistance: the energy saved per km, for good."
-              }
-            },
-            "mass": {
-              "short": {
-                "fr": "Masse des voitures",
-                "nl": "Massa van de auto's",
-                "en": "Car mass"
-              },
-              "question": {
-                "fr": "Masse moyenne des voitures",
-                "nl": "Gemiddelde massa van de auto's",
-                "en": "Average car mass"
-              },
-              "subtitle": {
-                "fr": "En 2019, une voiture neuve vendue en Belgique pesait 1 430 kg en moyenne. Une voiture plus légère est aussi plus petite, et ce curseur compte les deux.",
-                "nl": "In 2019 woog een nieuwe auto die in België verkocht werd gemiddeld 1.430 kg. Een lichtere auto is ook kleiner, en deze schuifknop telt beide.",
-                "en": "In 2019 a new car sold in Belgium weighed 1,430 kg on average. A lighter car is also a smaller one, and this slider counts both."
-              }
-            }
-          },
-          "facts": [
-            {
-              "kind": "lever",
-              "text": {
-                "fr": "Le curseur « Baisse de la vitesse moyenne » porte sur la vitesse *moyenne* de tous les kilomètres parcourus en voiture, et non sur la vitesse maximale autorisée. Les voitures belges font environ 36 % de leurs kilomètres sur autoroute (à 119 km/h en moyenne quand le trafic est fluide), 40 % sur les routes régionales et 24 % en ville. Quand on abaisse la limite de vitesse sur un type de route, les voitures y roulent réellement moins vite, mais sur ce type de route seulement. Prenons l'autoroute à 100 au lieu de 120 km/h : comme elle ne représente que 36 % des kilomètres, la vitesse moyenne de tous les kilomètres baisse d'*environ 4,7 km/h*. De même, la vitesse moyenne baisse de 1,3 km/h avec les routes régionales à 80 au lieu de 90, et de 1,2 km/h avec le 30 km/h partout en ville. Pour une voiture électrique, chaque km/h de moins roulé sur autoroute économise environ 1 % d'énergie ; en ville, presque rien.",
-                "nl": "De schuifknop \"Daling van de gemiddelde snelheid\" gaat over de *gemiddelde* snelheid van alle kilometers die met de auto worden gereden, niet over de maximaal toegelaten snelheid. Belgische auto's rijden ongeveer 36 % van hun kilometers op de snelweg (gemiddeld 119 km/u bij vlot verkeer), 40 % op gewestwegen en 24 % in de stad. Als je de snelheidslimiet op één type weg verlaagt, rijden de auto's daar echt trager, maar alleen op dat type weg. Neem de snelweg op 100 in plaats van 120 km/u: omdat die maar 36 % van de kilometers uitmaakt, daalt de gemiddelde snelheid over alle kilometers met *ongeveer 4,7 km/u*. Voor gewestwegen op 80 in plaats van 90 km/u is dat 1,3 km/u, en voor overal 30 km/u in de stad 1,2 km/u. Voor een elektrische auto spaart elke km/u minder op de snelweg ongeveer 1 % energie uit; in de stad bijna niets.",
-                "en": "The \"Lower average speed\" slider is about the *average* speed over all the kilometres driven by car, not about the maximum speed allowed. Belgian cars drive about 36% of their kilometres on motorways (119 km/h on average when traffic flows), 40% on regional roads and 24% in town. When the speed limit is lowered on one type of road, cars really do drive slower there, but only on that type of road. Take motorways at 100 instead of 120 km/h: since they are only 36% of the kilometres, the average speed over all kilometres falls by *about 4.7 km/h*. Likewise, the average speed falls by 1.3 km/h with regional roads at 80 instead of 90, and by 1.2 km/h with 30 km/h everywhere in town. For an electric car, each km/h less on the motorway saves about 1% of its energy; in town, almost nothing."
-              },
-              "source": "Vias, Nationale gedragsmeting snelheid 2021, p. 9 ; Vias 2017 §2.5 et 2022 p. 7 ; SERV, Kerncijfers, tabel 6 ; ADAC ; calcul nW-BE §2.3.5",
-              "label": {
-                "fr": "Un levier, chiffré : la vitesse, route par route",
-                "nl": "Eén hefboom, becijferd: de snelheid, weg per weg",
-                "en": "One lever, quantified: speed, road by road"
-              },
-              "url": "https://www.vias.be/publications/Nationale%20gedragsmeting%20snelheid%202021/Nationale_gedragsmeting_snelheid_2021.pdf"
-            },
-            {
-              "kind": "lever",
-              "text": {
-                "fr": "Le style de conduite fait varier la consommation d'une voiture thermique (essence ou diesel) de 15 à 25 %. Mais l'effet d'une formation *s'érode* : mesuré en ville, il retombe de 4,6 % à 2,5 % en dix mois, et devient indétectable sur autoroute après trente semaines. Ce qui tient dans la durée, c'est l'assistance éco-conduite embarquée en permanence : elle permet une réduction de *5 à 10 %*.",
-                "nl": "De rijstijl laat het verbruik van een brandstofauto (benzine of diesel) met 15 tot 25 % variëren. Maar het effect van een opleiding *slijt*: in de stad gemeten zakt het in tien maanden van 4,6 % naar 2,5 %, en op de snelweg is het na dertig weken niet meer meetbaar. Wat wél blijft, is permanente ecodrivinghulp aan boord: die zorgt voor een besparing van *5 tot 10 %*.",
-                "en": "Driving style alone swings the fuel use of a combustion-engine car (petrol or diesel) by 15 to 25%. But the effect of a training course *decays*: measured in town it falls from 4.6% to 2.5% within ten months, and on the motorway it can no longer be detected after thirty weeks. What lasts is permanent in-car eco-driving assistance, which allows a reduction of *5 to 10%*."
-              },
-              "source": "Xu, Li, Liu & Zhao, An Overview of Eco-Driving Theory, Capability Evaluation and Training Applications, Sensors, 2021",
-              "label": {
-                "fr": "Un levier, chiffré : l'éco-conduite",
-                "nl": "Eén hefboom, becijferd: ecodriving",
-                "en": "One lever, quantified: eco-driving"
-              },
-              "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8512309/"
-            },
-            {
-              "kind": "lever",
-              "text": {
-                "fr": "Alléger une voiture de 10 % réduit sa consommation de *6 à 7 %* si l'on réduit aussi la taille du moteur, et de 4 à 5 % sinon. Un SUV pèse 200 à 300 kg de plus qu'une berline moyenne et émet de l'ordre de 20 % de CO₂ en plus.",
-                "nl": "Een auto 10 % lichter maken verlaagt het verbruik met *6 tot 7 %* als ook de motor kleiner wordt gemaakt, en met 4 tot 5 % zo niet. Een SUV weegt 200 tot 300 kg meer dan een gemiddelde middenklasser en stoot zo'n 20 % meer CO₂ uit.",
-                "en": "Taking 10% off a car's mass cuts its fuel use by *6 to 7%* if the engine is also made smaller, and by 4 to 5% if it is not. An SUV weighs 200 to 300 kg more than an average medium-sized car and emits on the order of 20% more CO₂."
-              },
-              "source": "ICCT, Lightweighting technology developments, 2017, p. 2 ; AIE, SUVs are setting new sales records each year, 2024",
-              "label": {
-                "fr": "Un levier, chiffré : taille et poids",
-                "nl": "Eén hefboom, becijferd: grootte en gewicht",
-                "en": "One lever, quantified: size and weight"
-              },
-              "url": "https://theicct.org/sites/default/files/publications/PV-Lightweighting_Tech-Briefing_ICCT_07032017_0.pdf"
-            },
-            {
-              "kind": "trend",
-              "text": {
-                "fr": "La tendance va exactement dans l'autre sens. La masse moyenne d'une voiture neuve dans l'UE est passée d'environ 1 275 kg en 2001 à *1 518 kg en 2022*, soit +19 %. La largeur suit : 170,5 cm en 2001, 180,2 cm en 2020 — *un centimètre de plus tous les deux ans*. En Belgique, les SUV sont le premier segment des immatriculations neuves depuis 2017 : 42 % en 2020, 47,2 % au premier semestre 2021.",
-                "nl": "De trend gaat precies de andere kant op. De gemiddelde massa van een nieuwe auto in de EU steeg van ongeveer 1.275 kg in 2001 naar *1.518 kg in 2022*, oftewel +19 %. De breedte volgt: 170,5 cm in 2001, 180,2 cm in 2020 — *een centimeter meer om de twee jaar*. In België zijn SUV's sinds 2017 het grootste segment van de nieuwe inschrijvingen: 42 % in 2020, 47,2 % in de eerste helft van 2021.",
-                "en": "The trend runs exactly the other way. The average mass of a new car in the EU went from about 1,275 kg in 2001 to *1,518 kg in 2022*, up 19%. Width follows: 170.5 cm in 2001, 180.2 cm in 2020 — *one centimetre wider every two years*. In Belgium SUVs have been the largest new-registration segment since 2017: 42% in 2020, 47.2% in the first half of 2021."
-              },
-              "source": "ICCT, European Vehicle Market Statistics Pocketbook 2023/24, p. 6 ; Transport & Environment (2024) ; Vias institute, Les SUV et la sécurité routière, 2022, p. 3 (FEBIAC)",
-              "url": "https://theicct.org/wp-content/uploads/2024/01/Pocketbook_202324_Web.pdf"
-            },
-            {
-              "kind": "tangible",
-              "text": {
-                "fr": "−25 % appliqués à une électrique de 2019 donneraient environ 0,16 kWh/km au lieu de 0,211.",
-                "nl": "−25 % toegepast op een elektrische auto van 2019 geeft ongeveer 0,16 kWh/km in plaats van 0,211.",
-                "en": "−25% applied to a 2019 electric car would give about 0.16 kWh/km instead of 0.211."
-              },
-              "source": "nW-BE, calcul 2050",
-              "reveal": true
-            }
-          ],
-          "historyAbsent": true,
-          "code": "D",
-          "sector": "transport"
+          "sector": "transport",
+          "archived": true
         },
         "bike-km-day": {
           "question": {
@@ -1689,7 +1676,8 @@ window.NW_WS_CONTENT = {
             }
           ],
           "code": "E",
-          "sector": "transport"
+          "sector": "transport",
+          "archived": true
         },
         "freight-tkm": {
           "question": {
@@ -1846,7 +1834,8 @@ window.NW_WS_CONTENT = {
             }
           ],
           "code": "F",
-          "sector": "transport"
+          "sector": "transport",
+          "archived": true
         },
         "truck-share": {
           "question": {
@@ -1993,7 +1982,8 @@ window.NW_WS_CONTENT = {
             }
           ],
           "code": "G",
-          "sector": "transport"
+          "sector": "transport",
+          "archived": true
         },
         "truck-fill": {
           "question": {
@@ -2146,7 +2136,8 @@ window.NW_WS_CONTENT = {
           ],
           "historyAbsent": true,
           "code": "H",
-          "sector": "transport"
+          "sector": "transport",
+          "archived": true
         }
       },
       "summaryChart": {
@@ -2158,9 +2149,9 @@ window.NW_WS_CONTENT = {
           "en": "What each of your answers does, on its own, to the energy demand of Belgian inland mobility in 2050 — compared with keeping today's level of the same indicator."
         },
         "note": {
-          "fr": "Chaque barre est exacte pour son levier pris seul, les 7 autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur.",
-          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de 7 andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde.",
-          "en": "Each bar is exact for its own lever taken alone, with the other 7 left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only."
+          "fr": "Chaque barre est exacte pour son levier pris seul, les 2 autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur.",
+          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de 2 andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde.",
+          "en": "Each bar is exact for its own lever taken alone, with the other 2 left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only."
         }
       }
     },
@@ -2177,49 +2168,921 @@ window.NW_WS_CONTENT = {
         "en": "Flying: intra-European and long-haul. Travel inside the country is the subject of a separate workshop."
       },
       "intro": {
-        "fr": "Vous allez fixer sept hypothèses de comportement et de technique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour l'aviation. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Deux particularités de ce secteur. D'abord, l'unité n'est pas le kilomètre mais le **voyage** : personne ne vole 8,7 km par jour, et la vraie question est de savoir qui vole. Ensuite, le périmètre est l'aviation seule, voyageurs *et* marchandises : le transport maritime international, lui, n'est pas modélisé du tout — ni comme mode, ni comme destination possible d'un report.",
-        "nl": "Jullie stellen zeven gedrags- en technische veronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario voor de luchtvaart *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Twee bijzonderheden van deze sector. Eerst: de eenheid is niet de kilometer maar de **reis** — niemand vliegt 8,7 km per dag, en de echte vraag is wie vliegt. Daarnaast is de perimeter enkel de luchtvaart, reizigers *en* goederen: de internationale zeescheepvaart wordt helemaal niet gemodelleerd — noch als modus, noch als mogelijke bestemming van een verschuiving.",
-        "en": "You are going to set seven behavioural and technical assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures for aviation. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. Two peculiarities of this sector. First, the unit is not the kilometre but the **trip**: nobody flies 8.7 km a day, and the real question is who flies. Second, the perimeter is aviation alone, passengers *and* freight: international shipping is not modelled at all — neither as a mode nor as a possible destination for a shift."
+        "fr": "Vous allez fixer 3 hypothèses de comportement et de technique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour l'aviation. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Deux particularités de ce secteur. D'abord, l'unité n'est pas le kilomètre mais le **voyage** : personne ne vole 8,7 km par jour, et la vraie question est de savoir qui vole. Ensuite, le périmètre est l'aviation seule, voyageurs *et* marchandises : le transport maritime international, lui, n'est pas modélisé du tout — ni comme mode, ni comme destination possible d'un report.",
+        "nl": "Jullie stellen 3 gedrags- en technische veronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario voor de luchtvaart *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Twee bijzonderheden van deze sector. Eerst: de eenheid is niet de kilometer maar de **reis** — niemand vliegt 8,7 km per dag, en de echte vraag is wie vliegt. Daarnaast is de perimeter enkel de luchtvaart, reizigers *en* goederen: de internationale zeescheepvaart wordt helemaal niet gemodelleerd — noch als modus, noch als mogelijke bestemming van een verschuiving.",
+        "en": "You are going to set 3 behavioural and technical assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures for aviation. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. Two peculiarities of this sector. First, the unit is not the kilometre but the **trip**: nobody flies 8.7 km a day, and the real question is who flies. Second, the perimeter is aviation alone, passengers *and* freight: international shipping is not modelled at all — neither as a mode nor as a possible destination for a shift."
       },
       "offered": true,
       "order": [
+        "plane-trips",
+        "plane-load",
+        "air-freight"
+      ],
+      "archive": [
         "long-haul-flights",
         "short-haul-flights",
         "long-haul-load",
         "short-haul-load",
         "plane-fuel",
-        "hydrogen-flights",
-        "air-freight"
-      ],
-      "archive": [
-        "plane-trips",
-        "plane-load"
+        "hydrogen-flights"
       ],
       "questionOrder": "random",
       "units": [
         [
-          "long-haul-flights"
+          "plane-trips"
         ],
         [
-          "short-haul-flights"
-        ],
-        [
-          "long-haul-load"
-        ],
-        [
-          "short-haul-load"
-        ],
-        [
-          "plane-fuel"
-        ],
-        [
-          "hydrogen-flights"
+          "plane-load"
         ],
         [
           "air-freight"
         ]
       ],
       "levers": {
+        "plane-trips": {
+          "question": {
+            "fr": "Combien de voyages en avion par personne et par vie est un objectif 2050 réaliste ?",
+            "nl": "Hoeveel vliegreizen per persoon per leven is een realistisch doel voor 2050?",
+            "en": "How many plane trips per person per lifetime is a realistic 2050 objective?"
+          },
+          "short": {
+            "fr": "Voyages en avion",
+            "nl": "Vliegreizen",
+            "en": "Plane trips"
+          },
+          "subtitle": {
+            "fr": "On parle ici à la fois des vols intra-européens, appelés court-courriers (par exemple Bruxelles-Barcelone, 2 168 km en aller-retour) et des vols long-courriers (par exemple Bruxelles-Shanghai, 18 000 km en aller-retour). Tentons d'imaginer une utilisation raisonnable de l'aviation : combien de voyages long-courriers et court-courriers sont tenables, en moyenne sur toute la population et sur une vie de 80 ans ? Vos deux réponses s'additionnent en kilomètres parcourus en avion par personne et par an, le chiffre que prolonge le graphique.",
+            "nl": "Het gaat hier zowel over intra-Europese vluchten, korteafstandsvluchten genoemd (bijvoorbeeld Brussel-Barcelona, 2.168 km heen en terug), als over langeafstandsvluchten (bijvoorbeeld Brussel-Shanghai, 18.000 km heen en terug). Laten we ons een redelijk gebruik van de luchtvaart voorstellen: hoeveel lange- en korteafstandsreizen zijn houdbaar, gemiddeld over de hele bevolking en over een leven van 80 jaar? Jullie twee antwoorden worden opgeteld tot het aantal kilometers dat per persoon en per jaar per vliegtuig wordt afgelegd, het cijfer dat de grafiek verlengt.",
+            "en": "This is about both intra-European flights, called short-haul (for example Brussels-Barcelona, a return trip of 2,168 km), and long-haul flights (for example Brussels-Shanghai, a return trip of 18,000 km). Let us imagine a reasonable use of aviation: how many long-haul and short-haul trips are sustainable, averaged over the whole population and over an 80-year life? Your two answers add up to the kilometres flown per person per year, the figure the chart extends."
+          },
+          "tangible": {
+            "fr": "{value} km en avion par personne et par an en moyenne, soit {vsRef} % par rapport à 2019 (3 176 km). C'est la somme de vos deux réponses, long-courrier et court-courrier.",
+            "nl": "Gemiddeld {value} km per persoon per jaar met het vliegtuig, ofwel {vsRef} % ten opzichte van 2019 (3.176 km). Dat is de som van jullie twee antwoorden, lange en korte afstand.",
+            "en": "On average {value} km per person per year by air, i.e. {vsRef}% against 2019 (3,176 km). That is the sum of your two answers, long-haul and short-haul."
+          },
+          "justification": {
+            "fr": "négaWatt retient 4,8 voyages long-courriers et 24 voyages court-courriers par vie, contre 8,1 et 50 en 2019 : 1 728 km par personne et par an, soit 45,6 % de moins qu'en 2019. Sur le long-courrier (40 % de kilomètres en moins), le rapport juge le report modal « à peine faisable » et la décarbonation incertaine — carburants durables en quantité limitée, hydrogène et électrique pas à cette échelle — donc « une réduction des très longues distances apparaît essentielle ». En personnes, cela fait passer de 1 150 824 à 761 136 voyages de 18 000 km par an, soit un voyage par personne tous les 16,6 ans. Sur le court-courrier, 50 % des kilomètres intra-européens sont reportés intégralement : 25 points vers la grande vitesse, 20 vers le train classique, 5 vers l'autocar. Le gain d'énergie est réel parce que le train demande 0,074 kWh par voyageur-kilomètre contre 0,474 pour l'avion.",
+            "nl": "negaWatt kiest 4,8 langeafstandsreizen en 24 korteafstandsreizen per leven, tegenover 8,1 en 50 in 2019: 1.728 km per persoon per jaar, ofwel 45,6 % minder dan in 2019. Voor de lange afstand (40 % minder kilometers) acht het rapport modale verschuiving \"nauwelijks haalbaar\" en blijft de decarbonisatie onzeker — duurzame brandstoffen in beperkte hoeveelheid, waterstof en elektrisch niet op deze schaal — dus \"een vermindering van de zeer lange afstanden lijkt essentieel\". In personen gaat dat van 1.150.824 naar 761.136 reizen van 18.000 km per jaar, ofwel één reis per persoon elke 16,6 jaar. Voor de korte afstand wordt 50 % van de intra-Europese kilometers volledig verschoven: 25 punten naar de hogesnelheidstrein, 20 naar de klassieke trein, 5 naar de autocar. De energiewinst is reëel omdat de trein 0,074 kWh per reizigerskilometer vraagt tegenover 0,474 voor het vliegtuig.",
+            "en": "negaWatt settles on 4.8 long-haul and 24 short-haul trips per lifetime, against 8.1 and 50 in 2019: 1,728 km per person per year, i.e. 45.6% less than in 2019. For long-haul (40% fewer kilometres) the report judges modal shift \"hardly feasible\" and decarbonisation uncertain — sustainable fuels are in limited supply, hydrogen and electric are not at this scale — so \"a reduction in very long-distance travel appears essential\". In people, that takes it from 1,150,824 to 761,136 trips of 18,000 km a year, or one trip per person every 16.6 years. For short-haul, 50% of intra-European kilometres are shifted entirely: 25 points to high-speed rail, 20 to conventional rail, 5 to the coach. The energy gain is real because rail needs 0.074 kWh per passenger-kilometre against 0.474 for the plane."
+          },
+          "debate": {
+            "fr": "Deux objections. D'abord, une moyenne par habitant ne dit rien de la répartition, qui est extrêmement inégale : « socialement acceptable » suppose de répondre à la question *pour qui ?* Réduire de 40 % le long-courrier peut vouloir dire rationner le seul voyage d'une vie d'un ménage modeste, ou supprimer le dixième voyage annuel d'un cadre : deux politiques opposées, entre lesquelles le scénario ne choisit pas. Ensuite, le report vers le train suppose une offre qui n'existe pas encore (trains de nuit, billets intégrés, capacités que personne n'a chiffrées ici) : le modèle déplace la demande, il ne garantit pas que le train soit *disponible*. La seule étude européenne qui chiffre un plafond, citée sur la fiche « Quand le train est déjà là », trouve 6 à 11 % du CO₂ de l'aviation intra-européenne évitable par report modal, et encore avec la grande vitesse entre toutes les grandes villes ; le scénario demande beaucoup plus. À l'inverse, l'ensemble ne suppose aucune rupture technologique, ce qui le rend plus robuste que la plupart des autres leviers.",
+            "nl": "Twee bedenkingen. Eerst: een gemiddelde per inwoner zegt niets over de verdeling, en die is uiterst ongelijk. \"Sociaal aanvaardbaar\" veronderstelt een antwoord op de vraag *voor wie*? De langeafstand met 40 % verlagen kan betekenen dat de enige reis van een leven van een bescheiden huishouden gerantsoeneerd wordt, of dat de tiende jaarlijkse reis van een kaderlid wegvalt: twee tegengestelde beleidskeuzes, waartussen het scenario niet kiest. Dan: de verschuiving naar de trein veronderstelt een spooraanbod dat nog niet bestaat (nachttreinen, geïntegreerde tickets, capaciteit die hier door niemand becijferd is): het model verplaatst de vraag, het garandeert niet dat de trein *beschikbaar* is. De enige Europese studie die een plafond becijfert, die op de kaart \"Waar de trein er al is\", vindt 6 tot 11 % van de CO₂ van de intra-Europese luchtvaart vermijdbaar door modale verschuiving, en dan nog met hogesnelheidslijnen tussen alle grote steden; het scenario vraagt veel meer. Omgekeerd veronderstelt het geheel geen enkele technologische doorbraak, wat het robuuster maakt dan de meeste andere hefbomen.",
+            "en": "Two objections. First, an average per inhabitant says nothing about the distribution, which is extremely unequal: \"socially acceptable\" presumes an answer to the question *for whom*? Cutting long-haul by 40% may mean rationing a modest household's one trip of a lifetime, or removing an executive's tenth trip of the year: two opposite policies, between which the scenario does not choose. Second, the shift to rail assumes a rail offer that does not yet exist (night trains, integrated ticketing, capacity that nobody has quantified here): the model moves the demand, it does not guarantee that the train is *available*. The one European study that puts a ceiling on this, the one quoted on the \"Where rail is already there\" card, finds 6 to 11% of intra-European aviation CO₂ avoidable by modal shift, and that assuming high-speed lines between every major city; the scenario asks for considerably more. Conversely, the whole set assumes no technological breakthrough, which makes it more robust than most of the other levers."
+          },
+          "parts": {
+            "long-haul": {
+              "short": {
+                "fr": "Long-courriers",
+                "nl": "Langeafstandsreizen",
+                "en": "Long-haul"
+              },
+              "question": {
+                "fr": "Voyages long-courriers par vie",
+                "nl": "Langeafstandsreizen per leven",
+                "en": "Long-haul trips per lifetime"
+              },
+              "subtitle": {
+                "fr": "Un voyage, c'est un aller-retour de 18 000 km, comme Bruxelles-Shanghai.",
+                "nl": "Eén reis is een retour van 18.000 km, zoals Brussel-Shanghai.",
+                "en": "One trip is a return trip of 18,000 km, like Brussels-Shanghai."
+              }
+            },
+            "short-haul": {
+              "short": {
+                "fr": "Court-courriers",
+                "nl": "Korteafstandsreizen",
+                "en": "Short-haul"
+              },
+              "question": {
+                "fr": "Voyages court-courriers par vie",
+                "nl": "Korteafstandsreizen per leven",
+                "en": "Short-haul trips per lifetime"
+              },
+              "subtitle": {
+                "fr": "Un voyage, c'est un aller-retour de 2 168 km, comme Bruxelles-Barcelone.",
+                "nl": "Eén reis is een retour van 2.168 km, zoals Brussel-Barcelona.",
+                "en": "One trip is a return trip of 2,168 km, like Brussels-Barcelona."
+              }
+            }
+          },
+          "facts": [
+            {
+              "kind": "trend",
+              "text": {
+                "fr": "Tous vols confondus, au départ de la Belgique, l'avion représentait environ 2 000 km par habitant et par an en 2000, et 3 176 km en 2019, malgré quelques creux. Ce chiffre s'effondre en 2020 avec la pandémie, puis remonte, mais en 2023 il restait 12 % sous le niveau de 2019. Depuis, les aéroports belges ont dépassé leur niveau d'avant la pandémie : plus de 36 millions de passagers en 2025, un record, contre 35,5 millions en 2019 (le nombre de vols, lui, reste inférieur à celui de 2019). Attention, ce n'est pas la même mesure : Statbel compte des passagers, à l'arrivée comme au départ, résidents comme visiteurs ; les kilomètres par habitant ne sont connus que jusqu'en 2023.",
+                "nl": "Alle vluchten samen, vanuit België, kwam het vliegtuig in 2000 op ongeveer 2.000 km per inwoner per jaar, en in 2019 op 3.176 km, ondanks enkele dalen. In 2020 stort dat cijfer in door de pandemie en klimt het daarna weer op, maar in 2023 lag het nog 12 % onder het niveau van 2019. Sindsdien hebben de Belgische luchthavens hun niveau van voor de pandemie overtroffen: meer dan 36 miljoen passagiers in 2025, een record, tegenover 35,5 miljoen in 2019 (het aantal vluchten ligt wel nog onder dat van 2019). Let op, het is niet dezelfde maatstaf: Statbel telt passagiers, bij aankomst en bij vertrek, inwoners en bezoekers samen; de kilometers per inwoner zijn maar bekend tot 2023.",
+                "en": "All flights together, leaving Belgium, air travel came to about 2,000 km per inhabitant per year in 2000, and 3,176 km in 2019, despite a few dips. The figure collapsed in 2020 with the pandemic, then climbed back, but in 2023 it was still 12% below the 2019 level. Since then Belgian airports have passed their pre-pandemic level: more than 36 million passengers in 2025, a record, against 35.5 million in 2019 (the number of flights, though, is still below 2019). Beware, it is not the same measure: Statbel counts passengers, arriving and departing, residents and visitors alike; the kilometres per inhabitant are only known up to 2023."
+              },
+              "source": "JRC-IDEES-2023 (passenger transport), population Statbel; Statbel, Transport aérien / Luchtvervoer (2025 figures, published 9 July 2026)",
+              "label": {
+                "fr": "Tendance",
+                "nl": "Trend",
+                "en": "Trend"
+              },
+              "url": "https://statbel.fgov.be/fr/themes/mobilite/transport/transport-aerien#panel-11"
+            },
+            {
+              "kind": "trend",
+              "text": {
+                "fr": "Si chacun volait toute sa vie (80 ans) comme en 2000, cela ferait en moyenne 4,3 voyages long-courriers de 18 000 km par personne ; comme en 2019, 8,1 (le point de départ du curseur) ; comme en 2023, 6,8.",
+                "nl": "Als iedereen zijn hele leven (80 jaar) zou vliegen zoals in 2000, zou dat gemiddeld 4,3 langeafstandsreizen van 18.000 km per persoon betekenen; zoals in 2019 8,1 (het startpunt van de schuifknop); zoals in 2023 6,8.",
+                "en": "If everyone flew all their life (80 years) as in 2000, that would be 4.3 long-haul trips of 18,000 km per person on average; as in 2019, 8.1 (the slider's starting point); as in 2023, 6.8."
+              },
+              "source": "JRC-IDEES-2023 (passenger transport); population Statbel",
+              "label": {
+                "fr": "Les vols long-courriers",
+                "nl": "De langeafstandsvluchten",
+                "en": "Long-haul flights"
+              },
+              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f",
+              "chart": {
+                "kind": "line",
+                "y": [
+                  4.3074,
+                  4.0667,
+                  2.561,
+                  2.76,
+                  3.3251,
+                  3.4448,
+                  3.5984,
+                  4.2735,
+                  5.3077,
+                  5.2057,
+                  5.6728,
+                  6.0681,
+                  6.0397,
+                  6.2157,
+                  6.5038,
+                  6.735,
+                  5.7291,
+                  6.5774,
+                  7.6018,
+                  8.0538,
+                  2.4338,
+                  3.4497,
+                  6.3386,
+                  6.8416
+                ],
+                "caption": {
+                  "fr": "Vols long-courriers au départ de la Belgique, en voyages de 18 000 km par personne et par vie, de 2000 à 2023",
+                  "nl": "Langeafstandsvluchten vanuit België, in reizen van 18.000 km per persoon per leven, van 2000 tot 2023",
+                  "en": "Long-haul flights leaving Belgium, in 18,000 km trips per person per lifetime, 2000 to 2023"
+                },
+                "x": [
+                  2000,
+                  2001,
+                  2002,
+                  2003,
+                  2004,
+                  2005,
+                  2006,
+                  2007,
+                  2008,
+                  2009,
+                  2010,
+                  2011,
+                  2012,
+                  2013,
+                  2014,
+                  2015,
+                  2016,
+                  2017,
+                  2018,
+                  2019,
+                  2020,
+                  2021,
+                  2022,
+                  2023
+                ],
+                "unit": "long-haul return trips per lifetime",
+                "decimals": 1,
+                "series": "avia_lng_trips_life"
+              }
+            },
+            {
+              "kind": "trend",
+              "text": {
+                "fr": "Si chacun volait toute sa vie (80 ans) comme en 2000, cela ferait en moyenne 39 voyages en Europe de 2 168 km par personne ; comme en 2019, 50 (le point de départ du curseur) ; comme en 2023, 46.",
+                "nl": "Als iedereen zijn hele leven (80 jaar) zou vliegen zoals in 2000, zou dat gemiddeld 39 reizen in Europa van 2.168 km per persoon betekenen; zoals in 2019 50 (het startpunt van de schuifknop); zoals in 2023 46.",
+                "en": "If everyone flew all their life (80 years) as in 2000, that would be 39 trips within Europe of 2,168 km per person on average; as in 2019, 50 (the slider's starting point); as in 2023, 46."
+              },
+              "source": "JRC-IDEES-2023 (passenger transport); population Statbel",
+              "label": {
+                "fr": "Les vols intra-européens",
+                "nl": "De intra-Europese vluchten",
+                "en": "Intra-European flights"
+              },
+              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f",
+              "chart": {
+                "kind": "line",
+                "y": [
+                  38.5225,
+                  38.2466,
+                  27.2255,
+                  30.0431,
+                  33.722,
+                  32.8491,
+                  34.0446,
+                  33.7021,
+                  32.8306,
+                  31.7984,
+                  34.2944,
+                  37.6274,
+                  38.009,
+                  38.5175,
+                  41.6542,
+                  45.0074,
+                  45.9523,
+                  49.3769,
+                  49.3853,
+                  50.3289,
+                  14.8406,
+                  22.0783,
+                  41.7872,
+                  46.348
+                ],
+                "caption": {
+                  "fr": "Vols intra-européens au départ de la Belgique, en voyages de 2 168 km par personne et par vie, de 2000 à 2023",
+                  "nl": "Intra-Europese vluchten vanuit België, in reizen van 2.168 km per persoon per leven, van 2000 tot 2023",
+                  "en": "Intra-European flights leaving Belgium, in 2,168 km trips per person per lifetime, 2000 to 2023"
+                },
+                "x": [
+                  2000,
+                  2001,
+                  2002,
+                  2003,
+                  2004,
+                  2005,
+                  2006,
+                  2007,
+                  2008,
+                  2009,
+                  2010,
+                  2011,
+                  2012,
+                  2013,
+                  2014,
+                  2015,
+                  2016,
+                  2017,
+                  2018,
+                  2019,
+                  2020,
+                  2021,
+                  2022,
+                  2023
+                ],
+                "unit": "short-haul return trips per lifetime",
+                "decimals": 0,
+                "series": "avia_srt_trips_life"
+              }
+            },
+            {
+              "kind": "benchmark",
+              "text": {
+                "fr": "Le vol est très inégalement réparti. En 2018, 11 % de la population mondiale a pris l'avion et au plus 4 % un vol international. Le 1 % de la population mondiale qui vole le plus pèse probablement plus de la moitié des émissions de l'aviation de passagers. Un seul utilisateur d'avion privé peut émettre jusqu'à 7 500 tonnes de CO₂ par an. Les 20 % les plus riches du monde effectuent environ 80 % des vols, et les voyageurs très fréquents, plus de six vols par an, représentent 2 % de l'humanité. À l'autre extrémité : en 2019, 76 % des habitants de la planète n'ont pris aucun vol dans l'année. Le nombre de non-voyageurs suit le revenu du pays : 51 % dans les pays à revenu élevé, 98 % dans les pays à faible revenu.",
+                "nl": "Vliegen is zeer ongelijk verdeeld. In 2018 nam 11 % van de wereldbevolking het vliegtuig en ten hoogste 4 % een internationale vlucht. De 1 % van de wereldbevolking die het meest vliegt, weegt vermoedelijk meer dan de helft van de uitstoot van de passagiersluchtvaart. Eén enkele gebruiker van een privéjet kan tot 7.500 ton CO₂ per jaar uitstoten. De rijkste 20 % van de wereld maakt zowat 80 % van alle vluchten, en zeer frequente vliegers, meer dan zes vluchten per jaar, zijn 2 % van de mensheid. Aan het andere uiterste: in 2019 nam 76 % van de wereldbevolking geen enkele vlucht in het jaar. Het aantal niet-vliegers volgt het inkomen van het land: 51 % in landen met een hoog inkomen, 98 % in landen met een laag inkomen.",
+                "en": "Flying is very unequally shared. In 2018, 11% of the world's population travelled by air and at most 4% took an international flight. The 1% of the world's population that flies most likely accounts for more than half of the emissions from passenger air travel. A single user of a private aircraft can emit up to 7,500 tonnes of CO₂ a year. The world's richest 20% make about 80% of all flights, and very frequent fliers, more than six flights a year, are 2% of humanity. At the other end: in 2019, 76% of the world's inhabitants took no flight at all in the year. The number of non-fliers follows country income: 51% in high-income countries, 98% in low-income ones."
+              },
+              "source": "Gössling & Humpe (2020), Global Environmental Change 65; ICCT (2022), modelled estimates",
+              "label": {
+                "fr": "Qui vole et ne vole pas",
+                "nl": "Wie vliegt en wie niet",
+                "en": "Who flies and who does not"
+              },
+              "url": "https://doi.org/10.1016/j.gloenvcha.2020.102194",
+              "chart": {
+                "kind": "bars",
+                "y": [
+                  76,
+                  51,
+                  69,
+                  88,
+                  98
+                ],
+                "caption": {
+                  "fr": "Part de la population qui n'a pris aucun vol en 2019, par groupe de revenu du pays",
+                  "nl": "Aandeel van de bevolking dat in 2019 geen enkele vlucht nam, per inkomensgroep van het land",
+                  "en": "Share of the population taking no flight in 2019, by country income group"
+                },
+                "labels": [
+                  {
+                    "fr": "Monde",
+                    "nl": "Wereld",
+                    "en": "World"
+                  },
+                  {
+                    "fr": "Revenu élevé",
+                    "nl": "Hoog inkomen",
+                    "en": "High income"
+                  },
+                  {
+                    "fr": "Moyen supérieur",
+                    "nl": "Hoger middeninkomen",
+                    "en": "Upper middle"
+                  },
+                  {
+                    "fr": "Moyen inférieur",
+                    "nl": "Lager middeninkomen",
+                    "en": "Lower middle"
+                  },
+                  {
+                    "fr": "Revenu faible",
+                    "nl": "Laag inkomen",
+                    "en": "Low income"
+                  }
+                ],
+                "unit": "% who took no flight in 2019",
+                "decimals": 0,
+                "highlight": 0,
+                "source": "ICCT (2022), Aviation climate finance using a global frequent flying levy",
+                "url": "https://theicct.org/wp-content/uploads/2022/09/global-aviation-frequent-flying-levy-sep22.pdf"
+              }
+            },
+            {
+              "kind": "benchmark",
+              "text": {
+                "fr": "Au sein de l'Europe de l'Ouest, une enquête menée auprès de plus de 12 000 personnes en Belgique, en France, en Allemagne, en Espagne, aux Pays-Bas et au Royaume-Uni a montré que 52 % des personnes ne prennent l'avion aucune fois dans l'année et que 11 % le prennent plus de trois fois. Chez les ménages disposant de moins de 20 000 € par an, 70 % ne volent pas du tout ; chez ceux de plus de 100 000 €, ils ne sont que 20 %, et 35 % font au moins trois allers-retours par an.",
+                "nl": "Binnen West-Europa toonde een enquête bij meer dan 12.000 mensen in België, Frankrijk, Duitsland, Spanje, Nederland en het Verenigd Koninkrijk dat 52 % van de mensen het vliegtuig geen enkele keer in het jaar neemt en 11 % meer dan drie keer. Bij huishoudens met minder dan 20.000 € per jaar vliegt 70 % helemaal niet; bij die met meer dan 100.000 € is dat maar 20 %, en 35 % maakt minstens drie retourvluchten per jaar.",
+                "en": "Within western Europe, a survey of more than 12,000 people in Belgium, France, Germany, Spain, the Netherlands and the United Kingdom showed that 52% of people do not fly at all in a given year and 11% fly more than three times. Among households on less than €20,000 a year, 70% do not fly at all; among those above €100,000 only 20% do not, and 35% take at least three return flights a year."
+              },
+              "source": "More in Common, Europe Talks Flying (2024), analysed by the New Economics Foundation, A frequent flying levy in Europe (October 2024)",
+              "label": {
+                "fr": "En Europe de l'Ouest",
+                "nl": "In West-Europa",
+                "en": "In western Europe"
+              },
+              "url": "https://neweconomics.org/2024/10/a-frequent-flying-levy-in-europe"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "Au-delà du bruit et de la qualité de l'air pour les riverains des aéroports, le transport aérien pèse sur le climat : il représentait environ 4 % des émissions de gaz à effet de serre de l'Union européenne en 2022. Le problème vient aussi de son évolution : en Belgique, les émissions de gaz à effet de serre de l'aviation internationale (les vols au départ du pays) ont augmenté de 68 % entre 1990 et 2022. Elles ne sont pas comptées dans le total des émissions du pays.",
+                "nl": "Naast de geluidshinder en de impact op de luchtkwaliteit voor de omwonenden van luchthavens weegt het luchtvervoer ook op het klimaat: in 2022 was het goed voor ongeveer 4 % van de uitstoot van broeikasgassen van de Europese Unie. Het probleem zit ook in de evolutie: in België is de uitstoot van broeikasgassen van de internationale luchtvaart (de vluchten die het land verlaten) tussen 1990 en 2022 met 68 % gestegen. Die uitstoot wordt niet meegeteld in het nationale totaal.",
+                "en": "Besides the noise and air-quality problems for people living near airports, air transport weighs on the climate: in 2022 it accounted for about 4% of the European Union's greenhouse gas emissions. The problem also lies in its trend: in Belgium, greenhouse gas emissions from international aviation (flights leaving the country) rose by 68% between 1990 and 2022. They are not counted in the country's national total."
+              },
+              "source": "Eurostat, env_air_gge (international aviation, Belgium, 1990-2022); European Commission, Reducing emissions from aviation (EU share, 2022)",
+              "label": {
+                "fr": "Et les émissions de CO₂",
+                "nl": "En de CO₂-uitstoot",
+                "en": "And CO₂ emissions"
+              },
+              "url": "https://ec.europa.eu/eurostat/databrowser/view/env_air_gge/default/table?lang=en"
+            },
+            {
+              "kind": "benchmark",
+              "text": {
+                "fr": "Pour l'avion à hydrogène, peu de pistes réalistes laissent penser qu'il existera avant 2040 : Airbus a repoussé son projet en 2025. De plus, l'hydrogène est aujourd'hui produit surtout à partir de combustibles fossiles. Une autre piste vient des carburants d'aviation durables, ou SAF (de l'anglais *sustainable aviation fuels*). Ce sont aujourd'hui surtout des biocarburants, faits par exemple à partir d'huiles de cuisson usagées ; les carburants de synthèse n'en sont qu'une variété. En 2024, la production de SAF ne représentait que 0,3 % du carburant d'aviation produit dans le monde, et 11 % de la capacité mondiale de production de carburants renouvelables. On est donc très loin de remplacer tout le kérosène par des SAF.",
+                "nl": "Voor het waterstofvliegtuig laten weinig realistische pistes vermoeden dat het er vóór 2040 komt: Airbus heeft zijn project in 2025 uitgesteld. Bovendien wordt waterstof vandaag vooral uit fossiele brandstoffen gemaakt. Een andere piste zijn de duurzame luchtvaartbrandstoffen, SAF (van het Engelse *sustainable aviation fuels*). Dat zijn vandaag vooral biobrandstoffen, gemaakt van bijvoorbeeld gebruikte frituurolie; synthetische brandstoffen zijn maar één variant. In 2024 was de productie van SAF goed voor slechts 0,3 % van de wereldwijd geproduceerde luchtvaartbrandstof, en voor 11 % van de wereldwijde productiecapaciteit voor hernieuwbare brandstoffen. We zijn dus nog erg ver van een vervanging van alle kerosine door SAF.",
+                "en": "As for the hydrogen aircraft, few realistic avenues suggest it will exist before 2040: Airbus postponed its project in 2025. On top of that, hydrogen is today produced mostly from fossil fuels. Another avenue is sustainable aviation fuels, or SAF. Today these are mostly biofuels, made for example from used cooking oil; synthetic fuels are only one variety. In 2024, SAF production amounted to only 0.3% of the aviation fuel produced worldwide, and 11% of the world's renewable fuel production capacity. We are therefore very far from replacing all kerosene with SAF."
+              },
+              "source": "IATA, Disappointingly Slow Growth in SAF Production (10 December 2024); Airbus, ZEROe postponement (February 2025); IEA, Global Hydrogen Review 2025",
+              "label": {
+                "fr": "Les évolutions technologiques",
+                "nl": "De technologische ontwikkelingen",
+                "en": "Technological developments"
+              },
+              "url": "https://www.iata.org/en/pressroom/2024-releases/2024-12-10-03/"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "En 2019, un vol intra-européen consommait 0,566 kWh par voyageur-kilomètre, contre 0,536 pour la voiture. Mais la voiture belge moyenne ne transporte que 1,22 personne, alors qu'un avion est rempli, en moyenne, aux quatre cinquièmes environ. Avec deux personnes dans la voiture, l'avion consomme près de deux fois plus par personne ; avec quatre, plus de trois fois plus. Par passager, l'avion consomme donc plus qu'une voiture bien remplie. Mais surtout, il rend possibles de très grandes distances en un week-end.",
+                "nl": "In 2019 verbruikte een intra-Europese vlucht 0,566 kWh per reizigerskilometer, tegenover 0,536 voor de auto. Maar de gemiddelde Belgische auto vervoert maar 1,22 personen, terwijl een vliegtuig gemiddeld voor ongeveer vier vijfde bezet is. Met twee mensen in de auto verbruikt het vliegtuig bijna twee keer zoveel per persoon; met vier meer dan drie keer zoveel. Per passagier verbruikt het vliegtuig dus meer dan een goed gevulde auto. Maar vooral maakt het zeer grote afstanden mogelijk in één weekend.",
+                "en": "In 2019 an intra-European flight used 0.566 kWh per passenger-kilometre, against 0.536 for the car. But the average Belgian car carries only 1.22 people, whereas an aircraft is on average about four fifths full. With two people in the car, flying already uses nearly twice as much per person; with four, more than three times as much. Per passenger, the plane therefore uses more than a well-filled car. But above all, it makes very long distances possible in a single weekend."
+              },
+              "source": "nW-BE §2.1 and §2.3 (JRC-IDEES-2023); IATA, Industry Statistics (world passenger load factor)",
+              "label": {
+                "fr": "Avion ou voiture",
+                "nl": "Vliegtuig of auto",
+                "en": "Plane or car"
+              },
+              "url": "https://www.iata.org/en/iata-repository/pressroom/fact-sheets/industry-statistics/"
+            },
+            {
+              "kind": "lever",
+              "text": {
+                "fr": "Beaucoup de vols, peu d'énergie. En 2019, 24 % des décollages européens faisaient moins de 500 km, mais ne pesaient que 3,8 % du CO₂ de l'aviation ; les vols de plus de 4 000 km, 6 % des décollages, en pesaient 48 %. Interdire les vols les plus courts touche donc énormément de trajets et très peu d'énergie — c'est entre 500 et 1 500 km, la moitié des décollages et un cinquième du CO₂, que se joue vraiment le report vers le train.",
+                "nl": "Veel vluchten, weinig energie. In 2019 was 24 % van de Europese vertrekken korter dan 500 km, goed voor slechts 3,8 % van de CO₂ van de luchtvaart; de vluchten van meer dan 4.000 km, 6 % van de vertrekken, waren goed voor 48 %. De kortste vluchten verbieden raakt dus heel veel ritten en heel weinig energie — het is tussen 500 en 1.500 km, de helft van de vertrekken en een vijfde van de CO₂, dat de verschuiving naar de trein zich echt afspeelt.",
+                "en": "Many flights, little energy. In 2019, 24% of European departures were shorter than 500 km but accounted for only 3.8% of aviation's CO₂; flights over 4,000 km, 6% of departures, accounted for 48%. Banning the shortest flights therefore touches a great many journeys and very little energy — it is between 500 and 1,500 km, half of all departures and a fifth of the CO₂, that the shift to rail is really played out."
+              },
+              "source": "EUROCONTROL, Think Paper #11, Plane and train: getting the balance right (2021), fig. 2",
+              "label": {
+                "fr": "Ce que le train pourrait reprendre",
+                "nl": "Wat de trein zou kunnen overnemen",
+                "en": "What rail could take over"
+              },
+              "url": "https://www.eurocontrol.int/sites/default/files/2021-06/eurocontrol-think-paper-11-plane-and-train-right-balance.pdf",
+              "chart": {
+                "kind": "bars",
+                "y": [
+                  3.8,
+                  21.6,
+                  27.0,
+                  47.6
+                ],
+                "caption": {
+                  "fr": "Part du CO₂ de l'aviation européenne par distance de vol, 2019 ; entre parenthèses, la part des décollages",
+                  "nl": "Aandeel van de CO₂ van de Europese luchtvaart per vluchtafstand, 2019; tussen haakjes het aandeel van de vertrekken",
+                  "en": "Share of European aviation CO₂ by flight distance, 2019; in brackets, the share of departures"
+                },
+                "labels": [
+                  {
+                    "fr": "moins de 500 km — 24 % des vols",
+                    "nl": "minder dan 500 km — 24 % van de vluchten",
+                    "en": "under 500 km — 24% of flights"
+                  },
+                  {
+                    "fr": "500 à 1 500 km — 46 %",
+                    "nl": "500 tot 1.500 km — 46 %",
+                    "en": "500 to 1,500 km — 46%"
+                  },
+                  {
+                    "fr": "1 500 à 4 000 km — 24 %",
+                    "nl": "1.500 tot 4.000 km — 24 %",
+                    "en": "1,500 to 4,000 km — 24%"
+                  },
+                  {
+                    "fr": "plus de 4 000 km — 6 %",
+                    "nl": "meer dan 4.000 km — 6 %",
+                    "en": "over 4,000 km — 6%"
+                  }
+                ],
+                "unit": "% of aviation CO2",
+                "decimals": 1,
+                "highlight": 0
+              }
+            },
+            {
+              "kind": "benchmark",
+              "text": {
+                "fr": "Là où le train existe et va vite, il a déjà gagné : sur Bruxelles-Paris il prend 89 % du marché entre l'avion et le train, Lyon-Paris 83 %, Milan-Rome 75 %, Barcelone-Madrid 62 %, Bruxelles-Londres 55 %. Au-delà d'environ 1 000 km, sa part tombe presque à zéro. Sur 58 liaisons européennes étudiées, 7 seulement sont plus rapides en train de porte à porte. La même étude chiffre le plafond européen : dans le meilleur des cas, avec des trains plus rapides ou beaucoup plus de trains de nuit, le report de l'avion vers le train retirerait 6 à 11 % du CO₂ de l'aviation intra-européenne.",
+                "nl": "Waar de trein bestaat en snel is, heeft hij al gewonnen: op Brussel-Parijs neemt hij 89 % van de markt tussen vliegtuig en trein, Lyon-Parijs 83 %, Milaan-Rome 75 %, Barcelona-Madrid 62 %, Brussel-Londen 55 %. Voorbij ongeveer 1.000 km valt zijn aandeel bijna tot nul terug. Van 58 onderzochte Europese verbindingen zijn er maar 7 sneller per trein van deur tot deur. Dezelfde studie becijfert het Europese plafond: in het beste geval, met snellere treinen of veel meer nachttreinen, zou de verschuiving van het vliegtuig naar de trein 6 tot 11 % van de CO₂ van de intra-Europese luchtvaart wegnemen.",
+                "en": "Where rail exists and is fast, it has already won: on Brussels-Paris it takes 89% of the air-versus-rail market, Lyon-Paris 83%, Milan-Rome 75%, Barcelona-Madrid 62%, Brussels-London 55%. Beyond about 1,000 km its share falls to nearly zero. Of 58 European links studied, only 7 are faster by train door to door. The same study puts a ceiling on Europe: in the best case, with faster trains or many more night trains, shifting from plane to train would remove 6 to 11% of intra-European aviation's CO₂."
+              },
+              "source": "Bleijenberg / Koios Strategy for Transport & Environment, Air2Rail (2020), tabl. 5 and conclusion",
+              "label": {
+                "fr": "Quand le train est déjà là",
+                "nl": "Waar de trein er al is",
+                "en": "Where rail is already there"
+              },
+              "url": "https://uploads.transportenvironment.org/production/files/2020_03_Air2Rail_Koios_strategy_rev.pdf",
+              "chart": {
+                "kind": "bars",
+                "y": [
+                  89,
+                  83,
+                  75,
+                  62,
+                  55
+                ],
+                "caption": {
+                  "fr": "Part du train dans le marché avion + train, cinq liaisons européennes où les deux existent",
+                  "nl": "Aandeel van de trein in de markt lucht+spoor, Europese verbindingen waar beide bestaan",
+                  "en": "Rail's share of the air + rail market, European links where both exist"
+                },
+                "labels": [
+                  {
+                    "fr": "Bruxelles-Paris",
+                    "nl": "Brussel-Parijs",
+                    "en": "Brussels-Paris"
+                  },
+                  {
+                    "fr": "Lyon-Paris",
+                    "nl": "Lyon-Parijs",
+                    "en": "Lyon-Paris"
+                  },
+                  {
+                    "fr": "Milan-Rome",
+                    "nl": "Milaan-Rome",
+                    "en": "Milan-Rome"
+                  },
+                  {
+                    "fr": "Barcelone-Madrid",
+                    "nl": "Barcelona-Madrid",
+                    "en": "Barcelona-Madrid"
+                  },
+                  {
+                    "fr": "Bruxelles-Londres",
+                    "nl": "Brussel-Londen",
+                    "en": "Brussels-London"
+                  }
+                ],
+                "unit": "% of the air and rail market",
+                "decimals": 0,
+                "highlight": [
+                  0,
+                  4
+                ]
+              }
+            }
+          ],
+          "code": "A",
+          "sector": "transport"
+        },
+        "plane-load": {
+          "question": {
+            "fr": "Quel remplissage des vols viser en 2050 ?",
+            "nl": "Hoe vol moeten de vluchten in 2050 zitten?",
+            "en": "How full should flights be in 2050?"
+          },
+          "short": {
+            "fr": "Remplissage des vols",
+            "nl": "Bezetting van de vluchten",
+            "en": "Passengers per flight"
+          },
+          "subtitle": {
+            "fr": "Des avions plus grands transportent davantage de passagers. Ils consomment plus par kilomètre que de petits avions, mais moins par passager. Le progrès technique a aussi fait baisser la consommation, et plus un avion est rempli, plus sa consommation par passager est faible. Ici, on compte le nombre moyen de passagers réellement à bord (un siège vide compte pour zéro), sur tous les vols au départ de la Belgique, long-courriers et européens ensemble : 152 en 2019.",
+            "nl": "Grotere vliegtuigen vervoeren meer passagiers. Ze verbruiken meer per kilometer dan kleine toestellen, maar minder per passagier. De technische vooruitgang heeft het verbruik ook doen dalen, en hoe voller een vliegtuig, hoe lager het verbruik per passagier. Hier tellen we het gemiddelde aantal passagiers dat echt aan boord zit (een lege stoel telt voor nul), op alle vluchten vanuit België, lange en korte afstand samen: 152 in 2019.",
+            "en": "Bigger aircraft carry more passengers. They use more fuel per kilometre than small ones, but less per passenger. Technical progress has also brought fuel use down, and the fuller a plane is, the lower its fuel use per passenger. Here we count the average number of passengers actually on board (an empty seat counts for zero), over all flights leaving Belgium, long-haul and European together: 152 in 2019."
+          },
+          "tangible": {
+            "fr": "{value} passagers par vol en moyenne : les mêmes voyageurs avec {inverseIndex} % des vols de 2019.",
+            "nl": "Gemiddeld {value} passagiers per vlucht: dezelfde reizigers met {inverseIndex} % van de vluchten van 2019.",
+            "en": "{value} passengers per flight on average: the same travellers with {inverseIndex}% of the 2019 flights."
+          },
+          "justification": {
+            "fr": "négaWatt retient 190 passagers par vol en moyenne, contre 152 en 2019 (+24,4 %) : +17 % sur les long-courriers (de 188 à 220) et +25 % sur les vols européens (de 122 à 152). Le choix est explicitement prudent : de 2000 à 2023, le remplissage a gagné +33,4 % en long-courrier et +49,5 % en intra-européen, et le scénario n'en retient que la moitié, sur une période plus longue. Avec la baisse de consommation par kilomètre d'avion et la réduction du nombre de voyages, cela conduit à 7,17 TWh de kérosène en 2050, contre 16,2 en 2019.",
+            "nl": "negaWatt kiest gemiddeld 190 passagiers per vlucht, tegenover 152 in 2019 (+24,4 %): +17 % op de langeafstandsvluchten (van 188 naar 220) en +25 % op de Europese vluchten (van 122 naar 152). De keuze is uitdrukkelijk voorzichtig: van 2000 tot 2023 nam de bezetting toe met +33,4 % op de lange afstand en +49,5 % intra-Europees, en het scenario houdt daar maar de helft van over, over een langere periode. Samen met de daling van het verbruik per vliegtuigkilometer en de vermindering van het aantal reizen komt dat op 7,17 TWh kerosine in 2050, tegenover 16,2 in 2019.",
+            "en": "negaWatt sets 190 passengers per flight on average, against 152 in 2019 (+24.4%): +17% on long-haul (from 188 to 220) and +25% on European flights (from 122 to 152). The choice is explicitly cautious: from 2000 to 2023 load grew by +33.4% on long-haul and +49.5% on intra-European, and the scenario keeps only half of that, over a longer period. Together with the fall in fuel per aircraft-kilometre and the reduction in trips, that comes to 7.17 TWh of kerosene in 2050, against 16.2 in 2019."
+          },
+          "debate": {
+            "fr": "Le scénario retient exactement la moitié de la tendance observée sur tous ses leviers techniques de l'aviation. C'est cohérent, mais discutable dans les deux sens : la prudence est défendable si l'on croit que les gains faciles sont derrière nous, et intenable si l'on remarque que 2023 avait déjà dépassé l'objectif intermédiaire. La tendance dépend d'ailleurs de l'année d'arrivée : mesurée jusqu'en 2019 plutôt que jusqu'en 2023, elle vaut +22 % au lieu de +33,4 % en long-courrier et +39,3 % au lieu de +49,5 % en intra-européen, et la même règle donnerait un objectif sensiblement plus bas. Reste un paradoxe : le remplissage a surtout progressé grâce au low-cost, c'est-à-dire grâce à ce qui a fait exploser le nombre de vols, et améliorer le remplissage tout en réduisant les vols n'est pas la simple addition de deux tendances passées. En clair, ce levier est le moins coûteux de l'aviation et a probablement plus de marge que le scénario ne lui en donne — ce qui rend d'autant plus lourde la réduction demandée aux voyages.",
+            "nl": "Het scenario houdt op al zijn technische luchtvaarthefbomen exact de helft van de waargenomen trend over. Dat is coherent, maar in beide richtingen betwistbaar: de voorzichtigheid is verdedigbaar als men denkt dat de gemakkelijke winsten achter ons liggen, en onhoudbaar als men merkt dat 2023 het tussentijdse doel al voorbij was. De trend hangt bovendien af van het eindjaar: tot 2019 gemeten in plaats van tot 2023 bedraagt hij +22 % in plaats van +33,4 % op de lange afstand en +39,3 % in plaats van +49,5 % intra-Europees, en dezelfde regel zou een merkelijk lager doel geven. Blijft een paradox: de bezetting is vooral gestegen dankzij low cost, dat wil zeggen dankzij wat het aantal vluchten heeft doen ontploffen, en de bezetting verbeteren terwijl de vluchten verminderen is niet de simpele som van twee voorbije trends. Kortom: deze hefboom is de minst kostelijke van de luchtvaart en heeft vermoedelijk meer marge dan het scenario hem geeft — wat de gevraagde vermindering van de reizen des te zwaarder maakt.",
+            "en": "The scenario keeps exactly half the observed trend on every one of its technical aviation levers. That is consistent, but arguable in both directions: the caution is defensible if you think the easy gains are behind us, and untenable if you notice that 2023 had already passed the interim objective. The trend also depends on the year it stops: measured to 2019 rather than to 2023 it is +22% instead of +33.4% on long-haul and +39.3% instead of +49.5% on intra-European, and the same rule would give a noticeably lower objective. One paradox remains: load rose mainly thanks to low-cost carriers — that is, thanks to what made the number of flights explode — and improving load while reducing flights is not the simple sum of two past trends. In short, this is the cheapest of the aviation levers and probably has more room than the scenario gives it — which makes the reduction demanded of travel that much heavier."
+          },
+          "facts": [
+            {
+              "kind": "trend",
+              "text": {
+                "fr": "En nette hausse, tous vols confondus : 110 passagers par vol en 2000, 152 en 2019, 164 en 2023. En long-courrier, on passe de 154 à 188 puis 205,5 ; sur les vols intra-européens, la progression est plus forte encore : de 87,5 à 122 puis 130,8. Ces gains viennent d'avions plus grands autant que d'avions plus remplis. Méfiance sur le dernier point : 2023 est une année de rattrapage, où les avions étaient anormalement remplis.",
+                "nl": "Duidelijk stijgend, alle vluchten samen: 110 passagiers per vlucht in 2000, 152 in 2019, 164 in 2023. Op de lange afstand gaat het van 154 naar 188 en dan 205,5; bij de intra-Europese vluchten is de stijging nog sterker: van 87,5 naar 122 en dan 130,8. Die winst komt evenveel van grotere vliegtuigen als van vollere. Wees voorzichtig met het laatste punt: 2023 is een inhaaljaar waarin de vliegtuigen abnormaal vol zaten.",
+                "en": "Clearly rising, all flights together: 110 passengers per flight in 2000, 152 in 2019, 164 in 2023. On long-haul it goes from 154 to 188 then 205.5; on intra-European flights the rise is stronger still: from 87.5 to 122 then 130.8. The gain comes from bigger aircraft as much as from fuller ones. Treat the last point with care: 2023 was a catch-up year, with aircraft abnormally full."
+              },
+              "source": "nW-BE §2.3 (JRC-IDEES-2023)",
+              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f"
+            },
+            {
+              "kind": "tangible",
+              "text": {
+                "fr": "En 2019, un kilomètre d'avion consommait à peu près la même énergie en long-courrier (67,3 kWh) et en vol européen (69,1 kWh). Mais un long-courrier emportait 188 passagers en moyenne, contre 122 : par voyageur-kilomètre, cela fait 0,358 kWh contre 0,566. L'écart vient donc du nombre de passagers par avion. Plus il y a de passagers à bord, moins chacun consomme, sans qu'aucun voyage soit supprimé : c'est en quelque sorte de l'énergie gratuite. Passer de 188 à 205,5 passagers sur un long-courrier — ce que la période 2019-2023 a déjà fait — retire environ un dixième de la consommation par passager.",
+                "nl": "In 2019 verbruikte een vliegtuigkilometer ongeveer evenveel energie op de lange afstand (67,3 kWh) als op de korte afstand binnen Europa (69,1 kWh). Maar een langeafstandsvlucht had gemiddeld 188 passagiers aan boord, tegenover 122: per reizigerskilometer is dat 0,358 kWh tegenover 0,566. Het verschil komt dus van het aantal passagiers per vliegtuig. Hoe meer passagiers aan boord, hoe minder elk van hen verbruikt, zonder dat één reis wegvalt: het is als het ware gratis energie. Als een langeafstandsvlucht van 188 naar 205,5 passagiers gaat — wat de periode 2019-2023 al deed — haalt dat ongeveer een tiende van het verbruik per passagier weg.",
+                "en": "In 2019 an aircraft-kilometre used about the same energy on long-haul (67.3 kWh) as on European flights (69.1 kWh). But a long-haul flight carried 188 passengers on average, against 122: per passenger-kilometre that makes 0.358 kWh against 0.566. The gap therefore comes from the number of passengers per aircraft. The more passengers on board, the less each one uses, without a single trip being cancelled: it is, in a way, free energy. Going from 188 to 205.5 passengers on a long-haul flight — which 2019 to 2023 already did — takes about a tenth off the energy used per passenger."
+              },
+              "source": "nW-BE §2.3, arithmetic on the observed values"
+            },
+            {
+              "kind": "caution",
+              "text": {
+                "fr": "Un avion plus grand consomme plus de carburant par kilomètre, mais moins par passager. Pourtant, entre 2000 et 2019, les vols long-courriers au départ de la Belgique ont embarqué 22 % de passagers en plus par vol, alors que chaque kilomètre d'avion consommait 38,3 % de carburant en moins (de 109 à 67,3 kWh) : le progrès technique a plus que compensé l'effet de la taille. Dans le calcul, ajouter des passagers sur un vol ne fait jamais augmenter la consommation de l'avion par kilomètre. C'est juste si ces passagers occupent des sièges vides ; c'est optimiste s'il faut pour cela de plus gros avions.",
+                "nl": "Een groter vliegtuig verbruikt per kilometer meer brandstof, maar per passagier minder. Toch kregen de langeafstandsvluchten vanuit België tussen 2000 en 2019 22 % meer passagiers per vlucht, terwijl elke vliegtuigkilometer 38,3 % minder brandstof verbruikte (van 109 naar 67,3 kWh): de technische vooruitgang heeft het effect van de grootte meer dan goedgemaakt. In de berekening doet extra passagiers toevoegen aan een vlucht het verbruik van het vliegtuig per kilometer nooit stijgen. Dat klopt als die passagiers lege stoelen innemen; het is optimistisch als daarvoor grotere vliegtuigen nodig zijn.",
+                "en": "A bigger aircraft burns more fuel per kilometre, but less per passenger. Yet between 2000 and 2019, long-haul flights out of Belgium carried 22% more passengers per flight while each aircraft-kilometre used 38.3% less fuel (from 109 to 67.3 kWh): technical progress more than offset the size effect. In the calculation, adding passengers to a flight never raises the aircraft's fuel use per kilometre. That is right if those passengers fill empty seats; it is optimistic if bigger aircraft are needed."
+              },
+              "source": "nW-BE §2.3 (JRC-IDEES-2023, occupancy and effective vehicle efficiency)",
+              "label": {
+                "fr": "Ce que le calcul ne montre pas",
+                "nl": "Wat de berekening niet toont",
+                "en": "What the calculation does not show"
+              },
+              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f"
+            },
+            {
+              "kind": "lever",
+              "text": {
+                "fr": "Un taux de remplissage parle plus qu'un nombre de passagers, et les deux se déduisent l'un de l'autre : *passagers par vol = nombre de sièges × taux de remplissage*. Le remplissage moyen mondial était de 82,6 % des sièges en 2019 et de 83,4 % en 2024. Les 152 passagers par vol de 2019 correspondent donc à un appareil d'environ 185 sièges rempli aux quatre cinquièmes.",
+                "nl": "Een bezettingsgraad zegt meer dan een aantal passagiers, en het een volgt uit het ander: *passagiers per vlucht = aantal stoelen × bezettingsgraad*. De gemiddelde wereldwijde bezetting was 82,6 % van de stoelen in 2019 en 83,4 % in 2024. De 152 passagiers per vlucht van 2019 komen dus overeen met een toestel van ongeveer 185 stoelen dat voor vier vijfde vol zit.",
+                "en": "A load factor says more than a passenger count, and each follows from the other: *passengers per flight = number of seats × load factor*. The average world load factor was 82.6% of seats in 2019 and 83.4% in 2024. The 152 passengers per flight of 2019 therefore correspond to an aircraft of about 185 seats filled to four fifths."
+              },
+              "source": "IATA, Industry Statistics (passenger load factor, world)",
+              "label": {
+                "fr": "Sièges × remplissage",
+                "nl": "Stoelen × bezetting",
+                "en": "Seats × load factor"
+              },
+              "url": "https://www.iata.org/en/iata-repository/pressroom/fact-sheets/industry-statistics/",
+              "chart": {
+                "kind": "bars",
+                "y": [
+                  173,
+                  183
+                ],
+                "caption": {
+                  "fr": "Sièges offerts par vol, moyenne du réseau européen — les compagnies ont surtout agrandi les avions",
+                  "nl": "Aangeboden stoelen per vlucht, gemiddelde van het Europese netwerk — de maatschappijen hebben vooral de vliegtuigen vergroot",
+                  "en": "Seats offered per flight, European network average — airlines have mostly made the aircraft bigger"
+                },
+                "labels": [
+                  {
+                    "fr": "Europe, 2018",
+                    "nl": "Europa, 2018",
+                    "en": "Europe, 2018"
+                  },
+                  {
+                    "fr": "Europe, 2024",
+                    "nl": "Europa, 2024",
+                    "en": "Europe, 2024"
+                  }
+                ],
+                "unit": "seats per flight",
+                "decimals": 0,
+                "highlight": 1,
+                "source": "EUROCONTROL, Data Snapshot #54, Further, higher, bigger (2025)",
+                "url": "https://www.eurocontrol.int/sites/default/files/2025-07/eurocontrol-data-snapshot-54.pdf"
+              }
+            },
+            {
+              "kind": "benchmark",
+              "text": {
+                "fr": "Le plafond n'est pas 100 %, mais il est nettement au-dessus de la moyenne : Ryanair, qui ne vend qu'une classe et ne fait pas de correspondances, a rempli ses avions à 94 % en moyenne sur son exercice d'avril 2025 à mars 2026, et à 96 % en été. Si le taux de remplissage moyen du secteur est de 83,4 % alors que Ryanair atteint 94 %, il y a clairement moyen d'augmenter le taux de remplissage avant de devoir passer à des avions plus grands.",
+                "nl": "Het plafond is geen 100 %, maar het ligt duidelijk boven het gemiddelde: Ryanair, dat maar één klasse verkoopt en geen overstappen aanbiedt, vulde zijn vliegtuigen in zijn boekjaar van april 2025 tot maart 2026 voor gemiddeld 94 %, en voor 96 % in de zomer. Als de gemiddelde bezettingsgraad van de sector 83,4 % bedraagt terwijl Ryanair 94 % haalt, is er duidelijk ruimte om de bezetting te verhogen voor er grotere toestellen nodig zijn.",
+                "en": "The ceiling is not 100%, but it is well above the average: Ryanair, which sells a single class and offers no connections, filled its aircraft to 94% on average over its April 2025 to March 2026 financial year, and to 96% in summer. With the industry's average load factor at 83.4% and Ryanair reaching 94%, there is clearly room to raise the load factor before bigger aircraft are needed."
+              },
+              "source": "Ryanair, Traffic and Load Factor Stats (FY26: April 2025 to March 2026)",
+              "label": {
+                "fr": "Jusqu'où peut-on remplir ?",
+                "nl": "Hoe vol kan het?",
+                "en": "How full can it get?"
+              },
+              "url": "https://investor.ryanair.com/traffic/"
+            }
+          ],
+          "code": "B",
+          "sector": "transport"
+        },
+        "air-freight": {
+          "question": {
+            "fr": "Combien de fret aérien par habitant viser en 2050 ?",
+            "nl": "Hoeveel luchtvracht per inwoner moeten we in 2050 nastreven?",
+            "en": "How much air freight per inhabitant should 2050 aim for?"
+          },
+          "short": {
+            "fr": "Fret aérien",
+            "nl": "Luchtvracht",
+            "en": "Air freight"
+          },
+          "subtitle": {
+            "fr": "On parle ici des marchandises transportées par avion, comptées en tonnes-kilomètres par habitant et par an — une tonne sur un kilomètre. Ce que vous retirez à l'avion, le modèle le reporte sur le rail.",
+            "nl": "Het gaat hier over goederen die per vliegtuig worden vervoerd, geteld in tonkilometers per inwoner per jaar — één ton over één kilometer. Wat jullie van het vliegtuig afhalen, verschuift het model naar het spoor.",
+            "en": "This is about goods carried by air, counted in tonne-kilometres per inhabitant per year — one tonne over one kilometre. What you take off the aircraft, the model moves to rail."
+          },
+          "tangible": {
+            "fr": "{value} tonnes-kilomètres de fret aérien par habitant et par an.",
+            "nl": "{value} tonkilometer luchtvracht per inwoner per jaar.",
+            "en": "{value} tonne-kilometres of air freight per inhabitant per year."
+          },
+          "justification": {
+            "fr": "négaWatt ne retient ici aucune hypothèse : 314 tonnes-kilomètres par habitant en 2050, soit exactement 349 de 2019 diminué de la baisse générale de 10 % de l'intensité de transport de marchandises. Aucun report modal n'est envisagé, et la section 3.1.4 le dit explicitement. La raison est double : le report du fret express vers d'autres modes est jugé difficile, et le substitut principal — le bateau — n'existe pas dans ce modèle de demande, qui ignore le transport maritime international. C'est donc moins un choix qu'une absence de choix, et le rapport le reconnaît en commentaire.",
+            "nl": "negaWatt houdt hier geen enkele veronderstelling aan: 314 tonkilometer per inwoner in 2050, precies 349 van 2019 verminderd met de algemene daling van 10 % van de goederenvervoersintensiteit. Er wordt geen enkele modale verschuiving overwogen, en sectie 3.1.4 zegt dat expliciet. De reden is dubbel: de verschuiving van expresvracht naar andere modi wordt moeilijk geacht, en de belangrijkste vervanger — het schip — bestaat niet in dit vraagmodel, dat de internationale zeevaart negeert. Het is dus minder een keuze dan een afwezigheid van keuze, en het rapport erkent dat in een commentaar.",
+            "en": "negaWatt makes no assumption here: 314 tonne-kilometres per inhabitant in 2050, exactly the 349 of 2019 less the general 10% fall in freight transport intensity. No modal shift is envisaged, and section 3.1.4 says so explicitly. The reason is twofold: shifting express freight to other modes is judged difficult, and the main substitute — the ship — does not exist in this demand model, which ignores international shipping. It is therefore less a choice than an absence of one, and the report acknowledges as much in a comment."
+          },
+          "debate": {
+            "fr": "C'est la question la plus inconfortable de l'atelier, parce que la réponse du scénario est « rien ». Deux lectures s'opposent. D'un côté, le fret aérien est surtout de l'express et du périssable, il dépend de décisions industrielles mondiales, et un pays de onze millions d'habitants qui abrite un hub de fret n'en décide pas seul. De l'autre, laisser un poste passer à près d'un tiers de l'énergie d'un thème sans jamais l'interroger est exactement ce que la méthode négaWatt reproche aux scénarios tendanciels — d'autant que le maritime, la seule alternative sérieuse, est absent du modèle et que ses émissions n'apparaissent donc nulle part.",
+            "nl": "Dit is de ongemakkelijkste vraag van de workshop, omdat het antwoord van het scenario \"niets\" is. Twee lezingen staan tegenover elkaar. Enerzijds is luchtvracht vooral expres en bederfelijke waar, hangt ze af van wereldwijde industriële beslissingen, en beslist een land van elf miljoen inwoners met een vrachthub daar niet alleen over. Anderzijds is een post die naar bijna een derde van de energie van een thema opschuift zonder ooit bevraagd te worden precies wat de negaWatt-methode trendscenario's verwijt — te meer daar de zeevaart, het enige ernstige alternatief, uit het model ontbreekt en haar uitstoot dus nergens verschijnt.",
+            "en": "This is the most uncomfortable question in the workshop, because the scenario's answer is \"nothing\". Two readings compete. On one side, air freight is mostly express and perishable goods, it depends on worldwide industrial decisions, and a country of eleven million inhabitants that hosts a cargo hub does not decide it alone. On the other, letting one item drift to nearly a third of a topic's energy without ever questioning it is exactly what the négaWatt method reproaches business-as-usual scenarios for — all the more so since shipping, the only serious alternative, is absent from the model and its emissions therefore appear nowhere."
+          },
+          "facts": [
+            {
+              "kind": "trend",
+              "text": {
+                "fr": "C'est le seul flux de marchandises qui n'a pas cessé de croître. Rapporté à l'habitant, le fret aérien belge a plus que doublé depuis 2000 pour atteindre 348,5 tonnes-kilomètres en 2019, et il a continué de monter après la crise sanitaire pendant que le fret routier, lui, reculait.",
+                "nl": "Dit is de enige goederenstroom die onafgebroken is blijven groeien. Per inwoner is de Belgische luchtvracht sinds 2000 meer dan verdubbeld, tot 348,5 tonkilometer in 2019, en ze is na de gezondheidscrisis blijven stijgen terwijl het wegvervoer terugliep.",
+                "en": "This is the one goods flow that has never stopped growing. Per inhabitant, Belgian air freight has more than doubled since 2000 to reach 348.5 tonne-kilometres in 2019, and it kept rising after the health crisis while road freight fell back."
+              },
+              "source": "JRC-IDEES-2023 (Transport, air freight tonne-km); population Statbel",
+              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f",
+              "chart": {
+                "kind": "line",
+                "y": [
+                  133.9062,
+                  128.6725,
+                  105.6178,
+                  124.5307,
+                  134.8908,
+                  133.4966,
+                  198.7916,
+                  255.5071,
+                  257.6963,
+                  199.269,
+                  254.3258,
+                  268.1526,
+                  230.386,
+                  210.4051,
+                  228.7389,
+                  283.0604,
+                  271.5871,
+                  306.589,
+                  361.8373,
+                  348.5398,
+                  409.2706,
+                  508.69,
+                  478.4584,
+                  399.3808
+                ],
+                "caption": {
+                  "fr": "Fret aérien au départ de Belgique, tonnes-kilomètres par habitant, de 2000 à 2023",
+                  "nl": "Luchtvracht vanuit België, tonkilometer per inwoner, van 2000 tot 2023",
+                  "en": "Air freight leaving Belgium, tonne-kilometres per inhabitant, 2000 to 2023"
+                },
+                "x": [
+                  2000,
+                  2001,
+                  2002,
+                  2003,
+                  2004,
+                  2005,
+                  2006,
+                  2007,
+                  2008,
+                  2009,
+                  2010,
+                  2011,
+                  2012,
+                  2013,
+                  2014,
+                  2015,
+                  2016,
+                  2017,
+                  2018,
+                  2019,
+                  2020,
+                  2021,
+                  2022,
+                  2023
+                ],
+                "unit": "tkm/person/year",
+                "decimals": 0,
+                "series": "air_freight_tkm_person"
+              }
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "Les marchandises sont transportées par différents moyens : avions, camions, trains, bateaux. Le fret aérien ne pèse que 5 % des tonnes-kilomètres belges, mais c'est de loin le mode le plus énergivore : 0,90 kWh par tonne-kilomètre, contre 0,46 pour un poids lourd, 0,20 pour une péniche et 0,04 pour le train. Déplacer une tonne par avion coûte donc une vingtaine de fois ce qu'elle coûte par train en termes d'énergie.",
+                "nl": "Goederen worden op verschillende manieren vervoerd: vliegtuig, vrachtwagen, trein, schip. Luchtvracht is maar 5 % van de Belgische tonkilometers, maar veruit de meest energieverslindende modus: 0,90 kWh per tonkilometer, tegenover 0,46 voor een vrachtwagen, 0,20 voor een binnenschip en 0,04 voor de trein. Een ton per vliegtuig verplaatsen kost qua energie dus een twintigtal keer wat ze per trein kost.",
+                "en": "Goods travel by different means: aircraft, trucks, trains, ships. Air freight is only 5% of Belgian tonne-kilometres, but it is by far the most energy-intensive mode: 0.90 kWh per tonne-kilometre against 0.46 for a heavy truck, 0.20 for a barge and 0.04 for rail. Moving a tonne by air therefore costs some twenty times what it costs by train, in energy terms."
+              },
+              "source": "nW-BE §3.1 and §3.3 (JRC-IDEES-2023)",
+              "label": {
+                "fr": "Peu de tonnes, beaucoup d'énergie",
+                "nl": "Weinig tonnen, veel energie",
+                "en": "Few tonnes, much energy"
+              },
+              "chart": {
+                "kind": "bars",
+                "y": [
+                  0.9,
+                  0.46,
+                  0.2,
+                  0.038
+                ],
+                "caption": {
+                  "fr": "Énergie finale par tonne-kilomètre, quatre modes de fret, 2019",
+                  "nl": "Finale energie per tonkilometer, vier vrachtmodi, 2019",
+                  "en": "Final energy per tonne-kilometre, four freight modes, 2019"
+                },
+                "labels": [
+                  {
+                    "fr": "Avion",
+                    "nl": "Vliegtuig",
+                    "en": "Aircraft"
+                  },
+                  {
+                    "fr": "Poids lourd",
+                    "nl": "Vrachtwagen",
+                    "en": "Heavy truck"
+                  },
+                  {
+                    "fr": "Péniche",
+                    "nl": "Binnenschip",
+                    "en": "Barge"
+                  },
+                  {
+                    "fr": "Train",
+                    "nl": "Trein",
+                    "en": "Rail"
+                  }
+                ],
+                "unit": "kWh per tonne-km",
+                "decimals": 2,
+                "highlight": 0
+              }
+            },
+            {
+              "kind": "tangible",
+              "text": {
+                "fr": "Tout le fret aérien belge de 2019 tient dans 18 148 vols de marchandises, soit une cinquantaine par jour, pour 715 094 tonnes — environ 39,4 tonnes par vol. À l'échelle d'un habitant, cela fait une soixantaine de kilos expédiés par avion chaque année.",
+                "nl": "Alle Belgische luchtvracht van 2019 past in 18.148 vrachtvluchten, zowat vijftig per dag, voor 715.094 ton — ongeveer 39,4 ton per vlucht. Per inwoner komt dat neer op een zestigtal kilo die elk jaar per vliegtuig verstuurd worden.",
+                "en": "All of Belgium's 2019 air freight fits into 18,148 cargo flights, about fifty a day, for 715,094 tonnes — some 39.4 tonnes per flight. Per inhabitant that is about sixty kilos sent by air each year."
+              },
+              "source": "JRC-IDEES-2023 (Transport, departing freight flights and tonnes carried)",
+              "label": {
+                "fr": "En vols et en tonnes",
+                "nl": "In vluchten en tonnen",
+                "en": "In flights and tonnes"
+              },
+              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "L'avion transporte *moins de 1 %* du commerce mondial en tonnes, et environ 35 % de sa valeur. Ce qui y monte est donc soit cher, soit urgent, soit périssable : produits pharmaceutiques, électronique de valeur, fleurs coupées, poisson frais, fruits hors saison, pièces de rechange urgentes. Les compagnies d'express, qui livrent documents et petits colis de porte à porte, assurent environ 18 % du fret aérien mondial. Tout le reste, c'est le « fret général » : des envois souvent plus lourds ou plus volumineux, confiés à des transitaires et transportés d'aéroport à aéroport.",
+                "nl": "Het vliegtuig vervoert *minder dan 1 %* van de wereldhandel in tonnen, en ongeveer 35 % van de waarde ervan. Wat erin gaat is dus duur, of dringend, of bederfelijk: farmaceutische producten, dure elektronica, snijbloemen, verse vis, fruit buiten het seizoen, dringende wisselstukken. De expressmaatschappijen, die documenten en kleine pakjes van deur tot deur leveren, zorgen voor ongeveer 18 % van de wereldwijde luchtvracht. Al de rest is \"algemene vracht\": zendingen, vaak zwaarder of omvangrijker, die aan expediteurs worden toevertrouwd en van luchthaven naar luchthaven worden vervoerd.",
+                "en": "Aircraft carry *less than 1%* of world trade by weight, and about 35% of its value. What goes aboard is therefore either expensive, or urgent, or perishable: pharmaceuticals, high-value electronics, cut flowers, fresh fish, out-of-season fruit, urgent spare parts. Express carriers, which deliver documents and small parcels door to door, handle about 18% of the world's air freight. Everything else is \"general cargo\": consignments, often heavier or bulkier, handed to freight forwarders and flown from airport to airport."
+              },
+              "source": "Boeing, World Air Cargo Forecast 2024-2043, p. 3 and glossary p. 24",
+              "label": {
+                "fr": "Ce qui voyage par avion",
+                "nl": "Wat per vliegtuig reist",
+                "en": "What travels by air"
+              },
+              "url": "https://boeing.com/content/dam/boeing/boeingdotcom/market/assets/downloads/Boeing-WACF-2024.pdf",
+              "chart": {
+                "kind": "bars",
+                "y": [
+                  1,
+                  35
+                ],
+                "caption": {
+                  "fr": "Part du commerce mondial transportée par avion — moins de 1 % du poids, environ un tiers de la valeur",
+                  "nl": "Aandeel van de wereldhandel dat per vliegtuig gaat — minder dan 1 % van het gewicht, ongeveer een derde van de waarde",
+                  "en": "Share of world trade carried by air — under 1% of the weight, about a third of the value"
+                },
+                "labels": [
+                  {
+                    "fr": "en tonnes",
+                    "nl": "in tonnen",
+                    "en": "by weight"
+                  },
+                  {
+                    "fr": "en valeur",
+                    "nl": "in waarde",
+                    "en": "by value"
+                  }
+                ],
+                "unit": "% of world trade",
+                "decimals": 0,
+                "highlight": 1
+              }
+            },
+            {
+              "kind": "benchmark",
+              "text": {
+                "fr": "La Belgique n'est pas un spectateur : Liège est l'un des cinq seuls aéroports de l'Union européenne à dépasser le million de tonnes de fret par an, aux côtés de Francfort, Paris-Charles-de-Gaulle, Amsterdam-Schiphol et Leipzig-Halle. En 2024, il a enregistré 24 334 vols de fret et une croissance de 20,4 % en un an — la quatrième plus forte des vingt premiers aéroports européens. C'est une activité économique réelle, et c'est aussi ce qui rend le chiffre belge par habitant si élevé.",
+                "nl": "België staat niet aan de zijlijn: Luik is een van de slechts vijf luchthavens van de Europese Unie die meer dan een miljoen ton vracht per jaar behandelen, naast Frankfurt, Parijs-Charles-de-Gaulle, Amsterdam-Schiphol en Leipzig-Halle. In 2024 registreerde het 24.334 vrachtvluchten en een groei van 20,4 % op een jaar — de vierde sterkste van de twintig grootste Europese luchthavens. Dat is echte economische activiteit, en het is ook wat het Belgische cijfer per inwoner zo hoog maakt.",
+                "en": "Belgium is no bystander: Liège is one of only five airports in the European Union handling more than a million tonnes of freight a year, alongside Frankfurt, Paris Charles de Gaulle, Amsterdam Schiphol and Leipzig Halle. In 2024 it recorded 24,334 cargo flights and 20.4% growth in a year — the fourth highest of Europe's twenty largest airports. That is real economic activity, and it is also what makes the Belgian per-inhabitant figure so high."
+              },
+              "source": "Eurostat, Air freight transport statistics (data extracted December 2025)",
+              "label": {
+                "fr": "Liège, un des plus gros d'Europe",
+                "nl": "Luik, een van de grootste van Europa",
+                "en": "Liège, one of Europe's biggest"
+              },
+              "url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Air_freight_transport_statistics"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "Une partie de cette croissance a un nom. En décembre 2018, l'État belge a signé un accord avec Alibaba : le groupe annonce un investissement de 75 millions d'euros et un site de 220 000 m² à Liège, hub européen de sa logistique Cainiao. Sa raison d'être est précisément de faire voyager par avion des colis de faible valeur unitaire commandés en ligne — et c'est là que se joue la question. Le commerce en ligne transfrontalier emprunte l'avion dans *plus de 80 %* des cas. Dans le monde, 131 milliards de colis ont été livrés en 2020, et ce nombre devait doubler d'ici 2026.",
+                "nl": "Een deel van die groei heeft een naam. In december 2018 sloot de Belgische staat een akkoord met Alibaba: de groep kondigt een investering van 75 miljoen euro aan en een site van 220.000 m² in Luik, Europese hub van haar Cainiao-logistiek. De bestaansreden ervan is net om online bestelde pakjes met een lage waarde per stuk door de lucht te laten reizen — en daar zit de vraag. Grensoverschrijdende e-commerce gaat in *meer dan 80 %* van de gevallen per vliegtuig. Wereldwijd werden in 2020 131 miljard pakjes geleverd, en dat aantal zou tegen 2026 verdubbelen.",
+                "en": "Part of that growth has a name. In December 2018 the Belgian state signed an agreement with Alibaba: the group announced a €75 million investment and a 220,000 m² site at Liège, the European hub of its Cainiao logistics arm. Its whole purpose is to fly low-unit-value parcels ordered online — and that is where the question lies. Cross-border e-commerce goes by air in *more than 80%* of cases. Worldwide, 131 billion parcels were delivered in 2020, and that number was expected to double by 2026."
+              },
+              "source": "IATA, Value of Air Cargo — E-Commerce (June 2022); parcels: Pitney Bowes, Parcel Shipping Index (2021); the Liège figures are those announced by Alibaba Group on 5 December 2018",
+              "label": {
+                "fr": "Le dossier Alibaba",
+                "nl": "Het Alibaba-dossier",
+                "en": "The Alibaba file"
+              },
+              "url": "https://www.iata.org/contentassets/62bae061c05b429ea508cb0c49907c4c/voac-fact-sheet-ecommerce.pdf"
+            },
+            {
+              "kind": "caution",
+              "text": {
+                "fr": "Attention à l'endroit où vont les tonnes. Dans le modèle, ce qui quitte l'avion part vers le *rail* : c'est le seul substitut représenté, et il existe réellement sur le corridor eurasiatique. La vraie alternative pour l'essentiel du fret aérien reste pourtant le bateau — et le transport maritime international n'est pas modélisé du tout ici, pas plus que ses émissions. Une partie du fret aérien voyage par ailleurs en soute des vols de passagers : la supprimer supposerait aussi moins de vols de passagers, ce qui fait l'objet d'une autre discussion de l'atelier.",
+                "nl": "Let op waar de tonnen naartoe gaan. In het model gaat wat het vliegtuig verlaat naar het *spoor*: dat is de enige vervanger die erin zit, en hij bestaat echt op de Euraziatische corridor. De echte alternatieve modus voor het grootste deel van de luchtvracht blijft echter het schip — en de internationale zeevaart wordt hier helemaal niet gemodelleerd, haar uitstoot evenmin. Een deel van de luchtvracht reist bovendien in het ruim van passagiersvluchten: die wegnemen veronderstelt ook minder passagiersvluchten, wat in een andere discussie van de workshop aan bod komt.",
+                "en": "Mind where the tonnes go. In the model, what leaves the aircraft goes to *rail*: it is the only substitute represented, and it genuinely exists on the Eurasian corridor. The real alternative for most air freight is nonetheless the ship — and international shipping is not modelled here at all, nor are its emissions. Part of air freight also travels in the hold of passenger flights: removing it would also mean fewer passenger flights, which is the subject of another discussion in the workshop."
+              },
+              "source": "nW-BE §3.1.4"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "Ici, le scénario ne formule aucune hypothèse propre. Le fret aérien suit simplement la baisse générale de l'intensité de transport de marchandises, soit −10 % par habitant, et sa part des tonnes-kilomètres reste à 5 %. Résultat : il pèse 32,5 % de l'énergie de ce thème en 2050, contre moins d'un cinquième en 2019 — non parce qu'il augmente, mais parce que tout le reste diminue autour de lui. Le carnet de calcul le signale lui-même : « we should maybe consider reductions of aviation intensity, and other modal shifts ».",
+                "nl": "Hier formuleert het scenario geen eigen veronderstelling. Luchtvracht volgt gewoon de algemene daling van de goederenvervoersintensiteit, ofwel −10 % per inwoner, en haar aandeel in de tonkilometers blijft 5 %. Gevolg: ze weegt 32,5 % van de energie van dit thema in 2050, tegenover minder dan een vijfde in 2019 — niet omdat ze stijgt, maar omdat al de rest eromheen daalt. Het rekenboek signaleert het zelf: \"we should maybe consider reductions of aviation intensity, and other modal shifts\".",
+                "en": "Here the scenario makes no assumption of its own. Air freight simply follows the general fall in freight transport intensity, that is −10% per inhabitant, and its share of tonne-kilometres stays at 5%. The result: it accounts for 32.5% of this topic's energy in 2050, against less than a fifth in 2019 — not because it grows, but because everything around it shrinks. The workbook says so itself: \"we should maybe consider reductions of aviation intensity, and other modal shifts\"."
+              },
+              "source": "nW-BE §3.1 and §3.1.4",
+              "label": {
+                "fr": "Un angle mort assumé",
+                "nl": "Een erkende blinde vlek",
+                "en": "An acknowledged blind spot"
+              },
+              "reveal": true
+            }
+          ],
+          "code": "C",
+          "sector": "transport"
+        },
         "long-haul-flights": {
           "question": {
             "fr": "Combien de voyages long-courriers par personne et par vie est un objectif 2050 réaliste ?",
@@ -2428,7 +3291,8 @@ window.NW_WS_CONTENT = {
           ],
           "historyAbsent": true,
           "code": "A",
-          "sector": "transport"
+          "sector": "transport",
+          "archived": true
         },
         "short-haul-flights": {
           "question": {
@@ -2755,7 +3619,8 @@ window.NW_WS_CONTENT = {
           ],
           "historyAbsent": true,
           "code": "B",
-          "sector": "transport"
+          "sector": "transport",
+          "archived": true
         },
         "long-haul-load": {
           "question": {
@@ -2884,7 +3749,8 @@ window.NW_WS_CONTENT = {
             }
           ],
           "code": "C",
-          "sector": "transport"
+          "sector": "transport",
+          "archived": true
         },
         "short-haul-load": {
           "question": {
@@ -3013,7 +3879,8 @@ window.NW_WS_CONTENT = {
             }
           ],
           "code": "D",
-          "sector": "transport"
+          "sector": "transport",
+          "archived": true
         },
         "plane-fuel": {
           "question": {
@@ -3244,7 +4111,8 @@ window.NW_WS_CONTENT = {
             }
           ],
           "code": "E",
-          "sector": "transport"
+          "sector": "transport",
+          "archived": true
         },
         "hydrogen-flights": {
           "question": {
@@ -3323,356 +4191,6 @@ window.NW_WS_CONTENT = {
           ],
           "historyAbsent": true,
           "code": "F",
-          "sector": "transport"
-        },
-        "air-freight": {
-          "question": {
-            "fr": "Combien de fret aérien par habitant viser en 2050 ?",
-            "nl": "Hoeveel luchtvracht per inwoner moeten we in 2050 nastreven?",
-            "en": "How much air freight per inhabitant should 2050 aim for?"
-          },
-          "short": {
-            "fr": "Fret aérien",
-            "nl": "Luchtvracht",
-            "en": "Air freight"
-          },
-          "subtitle": {
-            "fr": "Marchandises transportées par avion, comptées en tonnes-kilomètres par habitant et par an — une tonne sur un kilomètre. La quasi-totalité est internationale. Ce que vous retirez à l'avion, le modèle le reporte sur le rail.",
-            "nl": "Goederen vervoerd per vliegtuig, geteld in tonkilometers per inwoner per jaar — één ton over één kilometer. Vrijwel alles is internationaal. Wat jullie van het vliegtuig afhalen, verschuift het model naar het spoor.",
-            "en": "Goods carried by air, counted in tonne-kilometres per inhabitant per year — one tonne over one kilometre. Almost all of it is international. What you take off the aircraft, the model moves to rail."
-          },
-          "tangible": {
-            "fr": "{value} tonnes-kilomètres de fret aérien par habitant et par an.",
-            "nl": "{value} tonkilometer luchtvracht per inwoner per jaar.",
-            "en": "{value} tonne-kilometres of air freight per inhabitant per year."
-          },
-          "justification": {
-            "fr": "négaWatt ne retient ici aucune hypothèse : 314 tonnes-kilomètres par habitant en 2050, soit exactement 349 de 2019 diminué de la baisse générale de 10 % de l'intensité de transport de marchandises. Aucun report modal n'est envisagé, et la section 3.1.4 le dit explicitement. La raison est double : le report du fret express vers d'autres modes est jugé difficile, et le substitut principal — le bateau — n'existe pas dans ce modèle de demande, qui ignore le transport maritime international. C'est donc moins un choix qu'une absence de choix, et le rapport le reconnaît en commentaire.",
-            "nl": "negaWatt houdt hier geen enkele veronderstelling aan: 314 tonkilometer per inwoner in 2050, precies 349 van 2019 verminderd met de algemene daling van 10 % van de goederenvervoersintensiteit. Er wordt geen enkele modale verschuiving overwogen, en sectie 3.1.4 zegt dat expliciet. De reden is dubbel: de verschuiving van expresvracht naar andere modi wordt moeilijk geacht, en de belangrijkste vervanger — het schip — bestaat niet in dit vraagmodel, dat de internationale zeevaart negeert. Het is dus minder een keuze dan een afwezigheid van keuze, en het rapport erkent dat in een commentaar.",
-            "en": "negaWatt makes no assumption here: 314 tonne-kilometres per inhabitant in 2050, exactly the 349 of 2019 less the general 10% fall in freight transport intensity. No modal shift is envisaged, and section 3.1.4 says so explicitly. The reason is twofold: shifting express freight to other modes is judged difficult, and the main substitute — the ship — does not exist in this demand model, which ignores international shipping. It is therefore less a choice than an absence of one, and the report acknowledges as much in a comment."
-          },
-          "debate": {
-            "fr": "C'est la question la plus inconfortable de l'atelier, parce que la réponse du scénario est « rien ». Deux lectures s'opposent. D'un côté, le fret aérien est surtout de l'express et du périssable, il dépend de décisions industrielles mondiales, et un pays de onze millions d'habitants qui abrite un hub de fret n'en décide pas seul. De l'autre, laisser un poste passer à près d'un tiers de l'énergie d'un thème sans jamais l'interroger est exactement ce que la méthode négaWatt reproche aux scénarios tendanciels — d'autant que le maritime, la seule alternative sérieuse, est absent du modèle et que ses émissions n'apparaissent donc nulle part.",
-            "nl": "Dit is de ongemakkelijkste vraag van de workshop, omdat het antwoord van het scenario \"niets\" is. Twee lezingen staan tegenover elkaar. Enerzijds is luchtvracht vooral expres en bederfelijke waar, hangt ze af van wereldwijde industriële beslissingen, en beslist een land van elf miljoen inwoners met een vrachthub daar niet alleen over. Anderzijds is een post die naar bijna een derde van de energie van een thema opschuift zonder ooit bevraagd te worden precies wat de negaWatt-methode trendscenario's verwijt — te meer daar de zeevaart, het enige ernstige alternatief, uit het model ontbreekt en haar uitstoot dus nergens verschijnt.",
-            "en": "This is the most uncomfortable question in the workshop, because the scenario's answer is \"nothing\". Two readings compete. On one side, air freight is mostly express and perishable goods, it depends on worldwide industrial decisions, and a country of eleven million inhabitants that hosts a cargo hub does not decide it alone. On the other, letting one item drift to nearly a third of a topic's energy without ever questioning it is exactly what the négaWatt method reproaches business-as-usual scenarios for — all the more so since shipping, the only serious alternative, is absent from the model and its emissions therefore appear nowhere."
-          },
-          "facts": [
-            {
-              "kind": "trend",
-              "text": {
-                "fr": "C'est le seul flux de marchandises qui n'a pas cessé de croître. Rapporté à l'habitant, le fret aérien belge a plus que doublé depuis 2000 pour atteindre 348,5 tonnes-kilomètres en 2019, et il a continué de monter après la crise sanitaire pendant que le fret routier, lui, reculait.",
-                "nl": "Dit is de enige goederenstroom die onafgebroken is blijven groeien. Per inwoner is de Belgische luchtvracht sinds 2000 meer dan verdubbeld, tot 348,5 tonkilometer in 2019, en ze is na de gezondheidscrisis blijven stijgen terwijl het wegvervoer terugliep.",
-                "en": "This is the one goods flow that has never stopped growing. Per inhabitant, Belgian air freight has more than doubled since 2000 to reach 348.5 tonne-kilometres in 2019, and it kept rising after the health crisis while road freight fell back."
-              },
-              "source": "JRC-IDEES-2023 (Transport, air freight tonne-km); population Statbel",
-              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f",
-              "chart": {
-                "kind": "line",
-                "y": [
-                  133.9062,
-                  128.6725,
-                  105.6178,
-                  124.5307,
-                  134.8908,
-                  133.4966,
-                  198.7916,
-                  255.5071,
-                  257.6963,
-                  199.269,
-                  254.3258,
-                  268.1526,
-                  230.386,
-                  210.4051,
-                  228.7389,
-                  283.0604,
-                  271.5871,
-                  306.589,
-                  361.8373,
-                  348.5398,
-                  409.2706,
-                  508.69,
-                  478.4584,
-                  399.3808
-                ],
-                "caption": {
-                  "fr": "Fret aérien au départ de Belgique, tonnes-kilomètres par habitant, de 2000 à 2023",
-                  "nl": "Luchtvracht vanuit België, tonkilometer per inwoner, van 2000 tot 2023",
-                  "en": "Air freight leaving Belgium, tonne-kilometres per inhabitant, 2000 to 2023"
-                },
-                "x": [
-                  2000,
-                  2001,
-                  2002,
-                  2003,
-                  2004,
-                  2005,
-                  2006,
-                  2007,
-                  2008,
-                  2009,
-                  2010,
-                  2011,
-                  2012,
-                  2013,
-                  2014,
-                  2015,
-                  2016,
-                  2017,
-                  2018,
-                  2019,
-                  2020,
-                  2021,
-                  2022,
-                  2023
-                ],
-                "unit": "tkm/person/year",
-                "decimals": 0,
-                "series": "air_freight_tkm_person"
-              }
-            },
-            {
-              "kind": "structure",
-              "text": {
-                "fr": "Peu de tonnes, beaucoup d'énergie. Le fret aérien ne pèse que 5 % des tonnes-kilomètres belges, mais c'est de loin le mode le plus vorace : 0,90 kWh par tonne-kilomètre, contre 0,46 pour un poids lourd, 0,20 pour une péniche et 0,04 pour le train. Déplacer une tonne par avion coûte donc une vingtaine de fois ce qu'elle coûte par train.",
-                "nl": "Weinig tonnen, veel energie. Luchtvracht is maar 5 % van de Belgische tonkilometers, maar veruit de meest verslindende modus: 0,90 kWh per tonkilometer, tegenover 0,46 voor een vrachtwagen, 0,20 voor een binnenschip en 0,04 voor de trein. Een ton per vliegtuig verplaatsen kost dus een twintigtal keer wat ze per trein kost.",
-                "en": "Few tonnes, much energy. Air freight is only 5% of Belgian tonne-kilometres, but it is by far the hungriest mode: 0.90 kWh per tonne-kilometre against 0.46 for a heavy truck, 0.20 for a barge and 0.04 for rail. Moving a tonne by air therefore costs some twenty times what it costs by train."
-              },
-              "source": "nW-BE §3.1 and §3.3 (JRC-IDEES-2023)",
-              "label": {
-                "fr": "Peu de tonnes, beaucoup d'énergie",
-                "nl": "Weinig tonnen, veel energie",
-                "en": "Few tonnes, much energy"
-              },
-              "chart": {
-                "kind": "bars",
-                "y": [
-                  0.9,
-                  0.46,
-                  0.2,
-                  0.038
-                ],
-                "caption": {
-                  "fr": "Énergie finale par tonne-kilomètre, quatre modes de fret, 2019",
-                  "nl": "Finale energie per tonkilometer, vier vrachtmodi, 2019",
-                  "en": "Final energy per tonne-kilometre, four freight modes, 2019"
-                },
-                "labels": [
-                  {
-                    "fr": "Avion",
-                    "nl": "Vliegtuig",
-                    "en": "Aircraft"
-                  },
-                  {
-                    "fr": "Poids lourd",
-                    "nl": "Vrachtwagen",
-                    "en": "Heavy truck"
-                  },
-                  {
-                    "fr": "Péniche",
-                    "nl": "Binnenschip",
-                    "en": "Barge"
-                  },
-                  {
-                    "fr": "Train",
-                    "nl": "Trein",
-                    "en": "Rail"
-                  }
-                ],
-                "unit": "kWh per tonne-km",
-                "decimals": 2,
-                "highlight": 0
-              }
-            },
-            {
-              "kind": "tangible",
-              "text": {
-                "fr": "Tout le fret aérien belge de 2019 tient dans 18 148 vols de marchandises, soit une cinquantaine par jour, pour 715 094 tonnes — environ 39,4 tonnes par vol. À l'échelle d'un habitant, cela fait une soixantaine de kilos expédiés par avion chaque année.",
-                "nl": "Alle Belgische luchtvracht van 2019 past in 18.148 vrachtvluchten, zowat vijftig per dag, voor 715.094 ton — ongeveer 39,4 ton per vlucht. Per inwoner komt dat neer op een zestigtal kilo die elk jaar per vliegtuig verstuurd worden.",
-                "en": "All of Belgium's 2019 air freight fits into 18,148 cargo flights, about fifty a day, for 715,094 tonnes — some 39.4 tonnes per flight. Per inhabitant that is about sixty kilos sent by air each year."
-              },
-              "source": "JRC-IDEES-2023 (Transport, departing freight flights and tonnes carried)",
-              "label": {
-                "fr": "En vols et en tonnes",
-                "nl": "In vluchten en tonnen",
-                "en": "In flights and tonnes"
-              },
-              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f"
-            },
-            {
-              "kind": "structure",
-              "text": {
-                "fr": "L'avion transporte *moins de 1 %* du commerce mondial en tonnes, et environ 35 % de sa valeur. Ce qui y monte est donc soit cher, soit pressé, soit périssable : produits pharmaceutiques, électronique de valeur, fleurs coupées, poisson frais, fruits hors saison, pièces de rechange urgentes. Un cinquième du fret aérien international relève de l'express — documents et petits colis livrés de porte à porte — et les quatre autres cinquièmes du fret général.",
-                "nl": "Het vliegtuig vervoert *minder dan 1 %* van de wereldhandel in tonnen, en ongeveer 35 % van de waarde ervan. Wat erin gaat is dus duur, of haastig, of bederfelijk: farmaceutische producten, dure elektronica, snijbloemen, verse vis, fruit buiten het seizoen, dringende wisselstukken. Een vijfde van de internationale luchtvracht is express — documenten en kleine pakjes van deur tot deur — en de vier andere vijfden zijn algemene vracht.",
-                "en": "Aircraft carry *less than 1%* of world trade by weight, and about 35% of its value. What goes aboard is therefore either expensive, or in a hurry, or perishable: pharmaceuticals, high-value electronics, cut flowers, fresh fish, out-of-season fruit, urgent spare parts. A fifth of international air cargo is express — documents and small parcels delivered door to door — and the other four fifths general freight."
-              },
-              "source": "Boeing, World Air Cargo Forecast 2022-2041, p. 5 and p. 7 (world trade shares from S&P Global GTA)",
-              "label": {
-                "fr": "Ce qui voyage par avion",
-                "nl": "Wat per vliegtuig reist",
-                "en": "What travels by air"
-              },
-              "url": "https://www.boeing.com/content/dam/boeing/boeingdotcom/market/assets/downloads/Boeing_World_Air_Cargo_Forecast_2022.pdf",
-              "chart": {
-                "kind": "bars",
-                "y": [
-                  1,
-                  35
-                ],
-                "caption": {
-                  "fr": "Part du commerce mondial transportée par avion — moins de 1 % du poids, environ un tiers de la valeur",
-                  "nl": "Aandeel van de wereldhandel dat per vliegtuig gaat — minder dan 1 % van het gewicht, ongeveer een derde van de waarde",
-                  "en": "Share of world trade carried by air — under 1% of the weight, about a third of the value"
-                },
-                "labels": [
-                  {
-                    "fr": "en tonnes",
-                    "nl": "in tonnen",
-                    "en": "by weight"
-                  },
-                  {
-                    "fr": "en valeur",
-                    "nl": "in waarde",
-                    "en": "by value"
-                  }
-                ],
-                "unit": "% of world trade",
-                "decimals": 0,
-                "highlight": 1
-              }
-            },
-            {
-              "kind": "benchmark",
-              "text": {
-                "fr": "La Belgique n'est pas un spectateur : Liège est l'un des cinq seuls aéroports de l'Union européenne à dépasser le million de tonnes de fret par an, aux côtés de Francfort, Paris-Charles-de-Gaulle, Amsterdam-Schiphol et Leipzig-Halle. En 2024, il a enregistré 24 334 vols de fret et une croissance de 20,4 % en un an — la quatrième plus forte des vingt premiers aéroports européens. C'est une activité économique réelle, et c'est aussi ce qui rend le chiffre belge par habitant si élevé.",
-                "nl": "België staat niet aan de zijlijn: Luik is een van de slechts vijf luchthavens van de Europese Unie die meer dan een miljoen ton vracht per jaar behandelen, naast Frankfurt, Parijs-Charles-de-Gaulle, Amsterdam-Schiphol en Leipzig-Halle. In 2024 registreerde het 24.334 vrachtvluchten en een groei van 20,4 % op een jaar — de vierde sterkste van de twintig grootste Europese luchthavens. Dat is echte economische activiteit, en het is ook wat het Belgische cijfer per inwoner zo hoog maakt.",
-                "en": "Belgium is no bystander: Liège is one of only five airports in the European Union handling more than a million tonnes of freight a year, alongside Frankfurt, Paris Charles de Gaulle, Amsterdam Schiphol and Leipzig Halle. In 2024 it recorded 24,334 cargo flights and 20.4% growth in a year — the fourth highest of Europe's twenty largest airports. That is real economic activity, and it is also what makes the Belgian per-inhabitant figure so high."
-              },
-              "source": "Eurostat, Air freight transport statistics (data extracted December 2025)",
-              "label": {
-                "fr": "Liège, un des plus gros d'Europe",
-                "nl": "Luik, een van de grootste van Europa",
-                "en": "Liège, one of Europe's biggest"
-              },
-              "url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Air_freight_transport_statistics"
-            },
-            {
-              "kind": "structure",
-              "text": {
-                "fr": "Une partie de cette croissance a un nom. En décembre 2018, l'État belge signe avec Alibaba : le groupe annonce un investissement de 75 millions d'euros et un site de 220 000 m² à Liège, hub européen de sa logistique Cainiao. Sa raison d'être est précisément de faire voyager par avion des colis de faible valeur unitaire commandés en ligne — et c'est là que se joue la question. Le commerce en ligne transfrontalier emprunte l'avion dans *plus de 80 %* des cas, et le nombre de colis livrés dans le monde, 131 milliards par an, était attendu au double en quelques années.",
-                "nl": "Een deel van die groei heeft een naam. In december 2018 tekent de Belgische staat met Alibaba: de groep kondigt een investering van 75 miljoen euro aan en een site van 220.000 m² in Luik, Europese hub van haar Cainiao-logistiek. De bestaansreden ervan is net om online bestelde pakjes met een lage waarde per stuk door de lucht te laten reizen — en daar zit de vraag. Grensoverschrijdende e-commerce gaat in *meer dan 80 %* van de gevallen per vliegtuig, en het aantal pakjes dat wereldwijd geleverd wordt, 131 miljard per jaar, zou in enkele jaren verdubbelen.",
-                "en": "Part of that growth has a name. In December 2018 the Belgian state signed with Alibaba: the group announced a €75 million investment and a 220,000 m² site at Liège, the European hub of its Cainiao logistics arm. Its whole purpose is to fly low-unit-value parcels ordered online — and that is where the question lies. Cross-border e-commerce goes by air in *more than 80%* of cases, and the number of parcels delivered worldwide, 131 billion a year, was expected to double within a few years."
-              },
-              "source": "IATA, Value of Air Cargo — E-Commerce (June 2022); the Liège figures are those announced by Alibaba Group on 5 December 2018",
-              "label": {
-                "fr": "Le dossier Alibaba",
-                "nl": "Het Alibaba-dossier",
-                "en": "The Alibaba file"
-              },
-              "url": "https://www.iata.org/contentassets/62bae061c05b429ea508cb0c49907c4c/voac-fact-sheet-ecommerce.pdf"
-            },
-            {
-              "kind": "caution",
-              "text": {
-                "fr": "Attention à l'endroit où vont les tonnes. Dans le modèle, ce qui quitte l'avion part vers le *rail* : c'est le seul substitut représenté, et il existe réellement sur le corridor eurasiatique. La vraie alternative pour l'essentiel du fret aérien reste pourtant le bateau — et le transport maritime international n'est pas modélisé du tout ici, pas plus que ses émissions. Une partie du fret aérien voyage par ailleurs en soute des vols de passagers : la supprimer supposerait aussi moins de vols de passagers, ce que les questions A et B décident déjà.",
-                "nl": "Let op waar de tonnen naartoe gaan. In het model gaat wat het vliegtuig verlaat naar het *spoor*: dat is de enige vervanger die erin zit, en hij bestaat echt op de Euraziatische corridor. De echte alternatieve modus voor het grootste deel van de luchtvracht blijft echter het schip — en de internationale zeevaart wordt hier helemaal niet gemodelleerd, haar uitstoot evenmin. Een deel van de luchtvracht reist bovendien in het ruim van passagiersvluchten: die wegnemen veronderstelt ook minder passagiersvluchten, wat de vragen A en B al beslissen.",
-                "en": "Mind where the tonnes go. In the model, what leaves the aircraft goes to *rail*: it is the only substitute represented, and it genuinely exists on the Eurasian corridor. The real alternative for most air freight is nonetheless the ship — and international shipping is not modelled here at all, nor are its emissions. Part of air freight also travels in the hold of passenger flights: removing it would also mean fewer passenger flights, which questions A and B already decide."
-              },
-              "source": "nW-BE §3.1.4"
-            },
-            {
-              "kind": "structure",
-              "text": {
-                "fr": "Ici, le scénario ne formule aucune hypothèse propre. Le fret aérien suit simplement la baisse générale de l'intensité de transport de marchandises, soit −10 % par habitant, et sa part des tonnes-kilomètres reste à 5 %. Résultat : il pèse 32,5 % de l'énergie de ce thème en 2050, contre moins d'un cinquième en 2019 — non parce qu'il augmente, mais parce que tout le reste diminue autour de lui. Le carnet de calcul le signale lui-même : « we should maybe consider reductions of aviation intensity, and other modal shifts ».",
-                "nl": "Hier formuleert het scenario geen eigen veronderstelling. Luchtvracht volgt gewoon de algemene daling van de goederenvervoersintensiteit, ofwel −10 % per inwoner, en haar aandeel in de tonkilometers blijft 5 %. Gevolg: ze weegt 32,5 % van de energie van dit thema in 2050, tegenover minder dan een vijfde in 2019 — niet omdat ze stijgt, maar omdat al de rest eromheen daalt. Het rekenboek signaleert het zelf: \"we should maybe consider reductions of aviation intensity, and other modal shifts\".",
-                "en": "Here the scenario makes no assumption of its own. Air freight simply follows the general fall in freight transport intensity, that is −10% per inhabitant, and its share of tonne-kilometres stays at 5%. The result: it accounts for 32.5% of this topic's energy in 2050, against less than a fifth in 2019 — not because it grows, but because everything around it shrinks. The workbook says so itself: \"we should maybe consider reductions of aviation intensity, and other modal shifts\"."
-              },
-              "source": "nW-BE §3.1 and §3.1.4",
-              "label": {
-                "fr": "Un angle mort assumé",
-                "nl": "Een erkende blinde vlek",
-                "en": "An acknowledged blind spot"
-              },
-              "reveal": true
-            }
-          ],
-          "code": "G",
-          "sector": "transport"
-        },
-        "plane-trips": {
-          "question": {
-            "fr": "Combien de voyages en avion par personne et par vie ?",
-            "nl": "Hoeveel vliegreizen per persoon en per leven?",
-            "en": "How many plane trips per person over a lifetime?"
-          },
-          "short": {
-            "fr": "Voyages en avion",
-            "nl": "Vliegreizen",
-            "en": "Plane trips"
-          },
-          "subtitle": {
-            "fr": "Deux curseurs : les voyages long-courriers (un aller-retour de 18 000 km, comme Bruxelles-Shanghai) et les voyages court-courriers en Europe (un aller-retour de 2 168 km, comme Bruxelles-Barcelone), sur une vie de 80 ans.",
-            "nl": "Twee schuifknoppen: langeafstandsreizen (een retour van 18.000 km, zoals Brussel-Shanghai) en korteafstandsreizen in Europa (een retour van 2.168 km, zoals Brussel-Barcelona), over een leven van 80 jaar.",
-            "en": "Two sliders: long-haul trips (a 18,000 km return trip, like Brussels-Shanghai) and short-haul trips within Europe (a 2,168 km return trip, like Brussels-Barcelona), over an 80-year life."
-          },
-          "justification": {
-            "fr": "négaWatt retient 4,8 voyages long-courriers et 24 court-courriers par vie, soit 1 728 km par personne et par an.",
-            "nl": "negaWatt kiest 4,8 langeafstandsreizen en 24 korteafstandsreizen per leven, of 1.728 km per persoon per jaar.",
-            "en": "négaWatt sets 4.8 long-haul and 24 short-haul trips per lifetime, i.e. 1,728 km per person per year."
-          },
-          "parts": {
-            "long-haul": {
-              "short": {
-                "fr": "Long-courriers",
-                "nl": "Langeafstandsreizen",
-                "en": "Long-haul"
-              },
-              "question": {
-                "fr": "Voyages long-courriers par vie",
-                "nl": "Langeafstandsreizen per leven",
-                "en": "Long-haul trips per lifetime"
-              }
-            },
-            "short-haul": {
-              "short": {
-                "fr": "Court-courriers",
-                "nl": "Korteafstandsreizen",
-                "en": "Short-haul"
-              },
-              "question": {
-                "fr": "Voyages court-courriers par vie",
-                "nl": "Korteafstandsreizen per leven",
-                "en": "Short-haul trips per lifetime"
-              }
-            }
-          },
-          "facts": [],
-          "code": "H",
-          "sector": "transport",
-          "archived": true
-        },
-        "plane-load": {
-          "question": {
-            "fr": "Quel remplissage des vols viser en 2050 ?",
-            "nl": "Hoe vol moeten de vluchten in 2050 zitten?",
-            "en": "How full should flights be in 2050?"
-          },
-          "short": {
-            "fr": "Remplissage des vols",
-            "nl": "Bezetting van de vluchten",
-            "en": "Passengers per flight"
-          },
-          "subtitle": {
-            "fr": "Le nombre moyen de passagers à bord, tous vols confondus, sièges vides compris.",
-            "nl": "Het gemiddelde aantal passagiers aan boord, alle vluchten samen, lege stoelen inbegrepen.",
-            "en": "The average number of passengers on board, all flights together, empty seats included."
-          },
-          "justification": {
-            "fr": "négaWatt retient 190 passagers par vol en moyenne : +17 % sur les long-courriers et +25 % sur les vols européens.",
-            "nl": "negaWatt kiest gemiddeld 190 passagiers per vlucht: +17 % op de langeafstandsvluchten en +25 % op de Europese vluchten.",
-            "en": "négaWatt sets 190 passengers per flight on average: +17% on long-haul and +25% on European flights."
-          },
-          "facts": [],
-          "code": "I",
           "sector": "transport",
           "archived": true
         }
@@ -3686,39 +4204,34 @@ window.NW_WS_CONTENT = {
           "en": "What each of your answers does, on its own, to the energy demand of Belgian aviation in 2050 — compared with keeping today's level of the same indicator."
         },
         "note": {
-          "fr": "Chaque barre est exacte pour son levier pris seul, les autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur.",
-          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde.",
-          "en": "Each bar is exact for its own lever taken alone, with the others left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only."
+          "fr": "Chaque barre est exacte pour son levier pris seul, les 2 autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur.",
+          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de 2 andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde.",
+          "en": "Each bar is exact for its own lever taken alone, with the other 2 left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only."
         }
       }
     },
-    "residential-heat": {
+    "buildings-heat": {
       "sector": "buildings",
       "title": {
-        "fr": "Chaleur des logements",
-        "nl": "Warmte in woningen",
-        "en": "Residential heat"
+        "fr": "Chaleur des bâtiments",
+        "nl": "Warmte in gebouwen",
+        "en": "Heat in buildings"
       },
       "lead": {
-        "fr": "Chauffer, rafraîchir, laver et cuisiner dans les logements belges. Les bâtiments tertiaires font l'objet d'un autre atelier.",
-        "nl": "Verwarmen, koelen, wassen en koken in Belgische woningen. De tertiaire gebouwen komen in een andere workshop aan bod.",
-        "en": "Heating, cooling, washing and cooking in Belgian homes. Non-residential buildings are the subject of a separate workshop."
+        "fr": "Chauffer les logements et les bâtiments tertiaires (bureaux, écoles, commerces…) en Belgique : quelle surface, à quelle température ?",
+        "nl": "Woningen en tertiaire gebouwen (kantoren, scholen, winkels…) verwarmen in België: hoeveel oppervlakte, op welke temperatuur?",
+        "en": "Heating homes and service-sector buildings (offices, schools, shops…) in Belgium: how much floor area, at what temperature?"
       },
       "intro": {
-        "fr": "Vous allez fixer 8 hypothèses de comportement et de politique publique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour le logement. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Chaque question tient sur un écran, avec quelques repères factuels pour nourrir la discussion.",
-        "nl": "Jullie stellen 8 gedrags- en beleidsveronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario voor woningen *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Elke vraag past op één scherm, met een paar feitelijke referentiepunten voor de discussie.",
-        "en": "You are going to set 8 behavioural and policy assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures for housing. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. Each question fits on one screen, with a few factual anchors to feed the discussion."
+        "fr": "Vous allez fixer 3 hypothèses de comportement et de politique publique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour les logements et les bâtiments tertiaires. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Chaque question tient sur un écran, avec quelques repères factuels pour nourrir la discussion.",
+        "nl": "Jullie stellen 3 gedrags- en beleidsveronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario voor woningen en tertiaire gebouwen *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Elke vraag past op één scherm, met een paar feitelijke referentiepunten voor de discussie.",
+        "en": "You are going to set 3 behavioural and policy assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures for homes and service-sector buildings. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. Each question fits on one screen, with a few factual anchors to feed the discussion."
       },
       "offered": true,
       "order": [
         "floor-area",
-        "renovation-rate",
-        "renovation-depth",
         "thermostat",
-        "hot-water",
-        "cooling",
-        "cooking",
-        "district-heat"
+        "ter-thermostat"
       ],
       "archive": [],
       "questionOrder": "random",
@@ -3727,23 +4240,10 @@ window.NW_WS_CONTENT = {
           "floor-area"
         ],
         [
-          "renovation-rate",
-          "renovation-depth"
-        ],
-        [
           "thermostat"
         ],
         [
-          "hot-water"
-        ],
-        [
-          "cooling"
-        ],
-        [
-          "cooking"
-        ],
-        [
-          "district-heat"
+          "ter-thermostat"
         ]
       ],
       "levers": {
@@ -3934,7 +4434,444 @@ window.NW_WS_CONTENT = {
             }
           ],
           "code": "A",
-          "sector": "buildings"
+          "sector": "buildings",
+          "home": "residential-heat"
+        },
+        "thermostat": {
+          "question": {
+            "fr": "Quel niveau moyen de thermostat est raisonnable en 2050, sans perte de confort ?",
+            "nl": "Welk gemiddeld thermostaatniveau is in 2050 redelijk, zonder comfortverlies?",
+            "en": "What average thermostat level is reasonable in 2050, without a loss of comfort?"
+          },
+          "short": {
+            "fr": "Thermostat du logement",
+            "nl": "Thermostaat in woningen",
+            "en": "Home thermostat"
+          },
+          "subtitle": {
+            "fr": "De combien de degrés accepteriez-vous de descendre la température de votre logement sans diminuer votre confort ? La réponse attendue est un nombre de degrés en moins par rapport à 2019, en moyenne sur tout le parc résidentiel belge. Personne ne mesure la température réglée sur le thermostat (la « consigne ») dans les logements belges : seul l'écart est modélisable. Zéro = on ne change rien, négatif = on chauffe davantage.",
+            "nl": "Met hoeveel graden zouden jullie bereid zijn de temperatuur in jullie woning te verlagen zonder aan comfort in te boeten? Het verwachte antwoord is een aantal graden minder dan in 2019, gemiddeld over het hele Belgische woningbestand. Niemand meet de ingestelde temperatuur op de thermostaat (de \"instelling\") in Belgische woningen: alleen het verschil is modelleerbaar. Nul = niets verandert, negatief = warmer stoken.",
+            "en": "By how many degrees would you be willing to lower the temperature in your home without reducing your comfort? The answer is a number of degrees less than in 2019, averaged over the whole Belgian housing stock. Nobody measures the temperature set on the thermostat (the \"setpoint\") in Belgian homes: only the change can be modelled. Zero = nothing changes, negative = heating more."
+          },
+          "tangible": {
+            "fr": "{value} °C de moins sur le thermostat, en moyenne, pendant toute la saison de chauffe.",
+            "nl": "{value} °C minder op de thermostaat, gemiddeld, gedurende het hele stookseizoen.",
+            "en": "{value} °C less on the thermostat, on average, right through the heating season."
+          },
+          "justification": {
+            "fr": "négaWatt retient 2 °C de moins en moyenne d'ici 2050, en pariant sur une évolution des normes sociales plutôt que sur une contrainte. À 7 % par degré, cela retire 14 % de la demande de chauffage, en plus des gains d'efficacité de la rénovation. C'est le seul levier du logement qui touche directement au confort perçu, et c'est aussi le moins coûteux.",
+            "nl": "negaWatt kiest 2 °C minder gemiddeld tegen 2050, met een gok op veranderende sociale normen in plaats van op dwang. Aan 7 % per graad haalt dat 14 % van de warmtevraag weg, bovenop de efficiëntiewinst van de renovatie. Het is de enige hefboom van de woning die het ervaren comfort direct raakt, en ook de goedkoopste.",
+            "en": "negaWatt settles on 2 °C less on average by 2050, betting on shifting social norms rather than on a constraint. At 7% per degree that removes 14% of heating demand, on top of the efficiency gains from renovation. It is the only housing lever that touches perceived comfort directly, and also the cheapest one."
+          },
+          "debate": {
+            "fr": "Le rapport reconnaît lui-même qu'une généralisation de *SlowHeat* est « plutôt irréaliste ». Deux degrés de moins en moyenne sur tout un parc, ce n'est pas deux degrés pour tout le monde : c'est beaucoup plus pour certains ménages, et un risque de précarité énergétique qu'un modèle de demande ne voit pas.",
+            "nl": "Het rapport erkent zelf dat een algemene toepassing van *SlowHeat* \"eerder onrealistisch\" is. Twee graden minder gemiddeld over een heel bestand is niet twee graden voor iedereen: het is veel meer voor sommige huishoudens, en een risico op energiearmoede dat een vraagmodel niet ziet.",
+            "en": "The report itself concedes that making *SlowHeat* general is \"rather unrealistic\". Two degrees less on average across a whole stock is not two degrees for everyone: it is far more for some households, and a fuel-poverty risk that a demand model does not see."
+          },
+          "historyNote": {
+            "fr": "Le graphe porte l'écart de consigne par rapport à 2019 — abaisser le thermostat fait descendre la courbe. Aucune série mesurée des températures de consigne des logements belges n'existe ; seule la consommation de chauffage est observée, et elle mélange l'effet du thermostat, de l'isolation et de la météo.",
+            "nl": "De grafiek toont het verschil in ingestelde temperatuur tegenover 2019 — de thermostaat lager zetten laat de curve dalen. Er bestaat geen gemeten reeks van de ingestelde temperaturen in Belgische woningen; alleen het verwarmingsverbruik wordt waargenomen, en dat mengt het effect van de thermostaat, de isolatie en het weer.",
+            "en": "The chart plots the setpoint change against 2019, so turning the thermostat down takes the line down. No measured series of Belgian home setpoints exists; only heating consumption is observed, and it mixes the effect of the thermostat, of insulation and of the weather."
+          },
+          "facts": [
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "Une recherche collective menée en Belgique, *SlowHeat*, conclut qu'une température intérieure moyenne de 15 °C peut être pleinement acceptable et même désirable dès lors que l'on chauffe les corps plutôt que les volumes — vêtements adaptés, couvertures et vêtements chauffants — le seuil de vigilance se situant vers 12 °C. Descendre trop bas peut aussi poser problème au logement lui-même : sous 12 °C, l'air qui entre ne se réchauffe pas toujours assez pour rester sec, même avec une bonne ventilation, d'où un risque d'humidité.",
+                "nl": "Een collectief onderzoek in België, *SlowHeat*, concludeert dat een gemiddelde binnentemperatuur van 15 °C volledig acceptabel en zelfs wenselijk kan zijn zodra men de lichamen verwarmt in plaats van de volumes — aangepaste kleding, dekens en verwarmde kledij — met een waakzaamheidsdrempel rond 12 °C. Te laag gaan kan ook problemen opleveren voor de woning zelf: onder 12 °C wordt de binnenkomende lucht niet altijd genoeg opgewarmd om droog te blijven, zelfs bij goede ventilatie, met een risico op vocht.",
+                "en": "A collective research project run in Belgium, *SlowHeat*, concludes that an average indoor temperature of 15 °C can be entirely acceptable and even desirable once you heat bodies rather than volumes — suitable clothing, blankets and heated garments — with the vigilance threshold sitting around 12 °C. Going too low can also cause problems for the dwelling itself: below 12 °C the incoming air is not always warmed enough to stay dry, even with good ventilation, hence a risk of damp."
+              },
+              "source": "De Grave & Van Moeseke (2024), SlowHeat : chauffer les corps, moins les logements, Presses universitaires de Louvain, p. 118 (accès libre)",
+              "url": "https://pul.uclouvain.be/html/WYSIWYGfiles/files/107333-PUL-LOCI-Slowheat-C1-INT-C4.pdf#page=119"
+            },
+            {
+              "kind": "benchmark",
+              "text": {
+                "fr": "Un gouvernement européen l'a déjà imposé par la loi : en août 2022, l'Espagne a plafonné le chauffage à 19 °C dans les bâtiments publics, les commerces, les cinémas, les gares et les aéroports — et son exposé des motifs retient la même physique que ce levier, environ 7 % de consommation en moins par degré. La mesure ne touchait pas les logements.",
+                "nl": "Eén Europese regering heeft het al bij wet opgelegd: in augustus 2022 beperkte Spanje de verwarming tot 19 °C in openbare gebouwen, winkels, bioscopen, stations en luchthavens — en de toelichting hanteert dezelfde fysica als deze hefboom, ongeveer 7 % minder verbruik per graad. De maatregel gold niet voor woningen.",
+                "en": "One European government has already legislated it: in August 2022 Spain capped heating at 19 °C in public buildings, shops, cinemas, stations and airports — and its explanatory note uses the same physics as this lever, about 7% less consumption per degree. The measure did not cover homes."
+              },
+              "source": "Government of Spain, Royal Decree-Law 14/2022 — plan for energy saving and air-conditioning management, 1 August 2022",
+              "url": "https://www.lamoncloa.gob.es/lang/en/gobierno/councilministers/Paginas/2022/20220801_council.aspx"
+            },
+            {
+              "kind": "tangible",
+              "text": {
+                "fr": "Un degré en moins, c'est 7 % de chauffage en moins. Sur le parc de 2019, cela représente 2,98 TWh, ou 261 kWh par personne et par an — sur un poste chauffage de 42,6 TWh, soit 82,4 % de l'énergie thermique du logement.",
+                "nl": "Eén graad minder is 7 % minder verwarming. Op het bestand van 2019 komt dat neer op 2,98 TWh, of 261 kWh per persoon per jaar — op een verwarmingspost van 42,6 TWh, ofwel 82,4 % van de thermische energie van de woning.",
+                "en": "One degree less is 7% less heating. On the 2019 stock that is 2.98 TWh, or 261 kWh per person per year — out of a heating bill of 42.6 TWh, which is 82.4% of the home's thermal energy."
+              },
+              "source": "nW-BE §2.1.2, arithmetic on the 2019 stock"
+            },
+            {
+              "kind": "lever",
+              "text": {
+                "fr": "Certaines études ont montré que l'isolation des logements n'apporte pas toute la réduction de consommation attendue, en partie parce que les occupants chauffent davantage une fois leur logement devenu plus économe : c'est l'« effet rebond ». Aux Pays-Bas, sur 563 000 ménages, il a repris en moyenne 27 % des économies attendues chez les propriétaires et 41 % chez les locataires. Une réflexion sur les comportements est donc nécessaire pour diminuer la consommation d'énergie.",
+                "nl": "Sommige studies hebben aangetoond dat het isoleren van woningen niet de volledige verwachte daling van het verbruik oplevert, deels omdat bewoners meer gaan stoken zodra hun woning zuiniger is: dat is het \"rebound-effect\". In Nederland nam dat effect bij 563.000 huishoudens gemiddeld 27 % van de verwachte besparing terug bij eigenaars en 41 % bij huurders. Nadenken over gedrag is dus nodig om het energieverbruik te verminderen.",
+                "en": "Some studies have shown that insulating homes does not deliver all of the expected drop in consumption, partly because occupants heat more once their home has become more efficient: this is the \"rebound effect\". In the Netherlands, across 563,000 households, it took back on average 27% of the expected savings among owners and 41% among tenants. We therefore also need to think about behaviour to reduce energy consumption."
+              },
+              "source": "Aydin, E., Kok, N. & Brounen, D. (2017), \"Energy efficiency and household behavior: the rebound effect in the residential sector\", RAND Journal of Economics 48(3), pp. 749-782",
+              "label": {
+                "fr": "En complément de l'isolation",
+                "nl": "Als aanvulling op isolatie",
+                "en": "Alongside insulation"
+              },
+              "url": "https://doi.org/10.1111/1756-2171.12190"
+            },
+            {
+              "kind": "caution",
+              "text": {
+                "fr": "La pratique se heurte à de fortes résistances sociales et psychologiques : en 2022, année de tous les records de prix, 19 °C a souvent constitué un plancher plutôt qu'un objectif. Et personne ne mesure la consigne réelle des logements belges. On n'observe que la consommation, qui dépend de plusieurs facteurs : le thermostat (les habitudes des occupants), l'isolation et la météo.",
+                "nl": "De praktijk stoot op sterke sociale en psychologische weerstand: in 2022, het jaar van alle prijsrecords, was 19 °C vaak eerder een ondergrens dan een doel. En niemand meet de werkelijke instelling in Belgische woningen. Men observeert alleen het verbruik, dat van meerdere factoren afhangt: de thermostaat (de gewoonten van de bewoners), de isolatie en het weer.",
+                "en": "The practice meets strong social and psychological resistance: in 2022, the year of record prices, 19 °C was often a floor rather than a target. And nobody measures the actual setpoint of Belgian homes. Only consumption is observed, and it depends on several factors: the thermostat (the occupants' habits), insulation and weather."
+              },
+              "source": "nW-BE §2.1.2, citing De Grave & Van Moeseke (2024)"
+            }
+          ],
+          "chartInvertY": true,
+          "historyAbsent": true,
+          "code": "B",
+          "sector": "buildings",
+          "home": "residential-heat"
+        },
+        "ter-thermostat": {
+          "question": {
+            "fr": "De combien peut-on raisonnablement abaisser le thermostat des bâtiments tertiaires d'ici 2050 ?",
+            "nl": "Met hoeveel kan de thermostaat in tertiaire gebouwen tegen 2050 redelijkerwijs worden verlaagd?",
+            "en": "By how much can the service-building thermostat reasonably be brought down by 2050?"
+          },
+          "short": {
+            "fr": "Thermostat du tertiaire",
+            "nl": "Thermostaat in diensten",
+            "en": "Service thermostat"
+          },
+          "subtitle": {
+            "fr": "De combien de degrés accepteriez-vous de descendre la température de votre bureau, de votre école, de votre magasin… sans diminuer votre confort ? La réponse attendue est un nombre de degrés en moins par rapport à 2019, en moyenne sur tout le parc tertiaire belge (horeca, administration publique, finance…). Personne ne mesure la température réglée sur le thermostat (la « consigne ») dans les bâtiments tertiaires belges : seul l'écart est modélisable. Zéro = on ne change rien, négatif = on chauffe davantage.",
+            "nl": "Met hoeveel graden zouden jullie bereid zijn de temperatuur in jullie kantoor, school, winkel… te verlagen zonder aan comfort in te boeten? Het verwachte antwoord is een aantal graden minder dan in 2019, gemiddeld over het hele Belgische tertiaire bestand (horeca, openbaar bestuur, financiële sector…). Niemand meet de ingestelde temperatuur op de thermostaat (de \"instelling\") in Belgische tertiaire gebouwen: alleen het verschil is modelleerbaar. Nul = niets verandert, negatief = warmer stoken.",
+            "en": "By how many degrees would you be willing to lower the temperature in your office, school, shop… without reducing your comfort? The answer is a number of degrees less than in 2019, averaged over the whole Belgian service-sector stock (hospitality, public administration, finance…). Nobody measures the temperature set on the thermostat (the \"setpoint\") in Belgian service buildings: only the change can be modelled. Zero = nothing changes, negative = heating more."
+          },
+          "tangible": {
+            "fr": "{value} °C de moins dans les bureaux, les classes et les magasins, toute la saison de chauffe.",
+            "nl": "{value} °C minder in kantoren, klaslokalen en winkels, het hele stookseizoen.",
+            "en": "{value} °C less in offices, classrooms and shops, right through the heating season."
+          },
+          "justification": {
+            "fr": "négaWatt retient 1 °C de moins en moyenne d'ici 2050 — la moitié de ce qu'il demande au logement, précisément parce que les barrières sociales y sont jugées plus fortes : « crainte d'une perte d'attractivité pour les activités commerciales » et « désaccord entre les occupants d'un bureau ». À 7 % par degré, cela retire 7 % de la demande de chauffage, en plus des gains d'efficacité.",
+            "nl": "negaWatt kiest 1 °C minder gemiddeld tegen 2050 — de helft van wat het van woningen vraagt, precies omdat de sociale barrières daar sterker worden geacht: \"vrees voor verlies van aantrekkelijkheid voor commerciële activiteiten\" en \"onenigheid tussen kantoorgebruikers\". Aan 7 % per graad haalt dat 7 % van de warmtevraag weg, bovenop de efficiëntiewinst.",
+            "en": "negaWatt settles on 1 °C less on average by 2050 — half what it asks of housing, precisely because the social barriers are judged stronger here: \"fear of a loss of attractiveness for commercial activities\" and \"disagreement among office staff\". At 7% per degree that removes 7% of heating demand, on top of the efficiency gains."
+          },
+          "debate": {
+            "fr": "L'argument se retourne assez bien : dans un bâtiment tertiaire, personne ne paie la facture de sa poche et personne ne décide seul, ce qui bloque — mais la consigne y est aussi réglée par une seule personne pour des centaines, ce qui est beaucoup plus rapide à changer que des millions de décisions domestiques. La loi espagnole de 2022 a d'ailleurs visé le tertiaire, pas les logements.",
+            "nl": "Het argument laat zich vrij goed omkeren: in een tertiair gebouw betaalt niemand de rekening uit eigen zak en beslist niemand alleen, wat blokkeert — maar de instelling wordt er ook door één persoon voor honderden geregeld, wat veel sneller te wijzigen is dan miljoenen huishoudelijke beslissingen. De Spaanse wet van 2022 richtte zich trouwens op de tertiaire sector, niet op woningen.",
+            "en": "The argument reverses rather well: in a service building nobody pays the bill out of their own pocket and nobody decides alone, which blocks change — but the setpoint is also set by one person for hundreds, which is far faster to change than millions of household decisions. The Spanish law of 2022 did, after all, target the service sector and not homes."
+          },
+          "historyNote": {
+            "fr": "Le graphe porte l'écart de consigne par rapport à 2019 — abaisser le thermostat fait descendre la courbe. Aucune série mesurée des températures de consigne des bâtiments tertiaires belges n'existe ; seule la consommation de chauffage est observée, et elle mélange l'effet du thermostat, de l'isolation et de la météo.",
+            "nl": "De grafiek toont het verschil in ingestelde temperatuur tegenover 2019 — de thermostaat lager zetten laat de curve dalen. Er bestaat geen gemeten reeks van de ingestelde temperaturen in Belgische dienstengebouwen; alleen het verwarmingsverbruik wordt waargenomen, en dat mengt het effect van de thermostaat, de isolatie en het weer.",
+            "en": "The chart plots the setpoint change against 2019, so turning the thermostat down takes the line down. No measured series of Belgian service-building setpoints exists; only heating consumption is observed, and it mixes the effect of the thermostat, of insulation and of the weather."
+          },
+          "facts": [
+            {
+              "kind": "benchmark",
+              "text": {
+                "fr": "Un gouvernement européen l'a déjà imposé par la loi, et exactement sur ce périmètre : en août 2022, l'Espagne a plafonné le chauffage à 19 °C dans les bâtiments publics, les commerces, les cinémas, les gares et les aéroports, et fixé la climatisation à 27 °C minimum. Son exposé des motifs retient la même physique que ce levier : environ 7 % de consommation en moins par degré.",
+                "nl": "Eén Europese regering heeft het al bij wet opgelegd, en precies op deze perimeter: in augustus 2022 beperkte Spanje de verwarming tot 19 °C in openbare gebouwen, winkels, bioscopen, stations en luchthavens, en stelde het de koeling op minimaal 27 °C. De toelichting hanteert dezelfde fysica als deze hefboom: ongeveer 7 % minder verbruik per graad.",
+                "en": "One European government has already legislated it, and on exactly this perimeter: in August 2022 Spain capped heating at 19 °C in public buildings, shops, cinemas, stations and airports, and set cooling at a minimum of 27 °C. Its explanatory note uses the same physics as this lever: about 7% less consumption per degree."
+              },
+              "source": "Government of Spain, Royal Decree-Law 14/2022 — plan for energy saving and air-conditioning management, 1 August 2022",
+              "url": "https://www.lamoncloa.gob.es/lang/en/gobierno/councilministers/Paginas/2022/20220801_council.aspx"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "La recherche belge sur le chauffage bas — *SlowHeat* — porte presque entièrement sur le logement ; le tertiaire est encore peu étudié. Les obstacles n'y sont pas les mêmes : crainte d'une perte d'attractivité pour les commerces, et désaccord entre occupants d'un même plateau de bureaux. Une thèse de doctorat entamée en 2024 à l'UCLouvain vise à étudier spécifiquement le *SlowHeat* dans le secteur tertiaire.",
+                "nl": "Het Belgische onderzoek naar laag stoken — *SlowHeat* — gaat bijna volledig over woningen; de tertiaire sector is nog weinig onderzocht. De obstakels zijn er anders: vrees voor verlies van aantrekkelijkheid bij winkels, en onenigheid tussen gebruikers van dezelfde kantoorvloer. Een doctoraatsonderzoek dat in 2024 aan de UCLouvain is gestart, richt zich specifiek op het bestuderen van *SlowHeat* in de tertiaire sector.",
+                "en": "Belgian research on low-temperature heating — *SlowHeat* — is almost entirely about housing; the service sector is still little studied. The obstacles there are not the same: fear of losing commercial appeal, and disagreement between the occupants of a single office floor. A PhD thesis launched at UCLouvain in 2024 aims to study *SlowHeat* specifically in the service sector."
+              },
+              "source": "nW-BE §3.1.2, citing De Grave & Van Moeseke (2024)",
+              "url": "https://pul.uclouvain.be/book/?GCOI=29303100724760"
+            },
+            {
+              "kind": "tangible",
+              "text": {
+                "fr": "Un degré en moins, c'est 7 % de chauffage en moins : 1,52 TWh à l'échelle du parc tertiaire belge de 2019, sur un poste chauffage de 21,7 TWh — 66,9 % de l'énergie thermique du secteur.",
+                "nl": "Eén graad minder is 7 % minder verwarming: 1,52 TWh op de schaal van het Belgische tertiaire bestand van 2019, op een verwarmingspost van 21,7 TWh — 66,9 % van de thermische energie van de sector.",
+                "en": "One degree less is 7% less heating: 1.52 TWh across the Belgian service stock of 2019, out of a heating bill of 21.7 TWh — 66.9% of the sector's thermal energy."
+              },
+              "source": "nW-BE §3.1.2, arithmetic on the 2019 stock"
+            },
+            {
+              "kind": "lever",
+              "text": {
+                "fr": "Dans les logements, certaines études ont montré que l'isolation n'apporte pas toute la réduction de consommation attendue, en partie parce que les occupants chauffent davantage une fois leur logement devenu plus économe : c'est l'« effet rebond ». Aux Pays-Bas, sur 563 000 ménages, il a repris en moyenne 27 % des économies attendues chez les propriétaires et 41 % chez les locataires. Une réflexion sur les comportements est donc nécessaire pour diminuer la consommation d'énergie.",
+                "nl": "In woningen hebben sommige studies aangetoond dat isolatie niet de volledige verwachte daling van het verbruik oplevert, deels omdat bewoners meer gaan stoken zodra hun woning zuiniger is: dat is het \"rebound-effect\". In Nederland nam dat effect bij 563.000 huishoudens gemiddeld 27 % van de verwachte besparing terug bij eigenaars en 41 % bij huurders. Nadenken over gedrag is dus nodig om het energieverbruik te verminderen.",
+                "en": "In homes, some studies have shown that insulation does not deliver all of the expected drop in consumption, partly because occupants heat more once their home has become more efficient: this is the \"rebound effect\". In the Netherlands, across 563,000 households, it took back on average 27% of the expected savings among owners and 41% among tenants. We therefore also need to think about behaviour to reduce energy consumption."
+              },
+              "source": "Aydin, E., Kok, N. & Brounen, D. (2017), \"Energy efficiency and household behavior: the rebound effect in the residential sector\", RAND Journal of Economics 48(3), pp. 749-782",
+              "label": {
+                "fr": "En complément de l'isolation",
+                "nl": "Als aanvulling op isolatie",
+                "en": "Alongside insulation"
+              },
+              "url": "https://doi.org/10.1111/1756-2171.12190"
+            },
+            {
+              "kind": "caution",
+              "text": {
+                "fr": "Dans un bâtiment partagé, la consigne est un compromis et non un choix individuel : c'est ce qui rend ce levier plus difficile qu'à la maison, où chacun décide chez soi. Et personne ne mesure la consigne réelle du parc tertiaire belge. On n'observe que la consommation, qui dépend de plusieurs facteurs : le thermostat (les habitudes des occupants), l'isolation et la météo.",
+                "nl": "In een gedeeld gebouw is de instelling een compromis en geen individuele keuze: dat maakt deze hefboom moeilijker dan thuis, waar ieder voor zich beslist. En niemand meet de werkelijke instelling in het Belgische tertiaire bestand. Men observeert alleen het verbruik, dat van meerdere factoren afhangt: de thermostaat (de gewoonten van de gebruikers), de isolatie en het weer.",
+                "en": "In a shared building the setpoint is a compromise, not an individual choice: that is what makes this lever harder than at home, where each household decides for itself. And nobody measures the actual setpoint of the Belgian service stock. Only consumption is observed, and it depends on several factors: the thermostat (the occupants' habits), insulation and weather."
+              },
+              "source": "nW-BE §3.1.2"
+            }
+          ],
+          "chartInvertY": true,
+          "historyAbsent": true,
+          "code": "C",
+          "sector": "buildings",
+          "home": "tertiary-heat"
+        }
+      },
+      "include": [
+        "residential-heat",
+        "tertiary-heat"
+      ],
+      "summaryChart": {
+        "unit": "TWh",
+        "decimals": 2,
+        "caption": {
+          "fr": "Ce que chacune de vos réponses fait, à elle seule, à la demande d'énergie thermique des bâtiments belges en 2050 — logements et bâtiments tertiaires — par rapport au maintien du niveau d'aujourd'hui pour le même indicateur.",
+          "nl": "Wat elk van jullie antwoorden op zichzelf doet met de thermische energievraag van de Belgische gebouwen in 2050 — woningen en tertiaire gebouwen — vergeleken met het behoud van het huidige niveau voor dezelfde indicator.",
+          "en": "What each of your answers does, on its own, to the thermal energy demand of Belgian buildings in 2050 — homes and service-sector buildings — compared with keeping today's level of the same indicator."
+        },
+        "note": {
+          "fr": "Chaque barre est exacte pour son levier pris seul, les 2 autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur.",
+          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de 2 andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde.",
+          "en": "Each bar is exact for its own lever taken alone, with the other 2 left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only."
+        }
+      }
+    },
+    "residential-heat": {
+      "sector": "buildings",
+      "title": {
+        "fr": "Chaleur des logements",
+        "nl": "Warmte in woningen",
+        "en": "Residential heat"
+      },
+      "lead": {
+        "fr": "Chauffer, rafraîchir, laver et cuisiner dans les logements belges. Les bâtiments tertiaires font l'objet d'un autre atelier.",
+        "nl": "Verwarmen, koelen, wassen en koken in Belgische woningen. De tertiaire gebouwen komen in een andere workshop aan bod.",
+        "en": "Heating, cooling, washing and cooking in Belgian homes. Non-residential buildings are the subject of a separate workshop."
+      },
+      "intro": {
+        "fr": "Vous allez fixer 0 hypothèses de comportement et de politique publique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour le logement. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Chaque question tient sur un écran, avec quelques repères factuels pour nourrir la discussion.",
+        "nl": "Jullie stellen 0 gedrags- en beleidsveronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario voor woningen *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Elke vraag past op één scherm, met een paar feitelijke referentiepunten voor de discussie.",
+        "en": "You are going to set 0 behavioural and policy assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures for housing. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. Each question fits on one screen, with a few factual anchors to feed the discussion."
+      },
+      "offered": false,
+      "order": [],
+      "archive": [
+        "floor-area",
+        "renovation-rate",
+        "renovation-depth",
+        "thermostat",
+        "hot-water",
+        "cooling",
+        "cooking",
+        "district-heat"
+      ],
+      "questionOrder": "random",
+      "units": [],
+      "levers": {
+        "floor-area": {
+          "question": {
+            "fr": "Quelle surface de logement par personne est un objectif 2050 réaliste ?",
+            "nl": "Welke woonoppervlakte per persoon is een realistisch doel voor 2050?",
+            "en": "What home floor area per person is a realistic 2050 objective?"
+          },
+          "short": {
+            "fr": "Surface du logement",
+            "nl": "Woonoppervlakte",
+            "en": "Home floor area"
+          },
+          "subtitle": {
+            "fr": "Quelle taille doit avoir votre logement par personne ? Par exemple, si vous êtes dans un appartement de 90 m² à deux, votre surface par habitant est de 45 m². Quelle est la surface que vous considérez comme acceptable ? Votre réponse est une moyenne pour tous les Belges : c'est la surface de l'ensemble des logements du pays, vides et secondaires compris, divisée par la population.",
+            "nl": "Hoe groot moet jullie woning per persoon zijn? Als jullie bijvoorbeeld met twee in een appartement van 90 m² wonen, is de oppervlakte per inwoner 45 m². Welke oppervlakte vinden jullie aanvaardbaar? Het antwoord is een gemiddelde voor alle Belgen: de oppervlakte van alle woningen in het land, ook de leegstaande woningen en de tweede verblijven, gedeeld door de bevolking.",
+            "en": "How big should your home be, per person? For example, if two of you live in a 90 m² flat, your floor area per inhabitant is 45 m². What area would you consider acceptable? Your answer is an average for all Belgians: it is the area of all the homes in the country, empty homes and second homes included, divided by the population."
+          },
+          "tangible": {
+            "fr": "{value} m² de logement par habitant en moyenne, soit {vsRef} % par rapport à 2019 — des mètres carrés à chauffer et à rafraîchir.",
+            "nl": "Gemiddeld {value} m² woning per inwoner, ofwel {vsRef} % ten opzichte van 2019 — vierkante meters om te verwarmen en te koelen.",
+            "en": "On average {value} m² of home per inhabitant, i.e. {vsRef}% against 2019 — square metres to heat and to cool."
+          },
+          "justification": {
+            "fr": "négaWatt retient 49,2 m² par personne, soit −10 % par rapport aux 54,7 m² de 2019 — un renversement de la tendance observée. L'objectif est double : réduire l'empreinte matérielle de la construction et la surface à chauffer et rafraîchir. Les leviers évoqués sont l'habitat partagé, le déménagement vers plus petit une fois les enfants partis, et l'habitat léger. Comme la taille des ménages recule de −5,5 % sur la même période (projection Statbel, non modifiable ici), la surface par ménage doit baisser plus vite que la surface par personne : −14,9 %, soit 107,5 m² par ménage.",
+            "nl": "negaWatt kiest 49,2 m² per persoon, ofwel −10 % tegenover de 54,7 m² van 2019 — een omkering van de waargenomen trend. Het doel is tweeledig: de materiaalvoetafdruk van de bouw verkleinen én de te verwarmen en te koelen oppervlakte. De genoemde hefbomen zijn cohousing, verhuizen naar kleiner zodra de kinderen het huis uit zijn, en lichte woonvormen. Omdat de huishoudgrootte in dezelfde periode met −5,5 % daalt (Statbel-projectie, hier niet aanpasbaar), moet de oppervlakte per huishouden sneller dalen dan die per persoon: −14,9 %, ofwel 107,5 m² per huishouden.",
+            "en": "negaWatt settles on 49.2 m² per person, i.e. −10% against the 54.7 m² of 2019 — a reversal of the observed trend. The aim is twofold: cut the material footprint of construction and cut the area to be heated and cooled. The levers named are shared living, downsizing once the children have left, and light housing. Because household size falls −5.5% over the same period (a Statbel projection, not adjustable here), floor area per household has to fall faster than floor area per person: −14.9%, i.e. 107.5 m² per household."
+          },
+          "debate": {
+            "fr": "C'est un chiffre rond, −10 %, appliqué à l'identique au résidentiel et au tertiaire, et le rapport lui-même note qu'il « devrait être davantage motivé » : aucune politique du logement n'est chiffrée, alors que la surface par personne monte depuis vingt ans dans toute l'Europe.",
+            "nl": "Het is een rond getal, −10 %, identiek toegepast op woningen en tertiaire gebouwen, en het rapport merkt zelf op dat het \"beter gemotiveerd zou moeten worden\": geen enkel woonbeleid is becijferd, terwijl de oppervlakte per persoon in heel Europa al twintig jaar stijgt.",
+            "en": "It is a round number, −10%, applied identically to housing and to non-residential buildings, and the report itself notes that it \"should be further motivated\": no housing policy is quantified, while floor area per person has been rising across Europe for twenty years."
+          },
+          "facts": [
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "Le ménage belge moyen occupe 126,4 m² pour 2,31 personnes, et Statbel projette une taille de ménage en baisse à 2,18 personnes en 2050 (−5,5 %). Chauffage et climatisation sont les deux postes qui dépendent le plus de la surface : 82,9 % de l'énergie thermique du logement (42,9 TWh sur 51,7).",
+                "nl": "Het gemiddelde Belgische huishouden bewoont 126,4 m² voor 2,31 personen, en Statbel projecteert een daling van de huishoudgrootte naar 2,18 personen in 2050 (−5,5 %). Verwarming en koeling zijn de twee posten die het sterkst afhangen van de oppervlakte: 82,9 % van de thermische energie van de woning (42,9 TWh op 51,7).",
+                "en": "The average Belgian household occupies 126.4 m² for 2.31 people, and Statbel projects household size falling to 2.18 people by 2050 (−5.5%). Heating and cooling are the two services that depend most on floor area: 82.9% of the home's thermal energy (42.9 TWh out of 51.7)."
+              },
+              "source": "nW-BE §1.2.1 and §2.1 (JRC-IDEES-2023, Statbel projections)"
+            },
+            {
+              "kind": "trend",
+              "text": {
+                "fr": "En hausse lente, et sans interruption depuis 2013 : 53,2 m² par personne en 2000, 54,7 en 2019, 55,3 en 2023. Les ménages rétrécissent, mais les logements ne suivent pas.",
+                "nl": "Langzaam stijgend, en zonder onderbreking sinds 2013: 53,2 m² per persoon in 2000, 54,7 in 2019, 55,3 in 2023. De huishoudens krimpen, maar de woningen volgen niet.",
+                "en": "Rising slowly, and without interruption since 2013: 53.2 m² per person in 2000, 54.7 in 2019, 55.3 in 2023. Households are shrinking, but dwellings are not following."
+              },
+              "source": "JRC-IDEES-2023 (Belgium), floor areas from the EU Building Observatory; population Statbel",
+              "url": "http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "En 2021, 59,2 % des Belges vivaient dans un logement « sous-occupé » : il compte plus de pièces que le minimum nécessaire pour le ménage. Dans l'Union européenne, c'est 33,4 % en moyenne.",
+                "nl": "In 2021 woonde 59,2 % van de Belgen in een \"onderbezette\" woning: een woning met meer kamers dan het minimum dat het huishouden nodig heeft. In de Europese Unie is dat gemiddeld 33,4 %.",
+                "en": "In 2021, 59.2% of Belgians lived in an \"under-occupied\" home: one with more rooms than the minimum its household needs. Across the European Union the average is 33.4%."
+              },
+              "source": "Eurostat, ilc_lvho50a (share of people living in under-occupied dwellings), 2021",
+              "label": {
+                "fr": "Occupation des logements",
+                "nl": "Bezetting van de woningen",
+                "en": "Occupancy of homes"
+              },
+              "url": "https://ec.europa.eu/eurostat/databrowser/view/ilc_lvho50a/default/table?lang=en"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "À l'inverse, en 2024, 30 % de la population bruxelloise vivait dans un logement « surpeuplé » : il manquait au moins une pièce pour la taille du ménage. En Flandre et en Wallonie, c'était environ 4 %.",
+                "nl": "Daartegenover woonde in 2024 30 % van de Brusselse bevolking in een \"overbevolkte\" woning: er ontbrak minstens één kamer voor de grootte van het huishouden. In Vlaanderen en Wallonië was dat ongeveer 4 %.",
+                "en": "By contrast, in 2024, 30% of the Brussels population lived in an \"overcrowded\" home: at least one room was missing for the size of the household. In Flanders and Wallonia it was about 4%."
+              },
+              "source": "Observatoire de la Santé et du Social de Bruxelles-Capitale, Baromètre social 2025, §7.5.1, p. 162 (enquête EU-SILC 2024, définition de Statbel)",
+              "label": {
+                "fr": "Surpeuplement à Bruxelles",
+                "nl": "Overbevolkte woningen in Brussel",
+                "en": "Overcrowding in Brussels"
+              },
+              "url": "https://www.vivalis.brussels/sites/default/files/2026-04/Barometre-2025-FR_compression_1.pdf#page=164"
+            },
+            {
+              "kind": "benchmark",
+              "text": {
+                "fr": "En regardant les pièces, pas les mètres carrés, la Belgique est largement au-dessus de la moyenne : 2,1 pièces par personne en 2024, contre 1,7 dans l'UE27, 1,7 en Allemagne et 1,8 en France.",
+                "nl": "Als we naar de kamers kijken in plaats van naar de vierkante meters, zit België ruim boven het gemiddelde: 2,1 kamers per persoon in 2024, tegenover 1,7 in de EU27, 1,7 in Duitsland en 1,8 in Frankrijk.",
+                "en": "Looking at rooms rather than square metres, Belgium sits well above the average: 2.1 rooms per person in 2024, against 1.7 in the EU27, 1.7 in Germany and 1.8 in France."
+              },
+              "source": "Eurostat, ilc_lvho03 (average number of rooms per person), 2024",
+              "url": "https://ec.europa.eu/eurostat/databrowser/view/ilc_lvho03/default/table",
+              "chart": {
+                "kind": "bars",
+                "y": [
+                  1.7,
+                  1.7,
+                  1.8,
+                  2.1
+                ],
+                "caption": {
+                  "fr": "Nombre moyen de pièces par personne, 2024",
+                  "nl": "Gemiddeld aantal kamers per persoon, 2024",
+                  "en": "Average number of rooms per person, 2024"
+                },
+                "labels": [
+                  {
+                    "fr": "UE27",
+                    "nl": "EU27",
+                    "en": "EU27"
+                  },
+                  {
+                    "fr": "Allemagne",
+                    "nl": "Duitsland",
+                    "en": "Germany"
+                  },
+                  {
+                    "fr": "France",
+                    "nl": "Frankrijk",
+                    "en": "France"
+                  },
+                  {
+                    "fr": "Belgique",
+                    "nl": "België",
+                    "en": "Belgium"
+                  }
+                ],
+                "unit": "rooms/person",
+                "decimals": 1,
+                "highlight": 3
+              }
+            },
+            {
+              "kind": "lever",
+              "text": {
+                "fr": "Au recensement 2021, 46,6 % des logements occupés en Belgique — 2,3 millions — offrent trois pièces ou plus par occupant. En Wallonie, l'IWEPS isole 233 617 maisons occupées par un propriétaire de 65 ans ou plus : 99,6 % n'y abritent qu'une ou deux personnes, et 89 % comptent cinq pièces ou plus. Accueillir quelqu'un sous le même toit, ou couper la maison en deux logements (habitat kangourou, colocation, division), fait baisser la surface par personne sans poser une brique. Le frein est réglementaire plutôt que technique : diviser demande un permis communal, et le *statut de cohabitant* ampute les allocations de ceux qui s'installent ensemble. Mutualiser certains espaces permet également de diminuer la surface par logement (buanderie, garage…).",
+                "nl": "Bij de census 2021 telde 46,6 % van de bewoonde woningen in België — 2,3 miljoen — drie kamers of meer per bewoner. In Wallonië zondert het IWEPS 233 617 huizen af die bewoond worden door een eigenaar van 65 jaar of ouder: 99,6 % daarvan huisvest maar één of twee personen, en 89 % telt vijf kamers of meer. Iemand onder hetzelfde dak opnemen, of het huis in twee woningen opdelen (kangoeroewonen, samenhuizen, opdeling), verlaagt de oppervlakte per persoon zonder één steen te leggen. De rem is eerder regelgevend dan technisch: opdelen vergt een gemeentelijke vergunning, en het *statuut van samenwonende* snijdt in de uitkeringen van wie samen gaat wonen. Ook het delen van bepaalde ruimtes (wasplaats, garage…) kan de oppervlakte per woning verkleinen.",
+                "en": "At the 2021 census, 46.6% of occupied dwellings in Belgium — 2.3 million — had three rooms or more per occupant. In Wallonia, IWEPS singles out 233,617 houses occupied by an owner aged 65 or over: 99.6% of them hold only one or two people, and 89% have five rooms or more. Taking someone in under the same roof, or splitting the house into two dwellings (kangaroo housing, house-sharing, subdivision), lowers floor area per person without laying a brick. The obstacle is regulatory rather than technical: subdividing needs a municipal permit, and the *cohabitant status* cuts the benefits of people who move in together. Sharing some spaces (laundry room, garage…) also reduces the floor area per dwelling."
+              },
+              "source": "IWEPS, Décryptage n°10 — maisons occupées par leur propriétaire de 65 ans et plus (2026); Statbel, Census 2021, table T04_DRM",
+              "label": {
+                "fr": "Le gisement",
+                "nl": "Het potentieel",
+                "en": "The pool"
+              },
+              "url": "https://www.iweps.be/wp-content/uploads/2026/05/D10.pdf"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "Le parc comprend des logements que personne n'habite à l'année. La côte belge compte à elle seule plus de 106 000 résidences secondaires (2023), occupées en moyenne 87 nuits par an, dont 74 par leurs propriétaires. Ces mètres carrés pèsent toute l'année dans la surface par personne ; leur chauffage, lui, ne suit pas — sans pour autant tomber à zéro, puisqu'on les tient hors gel l'hiver.",
+                "nl": "Het bestand bevat woningen waar niemand het hele jaar woont. Alleen al de Belgische kust telt ruim 106 000 tweede verblijven (2023), gemiddeld 87 nachten per jaar bewoond, waarvan 74 door de eigenaars zelf. Die vierkante meters tellen het hele jaar mee in de oppervlakte per persoon; hun verwarming volgt niet — zonder daarom op nul te vallen, want ze worden vorstvrij gehouden in de winter.",
+                "en": "The stock includes dwellings nobody lives in year-round. The Belgian coast alone counts more than 106,000 second homes (2023), occupied on average 87 nights a year, 74 of them by the owners themselves. Those square metres weigh on the floor area per person all year; their heating does not follow — without falling to zero either, since they are kept frost-free through the winter."
+              },
+              "source": "Westtoer, Onderzoek tweede verblijfstoerisme aan de Kust, 2024",
+              "label": {
+                "fr": "Résidences secondaires",
+                "nl": "Tweede verblijven",
+                "en": "Second homes"
+              },
+              "url": "https://www.westtoer.be/over-ons/persmedia/persberichten/resultaten-onderzoek-tweede-verblijfstoerisme"
+            },
+            {
+              "kind": "caution",
+              "text": {
+                "fr": "Les logements vides comptent aussi — et ils sont moins nombreux que le débat ne le laisse croire. Bruxelles a croisé le cadastre, le Registre national et les faibles consommations d'eau de Vivaqua : 4 500 logements présumés inoccupés, moins de 2 % du parc régional, en dessous des prévisions. Les remettre sur le marché ne fait pas baisser la surface par personne — ni le parc ni la population ne changent — mais loge des habitants sans rien construire.",
+                "nl": "Leegstaande woningen tellen ook mee — en het zijn er minder dan het debat doet vermoeden. Brussel kruiste het kadaster, het Rijksregister en de lage waterverbruiken van Vivaqua: 4 500 vermoedelijk leegstaande woningen, minder dan 2 % van het gewestelijke bestand, onder de verwachtingen. Ze terug op de markt brengen verlaagt de oppervlakte per persoon niet — bestand noch bevolking veranderen — maar huisvest mensen zonder te bouwen.",
+                "en": "Empty dwellings count too — and there are fewer of them than the debate suggests. Brussels cross-checked the cadastre, the national register and Vivaqua's low-water-consumption records: 4,500 presumed-vacant dwellings, under 2% of the regional stock, below what had been expected. Putting them back on the market does not lower floor area per person — neither the stock nor the population moves — but it houses people without building."
+              },
+              "source": "Bruxelles Logement / Brussels Studies Institute (BRIO-VUB, IGEAT-ULB), logements inoccupés (2024-11-22)",
+              "label": {
+                "fr": "Logements inoccupés",
+                "nl": "Leegstaande woningen",
+                "en": "Vacant dwellings"
+              },
+              "url": "https://be.brussels/en/housing/4500-presumed-unoccupied-homes-brussels-capital-region"
+            },
+            {
+              "kind": "structure",
+              "text": {
+                "fr": "Le scénario retient −10 % par personne. Comme les ménages rétrécissent en même temps, cela demande −14,9 % par ménage, soit 107,5 m² au lieu de 126,4.",
+                "nl": "Het scenario kiest −10 % per persoon. Omdat de huishoudens tegelijk krimpen, vraagt dat −14,9 % per huishouden, ofwel 107,5 m² in plaats van 126,4.",
+                "en": "The scenario settles on −10% per person. Because households shrink at the same time, that requires −14.9% per household, i.e. 107.5 m² instead of 126.4."
+              },
+              "source": "nW-BE §1.2.1",
+              "reveal": true
+            }
+          ],
+          "code": "A",
+          "sector": "buildings",
+          "archived": true
         },
         "renovation-rate": {
           "question": {
@@ -4167,7 +5104,8 @@ window.NW_WS_CONTENT = {
           ],
           "historyAbsent": true,
           "code": "B",
-          "sector": "buildings"
+          "sector": "buildings",
+          "archived": true
         },
         "renovation-depth": {
           "question": {
@@ -4312,7 +5250,8 @@ window.NW_WS_CONTENT = {
           ],
           "historyAbsent": true,
           "code": "C",
-          "sector": "buildings"
+          "sector": "buildings",
+          "archived": true
         },
         "thermostat": {
           "question": {
@@ -4408,7 +5347,8 @@ window.NW_WS_CONTENT = {
           "chartInvertY": true,
           "historyAbsent": true,
           "code": "D",
-          "sector": "buildings"
+          "sector": "buildings",
+          "archived": true
         },
         "hot-water": {
           "question": {
@@ -4563,7 +5503,8 @@ window.NW_WS_CONTENT = {
             }
           ],
           "code": "E",
-          "sector": "buildings"
+          "sector": "buildings",
+          "archived": true
         },
         "cooling": {
           "question": {
@@ -4722,7 +5663,8 @@ window.NW_WS_CONTENT = {
             }
           ],
           "code": "F",
-          "sector": "buildings"
+          "sector": "buildings",
+          "archived": true
         },
         "cooking": {
           "question": {
@@ -4818,7 +5760,8 @@ window.NW_WS_CONTENT = {
           ],
           "historyAbsent": true,
           "code": "G",
-          "sector": "buildings"
+          "sector": "buildings",
+          "archived": true
         },
         "district-heat": {
           "question": {
@@ -5003,7 +5946,8 @@ window.NW_WS_CONTENT = {
             "curated": true
           },
           "code": "H",
-          "sector": "buildings"
+          "sector": "buildings",
+          "archived": true
         }
       },
       "summaryChart": {
@@ -5015,9 +5959,9 @@ window.NW_WS_CONTENT = {
           "en": "What each of your answers does, on its own, to the thermal energy demand of Belgian homes in 2050 — heating, cooling, hot water and cooking — compared with keeping today's level of the same indicator."
         },
         "note": {
-          "fr": "Chaque barre est exacte pour son levier pris seul, les 7 autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur. Les réseaux de chaleur ne déplacent aucune barre : ils changent la source de la chaleur, pas la quantité.",
-          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de 7 andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde. Warmtenetten verplaatsen geen enkele balk: ze veranderen de bron van de warmte, niet de hoeveelheid.",
-          "en": "Each bar is exact for its own lever taken alone, with the other 7 left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only. District heating moves no bar at all: it changes where the heat comes from, not how much of it is needed."
+          "fr": "Chaque barre est exacte pour son levier pris seul, les 0 autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur. Les réseaux de chaleur ne déplacent aucune barre : ils changent la source de la chaleur, pas la quantité.",
+          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de 0 andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde. Warmtenetten verplaatsen geen enkele balk: ze veranderen de bron van de warmte, niet de hoeveelheid.",
+          "en": "Each bar is exact for its own lever taken alone, with the other 0 left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only. District heating moves no bar at all: it changes where the heat comes from, not how much of it is needed."
         }
       }
     },
@@ -5034,12 +5978,13 @@ window.NW_WS_CONTENT = {
         "en": "Heating, cooling, washing and cooking in offices, shops, schools, hospitals and restaurants. Housing is the subject of a separate workshop."
       },
       "intro": {
-        "fr": "Vous allez fixer 7 hypothèses de comportement et de politique publique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour le secteur tertiaire. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Une particularité de ce secteur : depuis 2000, sa demande de froid a explosé pendant que sa demande de chaleur stagnait. Chaque question tient sur un écran, avec quelques repères factuels pour nourrir la discussion.",
-        "nl": "Jullie stellen 7 gedrags- en beleidsveronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario voor de tertiaire sector *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Eén bijzonderheid van deze sector: sinds 2000 is de koudevraag geëxplodeerd terwijl de warmtevraag stagneerde. Elke vraag past op één scherm, met een paar feitelijke referentiepunten voor de discussie.",
-        "en": "You are going to set 7 behavioural and policy assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures for the service sector. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. One peculiarity of this sector: since 2000 its demand for cooling has exploded while its demand for heat stood still. Each question fits on one screen, with a few factual anchors to feed the discussion."
+        "fr": "Vous allez fixer 0 hypothèses de comportement et de politique publique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour le secteur tertiaire. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Une particularité de ce secteur : depuis 2000, sa demande de froid a explosé pendant que sa demande de chaleur stagnait. Chaque question tient sur un écran, avec quelques repères factuels pour nourrir la discussion.",
+        "nl": "Jullie stellen 0 gedrags- en beleidsveronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario voor de tertiaire sector *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Eén bijzonderheid van deze sector: sinds 2000 is de koudevraag geëxplodeerd terwijl de warmtevraag stagneerde. Elke vraag past op één scherm, met een paar feitelijke referentiepunten voor de discussie.",
+        "en": "You are going to set 0 behavioural and policy assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures for the service sector. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. One peculiarity of this sector: since 2000 its demand for cooling has exploded while its demand for heat stood still. Each question fits on one screen, with a few factual anchors to feed the discussion."
       },
-      "offered": true,
-      "order": [
+      "offered": false,
+      "order": [],
+      "archive": [
         "ter-floor-area",
         "ter-insulation",
         "ter-thermostat",
@@ -5048,31 +5993,8 @@ window.NW_WS_CONTENT = {
         "ter-catering",
         "ter-district-heat"
       ],
-      "archive": [],
       "questionOrder": "random",
-      "units": [
-        [
-          "ter-floor-area"
-        ],
-        [
-          "ter-insulation"
-        ],
-        [
-          "ter-thermostat"
-        ],
-        [
-          "ter-cooling"
-        ],
-        [
-          "ter-hot-water"
-        ],
-        [
-          "ter-catering"
-        ],
-        [
-          "ter-district-heat"
-        ]
-      ],
+      "units": [],
       "levers": {
         "ter-floor-area": {
           "question": {
@@ -5192,7 +6114,8 @@ window.NW_WS_CONTENT = {
             }
           ],
           "code": "A",
-          "sector": "buildings"
+          "sector": "buildings",
+          "archived": true
         },
         "ter-insulation": {
           "question": {
@@ -5277,7 +6200,8 @@ window.NW_WS_CONTENT = {
             }
           ],
           "code": "B",
-          "sector": "buildings"
+          "sector": "buildings",
+          "archived": true
         },
         "ter-thermostat": {
           "question": {
@@ -5373,7 +6297,8 @@ window.NW_WS_CONTENT = {
           "chartInvertY": true,
           "historyAbsent": true,
           "code": "C",
-          "sector": "buildings"
+          "sector": "buildings",
+          "archived": true
         },
         "ter-cooling": {
           "question": {
@@ -5484,7 +6409,8 @@ window.NW_WS_CONTENT = {
             }
           ],
           "code": "D",
-          "sector": "buildings"
+          "sector": "buildings",
+          "archived": true
         },
         "ter-hot-water": {
           "question": {
@@ -5573,7 +6499,8 @@ window.NW_WS_CONTENT = {
             }
           ],
           "code": "E",
-          "sector": "buildings"
+          "sector": "buildings",
+          "archived": true
         },
         "ter-catering": {
           "question": {
@@ -5663,7 +6590,8 @@ window.NW_WS_CONTENT = {
           ],
           "historyAbsent": true,
           "code": "F",
-          "sector": "buildings"
+          "sector": "buildings",
+          "archived": true
         },
         "ter-district-heat": {
           "question": {
@@ -5743,7 +6671,8 @@ window.NW_WS_CONTENT = {
           ],
           "historyAbsent": true,
           "code": "G",
-          "sector": "buildings"
+          "sector": "buildings",
+          "archived": true
         }
       },
       "summaryChart": {
@@ -5755,51 +6684,9 @@ window.NW_WS_CONTENT = {
           "en": "What each of your answers does, on its own, to the thermal energy demand of Belgian service-sector buildings in 2050 — heating, cooling, hot water and catering — compared with keeping today's level of the same indicator."
         },
         "note": {
-          "fr": "Chaque barre est exacte pour son levier pris seul, les 6 autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur. Les réseaux de chaleur ne déplacent aucune barre : ils changent la source de la chaleur, pas la quantité.",
-          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de 6 andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde. Warmtenetten verplaatsen geen enkele balk: ze veranderen de bron van de warmte, niet de hoeveelheid.",
-          "en": "Each bar is exact for its own lever taken alone, with the other 6 left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only. District heating moves no bar at all: it changes where the heat comes from, not how much of it is needed."
-        }
-      }
-    },
-    "buildings-heat": {
-      "sector": "buildings",
-      "title": {
-        "fr": "Chaleur des bâtiments",
-        "nl": "Warmte in gebouwen",
-        "en": "Heat in buildings"
-      },
-      "lead": {
-        "fr": "Chauffer les logements et les bâtiments tertiaires (bureaux, écoles, commerces…) en Belgique : quelle surface, à quelle température ?",
-        "nl": "Woningen en tertiaire gebouwen (kantoren, scholen, winkels…) verwarmen in België: hoeveel oppervlakte, op welke temperatuur?",
-        "en": "Heating homes and service-sector buildings (offices, schools, shops…) in Belgium: how much floor area, at what temperature?"
-      },
-      "intro": {
-        "fr": "Vous allez fixer 0 hypothèses de comportement et de politique publique pour 2050 — celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour les logements et les bâtiments tertiaires. Vous ne connaissez pas encore les valeurs retenues par négaWatt : à vous de décider ce qui vous paraît à la fois souhaitable et atteignable. Chaque question tient sur un écran, avec quelques repères factuels pour nourrir la discussion.",
-        "nl": "Jullie stellen 0 gedrags- en beleidsveronderstellingen voor 2050 vast — precies die welke de energiecijfers van het negaWatt-scenario voor woningen en tertiaire gebouwen *voortbrengen*. De waarden van negaWatt kennen jullie nog niet: beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Elke vraag past op één scherm, met een paar feitelijke referentiepunten voor de discussie.",
-        "en": "You are going to set 0 behavioural and policy assumptions for 2050 — the ones that *produce* the negaWatt scenario's energy figures for homes and service-sector buildings. You do not yet know the values negaWatt chose: decide what strikes you as both desirable and achievable. Each question fits on one screen, with a few factual anchors to feed the discussion."
-      },
-      "offered": false,
-      "order": [],
-      "archive": [],
-      "questionOrder": "random",
-      "units": [],
-      "levers": {},
-      "include": [
-        "residential-heat",
-        "tertiary-heat"
-      ],
-      "summaryChart": {
-        "unit": "TWh",
-        "decimals": 2,
-        "caption": {
-          "fr": "Ce que chacune de vos réponses fait, à elle seule, à la demande d'énergie thermique des bâtiments belges en 2050 — logements et bâtiments tertiaires — par rapport au maintien du niveau d'aujourd'hui pour le même indicateur.",
-          "nl": "Wat elk van jullie antwoorden op zichzelf doet met de thermische energievraag van de Belgische gebouwen in 2050 — woningen en tertiaire gebouwen — vergeleken met het behoud van het huidige niveau voor dezelfde indicator.",
-          "en": "What each of your answers does, on its own, to the thermal energy demand of Belgian buildings in 2050 — homes and service-sector buildings — compared with keeping today's level of the same indicator."
-        },
-        "note": {
-          "fr": "Chaque barre est exacte pour son levier pris seul, les 0 autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur.",
-          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de 0 andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde.",
-          "en": "Each bar is exact for its own lever taken alone, with the other 0 left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only."
+          "fr": "Chaque barre est exacte pour son levier pris seul, les 0 autres restant à leur valeur du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est qu'un ordre de grandeur. Les réseaux de chaleur ne déplacent aucune barre : ils changent la source de la chaleur, pas la quantité.",
+          "nl": "Elke balk is exact voor zijn eigen hefboom alleen, met de 0 andere op hun scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een grootteorde. Warmtenetten verplaatsen geen enkele balk: ze veranderen de bron van de warmte, niet de hoeveelheid.",
+          "en": "Each bar is exact for its own lever taken alone, with the other 0 left at their scenario value. The levers compound multiplicatively, so their sum is an order of magnitude only. District heating moves no bar at all: it changes where the heat comes from, not how much of it is needed."
         }
       }
     }

@@ -40,7 +40,7 @@ lead:
 
 intro:
   fr: >
-    Vous allez fixer sept hypothèses de comportement et de technique pour 2050 —
+    Vous allez fixer {questionCount} hypothèses de comportement et de technique pour 2050 —
     celles qui *produisent* les chiffres d'énergie du scénario négaWatt pour
     l'aviation. Vous ne connaissez pas encore les valeurs retenues par négaWatt :
     à vous de décider ce qui vous paraît à la fois souhaitable et atteignable.
@@ -50,7 +50,7 @@ intro:
     *et* marchandises : le transport maritime international, lui, n'est pas modélisé du
     tout — ni comme mode, ni comme destination possible d'un report.
   nl: >
-    Jullie stellen zeven gedrags- en technische veronderstellingen voor 2050 vast
+    Jullie stellen {questionCount} gedrags- en technische veronderstellingen voor 2050 vast
     — precies die welke de energiecijfers van het negaWatt-scenario voor de
     luchtvaart *voortbrengen*. De waarden van negaWatt kennen jullie nog niet:
     beslis zelf wat jullie zowel wenselijk als haalbaar vinden. Twee
@@ -60,7 +60,7 @@ intro:
     internationale zeescheepvaart wordt helemaal niet gemodelleerd — noch als modus, noch
     als mogelijke bestemming van een verschuiving.
   en: >
-    You are going to set seven behavioural and technical assumptions for 2050 —
+    You are going to set {questionCount} behavioural and technical assumptions for 2050 —
     the ones that *produce* the negaWatt scenario's energy figures for aviation.
     You do not yet know the values negaWatt chose: decide what strikes you as both
     desirable and achievable. Two peculiarities of this sector. First, the unit is
@@ -168,15 +168,15 @@ summaryChart:
       in 2050 — compared with keeping today's level of the same indicator.
   note:
     fr: >
-      Chaque barre est exacte pour son levier pris seul, les autres restant à leur valeur
+      Chaque barre est exacte pour son levier pris seul, les {otherCount} autres restant à leur valeur
       du scénario. Les leviers se combinent de façon multiplicative, donc leur somme n'est
       qu'un ordre de grandeur.
     nl: >
-      Elke balk is exact voor zijn eigen hefboom alleen, met de andere op hun
+      Elke balk is exact voor zijn eigen hefboom alleen, met de {otherCount} andere op hun
       scenariowaarde. De hefbomen werken multiplicatief samen, dus hun som is enkel een
       grootteorde.
     en: >
-      Each bar is exact for its own lever taken alone, with the others left at their
+      Each bar is exact for its own lever taken alone, with the other {otherCount} left at their
       scenario value. The levers compound multiplicatively, so their sum is an order of
       magnitude only.
 
@@ -1643,9 +1643,9 @@ levers:
       nl: "Hoeveel luchtvracht per inwoner moeten we in 2050 nastreven?"
       en: "How much air freight per inhabitant should 2050 aim for?"
     subtitle:
-      fr: "Marchandises transportées par avion, comptées en tonnes-kilomètres par habitant et par an — une tonne sur un kilomètre. La quasi-totalité est internationale. Ce que vous retirez à l'avion, le modèle le reporte sur le rail."
-      nl: "Goederen vervoerd per vliegtuig, geteld in tonkilometers per inwoner per jaar — één ton over één kilometer. Vrijwel alles is internationaal. Wat jullie van het vliegtuig afhalen, verschuift het model naar het spoor."
-      en: "Goods carried by air, counted in tonne-kilometres per inhabitant per year — one tonne over one kilometre. Almost all of it is international. What you take off the aircraft, the model moves to rail."
+      fr: "On parle ici des marchandises transportées par avion, comptées en tonnes-kilomètres par habitant et par an — une tonne sur un kilomètre. Ce que vous retirez à l'avion, le modèle le reporte sur le rail."
+      nl: "Het gaat hier over goederen die per vliegtuig worden vervoerd, geteld in tonkilometers per inwoner per jaar — één ton over één kilometer. Wat jullie van het vliegtuig afhalen, verschuift het model naar het spoor."
+      en: "This is about goods carried by air, counted in tonne-kilometres per inhabitant per year — one tonne over one kilometre. What you take off the aircraft, the model moves to rail."
     tangible:
       fr: "{value} tonnes-kilomètres de fret aérien par habitant et par an."
       nl: "{value} tonkilometer luchtvracht per inwoner per jaar."
@@ -1685,25 +1685,28 @@ levers:
           en: Few tonnes, much energy
         text:
           fr: >
-            Peu de tonnes, beaucoup d'énergie. Le fret aérien ne pèse que
-            {airShareTkm2019} % des tonnes-kilomètres belges, mais c'est de loin le mode le
-            plus vorace : {airKwhPerTkm2019:d2} kWh par tonne-kilomètre, contre
-            {truckKwhPerTkm2019} pour un poids lourd, {navKwhPerTkm2019:d2} pour une péniche
-            et {railKwhPerTkm2019:d2} pour le train. Déplacer une tonne par avion coûte donc
-            une vingtaine de fois ce qu'elle coûte par train.
+            Les marchandises sont transportées par différents moyens : avions, camions,
+            trains, bateaux. Le fret aérien ne pèse que {airShareTkm2019} % des
+            tonnes-kilomètres belges, mais c'est de loin le mode le plus énergivore :
+            {airKwhPerTkm2019:d2} kWh par tonne-kilomètre, contre {truckKwhPerTkm2019} pour un
+            poids lourd, {navKwhPerTkm2019:d2} pour une péniche et {railKwhPerTkm2019:d2} pour
+            le train. Déplacer une tonne par avion coûte donc une vingtaine de fois ce qu'elle
+            coûte par train en termes d'énergie.
           nl: >
-            Weinig tonnen, veel energie. Luchtvracht is maar {airShareTkm2019} % van de
-            Belgische tonkilometers, maar veruit de meest verslindende modus:
-            {airKwhPerTkm2019:d2} kWh per tonkilometer, tegenover {truckKwhPerTkm2019} voor
-            een vrachtwagen, {navKwhPerTkm2019:d2} voor een binnenschip en
-            {railKwhPerTkm2019:d2} voor de trein. Een ton per vliegtuig verplaatsen kost dus
-            een twintigtal keer wat ze per trein kost.
+            Goederen worden op verschillende manieren vervoerd: vliegtuig, vrachtwagen, trein,
+            schip. Luchtvracht is maar {airShareTkm2019} % van de Belgische tonkilometers, maar
+            veruit de meest energieverslindende modus: {airKwhPerTkm2019:d2} kWh per
+            tonkilometer, tegenover {truckKwhPerTkm2019} voor een vrachtwagen,
+            {navKwhPerTkm2019:d2} voor een binnenschip en {railKwhPerTkm2019:d2} voor de
+            trein. Een ton per vliegtuig verplaatsen kost qua energie dus een twintigtal keer
+            wat ze per trein kost.
           en: >
-            Few tonnes, much energy. Air freight is only {airShareTkm2019}% of Belgian
-            tonne-kilometres, but it is by far the hungriest mode:
-            {airKwhPerTkm2019:d2} kWh per tonne-kilometre against {truckKwhPerTkm2019} for a
-            heavy truck, {navKwhPerTkm2019:d2} for a barge and {railKwhPerTkm2019:d2} for rail.
-            Moving a tonne by air therefore costs some twenty times what it costs by train.
+            Goods travel by different means: aircraft, trucks, trains, ships. Air freight is
+            only {airShareTkm2019}% of Belgian tonne-kilometres, but it is by far the most
+            energy-intensive mode: {airKwhPerTkm2019:d2} kWh per tonne-kilometre against
+            {truckKwhPerTkm2019} for a heavy truck, {navKwhPerTkm2019:d2} for a barge and
+            {railKwhPerTkm2019:d2} for rail. Moving a tonne by air therefore costs some twenty
+            times what it costs by train, in energy terms.
         source: nW-BE §3.1 and §3.3 (JRC-IDEES-2023)
         chart:
           kind: bars
@@ -1749,28 +1752,33 @@ levers:
           en: What travels by air
         text:
           fr: >
-            L'avion transporte *moins de 1 %* du commerce mondial en tonnes, et environ
-            35 % de sa valeur. Ce qui y monte est donc soit cher, soit pressé, soit
-            périssable : produits pharmaceutiques, électronique de valeur, fleurs coupées,
-            poisson frais, fruits hors saison, pièces de rechange urgentes. Un cinquième du
-            fret aérien international relève de l'express — documents et petits colis
-            livrés de porte à porte — et les quatre autres cinquièmes du fret général.
+            L'avion transporte *moins de 1 %* du commerce mondial en tonnes, et environ 35 % de
+            sa valeur. Ce qui y monte est donc soit cher, soit urgent, soit périssable :
+            produits pharmaceutiques, électronique de valeur, fleurs coupées, poisson frais,
+            fruits hors saison, pièces de rechange urgentes. Les compagnies d'express, qui
+            livrent documents et petits colis de porte à porte, assurent environ 18 % du fret
+            aérien mondial. Tout le reste, c'est le « fret général » : des envois souvent plus
+            lourds ou plus volumineux, confiés à des transitaires et transportés d'aéroport à
+            aéroport.
           nl: >
-            Het vliegtuig vervoert *minder dan 1 %* van de wereldhandel in tonnen, en
-            ongeveer 35 % van de waarde ervan. Wat erin gaat is dus duur, of haastig, of
-            bederfelijk: farmaceutische producten, dure elektronica, snijbloemen, verse vis,
-            fruit buiten het seizoen, dringende wisselstukken. Een vijfde van de
-            internationale luchtvracht is express — documenten en kleine pakjes van deur tot
-            deur — en de vier andere vijfden zijn algemene vracht.
+            Het vliegtuig vervoert *minder dan 1 %* van de wereldhandel in tonnen, en ongeveer
+            35 % van de waarde ervan. Wat erin gaat is dus duur, of dringend, of bederfelijk:
+            farmaceutische producten, dure elektronica, snijbloemen, verse vis, fruit buiten het
+            seizoen, dringende wisselstukken. De expressmaatschappijen, die documenten en kleine
+            pakjes van deur tot deur leveren, zorgen voor ongeveer 18 % van de wereldwijde
+            luchtvracht. Al de rest is "algemene vracht": zendingen, vaak zwaarder of
+            omvangrijker, die aan expediteurs worden toevertrouwd en van luchthaven naar
+            luchthaven worden vervoerd.
           en: >
-            Aircraft carry *less than 1%* of world trade by weight, and about 35% of its
-            value. What goes aboard is therefore either expensive, or in a hurry, or
-            perishable: pharmaceuticals, high-value electronics, cut flowers, fresh fish,
-            out-of-season fruit, urgent spare parts. A fifth of international air cargo is
-            express — documents and small parcels delivered door to door — and the other
-            four fifths general freight.
-        source: "Boeing, World Air Cargo Forecast 2022-2041, p. 5 and p. 7 (world trade shares from S&P Global GTA)"
-        url: https://www.boeing.com/content/dam/boeing/boeingdotcom/market/assets/downloads/Boeing_World_Air_Cargo_Forecast_2022.pdf
+            Aircraft carry *less than 1%* of world trade by weight, and about 35% of its value.
+            What goes aboard is therefore either expensive, or urgent, or perishable:
+            pharmaceuticals, high-value electronics, cut flowers, fresh fish, out-of-season
+            fruit, urgent spare parts. Express carriers, which deliver documents and small
+            parcels door to door, handle about 18% of the world's air freight. Everything else
+            is "general cargo": consignments, often heavier or bulkier, handed to freight
+            forwarders and flown from airport to airport.
+        source: "Boeing, World Air Cargo Forecast 2024-2043, p. 3 and glossary p. 24"
+        url: https://boeing.com/content/dam/boeing/boeingdotcom/market/assets/downloads/Boeing-WACF-2024.pdf
         chart:
           kind: bars
           unit: "% of world trade"
@@ -1822,43 +1830,43 @@ levers:
           en: The Alibaba file
         text:
           fr: >
-            Une partie de cette croissance a un nom. En décembre 2018, l'État belge signe
-            avec Alibaba : le groupe annonce un investissement de 75 millions d'euros et un
-            site de 220 000 m² à Liège, hub européen de sa logistique Cainiao. Sa raison
+            Une partie de cette croissance a un nom. En décembre 2018, l'État belge a signé un
+            accord avec Alibaba : le groupe annonce un investissement de 75 millions d'euros et
+            un site de 220 000 m² à Liège, hub européen de sa logistique Cainiao. Sa raison
             d'être est précisément de faire voyager par avion des colis de faible valeur
-            unitaire commandés en ligne — et c'est là que se joue la question. Le commerce
-            en ligne transfrontalier emprunte l'avion dans *plus de 80 %* des cas, et le
-            nombre de colis livrés dans le monde, 131 milliards par an, était attendu au
-            double en quelques années.
+            unitaire commandés en ligne — et c'est là que se joue la question. Le commerce en
+            ligne transfrontalier emprunte l'avion dans *plus de 80 %* des cas. Dans le monde,
+            131 milliards de colis ont été livrés en 2020, et ce nombre devait doubler d'ici
+            2026.
           nl: >
-            Een deel van die groei heeft een naam. In december 2018 tekent de Belgische staat
-            met Alibaba: de groep kondigt een investering van 75 miljoen euro aan en een site
-            van 220.000 m² in Luik, Europese hub van haar Cainiao-logistiek. De bestaansreden
-            ervan is net om online bestelde pakjes met een lage waarde per stuk door de lucht
-            te laten reizen — en daar zit de vraag. Grensoverschrijdende e-commerce gaat in
-            *meer dan 80 %* van de gevallen per vliegtuig, en het aantal pakjes dat wereldwijd
-            geleverd wordt, 131 miljard per jaar, zou in enkele jaren verdubbelen.
+            Een deel van die groei heeft een naam. In december 2018 sloot de Belgische staat
+            een akkoord met Alibaba: de groep kondigt een investering van 75 miljoen euro aan en
+            een site van 220.000 m² in Luik, Europese hub van haar Cainiao-logistiek. De
+            bestaansreden ervan is net om online bestelde pakjes met een lage waarde per stuk
+            door de lucht te laten reizen — en daar zit de vraag. Grensoverschrijdende
+            e-commerce gaat in *meer dan 80 %* van de gevallen per vliegtuig. Wereldwijd werden
+            in 2020 131 miljard pakjes geleverd, en dat aantal zou tegen 2026 verdubbelen.
           en: >
-            Part of that growth has a name. In December 2018 the Belgian state signed with
-            Alibaba: the group announced a €75 million investment and a 220,000 m² site at
-            Liège, the European hub of its Cainiao logistics arm. Its whole purpose is to fly
-            low-unit-value parcels ordered online — and that is where the question lies.
-            Cross-border e-commerce goes by air in *more than 80%* of cases, and the number of
-            parcels delivered worldwide, 131 billion a year, was expected to double within a
-            few years.
-        source: "IATA, Value of Air Cargo — E-Commerce (June 2022); the Liège figures are those announced by Alibaba Group on 5 December 2018"
+            Part of that growth has a name. In December 2018 the Belgian state signed an
+            agreement with Alibaba: the group announced a €75 million investment and a
+            220,000 m² site at Liège, the European hub of its Cainiao logistics arm. Its whole
+            purpose is to fly low-unit-value parcels ordered online — and that is where the
+            question lies. Cross-border e-commerce goes by air in *more than 80%* of cases.
+            Worldwide, 131 billion parcels were delivered in 2020, and that number was expected
+            to double by 2026.
+        source: "IATA, Value of Air Cargo — E-Commerce (June 2022); parcels: Pitney Bowes, Parcel Shipping Index (2021); the Liège figures are those announced by Alibaba Group on 5 December 2018"
         url: https://www.iata.org/contentassets/62bae061c05b429ea508cb0c49907c4c/voac-fact-sheet-ecommerce.pdf
       - kind: caution
         text:
           fr: >
             Attention à l'endroit où vont les tonnes. Dans le modèle, ce qui quitte l'avion
-            part vers le *rail* : c'est le seul substitut représenté, et il existe
+            part vers le *rail* : c'est le seul substitut représenté, et il existe
             réellement sur le corridor eurasiatique. La vraie alternative pour l'essentiel
             du fret aérien reste pourtant le bateau — et le transport maritime international
             n'est pas modélisé du tout ici, pas plus que ses émissions. Une partie du fret
-            aérien voyage par ailleurs en soute des vols de passagers : la supprimer
-            supposerait aussi moins de vols de passagers, ce que les questions {question:long-haul-flights} et {question:short-haul-flights}
-            décident déjà.
+            aérien voyage par ailleurs en soute des vols de passagers : la supprimer
+            supposerait aussi moins de vols de passagers, ce qui fait l'objet d'une autre
+            discussion de l'atelier.
           nl: >
             Let op waar de tonnen naartoe gaan. In het model gaat wat het vliegtuig verlaat
             naar het *spoor*: dat is de enige vervanger die erin zit, en hij bestaat echt op
@@ -1866,15 +1874,16 @@ levers:
             van de luchtvracht blijft echter het schip — en de internationale zeevaart wordt
             hier helemaal niet gemodelleerd, haar uitstoot evenmin. Een deel van de
             luchtvracht reist bovendien in het ruim van passagiersvluchten: die wegnemen
-            veronderstelt ook minder passagiersvluchten, wat de vragen {question:long-haul-flights} en {question:short-haul-flights} al beslissen.
+            veronderstelt ook minder passagiersvluchten, wat in een andere discussie van de
+            workshop aan bod komt.
           en: >
             Mind where the tonnes go. In the model, what leaves the aircraft goes to *rail*:
             it is the only substitute represented, and it genuinely exists on the Eurasian
             corridor. The real alternative for most air freight is nonetheless the ship —
             and international shipping is not modelled here at all, nor are its emissions.
             Part of air freight also travels in the hold of passenger flights: removing it
-            would also mean fewer passenger flights, which questions {question:long-haul-flights} and
-            {question:short-haul-flights} already decide.
+            would also mean fewer passenger flights, which is the subject of another
+            discussion in the workshop.
         source: nW-BE §3.1.4
       - kind: structure
         reveal: true
@@ -1970,29 +1979,42 @@ levers:
   # Added for the workshop of 2 November 2026 (D72): one card for all flying,
   # answered with two sliders that are exactly long-haul-flights and
   # short-haul-flights. Placed after the older questions so that those keep the
-  # letters they were printed with. SKELETON: full wording in WP6.
+  # letters they were printed with. Wording: the organisers' review of
+  # 2026-10-30 (docs/workshop_2026-11/request_scenario_fiches.md, fiches A and B).
   plane-trips:
     short:
       fr: Voyages en avion
       nl: Vliegreizen
       en: Plane trips
     question:
-      fr: Combien de voyages en avion par personne et par vie ?
-      nl: Hoeveel vliegreizen per persoon en per leven?
-      en: How many plane trips per person over a lifetime?
+      fr: "Combien de voyages en avion par personne et par vie est un objectif 2050 réaliste ?"
+      nl: "Hoeveel vliegreizen per persoon per leven is een realistisch doel voor 2050?"
+      en: "How many plane trips per person per lifetime is a realistic 2050 objective?"
     subtitle:
       fr: >
-        Deux curseurs : les voyages long-courriers (un aller-retour de {lngTripKm} km,
-        comme Bruxelles-Shanghai) et les voyages court-courriers en Europe (un aller-retour
-        de {srtTripKm} km, comme Bruxelles-Barcelone), sur une vie de {lifeYears} ans.
+        On parle ici à la fois des vols intra-européens, appelés court-courriers (par
+        exemple Bruxelles-Barcelone, {srtTripKm} km en aller-retour) et des vols
+        long-courriers (par exemple Bruxelles-Shanghai, {lngTripKm} km en aller-retour).
+        Tentons d'imaginer une utilisation raisonnable de l'aviation : combien de voyages
+        long-courriers et court-courriers sont tenables, en moyenne sur toute la population
+        et sur une vie de {lifeYears} ans ? Vos deux réponses s'additionnent en kilomètres
+        parcourus en avion par personne et par an, le chiffre que prolonge le graphique.
       nl: >
-        Twee schuifknoppen: langeafstandsreizen (een retour van {lngTripKm} km, zoals
-        Brussel-Shanghai) en korteafstandsreizen in Europa (een retour van {srtTripKm} km,
-        zoals Brussel-Barcelona), over een leven van {lifeYears} jaar.
+        Het gaat hier zowel over intra-Europese vluchten, korteafstandsvluchten genoemd
+        (bijvoorbeeld Brussel-Barcelona, {srtTripKm} km heen en terug), als over
+        langeafstandsvluchten (bijvoorbeeld Brussel-Shanghai, {lngTripKm} km heen en terug).
+        Laten we ons een redelijk gebruik van de luchtvaart voorstellen: hoeveel lange- en
+        korteafstandsreizen zijn houdbaar, gemiddeld over de hele bevolking en over een leven
+        van {lifeYears} jaar? Jullie twee antwoorden worden opgeteld tot het aantal kilometers
+        dat per persoon en per jaar per vliegtuig wordt afgelegd, het cijfer dat de grafiek
+        verlengt.
       en: >
-        Two sliders: long-haul trips (a {lngTripKm} km return trip, like
-        Brussels-Shanghai) and short-haul trips within Europe (a {srtTripKm} km return
-        trip, like Brussels-Barcelona), over an {lifeYears}-year life.
+        This is about both intra-European flights, called short-haul (for example
+        Brussels-Barcelona, a return trip of {srtTripKm} km), and long-haul flights (for example
+        Brussels-Shanghai, a return trip of {lngTripKm} km). Let us imagine a reasonable use of
+        aviation: how many long-haul and short-haul trips are sustainable, averaged over the
+        whole population and over an {lifeYears}-year life? Your two answers add up to the
+        kilometres flown per person per year, the figure the chart extends.
     parts:
       long-haul:
         short:
@@ -2003,6 +2025,13 @@ levers:
           fr: Voyages long-courriers par vie
           nl: Langeafstandsreizen per leven
           en: Long-haul trips per lifetime
+        subtitle:
+          fr: >
+            Un voyage, c'est un aller-retour de {lngTripKm} km, comme Bruxelles-Shanghai.
+          nl: >
+            Eén reis is een retour van {lngTripKm} km, zoals Brussel-Shanghai.
+          en: >
+            One trip is a return trip of {lngTripKm} km, like Brussels-Shanghai.
       short-haul:
         short:
           fr: Court-courriers
@@ -2012,46 +2041,763 @@ levers:
           fr: Voyages court-courriers par vie
           nl: Korteafstandsreizen per leven
           en: Short-haul trips per lifetime
+        subtitle:
+          fr: >
+            Un voyage, c'est un aller-retour de {srtTripKm} km, comme Bruxelles-Barcelone.
+          nl: >
+            Eén reis is een retour van {srtTripKm} km, zoals Brussel-Barcelona.
+          en: >
+            One trip is a return trip of {srtTripKm} km, like Brussels-Barcelona.
+    tangible:
+      fr: "{value} km en avion par personne et par an en moyenne, soit {vsRef} % par rapport à 2019 ({airKmYear2019} km). C'est la somme de vos deux réponses, long-courrier et court-courrier."
+      nl: "Gemiddeld {value} km per persoon per jaar met het vliegtuig, ofwel {vsRef} % ten opzichte van 2019 ({airKmYear2019} km). Dat is de som van jullie twee antwoorden, lange en korte afstand."
+      en: "On average {value} km per person per year by air, i.e. {vsRef}% against 2019 ({airKmYear2019} km). That is the sum of your two answers, long-haul and short-haul."
+    facts:
+      - kind: trend
+        label:
+          fr: Tendance
+          nl: Trend
+          en: Trend
+        # No chart here: the answer chart below draws this very curve (D72), and the
+        # two curves per flight type follow on the next cards (comment C4).
+        text:
+          fr: >
+            Tous vols confondus, au départ de la Belgique, l'avion représentait environ
+            2 000 km par habitant et par an en 2000, et {airKmYear2019} km en 2019, malgré
+            quelques creux. Ce chiffre s'effondre en 2020 avec la pandémie, puis remonte, mais
+            en 2023 il restait 12 % sous le niveau de 2019. Depuis, les aéroports belges ont
+            dépassé leur niveau d'avant la pandémie : plus de 36 millions de passagers en 2025,
+            un record, contre 35,5 millions en 2019 (le nombre de vols, lui, reste inférieur à
+            celui de 2019). Attention, ce n'est pas la même mesure : Statbel compte des
+            passagers, à l'arrivée comme au départ, résidents comme visiteurs ; les kilomètres
+            par habitant ne sont connus que jusqu'en 2023.
+          nl: >
+            Alle vluchten samen, vanuit België, kwam het vliegtuig in 2000 op ongeveer
+            2.000 km per inwoner per jaar, en in 2019 op {airKmYear2019} km, ondanks enkele
+            dalen. In 2020 stort dat cijfer in door de pandemie en klimt het daarna weer op,
+            maar in 2023 lag het nog 12 % onder het niveau van 2019. Sindsdien hebben de
+            Belgische luchthavens hun niveau van voor de pandemie overtroffen: meer dan 36
+            miljoen passagiers in 2025, een record, tegenover 35,5 miljoen in 2019 (het aantal
+            vluchten ligt wel nog onder dat van 2019). Let op, het is niet dezelfde maatstaf:
+            Statbel telt passagiers, bij aankomst en bij vertrek, inwoners en bezoekers samen;
+            de kilometers per inwoner zijn maar bekend tot 2023.
+          en: >
+            All flights together, leaving Belgium, air travel came to about 2,000 km per
+            inhabitant per year in 2000, and {airKmYear2019} km in 2019, despite a few dips. The
+            figure collapsed in 2020 with the pandemic, then climbed back, but in 2023 it was
+            still 12% below the 2019 level. Since then Belgian airports have passed their
+            pre-pandemic level: more than 36 million passengers in 2025, a record, against 35.5
+            million in 2019 (the number of flights, though, is still below 2019). Beware, it is
+            not the same measure: Statbel counts passengers, arriving and departing, residents
+            and visitors alike; the kilometres per inhabitant are only known up to 2023.
+        source: "JRC-IDEES-2023 (passenger transport), population Statbel; Statbel, Transport aérien / Luchtvervoer (2025 figures, published 9 July 2026)"
+        url: https://statbel.fgov.be/fr/themes/mobilite/transport/transport-aerien#panel-11
+      - kind: trend
+        label:
+          fr: Les vols long-courriers
+          nl: De langeafstandsvluchten
+          en: Long-haul flights
+        text:
+          fr: >
+            Si chacun volait toute sa vie ({lifeYears} ans) comme en 2000, cela ferait en
+            moyenne 4,3 voyages long-courriers de {lngTripKm} km par personne ; comme en
+            2019, {lngTrips2019} (le point de départ du curseur) ; comme en 2023, 6,8.
+          nl: >
+            Als iedereen zijn hele leven ({lifeYears} jaar) zou vliegen zoals in 2000, zou dat
+            gemiddeld 4,3 langeafstandsreizen van {lngTripKm} km per persoon betekenen; zoals
+            in 2019 {lngTrips2019} (het startpunt van de schuifknop); zoals in 2023 6,8.
+          en: >
+            If everyone flew all their life ({lifeYears} years) as in 2000, that would be 4.3
+            long-haul trips of {lngTripKm} km per person on average; as in 2019,
+            {lngTrips2019} (the slider's starting point); as in 2023, 6.8.
+        source: JRC-IDEES-2023 (passenger transport); population Statbel
+        url: http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f
+        chart:
+          kind: line
+          series: avia_lng_trips_life
+          from: 2000
+          decimals: 1
+          caption:
+            fr: Vols long-courriers au départ de la Belgique, en voyages de {lngTripKm} km par personne et par vie, de 2000 à 2023
+            nl: Langeafstandsvluchten vanuit België, in reizen van {lngTripKm} km per persoon per leven, van 2000 tot 2023
+            en: Long-haul flights leaving Belgium, in {lngTripKm} km trips per person per lifetime, 2000 to 2023
+      - kind: trend
+        label:
+          fr: Les vols intra-européens
+          nl: De intra-Europese vluchten
+          en: Intra-European flights
+        text:
+          fr: >
+            Si chacun volait toute sa vie ({lifeYears} ans) comme en 2000, cela ferait en
+            moyenne 39 voyages en Europe de {srtTripKm} km par personne ; comme en 2019,
+            {srtTrips2019} (le point de départ du curseur) ; comme en 2023, 46.
+          nl: >
+            Als iedereen zijn hele leven ({lifeYears} jaar) zou vliegen zoals in 2000, zou dat
+            gemiddeld 39 reizen in Europa van {srtTripKm} km per persoon betekenen; zoals in
+            2019 {srtTrips2019} (het startpunt van de schuifknop); zoals in 2023 46.
+          en: >
+            If everyone flew all their life ({lifeYears} years) as in 2000, that would be 39
+            trips within Europe of {srtTripKm} km per person on average; as in 2019,
+            {srtTrips2019} (the slider's starting point); as in 2023, 46.
+        source: JRC-IDEES-2023 (passenger transport); population Statbel
+        url: http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f
+        chart:
+          kind: line
+          series: avia_srt_trips_life
+          from: 2000
+          decimals: 0
+          caption:
+            fr: Vols intra-européens au départ de la Belgique, en voyages de {srtTripKm} km par personne et par vie, de 2000 à 2023
+            nl: Intra-Europese vluchten vanuit België, in reizen van {srtTripKm} km per persoon per leven, van 2000 tot 2023
+            en: Intra-European flights leaving Belgium, in {srtTripKm} km trips per person per lifetime, 2000 to 2023
+      - kind: benchmark
+        label:
+          fr: Qui vole et ne vole pas
+          nl: Wie vliegt en wie niet
+          en: Who flies and who does not
+        text:
+          fr: >
+            Le vol est très inégalement réparti. En 2018, 11 % de la population mondiale a
+            pris l'avion et au plus 4 % un vol international. Le 1 % de la population
+            mondiale qui vole le plus pèse probablement plus de la moitié des émissions de
+            l'aviation de passagers. Un seul utilisateur d'avion privé peut émettre jusqu'à
+            7 500 tonnes de CO₂ par an. Les 20 % les plus riches du monde effectuent
+            environ 80 % des vols, et les voyageurs très fréquents, plus de six vols par
+            an, représentent 2 % de l'humanité. À l'autre extrémité : en 2019, 76 % des
+            habitants de la planète n'ont pris aucun vol dans l'année. Le nombre de
+            non-voyageurs suit le revenu du pays : 51 % dans les pays à revenu élevé, 98 %
+            dans les pays à faible revenu.
+          nl: >
+            Vliegen is zeer ongelijk verdeeld. In 2018 nam 11 % van de wereldbevolking het
+            vliegtuig en ten hoogste 4 % een internationale vlucht. De 1 % van de
+            wereldbevolking die het meest vliegt, weegt vermoedelijk meer dan de helft van de
+            uitstoot van de passagiersluchtvaart. Eén enkele gebruiker van een privéjet kan
+            tot 7.500 ton CO₂ per jaar uitstoten. De rijkste 20 % van de wereld maakt zowat
+            80 % van alle vluchten, en zeer frequente vliegers, meer dan zes vluchten per
+            jaar, zijn 2 % van de mensheid. Aan het andere uiterste: in 2019 nam 76 % van de
+            wereldbevolking geen enkele vlucht in het jaar. Het aantal niet-vliegers volgt
+            het inkomen van het land: 51 % in landen met een hoog inkomen, 98 % in landen
+            met een laag inkomen.
+          en: >
+            Flying is very unequally shared. In 2018, 11% of the world's population
+            travelled by air and at most 4% took an international flight. The 1% of the
+            world's population that flies most likely accounts for more than half of the
+            emissions from passenger air travel. A single user of a private aircraft can emit
+            up to 7,500 tonnes of CO₂ a year. The world's richest 20% make about 80% of all
+            flights, and very frequent fliers, more than six flights a year, are 2% of
+            humanity. At the other end: in 2019, 76% of the world's inhabitants took no
+            flight at all in the year. The number of non-fliers follows country income: 51%
+            in high-income countries, 98% in low-income ones.
+        source: "Gössling & Humpe (2020), Global Environmental Change 65; ICCT (2022), modelled estimates"
+        url: https://doi.org/10.1016/j.gloenvcha.2020.102194
+        chart:
+          kind: bars
+          unit: "% who took no flight in 2019"
+          decimals: 0
+          highlight: 0
+          labels:
+            - {fr: Monde, nl: Wereld, en: World}
+            - {fr: Revenu élevé, nl: Hoog inkomen, en: High income}
+            - {fr: Moyen supérieur, nl: Hoger middeninkomen, en: Upper middle}
+            - {fr: Moyen inférieur, nl: Lager middeninkomen, en: Lower middle}
+            - {fr: Revenu faible, nl: Laag inkomen, en: Low income}
+          y: [76, 51, 69, 88, 98]
+          source: "ICCT (2022), Aviation climate finance using a global frequent flying levy"
+          url: https://theicct.org/wp-content/uploads/2022/09/global-aviation-frequent-flying-levy-sep22.pdf
+          caption:
+            fr: Part de la population qui n'a pris aucun vol en 2019, par groupe de revenu du pays
+            nl: Aandeel van de bevolking dat in 2019 geen enkele vlucht nam, per inkomensgroep van het land
+            en: Share of the population taking no flight in 2019, by country income group
+      - kind: benchmark
+        label:
+          fr: En Europe de l'Ouest
+          nl: In West-Europa
+          en: In western Europe
+        text:
+          fr: >
+            Au sein de l'Europe de l'Ouest, une enquête menée auprès de plus de 12 000
+            personnes en Belgique, en France, en Allemagne, en Espagne, aux Pays-Bas et au
+            Royaume-Uni a montré que 52 % des personnes ne prennent l'avion aucune fois dans
+            l'année et que 11 % le prennent plus de trois fois. Chez les ménages disposant de
+            moins de 20 000 € par an, 70 % ne volent pas du tout ; chez ceux de plus de
+            100 000 €, ils ne sont que 20 %, et 35 % font au moins trois allers-retours par
+            an.
+          nl: >
+            Binnen West-Europa toonde een enquête bij meer dan 12.000 mensen in België,
+            Frankrijk, Duitsland, Spanje, Nederland en het Verenigd Koninkrijk dat 52 % van de
+            mensen het vliegtuig geen enkele keer in het jaar neemt en 11 % meer dan drie
+            keer. Bij huishoudens met minder dan 20.000 € per jaar vliegt 70 % helemaal niet;
+            bij die met meer dan 100.000 € is dat maar 20 %, en 35 % maakt minstens drie
+            retourvluchten per jaar.
+          en: >
+            Within western Europe, a survey of more than 12,000 people in Belgium, France,
+            Germany, Spain, the Netherlands and the United Kingdom showed that 52% of people
+            do not fly at all in a given year and 11% fly more than three times. Among
+            households on less than €20,000 a year, 70% do not fly at all; among those above
+            €100,000 only 20% do not, and 35% take at least three return flights a year.
+        source: "More in Common, Europe Talks Flying (2024), analysed by the New Economics Foundation, A frequent flying levy in Europe (October 2024)"
+        url: https://neweconomics.org/2024/10/a-frequent-flying-levy-in-europe
+      - kind: structure
+        label:
+          fr: Et les émissions de CO₂
+          nl: En de CO₂-uitstoot
+          en: And CO₂ emissions
+        text:
+          fr: >
+            Au-delà du bruit et de la qualité de l'air pour les riverains des aéroports, le
+            transport aérien pèse sur le climat : il représentait environ 4 % des émissions de
+            gaz à effet de serre de l'Union européenne en 2022. Le problème vient aussi de son
+            évolution : en Belgique, les émissions de gaz à effet de serre de l'aviation
+            internationale (les vols au départ du pays) ont augmenté de 68 % entre 1990 et
+            2022. Elles ne sont pas comptées dans le total des émissions du pays.
+          nl: >
+            Naast de geluidshinder en de impact op de luchtkwaliteit voor de omwonenden van
+            luchthavens weegt het luchtvervoer ook op het klimaat: in 2022 was het goed voor ongeveer 4 %
+            van de uitstoot van broeikasgassen van de Europese Unie. Het probleem zit ook in
+            de evolutie: in België is de uitstoot van broeikasgassen van de internationale
+            luchtvaart (de vluchten die het land verlaten) tussen 1990 en 2022 met 68 %
+            gestegen. Die uitstoot wordt niet meegeteld in het nationale totaal.
+          en: >
+            Besides the noise and air-quality problems for people living near airports, air
+            transport weighs on the climate: in 2022 it accounted for about 4% of the
+            European Union's greenhouse gas emissions. The problem also lies in its trend: in
+            Belgium, greenhouse gas emissions from international aviation (flights leaving the
+            country) rose by 68% between 1990 and 2022. They are not counted in the country's
+            national total.
+        source: "Eurostat, env_air_gge (international aviation, Belgium, 1990-2022); European Commission, Reducing emissions from aviation (EU share, 2022)"
+        url: https://ec.europa.eu/eurostat/databrowser/view/env_air_gge/default/table?lang=en
+      - kind: benchmark
+        label:
+          fr: Les évolutions technologiques
+          nl: De technologische ontwikkelingen
+          en: Technological developments
+        text:
+          fr: >
+            Pour l'avion à hydrogène, peu de pistes réalistes laissent penser qu'il existera
+            avant 2040 : Airbus a repoussé son projet en 2025. De plus, l'hydrogène est
+            aujourd'hui produit surtout à partir de combustibles fossiles. Une autre piste
+            vient des carburants d'aviation durables, ou SAF (de l'anglais *sustainable
+            aviation fuels*). Ce sont aujourd'hui surtout des biocarburants, faits par exemple
+            à partir d'huiles de cuisson usagées ; les carburants de synthèse n'en sont
+            qu'une variété. En 2024, la production de SAF ne représentait que 0,3 % du
+            carburant d'aviation produit dans le monde, et 11 % de la capacité mondiale de
+            production de carburants renouvelables. On est donc très loin de remplacer tout le
+            kérosène par des SAF.
+          nl: >
+            Voor het waterstofvliegtuig laten weinig realistische pistes vermoeden dat het er
+            vóór 2040 komt: Airbus heeft zijn project in 2025 uitgesteld. Bovendien wordt
+            waterstof vandaag vooral uit fossiele brandstoffen gemaakt. Een andere piste zijn
+            de duurzame luchtvaartbrandstoffen, SAF (van het Engelse *sustainable aviation
+            fuels*). Dat zijn vandaag vooral biobrandstoffen, gemaakt van bijvoorbeeld
+            gebruikte frituurolie; synthetische brandstoffen zijn maar één variant. In 2024
+            was de productie van SAF goed voor slechts 0,3 % van de wereldwijd geproduceerde
+            luchtvaartbrandstof, en voor 11 % van de wereldwijde productiecapaciteit voor
+            hernieuwbare brandstoffen. We zijn dus nog erg ver van een vervanging van alle
+            kerosine door SAF.
+          en: >
+            As for the hydrogen aircraft, few realistic avenues suggest it will exist before
+            2040: Airbus postponed its project in 2025. On top of that, hydrogen is today
+            produced mostly from fossil fuels. Another avenue is sustainable aviation fuels,
+            or SAF. Today these are mostly biofuels, made for example from used cooking oil;
+            synthetic fuels are only one variety. In 2024, SAF production amounted to only
+            0.3% of the aviation fuel produced worldwide, and 11% of the world's renewable
+            fuel production capacity. We are therefore very far from replacing all kerosene
+            with SAF.
+        source: "IATA, Disappointingly Slow Growth in SAF Production (10 December 2024); Airbus, ZEROe postponement (February 2025); IEA, Global Hydrogen Review 2025"
+        url: https://www.iata.org/en/pressroom/2024-releases/2024-12-10-03/
+      - kind: structure
+        label:
+          fr: Avion ou voiture
+          nl: Vliegtuig of auto
+          en: Plane or car
+        text:
+          fr: >
+            En 2019, un vol intra-européen consommait {srtKwhPkm2019} kWh par
+            voyageur-kilomètre, contre {carKwhPkm2019} pour la voiture. Mais la voiture belge
+            moyenne ne transporte que {carOccupancy2019} personne, alors qu'un avion est
+            rempli, en moyenne, aux quatre cinquièmes environ. Avec deux personnes dans la
+            voiture, l'avion consomme près de deux fois plus par personne ; avec quatre, plus
+            de trois fois plus. Par passager, l'avion consomme donc plus qu'une voiture bien
+            remplie. Mais surtout, il rend possibles de très grandes distances en un
+            week-end.
+          nl: >
+            In 2019 verbruikte een intra-Europese vlucht {srtKwhPkm2019} kWh per
+            reizigerskilometer, tegenover {carKwhPkm2019} voor de auto. Maar de gemiddelde
+            Belgische auto vervoert maar {carOccupancy2019} personen, terwijl een vliegtuig
+            gemiddeld voor ongeveer vier vijfde bezet is. Met twee mensen in de auto
+            verbruikt het vliegtuig bijna twee keer zoveel per persoon; met vier meer dan drie
+            keer zoveel. Per passagier verbruikt het vliegtuig dus meer dan een goed gevulde
+            auto. Maar vooral maakt het zeer grote afstanden mogelijk in één weekend.
+          en: >
+            In 2019 an intra-European flight used {srtKwhPkm2019} kWh per passenger-kilometre,
+            against {carKwhPkm2019} for the car. But the average Belgian car carries only
+            {carOccupancy2019} people, whereas an aircraft is on average about four fifths
+            full. With two people in the car, flying already uses nearly twice as much per
+            person; with four, more than three times as much. Per passenger, the plane
+            therefore uses more than a well-filled car. But above all, it makes very long
+            distances possible in a single weekend.
+        source: "nW-BE §2.1 and §2.3 (JRC-IDEES-2023); IATA, Industry Statistics (world passenger load factor)"
+        url: https://www.iata.org/en/iata-repository/pressroom/fact-sheets/industry-statistics/
+      - kind: lever
+        label:
+          fr: Ce que le train pourrait reprendre
+          nl: Wat de trein zou kunnen overnemen
+          en: What rail could take over
+        text:
+          fr: >
+            Beaucoup de vols, peu d'énergie. En 2019, 24 % des décollages européens
+            faisaient moins de 500 km, mais ne pesaient que 3,8 % du CO₂ de l'aviation ;
+            les vols de plus de 4 000 km, 6 % des décollages, en pesaient 48 %. Interdire
+            les vols les plus courts touche donc énormément de trajets et très peu
+            d'énergie — c'est entre 500 et 1 500 km, la moitié des décollages et un
+            cinquième du CO₂, que se joue vraiment le report vers le train.
+          nl: >
+            Veel vluchten, weinig energie. In 2019 was 24 % van de Europese vertrekken
+            korter dan 500 km, goed voor slechts 3,8 % van de CO₂ van de luchtvaart; de
+            vluchten van meer dan 4.000 km, 6 % van de vertrekken, waren goed voor 48 %.
+            De kortste vluchten verbieden raakt dus heel veel ritten en heel weinig
+            energie — het is tussen 500 en 1.500 km, de helft van de vertrekken en een
+            vijfde van de CO₂, dat de verschuiving naar de trein zich echt afspeelt.
+          en: >
+            Many flights, little energy. In 2019, 24% of European departures were shorter
+            than 500 km but accounted for only 3.8% of aviation's CO₂; flights over
+            4,000 km, 6% of departures, accounted for 48%. Banning the shortest flights
+            therefore touches a great many journeys and very little energy — it is between
+            500 and 1,500 km, half of all departures and a fifth of the CO₂, that the shift
+            to rail is really played out.
+        source: "EUROCONTROL, Think Paper #11, Plane and train: getting the balance right (2021), fig. 2"
+        url: https://www.eurocontrol.int/sites/default/files/2021-06/eurocontrol-think-paper-11-plane-and-train-right-balance.pdf
+        chart:
+          kind: bars
+          unit: "% of aviation CO2"
+          decimals: 1
+          highlight: 0
+          labels:
+            - {fr: "moins de 500 km — 24 % des vols", nl: "minder dan 500 km — 24 % van de vluchten", en: "under 500 km — 24% of flights"}
+            - {fr: "500 à 1 500 km — 46 %", nl: "500 tot 1.500 km — 46 %", en: "500 to 1,500 km — 46%"}
+            - {fr: "1 500 à 4 000 km — 24 %", nl: "1.500 tot 4.000 km — 24 %", en: "1,500 to 4,000 km — 24%"}
+            - {fr: "plus de 4 000 km — 6 %", nl: "meer dan 4.000 km — 6 %", en: "over 4,000 km — 6%"}
+          y: [3.8, 21.6, 27.0, 47.6]
+          caption:
+            fr: Part du CO₂ de l'aviation européenne par distance de vol, 2019 ; entre parenthèses, la part des décollages
+            nl: Aandeel van de CO₂ van de Europese luchtvaart per vluchtafstand, 2019; tussen haakjes het aandeel van de vertrekken
+            en: Share of European aviation CO₂ by flight distance, 2019; in brackets, the share of departures
+      - kind: benchmark
+        label:
+          fr: Quand le train est déjà là
+          nl: Waar de trein er al is
+          en: Where rail is already there
+        text:
+          fr: >
+            Là où le train existe et va vite, il a déjà gagné : sur Bruxelles-Paris il prend
+            89 % du marché entre l'avion et le train, Lyon-Paris 83 %, Milan-Rome 75 %,
+            Barcelone-Madrid 62 %, Bruxelles-Londres 55 %. Au-delà d'environ 1 000 km, sa
+            part tombe presque à zéro. Sur 58 liaisons européennes étudiées, 7 seulement sont
+            plus rapides en train de porte à porte. La même étude chiffre le plafond
+            européen : dans le meilleur des cas, avec des trains plus rapides ou beaucoup plus
+            de trains de nuit, le report de l'avion vers le train retirerait 6 à 11 % du CO₂
+            de l'aviation intra-européenne.
+          nl: >
+            Waar de trein bestaat en snel is, heeft hij al gewonnen: op Brussel-Parijs neemt
+            hij 89 % van de markt tussen vliegtuig en trein, Lyon-Parijs 83 %, Milaan-Rome
+            75 %, Barcelona-Madrid 62 %, Brussel-Londen 55 %. Voorbij ongeveer 1.000 km valt
+            zijn aandeel bijna tot nul terug. Van 58 onderzochte Europese verbindingen zijn
+            er maar 7 sneller per trein van deur tot deur. Dezelfde studie becijfert het
+            Europese plafond: in het beste geval, met snellere treinen of veel meer
+            nachttreinen, zou de verschuiving van het vliegtuig naar de trein 6 tot 11 % van
+            de CO₂ van de intra-Europese luchtvaart wegnemen.
+          en: >
+            Where rail exists and is fast, it has already won: on Brussels-Paris it takes 89%
+            of the air-versus-rail market, Lyon-Paris 83%, Milan-Rome 75%, Barcelona-Madrid
+            62%, Brussels-London 55%. Beyond about 1,000 km its share falls to nearly zero. Of
+            58 European links studied, only 7 are faster by train door to door. The same study
+            puts a ceiling on Europe: in the best case, with faster trains or many more night
+            trains, shifting from plane to train would remove 6 to 11% of intra-European
+            aviation's CO₂.
+        source: "Bleijenberg / Koios Strategy for Transport & Environment, Air2Rail (2020), tabl. 5 and conclusion"
+        url: https://uploads.transportenvironment.org/production/files/2020_03_Air2Rail_Koios_strategy_rev.pdf
+        chart:
+          kind: bars
+          unit: "% of the air and rail market"
+          decimals: 0
+          highlight: [0, 4]
+          labels:
+            - {fr: Bruxelles-Paris, nl: Brussel-Parijs, en: Brussels-Paris}
+            - {fr: Lyon-Paris, nl: Lyon-Parijs, en: Lyon-Paris}
+            - {fr: Milan-Rome, nl: Milaan-Rome, en: Milan-Rome}
+            - {fr: Barcelone-Madrid, nl: Barcelona-Madrid, en: Barcelona-Madrid}
+            - {fr: Bruxelles-Londres, nl: Brussel-Londen, en: Brussels-London}
+          y: [89, 83, 75, 62, 55]
+          caption:
+            fr: Part du train dans le marché avion + train, cinq liaisons européennes où les deux existent
+            nl: Aandeel van de trein in de markt lucht+spoor, Europese verbindingen waar beide bestaan
+            en: Rail's share of the air + rail market, European links where both exist
     justification:
       fr: >
-        négaWatt retient {lngTripsTarget} voyages long-courriers et {srtTripsTarget}
-        court-courriers par vie, soit {airKmYearTarget} km par personne et par an.
+        négaWatt retient {lngTripsTarget} voyages long-courriers et {srtTripsTarget} voyages
+        court-courriers par vie, contre {lngTrips2019} et {srtTrips2019} en 2019 :
+        {airKmYearTarget} km par personne et par an, soit {airChangePct:abs} % de moins
+        qu'en 2019. Sur le long-courrier ({lngChangePct:abs} % de kilomètres en moins), le
+        rapport juge le report modal « à peine faisable » et la décarbonation incertaine —
+        carburants durables en quantité limitée, hydrogène et électrique pas à cette échelle
+        — donc « une réduction des très longues distances apparaît essentielle ». En
+        personnes, cela fait passer de {people2019} à {peopleTarget} voyages de {lngTripKm}
+        km par an, soit un voyage par personne tous les {yearsPerLngTripTarget} ans. Sur le
+        court-courrier, {srtShiftPct} % des kilomètres intra-européens sont reportés
+        intégralement : {toRailSpdPct} points vers la grande vitesse, {toRailCnvPct} vers le
+        train classique, {toCoachPct} vers l'autocar. Le gain d'énergie est réel parce que le
+        train demande {railKwhPkmTarget} kWh par voyageur-kilomètre contre {srtKwhPkmTarget}
+        pour l'avion.
       nl: >
         negaWatt kiest {lngTripsTarget} langeafstandsreizen en {srtTripsTarget}
-        korteafstandsreizen per leven, of {airKmYearTarget} km per persoon per jaar.
+        korteafstandsreizen per leven, tegenover {lngTrips2019} en {srtTrips2019} in 2019:
+        {airKmYearTarget} km per persoon per jaar, ofwel {airChangePct:abs} % minder dan in
+        2019. Voor de lange afstand ({lngChangePct:abs} % minder kilometers) acht het rapport
+        modale verschuiving "nauwelijks haalbaar" en blijft de decarbonisatie onzeker —
+        duurzame brandstoffen in beperkte hoeveelheid, waterstof en elektrisch niet op deze
+        schaal — dus "een vermindering van de zeer lange afstanden lijkt essentieel". In
+        personen gaat dat van {people2019} naar {peopleTarget} reizen van {lngTripKm} km per
+        jaar, ofwel één reis per persoon elke {yearsPerLngTripTarget} jaar. Voor de korte
+        afstand wordt {srtShiftPct} % van de intra-Europese kilometers volledig verschoven:
+        {toRailSpdPct} punten naar de hogesnelheidstrein, {toRailCnvPct} naar de klassieke
+        trein, {toCoachPct} naar de autocar. De energiewinst is reëel omdat de trein
+        {railKwhPkmTarget} kWh per reizigerskilometer vraagt tegenover {srtKwhPkmTarget} voor
+        het vliegtuig.
       en: >
-        négaWatt sets {lngTripsTarget} long-haul and {srtTripsTarget} short-haul trips per
-        lifetime, i.e. {airKmYearTarget} km per person per year.
+        negaWatt settles on {lngTripsTarget} long-haul and {srtTripsTarget} short-haul trips
+        per lifetime, against {lngTrips2019} and {srtTrips2019} in 2019: {airKmYearTarget} km
+        per person per year, i.e. {airChangePct:abs}% less than in 2019. For long-haul
+        ({lngChangePct:abs}% fewer kilometres) the report judges modal shift "hardly
+        feasible" and decarbonisation uncertain — sustainable fuels are in limited supply,
+        hydrogen and electric are not at this scale — so "a reduction in very long-distance
+        travel appears essential". In people, that takes it from {people2019} to
+        {peopleTarget} trips of {lngTripKm} km a year, or one trip per person every
+        {yearsPerLngTripTarget} years. For short-haul, {srtShiftPct}% of intra-European
+        kilometres are shifted entirely: {toRailSpdPct} points to high-speed rail,
+        {toRailCnvPct} to conventional rail, {toCoachPct} to the coach. The energy gain is
+        real because rail needs {railKwhPkmTarget} kWh per passenger-kilometre against
+        {srtKwhPkmTarget} for the plane.
+    debate:
+      fr: >
+        Deux objections. D'abord, une moyenne par habitant ne dit rien de la répartition, qui
+        est extrêmement inégale : « socialement acceptable » suppose de répondre à la question
+        *pour qui ?* Réduire de {lngChangePct:abs} % le long-courrier peut vouloir dire
+        rationner le seul voyage d'une vie d'un ménage modeste, ou supprimer le dixième voyage
+        annuel d'un cadre : deux politiques opposées, entre lesquelles le scénario ne choisit
+        pas. Ensuite, le report vers le train suppose une offre qui n'existe pas encore
+        (trains de nuit, billets intégrés, capacités que personne n'a chiffrées ici) : le
+        modèle déplace la demande, il ne garantit pas que le train soit *disponible*. La seule
+        étude européenne qui chiffre un plafond, citée sur la fiche « Quand le train est déjà
+        là », trouve 6 à 11 % du CO₂ de l'aviation intra-européenne évitable par report modal,
+        et encore avec la grande vitesse entre toutes les grandes villes ; le scénario demande
+        beaucoup plus. À l'inverse, l'ensemble ne suppose aucune rupture technologique, ce qui
+        le rend plus robuste que la plupart des autres leviers.
+      nl: >
+        Twee bedenkingen. Eerst: een gemiddelde per inwoner zegt niets over de verdeling, en
+        die is uiterst ongelijk. "Sociaal aanvaardbaar" veronderstelt een antwoord op de vraag
+        *voor wie*? De langeafstand met {lngChangePct:abs} % verlagen kan betekenen dat de
+        enige reis van een leven van een bescheiden huishouden gerantsoeneerd wordt, of dat de
+        tiende jaarlijkse reis van een kaderlid wegvalt: twee tegengestelde beleidskeuzes,
+        waartussen het scenario niet kiest. Dan: de verschuiving naar de trein veronderstelt
+        een spooraanbod dat nog niet bestaat (nachttreinen, geïntegreerde tickets, capaciteit
+        die hier door niemand becijferd is): het model verplaatst de vraag, het garandeert niet
+        dat de trein *beschikbaar* is. De enige Europese studie die een plafond becijfert, die
+        op de kaart "Waar de trein er al is", vindt 6 tot 11 % van de CO₂ van de
+        intra-Europese luchtvaart vermijdbaar door modale verschuiving, en dan nog met
+        hogesnelheidslijnen tussen alle grote steden; het scenario vraagt veel meer. Omgekeerd
+        veronderstelt het geheel geen enkele technologische doorbraak, wat het robuuster maakt
+        dan de meeste andere hefbomen.
+      en: >
+        Two objections. First, an average per inhabitant says nothing about the distribution,
+        which is extremely unequal: "socially acceptable" presumes an answer to the question
+        *for whom*? Cutting long-haul by {lngChangePct:abs}% may mean rationing a modest
+        household's one trip of a lifetime, or removing an executive's tenth trip of the year:
+        two opposite policies, between which the scenario does not choose. Second, the shift
+        to rail assumes a rail offer that does not yet exist (night trains, integrated
+        ticketing, capacity that nobody has quantified here): the model moves the demand, it
+        does not guarantee that the train is *available*. The one European study that puts a
+        ceiling on this, the one quoted on the "Where rail is already there" card, finds 6 to
+        11% of intra-European aviation CO₂ avoidable by modal shift, and that assuming
+        high-speed lines between every major city; the scenario asks for considerably more.
+        Conversely, the whole set assumes no technological breakthrough, which makes it more
+        robust than most of the other levers.
 
   # ------------------------------------------------------------ I -------------
   # Added for the workshop of 2 November 2026 (D72): passengers per flight over
-  # all flights, standing for long-haul-load and short-haul-load. SKELETON: full
-  # wording in WP6.
+  # all flights, standing for long-haul-load and short-haul-load. Wording: the
+  # organisers' review of 2026-10-30 (docs/workshop_2026-11/request_scenario_fiches.md,
+  # fiches C and D).
   plane-load:
     short:
       fr: Remplissage des vols
       nl: Bezetting van de vluchten
       en: Passengers per flight
     question:
-      fr: Quel remplissage des vols viser en 2050 ?
-      nl: Hoe vol moeten de vluchten in 2050 zitten?
-      en: How full should flights be in 2050?
+      fr: "Quel remplissage des vols viser en 2050 ?"
+      nl: "Hoe vol moeten de vluchten in 2050 zitten?"
+      en: "How full should flights be in 2050?"
     subtitle:
       fr: >
-        Le nombre moyen de passagers à bord, tous vols confondus, sièges vides compris.
+        Des avions plus grands transportent davantage de passagers. Ils consomment plus par
+        kilomètre que de petits avions, mais moins par passager. Le progrès technique a aussi
+        fait baisser la consommation, et plus un avion est rempli, plus sa consommation par
+        passager est faible. Ici, on compte le nombre moyen de passagers réellement à bord (un
+        siège vide compte pour zéro), sur tous les vols au départ de la Belgique, long-courriers
+        et européens ensemble : {refValue} en 2019.
       nl: >
-        Het gemiddelde aantal passagiers aan boord, alle vluchten samen, lege stoelen
-        inbegrepen.
+        Grotere vliegtuigen vervoeren meer passagiers. Ze verbruiken meer per kilometer dan
+        kleine toestellen, maar minder per passagier. De technische vooruitgang heeft het
+        verbruik ook doen dalen, en hoe voller een vliegtuig, hoe lager het verbruik per
+        passagier. Hier tellen we het gemiddelde aantal passagiers dat echt aan boord zit (een
+        lege stoel telt voor nul), op alle vluchten vanuit België, lange en korte afstand samen:
+        {refValue} in 2019.
       en: >
-        The average number of passengers on board, all flights together, empty seats
-        included.
+        Bigger aircraft carry more passengers. They use more fuel per kilometre than small
+        ones, but less per passenger. Technical progress has also brought fuel use down, and
+        the fuller a plane is, the lower its fuel use per passenger. Here we count the average
+        number of passengers actually on board (an empty seat counts for zero), over all
+        flights leaving Belgium, long-haul and European together: {refValue} in 2019.
+    tangible:
+      fr: "{value} passagers par vol en moyenne : les mêmes voyageurs avec {inverseIndex} % des vols de 2019."
+      nl: "Gemiddeld {value} passagiers per vlucht: dezelfde reizigers met {inverseIndex} % van de vluchten van 2019."
+      en: "{value} passengers per flight on average: the same travellers with {inverseIndex}% of the 2019 flights."
+    facts:
+      - kind: trend
+        text:
+          fr: >
+            En nette hausse, tous vols confondus : 110 passagers par vol en 2000,
+            {occuAll2019} en 2019, 164 en 2023. En long-courrier, on passe de {occuLng2000} à
+            {occuLng2019} puis {occuLng2023} ; sur les vols intra-européens, la progression est
+            plus forte encore : de {occuSrt2000} à {occuSrt2019} puis {occuSrt2023}. Ces gains
+            viennent d'avions plus grands autant que d'avions plus remplis. Méfiance sur le
+            dernier point : 2023 est une année de rattrapage, où les avions étaient
+            anormalement remplis.
+          nl: >
+            Duidelijk stijgend, alle vluchten samen: 110 passagiers per vlucht in 2000,
+            {occuAll2019} in 2019, 164 in 2023. Op de lange afstand gaat het van {occuLng2000}
+            naar {occuLng2019} en dan {occuLng2023}; bij de intra-Europese vluchten is de
+            stijging nog sterker: van {occuSrt2000} naar {occuSrt2019} en dan {occuSrt2023}.
+            Die winst komt evenveel van grotere vliegtuigen als van vollere. Wees voorzichtig
+            met het laatste punt: 2023 is een inhaaljaar waarin de vliegtuigen abnormaal vol
+            zaten.
+          en: >
+            Clearly rising, all flights together: 110 passengers per flight in 2000,
+            {occuAll2019} in 2019, 164 in 2023. On long-haul it goes from {occuLng2000} to
+            {occuLng2019} then {occuLng2023}; on intra-European flights the rise is stronger
+            still: from {occuSrt2000} to {occuSrt2019} then {occuSrt2023}. The gain comes from
+            bigger aircraft as much as from fuller ones. Treat the last point with care: 2023
+            was a catch-up year, with aircraft abnormally full.
+        source: nW-BE §2.3 (JRC-IDEES-2023)
+        url: http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f
+      - kind: tangible
+        text:
+          fr: >
+            En 2019, un kilomètre d'avion consommait à peu près la même énergie en long-courrier
+            ({kwhKmLng2019} kWh) et en vol européen ({kwhKmSrt2019} kWh). Mais un long-courrier
+            emportait {occuLng2019} passagers en moyenne, contre {occuSrt2019} : par
+            voyageur-kilomètre, cela fait {lngKwhPkm2019} kWh contre {srtKwhPkm2019}. L'écart
+            vient donc du nombre de passagers par avion. Plus il y a de passagers à bord, moins
+            chacun consomme, sans qu'aucun voyage soit supprimé : c'est en quelque sorte de
+            l'énergie gratuite. Passer de {occuLng2019} à {occuLng2023} passagers sur un
+            long-courrier — ce que la période 2019-2023 a déjà fait — retire environ un
+            dixième de la consommation par passager.
+          nl: >
+            In 2019 verbruikte een vliegtuigkilometer ongeveer evenveel energie op de lange
+            afstand ({kwhKmLng2019} kWh) als op de korte afstand binnen Europa
+            ({kwhKmSrt2019} kWh). Maar een langeafstandsvlucht had gemiddeld {occuLng2019}
+            passagiers aan boord, tegenover {occuSrt2019}: per reizigerskilometer is dat
+            {lngKwhPkm2019} kWh tegenover {srtKwhPkm2019}. Het verschil komt dus van het aantal
+            passagiers per vliegtuig. Hoe meer passagiers aan boord, hoe minder elk van hen
+            verbruikt, zonder dat één reis wegvalt: het is als het ware gratis energie. Als een
+            langeafstandsvlucht van {occuLng2019} naar {occuLng2023} passagiers gaat — wat de periode
+            2019-2023 al deed — haalt dat ongeveer een tiende van het verbruik per passagier weg.
+          en: >
+            In 2019 an aircraft-kilometre used about the same energy on long-haul
+            ({kwhKmLng2019} kWh) as on European flights ({kwhKmSrt2019} kWh). But a long-haul
+            flight carried {occuLng2019} passengers on average, against {occuSrt2019}: per
+            passenger-kilometre that makes {lngKwhPkm2019} kWh against {srtKwhPkm2019}. The gap
+            therefore comes from the number of passengers per aircraft. The more passengers on
+            board, the less each one uses, without a single trip being cancelled: it is, in a
+            way, free energy. Going from {occuLng2019} to {occuLng2023} passengers on a
+            long-haul flight — which 2019 to 2023 already did — takes about a tenth off the
+            energy used per passenger.
+        source: nW-BE §2.3, arithmetic on the observed values
+      - kind: caution
+        label:
+          fr: Ce que le calcul ne montre pas
+          nl: Wat de berekening niet toont
+          en: What the calculation does not show
+        text:
+          fr: >
+            Un avion plus grand consomme plus de carburant par kilomètre, mais moins par
+            passager. Pourtant, entre 2000 et 2019, les vols long-courriers au départ de la
+            Belgique ont embarqué {histGainLngPct2019} % de passagers en plus par vol, alors que
+            chaque kilomètre d'avion consommait {fuelChangeLngPct2019:abs} % de carburant en
+            moins (de {kwhKmLng2000} à {kwhKmLng2019} kWh) : le progrès technique a plus que
+            compensé l'effet de la taille. Dans le calcul, ajouter des passagers sur un vol ne
+            fait jamais augmenter la consommation de l'avion par kilomètre. C'est juste si ces
+            passagers occupent des sièges vides ; c'est optimiste s'il faut pour cela de plus
+            gros avions.
+          nl: >
+            Een groter vliegtuig verbruikt per kilometer meer brandstof, maar per passagier
+            minder. Toch kregen de langeafstandsvluchten vanuit België tussen 2000 en 2019
+            {histGainLngPct2019} % meer passagiers per vlucht, terwijl elke vliegtuigkilometer
+            {fuelChangeLngPct2019:abs} % minder brandstof verbruikte (van {kwhKmLng2000} naar
+            {kwhKmLng2019} kWh): de technische vooruitgang heeft het effect van de grootte meer
+            dan goedgemaakt. In de berekening doet extra passagiers toevoegen aan een vlucht het
+            verbruik van het vliegtuig per kilometer nooit stijgen. Dat klopt als die passagiers
+            lege stoelen innemen; het is optimistisch als daarvoor grotere vliegtuigen nodig
+            zijn.
+          en: >
+            A bigger aircraft burns more fuel per kilometre, but less per passenger. Yet
+            between 2000 and 2019, long-haul flights out of Belgium carried
+            {histGainLngPct2019}% more passengers per flight while each aircraft-kilometre used
+            {fuelChangeLngPct2019:abs}% less fuel (from {kwhKmLng2000} to {kwhKmLng2019} kWh):
+            technical progress more than offset the size effect. In the calculation, adding
+            passengers to a flight never raises the aircraft's fuel use per kilometre. That is
+            right if those passengers fill empty seats; it is optimistic if bigger aircraft are
+            needed.
+        source: nW-BE §2.3 (JRC-IDEES-2023, occupancy and effective vehicle efficiency)
+        url: http://data.europa.eu/89h/1f0b480c-6d21-4d95-897d-20c7ca33df6f
+      - kind: lever
+        label:
+          fr: Sièges × remplissage
+          nl: Stoelen × bezetting
+          en: Seats × load factor
+        text:
+          fr: >
+            Un taux de remplissage parle plus qu'un nombre de passagers, et les deux se
+            déduisent l'un de l'autre : *passagers par vol = nombre de sièges × taux de
+            remplissage*. Le remplissage moyen mondial était de {loadFactor2019} % des sièges
+            en 2019 et de {loadFactor2024} % en 2024. Les {occuAll2019} passagers par vol de
+            2019 correspondent donc à un appareil d'environ {seatsImpliedAll2019} sièges rempli
+            aux quatre cinquièmes.
+          nl: >
+            Een bezettingsgraad zegt meer dan een aantal passagiers, en het een volgt uit het
+            ander: *passagiers per vlucht = aantal stoelen × bezettingsgraad*. De gemiddelde
+            wereldwijde bezetting was {loadFactor2019} % van de stoelen in 2019 en
+            {loadFactor2024} % in 2024. De {occuAll2019} passagiers per vlucht van 2019 komen
+            dus overeen met een toestel van ongeveer {seatsImpliedAll2019} stoelen dat voor
+            vier vijfde vol zit.
+          en: >
+            A load factor says more than a passenger count, and each follows from the other:
+            *passengers per flight = number of seats × load factor*. The average world load
+            factor was {loadFactor2019}% of seats in 2019 and {loadFactor2024}% in 2024. The
+            {occuAll2019} passengers per flight of 2019 therefore correspond to an aircraft of
+            about {seatsImpliedAll2019} seats filled to four fifths.
+        source: "IATA, Industry Statistics (passenger load factor, world)"
+        url: https://www.iata.org/en/iata-repository/pressroom/fact-sheets/industry-statistics/
+        chart:
+          kind: bars
+          unit: seats per flight
+          decimals: 0
+          highlight: 1
+          labels:
+            - {fr: "Europe, 2018", nl: "Europa, 2018", en: "Europe, 2018"}
+            - {fr: "Europe, 2024", nl: "Europa, 2024", en: "Europe, 2024"}
+          y: [173, 183]
+          source: "EUROCONTROL, Data Snapshot #54, Further, higher, bigger (2025)"
+          url: https://www.eurocontrol.int/sites/default/files/2025-07/eurocontrol-data-snapshot-54.pdf
+          caption:
+            fr: Sièges offerts par vol, moyenne du réseau européen — les compagnies ont surtout agrandi les avions
+            nl: Aangeboden stoelen per vlucht, gemiddelde van het Europese netwerk — de maatschappijen hebben vooral de vliegtuigen vergroot
+            en: Seats offered per flight, European network average — airlines have mostly made the aircraft bigger
+      - kind: benchmark
+        label:
+          fr: Jusqu'où peut-on remplir ?
+          nl: Hoe vol kan het?
+          en: How full can it get?
+        text:
+          fr: >
+            Le plafond n'est pas 100 %, mais il est nettement au-dessus de la moyenne :
+            Ryanair, qui ne vend qu'une classe et ne fait pas de correspondances, a rempli ses
+            avions à 94 % en moyenne sur son exercice d'avril 2025 à mars 2026, et à 96 % en
+            été. Si le taux de remplissage moyen du secteur est de {loadFactor2024} % alors que
+            Ryanair atteint 94 %, il y a clairement moyen d'augmenter le taux de remplissage
+            avant de devoir passer à des avions plus grands.
+          nl: >
+            Het plafond is geen 100 %, maar het ligt duidelijk boven het gemiddelde: Ryanair,
+            dat maar één klasse verkoopt en geen overstappen aanbiedt, vulde zijn vliegtuigen
+            in zijn boekjaar van april 2025 tot maart 2026 voor gemiddeld 94 %, en voor 96 % in
+            de zomer. Als de gemiddelde bezettingsgraad van de sector {loadFactor2024} % bedraagt
+            terwijl Ryanair 94 % haalt, is er duidelijk ruimte om de bezetting te verhogen voor
+            er grotere toestellen nodig zijn.
+          en: >
+            The ceiling is not 100%, but it is well above the average: Ryanair, which sells a
+            single class and offers no connections, filled its aircraft to 94% on average over
+            its April 2025 to March 2026 financial year, and to 96% in summer. With the
+            industry's average load factor at {loadFactor2024}% and Ryanair reaching 94%, there
+            is clearly room to raise the load factor before bigger aircraft are needed.
+        source: "Ryanair, Traffic and Load Factor Stats (FY26: April 2025 to March 2026)"
+        url: https://investor.ryanair.com/traffic/
     justification:
       fr: >
-        négaWatt retient {occuAllTarget} passagers par vol en moyenne : +{gainLngPct} % sur
-        les long-courriers et +{gainSrtPct} % sur les vols européens.
+        négaWatt retient {occuAllTarget} passagers par vol en moyenne, contre {occuAll2019} en
+        2019 (+{occuAllGainPct} %) : +{gainLngPct} % sur les long-courriers (de {occuLng2019} à
+        {occuLngTarget}) et +{gainSrtPct} % sur les vols européens (de {occuSrt2019} à
+        {occuSrtTarget}). Le choix est explicitement prudent : de 2000 à 2023, le remplissage a
+        gagné +{histGainLngPct} % en long-courrier et +{histGainSrtPct} % en intra-européen, et
+        le scénario n'en retient que la moitié, sur une période plus longue. Avec la baisse de
+        consommation par kilomètre d'avion et la réduction du nombre de voyages, cela conduit à
+        {keroTwhTarget} TWh de kérosène en 2050, contre {keroTwh} en 2019.
       nl: >
-        negaWatt kiest gemiddeld {occuAllTarget} passagiers per vlucht: +{gainLngPct} % op
-        de langeafstandsvluchten en +{gainSrtPct} % op de Europese vluchten.
+        negaWatt kiest gemiddeld {occuAllTarget} passagiers per vlucht, tegenover {occuAll2019}
+        in 2019 (+{occuAllGainPct} %): +{gainLngPct} % op de langeafstandsvluchten (van
+        {occuLng2019} naar {occuLngTarget}) en +{gainSrtPct} % op de Europese vluchten (van
+        {occuSrt2019} naar {occuSrtTarget}). De keuze is uitdrukkelijk voorzichtig: van 2000 tot
+        2023 nam de bezetting toe met +{histGainLngPct} % op de lange afstand en
+        +{histGainSrtPct} % intra-Europees, en het scenario houdt daar maar de helft van over,
+        over een langere periode. Samen met de daling van het verbruik per vliegtuigkilometer en
+        de vermindering van het aantal reizen komt dat op {keroTwhTarget} TWh kerosine in 2050,
+        tegenover {keroTwh} in 2019.
       en: >
-        négaWatt sets {occuAllTarget} passengers per flight on average: +{gainLngPct}% on
-        long-haul and +{gainSrtPct}% on European flights.
+        negaWatt sets {occuAllTarget} passengers per flight on average, against {occuAll2019} in
+        2019 (+{occuAllGainPct}%): +{gainLngPct}% on long-haul (from {occuLng2019} to
+        {occuLngTarget}) and +{gainSrtPct}% on European flights (from {occuSrt2019} to
+        {occuSrtTarget}). The choice is explicitly cautious: from 2000 to 2023 load grew by
+        +{histGainLngPct}% on long-haul and +{histGainSrtPct}% on intra-European, and the
+        scenario keeps only half of that, over a longer period. Together with the fall in fuel
+        per aircraft-kilometre and the reduction in trips, that comes to {keroTwhTarget} TWh of
+        kerosene in 2050, against {keroTwh} in 2019.
+    debate:
+      fr: >
+        Le scénario retient exactement la moitié de la tendance observée sur tous ses leviers
+        techniques de l'aviation. C'est cohérent, mais discutable dans les deux sens : la
+        prudence est défendable si l'on croit que les gains faciles sont derrière nous, et
+        intenable si l'on remarque que 2023 avait déjà dépassé l'objectif intermédiaire. La
+        tendance dépend d'ailleurs de l'année d'arrivée : mesurée jusqu'en 2019 plutôt que
+        jusqu'en 2023, elle vaut +{histGainLngPct2019} % au lieu de +{histGainLngPct} % en
+        long-courrier et +{histGainSrtPct2019} % au lieu de +{histGainSrtPct} % en
+        intra-européen, et la même règle donnerait un objectif sensiblement plus bas. Reste un
+        paradoxe : le remplissage a surtout progressé grâce au low-cost, c'est-à-dire grâce à ce
+        qui a fait exploser le nombre de vols, et améliorer le remplissage tout en réduisant les
+        vols n'est pas la simple addition de deux tendances passées. En clair, ce levier est le
+        moins coûteux de l'aviation et a probablement plus de marge que le scénario ne lui en
+        donne — ce qui rend d'autant plus lourde la réduction demandée aux voyages.
+      nl: >
+        Het scenario houdt op al zijn technische luchtvaarthefbomen exact de helft van de
+        waargenomen trend over. Dat is coherent, maar in beide richtingen betwistbaar: de
+        voorzichtigheid is verdedigbaar als men denkt dat de gemakkelijke winsten achter ons
+        liggen, en onhoudbaar als men merkt dat 2023 het tussentijdse doel al voorbij was. De
+        trend hangt bovendien af van het eindjaar: tot 2019 gemeten in plaats van tot 2023
+        bedraagt hij +{histGainLngPct2019} % in plaats van +{histGainLngPct} % op de lange
+        afstand en +{histGainSrtPct2019} % in plaats van +{histGainSrtPct} % intra-Europees, en
+        dezelfde regel zou een merkelijk lager doel geven. Blijft een paradox: de bezetting is
+        vooral gestegen dankzij low cost, dat wil zeggen dankzij wat het aantal vluchten heeft
+        doen ontploffen, en de bezetting verbeteren terwijl de vluchten verminderen is niet de
+        simpele som van twee voorbije trends. Kortom: deze hefboom is de minst kostelijke van de
+        luchtvaart en heeft vermoedelijk meer marge dan het scenario hem geeft — wat de gevraagde
+        vermindering van de reizen des te zwaarder maakt.
+      en: >
+        The scenario keeps exactly half the observed trend on every one of its technical
+        aviation levers. That is consistent, but arguable in both directions: the caution is
+        defensible if you think the easy gains are behind us, and untenable if you notice that
+        2023 had already passed the interim objective. The trend also depends on the year it
+        stops: measured to 2019 rather than to 2023 it is +{histGainLngPct2019}% instead of
+        +{histGainLngPct}% on long-haul and +{histGainSrtPct2019}% instead of
+        +{histGainSrtPct}% on intra-European, and the same rule would give a noticeably lower
+        objective. One paradox remains: load rose mainly thanks to low-cost carriers — that is,
+        thanks to what made the number of flights explode — and improving load while reducing
+        flights is not the simple sum of two past trends. In short, this is the cheapest of the
+        aviation levers and probably has more room than the scenario gives it — which makes the
+        reduction demanded of travel that much heavier.

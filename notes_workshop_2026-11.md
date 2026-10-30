@@ -23,8 +23,8 @@ Status: ⬜ todo · 🟡 in progress · ✅ done · ⛔ dropped (with reason)
 
 ## Resume here
 
-> **Next step:** WP6 is running (agent 3: aviation). Then: review it; set `active:
-> workshop-2026-11`; rebuild; WP7 tests (FR/NL/EN walk, print), WP8 deploy, WP9 docs.
+> **Next step:** WP7 — browser walk of the three themes in FR/NL/EN and print page counts;
+> then WP8 deploy for testing (restore procedure above), WP9 final docs.
 
 Environment: no `data_processing` env on this machine; the `pypsa-eur` env has every
 dependency (numpy, pandas, scipy, matplotlib, nbformat, nbconvert, yaml, jupyter):
@@ -119,7 +119,7 @@ new; YAML is never served, `.htaccess` answers 403).
 | WP3 | Model: `plane-trips`, `plane-load`, weighted parts, per-part impacts, new history series, notebook re-runs | orchestrator | ✅ |
 | WP4 | Content — inland mobility (3 cards) | agent 1 (Sonnet) + review | ✅ |
 | WP5 | Content — buildings heat (theme + 3 cards) | agent 2 (Sonnet) + review | ✅ |
-| WP6 | Content — international mobility (3 cards) | agent 3 (Sonnet) + review | ⬜ |
+| WP6 | Content — international mobility (3 cards) | agent 3 (Sonnet) + review | ✅ |
 | WP7 | Tests: build, helpers, export, API, browser FR/NL/EN, print | orchestrator | ⬜ |
 | WP8 | Server backup, deploy for testing, live check | orchestrator | ⬜ |
 | WP9 | README + `docs/workshop_module.md` (D69–D72, review round), final notes | orchestrator | ⬜ |
@@ -221,3 +221,26 @@ new; YAML is never served, `.htaccess` answers 403).
 - 2026-10-30 — Agent 3 stopped on the session limit right after starting (nothing written;
   checked: only the bundle differed, by the new `start.archived` string, rebuilt and
   committed). Relaunched with the same brief once the limit reset.
+- 2026-10-30 — WP6 done (agent 3 + review). `plane-trips`: introduction with return-trip
+  distances, an 80-year life and the km/person/year sum; trend fact rewritten with Statbel
+  (C5/C6: airports passed 2019 in 2025 — 36 M passengers against 35.5 M — flights still
+  below; airport passengers ≠ km flown by residents; the km series stops in 2023 at −12 %);
+  two curves per flight type in trips per lifetime (C4); "Qui vole et ne vole pas" with ICCT
+  moved to the source (fn2); the western-Europe survey; the 80 % caution dropped (C7); "Et
+  les émissions de CO₂" from primary sources instead of the Canopea dossier (fn3): EU
+  aviation ≈ 4 % of EU GHG in 2022 (European Commission), Belgian international aviation
+  +68 % 1990→2022 (Eurostat env_air_gge, a memo item outside the national total);
+  technologies (Airbus ZEROe postponed 2025; hydrogen mostly fossil, IEA; SAF 0.3 % of jet
+  fuel and 11 % of renewable-fuel *capacity*, IATA Dec 2024; SAF are mostly biofuels, not
+  "carburants de synthèse" as the docx said); "Avion ou voiture" keeps both points (C8);
+  the train facts kept. "Répartition des vols" dropped (C9). `plane-load`: all-flights trend
+  on the chart's basis (110 → 152 → 164) then per flight type; C10 explained (an
+  aircraft-km costs about the same, 67.3 vs 69.1 kWh; 188 vs 122 passengers make the
+  0.358 vs 0.566 kWh/pkm); C11/C12 rewritten (passengers/flight +22 %, fuel per aircraft-km
+  −38 %, 2000→2019: progress more than offset size); Ryanair is **94 %** on the year (FY26),
+  96 % in summer only (the docx's 96 % annual held in FY19). `air-freight`: tracked changes,
+  C13 ("fret général" = everything but express, which is ~18 %, Boeing WACF 2024–2043),
+  parcels "131 milliards en 2020, doublement attendu d'ici 2026" (Pitney Bowes 2021), no more
+  `{question:…}` to archived cards. Review fix: the trend fact no longer repeats the answer
+  chart (third chart on the card). Line-up `workshop-2026-11` **activated**; all checks green
+  (build both line-ups, registry, helpers 17, export 450, API 61 on dev_api).
