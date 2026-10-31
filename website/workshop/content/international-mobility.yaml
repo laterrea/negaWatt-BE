@@ -18,8 +18,9 @@ topic: international-mobility
 sector: transport
 
 # Each group plays the questions in its own random order (D63); `fixed` plays them
-# in the order of the levers below, as before. Every question keeps a letter (A, B,
-# C… in that order) that links the screen, the printed card and the reveal.
+# in the order the line-up lists them (programme.yaml, D69). The questions played get
+# the letters A, B, C… of that order, which link the screen, the printed card and the
+# reveal; a question left out of the line-up keeps the letter of its place below.
 questionOrder: random
 
 title:

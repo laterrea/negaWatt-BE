@@ -131,10 +131,11 @@ strings:
     fr: "Les réductions se multiplient, elles ne s'additionnent pas : deux fois −10 % donnent −19 %, pas −20 %."
     nl: "De besparingen vermenigvuldigen zich, ze tellen niet zomaar op: twee keer −10 % geeft −19 %, niet −20 %."
     en: "The cuts multiply rather than add up: two cuts of 10% make 19%, not 20%."
+  # a "sum" lever may weight its sliders (D72): trips per lifetime add up in km
   play.parts.rule.sum:
-    fr: Les curseurs s'additionnent.
-    nl: De schuifknoppen tellen op.
-    en: The sliders add up.
+    fr: "Les curseurs s'additionnent, une fois convertis dans l'unité du graphique."
+    nl: "De schuifknoppen tellen op, omgerekend naar de eenheid van de grafiek."
+    en: "The sliders add up, once converted into the chart's unit."
   play.unanswered:
     fr: Pas encore de réponse
     nl: Nog geen antwoord

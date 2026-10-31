@@ -18,10 +18,12 @@ topic: residential-heat
 sector: buildings
 
 # Each group plays the questions in its own random order (D63); `fixed` plays them
-# in the order of the levers below, as before. Every question keeps a letter (A, B,
-# C… in that order) that links the screen, the printed card and the reveal.
+# in the order the line-up lists them (programme.yaml, D69). The questions played get
+# the letters A, B, C… of that order, which link the screen, the printed card and the
+# reveal; a question left out of the line-up keeps the letter of its place below.
 questionOrder: random
-# Questions that always move together, in this order (they must be adjacent below).
+# Questions that always move together, in this order (they must be adjacent in the
+# line-up; a block only partly in it is dropped with a note).
 linked:
   - [renovation-rate, renovation-depth]
 
@@ -303,7 +305,7 @@ levers:
           nl: >
             Bij de census 2021 telde 46,6 % van de bewoonde woningen in België — 2,3 miljoen
             — drie kamers of meer per bewoner. In Wallonië zondert het IWEPS
-            233 617 huizen af die bewoond worden door een eigenaar van 65 jaar of ouder:
+            233.617 huizen af die bewoond worden door een eigenaar van 65 jaar of ouder:
             99,6 % daarvan huisvest maar één of twee personen, en 89 % telt vijf kamers of
             meer. Iemand onder hetzelfde dak opnemen, of het huis in twee woningen opdelen
             (kangoeroewonen, samenhuizen, opdeling), verlaagt de oppervlakte per persoon
@@ -338,7 +340,7 @@ levers:
             pas — sans pour autant tomber à zéro, puisqu'on les tient hors gel l'hiver.
           nl: >
             Het bestand bevat woningen waar niemand het hele jaar woont. Alleen al de
-            Belgische kust telt ruim 106 000 tweede verblijven (2023), gemiddeld 87 nachten
+            Belgische kust telt ruim 106.000 tweede verblijven (2023), gemiddeld 87 nachten
             per jaar bewoond, waarvan 74 door de eigenaars zelf. Die vierkante meters tellen
             het hele jaar mee in de oppervlakte per persoon; hun verwarming volgt niet —
             zonder daarom op nul te vallen, want ze worden vorstvrij gehouden in de winter.
@@ -366,7 +368,7 @@ levers:
           nl: >
             Leegstaande woningen tellen ook mee — en het zijn er minder dan het debat doet
             vermoeden. Brussel kruiste het kadaster, het Rijksregister en de lage
-            waterverbruiken van Vivaqua: 4 500 vermoedelijk leegstaande woningen, minder dan
+            waterverbruiken van Vivaqua: 4.500 vermoedelijk leegstaande woningen, minder dan
             2 % van het gewestelijke bestand, onder de verwachtingen. Ze terug op de markt
             brengen verlaagt de oppervlakte per persoon niet — bestand noch bevolking
             veranderen — maar huisvest mensen zonder te bouwen.

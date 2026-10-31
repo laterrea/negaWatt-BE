@@ -3,8 +3,12 @@
 Request (2026-10-30, Sylvain): adapt the workshop questions and cards to
 `scenario_fiches.docx` (repository root, untracked — text extraction with its tracked
 changes and comments in `docs/workshop_2026-11/request_scenario_fiches.md`).
-The covering e-mail mentioned in the request was **not included in the message**; the
-.docx is the only written source used.
+The covering e-mail (Mari, for Inès, Arthur B. and herself) arrived on 2026-10-31, after the
+work, and was used for the final consistency pass: three cards per theme; inland B, C, D
+with two comprehension questions in the margin; international A+B and C+D combined and G
+reworked, "easy" comments to solve before 2/11; residential A and D plus tertiary C in one
+theme "Chaleur des bâtiments", the two thermostat questions kept on purpose to compare
+"choix individuel" and "changement de législation à plus grande échelle".
 
 Constraints from the request:
 
@@ -281,3 +285,37 @@ new; YAML is never served, `.htaccess` answers 403).
    then `bash scripts/deploy_website.sh`. `full` gives back the thirty questions of
    September–October.
 5. **To undo everything** on the live site: see "Putting the live site back" at the top.
+- 2026-10-31 — **Consistency pass against the e-mail** (see the top of this file). Everything
+  it describes was already in place: three cards per theme; the inland cards B, C, D; both
+  comprehension questions answered (C1: Eurostat counts car, bus and train only; C2/C3: the
+  speed card rewritten); the aviation merges A+B and C+D and card G; every margin comment
+  of the aviation cards resolved, not only the easy ones; *Chaleur des bâtiments* = logements
+  A, D + tertiaire C, the two thermostat cards side by side (summary table "Thermostat du
+  logement" / "Thermostat du tertiaire", same chart orientation), the tertiary card carrying
+  the collective angle (Spanish law, "la consigne est un compromis et non un choix
+  individuel"), the home card the individual one (SlowHeat; the Spanish law "ne touchait
+  pas les logements"). Checks run: live site identical to the repository (rsync
+  `--checksum`); the docx with all changes accepted, card by card — every figure kept by
+  the reviewers is on the card or deliberately corrected (59,4 → 59,2; 80 % → 83,4 %;
+  227 → 185 seats for all flights; the 2017 myth paragraph dropped per C7); numbers
+  identical in FR/NL/EN on all nine cards (scripted). Fixed: Dutch thousands separators on
+  the floor-area card (233.617, 106.000, 4.500); the slider rule under the two flight
+  sliders said "les curseurs s'additionnent" — now "une fois convertis dans l'unité du
+  graphique", since trips add up in km; the README and the four topic-file headers still
+  said letters follow the YAML — they follow the line-up. A first group played the new
+  inland line-up on the live site overnight (car-share, car-occupancy, car-energy and its
+  three sliders, stored under the expected ids).
+- **Card letters, docx → screen and print.** The organisers' document keeps the old letters;
+  the cards now read A, B, C in each theme:
+
+  | theme | docx | card | question id |
+  |---|---|---|---|
+  | Mobilité intérieure | B | A | `car-share` |
+  | | C | B | `car-occupancy` |
+  | | D | C | `car-energy` |
+  | Mobilité internationale | A + B | A | `plane-trips` |
+  | | C + D | B | `plane-load` |
+  | | G | C | `air-freight` |
+  | Chaleur des bâtiments | logements A | A | `floor-area` |
+  | | logements D | B | `thermostat` |
+  | | tertiaire C | C | `ter-thermostat` |

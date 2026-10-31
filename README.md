@@ -479,24 +479,26 @@ group plays a topic's questions in its own random order**. One line in the topic
 controls it:
 
 ```yaml
-questionOrder: random        # the default; `fixed` plays the levers in YAML order, as before
+questionOrder: random        # the default; `fixed` plays them in the line-up's order
 linked:                      # questions that always move together, in this order
   - [renovation-rate, renovation-depth]
 ```
 
-- **Letters, not numbers, link the screen to the paper.** Every question keeps the letter of
-  its place in the YAML (A, B, C…). The printed card carries it in its corner, the play
-  screen says "Question 3 of 8 · Card C" (the group's own position, then the card to pick
-  up), and the reveal walks the questions A → H — the order of the cards. The group's end
-  summary and its ± chart are in letter order too.
+- **Letters, not numbers, link the screen to the paper.** Every question played gets the
+  letter of its place in the line-up (A, B, C… — `programme.yaml`; an archived question
+  keeps the letter it was printed with, D69). The printed card carries it in its corner, the
+  play screen says "Question 2 of 3 · Card C" (the group's own position, then the card to
+  pick up), and the reveal walks the questions A, B, C… — the order of the cards. The
+  group's end summary and its ± chart are in letter order too.
 - **The shuffle is seeded by the group id** (`order.js`), so a group sees the same order on
   every device and after every reload, and the order a group was shown can be recomputed
   from the database: `NW_ORDER.sequence(NW_WS_CONTENT.topics[topic], group_id)` in the
-  browser console. The order it actually *answered* in is in `ws_answer_log`. No API or
+  browser console, with the bundle of the line-up that group played (`--lineup`). The order it actually *answered* in is in `ws_answer_log`. No API or
   schema change. A device that starts offline draws a random order and keeps it once its
   group exists.
 - **Linked questions** move as one block. The build refuses a block whose questions are not
-  adjacent and in that order in the YAML, so their letters follow (B, C).
+  adjacent and in that order in the line-up, so their letters follow (B, C); a block only
+  partly in the line-up is dropped with a note, its played half being an ordinary question.
 - **Point to another question by its letter, never by its position.** Write
   `{question:renovation-depth}`, which the build turns into that question's letter ("see
   question C"). In a `random` topic the build refuses "the next / previous / last question",
@@ -504,8 +506,8 @@ linked:                      # questions that always move together, in this orde
   next question can be any of them.
 
 To go back to the old setup for a topic, set `questionOrder: fixed`: the questions are then
-played in the order of the `levers:` blocks, exactly as before, and the letters simply follow
-that order. See D63.
+played in the order the line-up lists them (for `all`, the order of the `levers:` blocks, as
+before), and the letters simply follow that order. See D63 and D69.
 
 ### No sessions: a group, a topic, a date
 
