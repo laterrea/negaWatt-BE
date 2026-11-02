@@ -319,3 +319,27 @@ new; YAML is never served, `.htaccess` answers 403).
   | Chaleur des bâtiments | logements A | A | `floor-area` |
   | | logements D | B | `thermostat` |
   | | tertiaire C | C | `ter-thermostat` |
+- 2026-11-02 (morning of the workshop) — **Last remarks from Mari and Inès**, all applied:
+  - `car-share`, 80,4 % (Swiss comparison) vs 78,5 % (trend), raised again by Mari: the
+    comparison now asks the question itself — "Pourquoi 80,4 % ici, et 78,5 % dans la
+    tendance passée ? Ce n'est pas une erreur" — and says why: Eurostat counts three modes
+    only (car, bus/coach, train), not tram, metro or motorised two-wheelers, so the car's
+    share comes out a little higher. (Checked on the model's own 2019 split: removing tram,
+    metro and two-wheelers takes the car share from 78.7 % to 80.6 %, the same gap.)
+  - `car-share`, bikes (Inès): the trend now says "comme dans la question, sans la marche ni
+    le vélo", and the Netherlands card that bicycle kilometres are left out "sur toute cette
+    fiche", not in that one indicator.
+  - `car-occupancy`, "Seuls 3 %" (Inès): dated — "En 2019, seuls 3 % des passagers
+    déclaraient…" (SDES 2022 on the EMP 2018-2019; checked in the PDF).
+  - `thermostat` and `ter-thermostat`, "son exposé des motifs retient la même physique que ce
+    levier" (Inès): now "Pour justifier la mesure, le décret avance le même chiffre que cette
+    fiche : environ 7 % de consommation en moins par degré."
+  - `thermostat`, "soit 82,4 % de l'énergie thermique du logement" (Inès): now says what that
+    energy is — "de l'énergie que demandent ensemble le chauffage, l'eau chaude, la cuisson
+    et la climatisation des logements" (the model's four thermal uses); same wording on
+    `ter-thermostat` (66,9 %, with catering) and `floor-area` (82,9 %), for consistency.
+  - Card A first in *Chaleur des bâtiments* (Inès): `questionOrder: fixed` in
+    `buildings-heat.yaml` — every group plays floor area, then the two thermostats; checked
+    on 500 simulated groups with the page's own `order.js`. The two mobility themes keep
+    their random order (not raised; one line each to change).
+  All checks green; FR/NL/EN numbers identical; print unchanged (3 + 5 + 3 pages).

@@ -529,20 +529,21 @@ levers:
             Un gouvernement européen l'a déjà imposé par la loi, et exactement sur ce
             périmètre : en août 2022, l'Espagne a plafonné le chauffage à 19 °C dans les
             bâtiments publics, les commerces, les cinémas, les gares et les aéroports, et fixé
-            la climatisation à 27 °C minimum. Son exposé des motifs retient la même physique
-            que ce levier : environ {pctPerDegC} % de consommation en moins par degré.
+            la climatisation à 27 °C minimum. Pour justifier la mesure, le décret avance le
+            même chiffre que cette fiche : environ {pctPerDegC} % de consommation en moins par
+            degré.
           nl: >
             Eén Europese regering heeft het al bij wet opgelegd, en precies op deze perimeter:
             in augustus 2022 beperkte Spanje de verwarming tot 19 °C in openbare gebouwen,
             winkels, bioscopen, stations en luchthavens, en stelde het de koeling op minimaal
-            27 °C. De toelichting hanteert dezelfde fysica als deze hefboom: ongeveer
-            {pctPerDegC} % minder verbruik per graad.
+            27 °C. Ter verantwoording van de maatregel gebruikt het decreet hetzelfde cijfer als
+            deze fiche: ongeveer {pctPerDegC} % minder verbruik per graad.
           en: >
             One European government has already legislated it, and on exactly this perimeter:
             in August 2022 Spain capped heating at 19 °C in public buildings, shops, cinemas,
-            stations and airports, and set cooling at a minimum of 27 °C. Its explanatory note
-            uses the same physics as this lever: about {pctPerDegC}% less consumption per
-            degree.
+            stations and airports, and set cooling at a minimum of 27 °C. To justify the
+            measure, the decree uses the same figure as this card: about {pctPerDegC}% less
+            consumption per degree.
         source: "Government of Spain, Royal Decree-Law 14/2022 — plan for energy saving and air-conditioning management, 1 August 2022"
         url: https://www.lamoncloa.gob.es/lang/en/gobierno/councilministers/Paginas/2022/20220801_council.aspx
       - kind: structure
@@ -572,17 +573,19 @@ levers:
       - kind: tangible
         text:
           fr: >
-            Un degré en moins, c'est {pctPerDegC} % de chauffage en moins : {degCTwh2019} TWh à
-            l'échelle du parc tertiaire belge de 2019, sur un poste chauffage de
-            {heatTwh} TWh — {heatSharePct} % de l'énergie thermique du secteur.
+            Un degré en moins, c'est {pctPerDegC} % de chauffage en moins : {degCTwh2019} TWh
+            pour l'ensemble des bâtiments tertiaires belges en 2019. Le chauffage y pèse
+            {heatTwh} TWh, soit {heatSharePct} % de l'énergie que demandent ensemble le
+            chauffage, l'eau chaude, la restauration et la climatisation du secteur.
           nl: >
-            Eén graad minder is {pctPerDegC} % minder verwarming: {degCTwh2019} TWh op de
-            schaal van het Belgische tertiaire bestand van 2019, op een verwarmingspost van
-            {heatTwh} TWh — {heatSharePct} % van de thermische energie van de sector.
+            Eén graad minder is {pctPerDegC} % minder verwarming: {degCTwh2019} TWh voor alle
+            Belgische tertiaire gebouwen in 2019. Verwarming weegt er {heatTwh} TWh, ofwel
+            {heatSharePct} % van de energie die verwarming, warm water, catering en koeling van
+            de sector samen vragen.
           en: >
-            One degree less is {pctPerDegC}% less heating: {degCTwh2019} TWh across the Belgian
-            service stock of 2019, out of a heating bill of {heatTwh} TWh — {heatSharePct}% of
-            the sector's thermal energy.
+            One degree less is {pctPerDegC}% less heating: {degCTwh2019} TWh across all Belgian
+            service buildings in 2019. Heating weighs {heatTwh} TWh there, or {heatSharePct}% of
+            the energy that the sector's heating, hot water, catering and cooling take together.
         source: nW-BE §3.1.2, arithmetic on the 2019 stock
       - kind: lever
         label:

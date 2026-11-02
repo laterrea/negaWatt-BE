@@ -324,32 +324,36 @@ levers:
         text:
           fr: >
             Presque immobile depuis vingt ans : 81,4 % en 2000, {refValue} % en 2019,
-            78,5 % en 2023. Le pic de 83 % en 2021 était un effet Covid — on a fui les
-            transports publics.
+            78,5 % en 2023 — comme dans la question, sans la marche ni le vélo. Le pic de
+            83 % en 2021 était un effet Covid — on a fui les transports publics.
           nl: >
             Al twintig jaar bijna onveranderd: 81,4 % in 2000, {refValue} % in 2019,
-            78,5 % in 2023. De piek van 83 % in 2021 was een covid-effect — men meed het
-            openbaar vervoer.
+            78,5 % in 2023 — zoals in de vraag, zonder stappen en fietsen. De piek van 83 %
+            in 2021 was een covid-effect — men meed het openbaar vervoer.
           en: >
             Almost motionless for twenty years: 81.4% in 2000, {refValue}% in 2019, 78.5% in
-            2023. The 83% spike in 2021 was a Covid effect — people avoided public transport.
+            2023 — as in the question, without walking or cycling. The 83% spike in 2021 was a
+            Covid effect — people avoided public transport.
         source: JRC-IDEES-2023, population Statbel
         url: https://joint-research-centre.ec.europa.eu/potencia/jrc-idees_en
       - kind: caution
         text:
           fr: >
-            Attention au raccourci : ce sont les Pays-Bas qui affichent la *plus forte* part de
-            la voiture parmi les pays voisins de la Belgique (85,3 % en 2023), parce que les
-            kilomètres à vélo ne comptent pas dans cet indicateur. Rouler beaucoup à vélo ne
-            suffit pas à faire baisser cette part.
+            Attention au raccourci : sur toute cette fiche, comme dans la question, les
+            kilomètres à vélo ne sont pas comptés. C'est pourquoi les Pays-Bas, pays du vélo,
+            affichent pourtant la *plus forte* part de la voiture parmi les voisins de la
+            Belgique (85,3 % en 2023). Rouler beaucoup à vélo ne suffit pas à faire baisser
+            cette part.
           nl: >
-            Pas op met de conclusie: Nederland heeft juist het *hoogste* autoaandeel van de
-            buurlanden van België (85,3 % in 2023), omdat fietskilometers niet in deze
-            indicator meetellen. Veel fietsen alleen verlaagt dit aandeel niet.
+            Pas op met de conclusie: op deze hele fiche, net als in de vraag, tellen
+            fietskilometers niet mee. Daarom heeft Nederland, het fietsland bij uitstek, toch
+            het *hoogste* autoaandeel van de buurlanden van België (85,3 % in 2023). Veel
+            fietsen alleen verlaagt dit aandeel niet.
           en: >
-            Careful with the shortcut: the Netherlands has the *highest* car share among
-            Belgium's neighbours (85.3% in 2023), because cycling kilometres are not counted
-            in this indicator. Cycling a lot is not by itself enough to bring this share down.
+            Careful with the shortcut: throughout this card, as in the question, cycling
+            kilometres are not counted. That is why the Netherlands, the land of the bicycle,
+            still has the *highest* car share among Belgium's neighbours (85.3% in 2023).
+            Cycling a lot is not by itself enough to bring this share down.
         source: "Eurostat, tran_hv_psmod"
         url: https://ec.europa.eu/eurostat/databrowser/view/tran_hv_psmod/default/table?lang=en
       - kind: benchmark
@@ -357,23 +361,26 @@ levers:
           fr: >
             La Suisse est le pays le moins dépendant de la voiture d'Europe occidentale : en
             2023, 72,5 % des kilomètres parcourus par les passagers s'y font en voiture et
-            21,2 % en train, contre 80,4 % et 9,4 % en Belgique. Ces chiffres d'Eurostat ne
-            comptent que la voiture, le bus ou le car, et le train — ni le tram, ni le métro,
-            ni les deux-roues motorisés. C'est ce qui explique que la Belgique y soit à
-            80,4 % et non à 78,5 % comme dans la tendance passée.
+            21,2 % en train, contre 80,4 % et 9,4 % en Belgique. Pourquoi 80,4 % ici, et
+            78,5 % dans la tendance passée ? Ce n'est pas une erreur : pour comparer les pays,
+            Eurostat ne compte que trois modes (la voiture, le bus ou le car, et le train) et
+            laisse de côté le tram, le métro et les deux-roues motorisés. Avec moins de modes
+            dans le total, la part de la voiture y est un peu plus haute.
           nl: >
             Zwitserland is het minst autoafhankelijke land van West-Europa: in 2023 gebeurt
             daar 72,5 % van de kilometers die reizigers afleggen met de auto en 21,2 % met de
-            trein, tegenover 80,4 % en 9,4 % in België. Deze cijfers van Eurostat tellen alleen
-            auto, bus of touringcar en trein mee — geen tram, metro of gemotoriseerde
-            tweewielers. Daardoor staat België hier op 80,4 % en niet op 78,5 % zoals bij de
-            trend uit het verleden.
+            trein, tegenover 80,4 % en 9,4 % in België. Waarom hier 80,4 % en bij de trend
+            78,5 %? Dat is geen fout: om landen te vergelijken telt Eurostat maar drie
+            vervoerswijzen (auto, bus of touringcar, en trein) en laat het tram, metro en
+            gemotoriseerde tweewielers weg. Met minder vervoerswijzen in het totaal ligt het
+            aandeel van de auto er iets hoger.
           en: >
             Switzerland is western Europe's least car-dependent country: in 2023, 72.5% of the
             kilometres travelled by passengers there are by car and 21.2% by train, against
-            80.4% and 9.4% in Belgium. These Eurostat figures count only car, bus or coach and
-            train — no tram, metro or motorised two-wheeler. That is why Belgium shows 80.4%
-            here rather than the 78.5% of the past trend.
+            80.4% and 9.4% in Belgium. Why 80.4% here and 78.5% in the past trend? It is not
+            a mistake: to compare countries, Eurostat counts only three modes (car, bus or
+            coach, and train) and leaves out tram, metro and motorised two-wheelers. With
+            fewer modes in the total, the car's share comes out a little higher.
         source: "Eurostat, tran_hv_psmod"
         url: https://ec.europa.eu/eurostat/databrowser/view/tran_hv_psmod/default/table?lang=en
       - kind: structure
@@ -562,18 +569,18 @@ levers:
         text:
           fr: >
             Le nombre de personnes par voiture est « quasi stable entre 2008 et 2019 », après
-            une baisse de 9 % entre 1994 et 2008. Seuls 3 % des passagers déclarent avoir
-            covoituré (la question n'est posée qu'à ceux qui voyagent dans la voiture d'un
-            autre ménage).
+            une baisse de 9 % entre 1994 et 2008. En 2019, seuls 3 % des passagers déclaraient
+            avoir covoituré (la question n'était posée qu'à ceux qui voyageaient dans la
+            voiture d'un autre ménage).
           nl: >
             Het aantal personen per auto is "quasi stabiel tussen 2008 en 2019", na een daling
-            van 9 % tussen 1994 en 2008. Slechts 3 % van de passagiers zegt gecarpoold te
-            hebben (de vraag wordt alleen gesteld aan wie meerijdt in de auto van een ander
+            van 9 % tussen 1994 en 2008. In 2019 zei slechts 3 % van de passagiers gecarpoold te
+            hebben (de vraag werd alleen gesteld aan wie meereed in de auto van een ander
             huishouden).
           en: >
             The number of people per car is "almost stable between 2008 and 2019", after a 9%
-            fall between 1994 and 2008. Only 3% of passengers say they have carpooled (the
-            question is only asked of those riding in another household's car).
+            fall between 1994 and 2008. In 2019 only 3% of passengers said they had carpooled
+            (the question was only asked of those riding in another household's car).
         source: "SDES, Se déplacer en voiture : seul, à plusieurs ou en covoiturage ? (juillet 2022), enquête mobilité des personnes 2018-2019"
         url: https://www.ecologie.gouv.fr/sites/default/files/documents/DE_4p_covoiturage-v4-050722_SH_OK.pdf
       - kind: benchmark

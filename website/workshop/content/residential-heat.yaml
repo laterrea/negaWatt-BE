@@ -182,21 +182,24 @@ levers:
             Le ménage belge moyen occupe {m2PerHousehold} m² pour {householdSize} personnes,
             et Statbel projette une taille de ménage en baisse à {householdSizeTarget}
             personnes en 2050 ({householdSizeChangePct} %). Chauffage et climatisation sont
-            les deux postes qui dépendent le plus de la surface : {areaDrivenSharePct} % de
-            l'énergie thermique du logement ({areaDrivenTwh} TWh sur {thermalTwh}).
+            les deux postes qui dépendent le plus de la surface : ensemble, {areaDrivenSharePct} %
+            de l'énergie que demandent le chauffage, la climatisation, l'eau chaude et la
+            cuisson des logements ({areaDrivenTwh} TWh sur {thermalTwh}).
           nl: >
             Het gemiddelde Belgische huishouden bewoont {m2PerHousehold} m² voor
             {householdSize} personen, en Statbel projecteert een daling van de
             huishoudgrootte naar {householdSizeTarget} personen in 2050
             ({householdSizeChangePct} %). Verwarming en koeling zijn de twee posten die het
-            sterkst afhangen van de oppervlakte: {areaDrivenSharePct} % van de thermische
-            energie van de woning ({areaDrivenTwh} TWh op {thermalTwh}).
+            sterkst afhangen van de oppervlakte: samen {areaDrivenSharePct} % van de energie
+            die verwarming, koeling, warm water en koken in de woningen vragen
+            ({areaDrivenTwh} TWh op {thermalTwh}).
           en: >
             The average Belgian household occupies {m2PerHousehold} m² for
             {householdSize} people, and Statbel projects household size falling to
             {householdSizeTarget} people by 2050 ({householdSizeChangePct}%). Heating and
-            cooling are the two services that depend most on floor area: {areaDrivenSharePct}%
-            of the home's thermal energy ({areaDrivenTwh} TWh out of {thermalTwh}).
+            cooling are the two services that depend most on floor area: together
+            {areaDrivenSharePct}% of the energy that heating, cooling, hot water and cooking
+            take in homes ({areaDrivenTwh} TWh out of {thermalTwh}).
         source: nW-BE §1.2.1 and §2.1 (JRC-IDEES-2023, Statbel projections)
       - kind: trend
         text:
@@ -1119,41 +1122,43 @@ levers:
       - kind: benchmark
         text:
           fr: >
-            Un gouvernement européen l'a déjà imposé par la loi : en août 2022, l'Espagne a
-            plafonné le chauffage à 19 °C dans les bâtiments publics, les commerces, les
-            cinémas, les gares et les aéroports — et son exposé des motifs retient la même
-            physique que ce levier, environ {pctPerDegC} % de consommation en moins par degré.
-            La mesure ne touchait pas les logements.
+            Un gouvernement européen l'a déjà imposé par la loi : en août 2022, l'Espagne a
+            plafonné le chauffage à 19 °C dans les bâtiments publics, les commerces, les
+            cinémas, les gares et les aéroports. Pour justifier la mesure, le décret avance le
+            même chiffre que cette fiche : environ {pctPerDegC} % de consommation en moins par
+            degré. La mesure ne touchait pas les logements.
           nl: >
             Eén Europese regering heeft het al bij wet opgelegd: in augustus 2022 beperkte
             Spanje de verwarming tot 19 °C in openbare gebouwen, winkels, bioscopen,
-            stations en luchthavens — en de toelichting hanteert dezelfde fysica als deze
-            hefboom, ongeveer {pctPerDegC} % minder verbruik per graad. De maatregel gold niet
-            voor woningen.
+            stations en luchthavens. Ter verantwoording van de maatregel gebruikt het decreet
+            hetzelfde cijfer als deze fiche: ongeveer {pctPerDegC} % minder verbruik per graad.
+            De maatregel gold niet voor woningen.
           en: >
             One European government has already legislated it: in August 2022 Spain capped
-            heating at 19 °C in public buildings, shops, cinemas, stations and airports — and
-            its explanatory note uses the same physics as this lever, about {pctPerDegC}%
-            less consumption per degree. The measure did not cover homes.
+            heating at 19 °C in public buildings, shops, cinemas, stations and airports. To
+            justify the measure, the decree uses the same figure as this card: about
+            {pctPerDegC}% less consumption per degree. The measure did not cover homes.
         source: "Government of Spain, Royal Decree-Law 14/2022 — plan for energy saving and air-conditioning management, 1 August 2022"
         url: https://www.lamoncloa.gob.es/lang/en/gobierno/councilministers/Paginas/2022/20220801_council.aspx
       - kind: tangible
         text:
           fr: >
-            Un degré en moins, c'est {pctPerDegC} % de chauffage en moins. Sur le parc de
-            2019, cela représente {degCTwh2019} TWh, ou {degCKwhPerPerson2019} kWh par
-            personne et par an — sur un poste chauffage de {heatTwh} TWh, soit
-            {heatSharePct} % de l'énergie thermique du logement.
+            Un degré en moins, c'est {pctPerDegC} % de chauffage en moins. Pour l'ensemble des
+            logements belges de 2019, cela représente {degCTwh2019} TWh, soit
+            {degCKwhPerPerson2019} kWh par personne et par an. Le chauffage est de loin le plus
+            gros poste : {heatTwh} TWh, soit {heatSharePct} % de l'énergie que demandent
+            ensemble le chauffage, l'eau chaude, la cuisson et la climatisation des logements.
           nl: >
-            Eén graad minder is {pctPerDegC} % minder verwarming. Op het bestand van 2019
-            komt dat neer op {degCTwh2019} TWh, of {degCKwhPerPerson2019} kWh per persoon per
-            jaar — op een verwarmingspost van {heatTwh} TWh, ofwel {heatSharePct} % van de
-            thermische energie van de woning.
+            Eén graad minder is {pctPerDegC} % minder verwarming. Voor alle Belgische woningen
+            van 2019 komt dat neer op {degCTwh2019} TWh, of {degCKwhPerPerson2019} kWh per
+            persoon per jaar. Verwarming is veruit de grootste post: {heatTwh} TWh, ofwel
+            {heatSharePct} % van de energie die verwarming, warm water, koken en koeling in de
+            woningen samen vragen.
           en: >
-            One degree less is {pctPerDegC}% less heating. On the 2019 stock that is
-            {degCTwh2019} TWh, or {degCKwhPerPerson2019} kWh per person per year — out of a
-            heating bill of {heatTwh} TWh, which is {heatSharePct}% of the home's thermal
-            energy.
+            One degree less is {pctPerDegC}% less heating. Across all Belgian homes in 2019,
+            that is {degCTwh2019} TWh, or {degCKwhPerPerson2019} kWh per person per year.
+            Heating is by far the largest item: {heatTwh} TWh, or {heatSharePct}% of the energy
+            that heating, hot water, cooking and cooling take together in homes.
         source: nW-BE §2.1.2, arithmetic on the 2019 stock
       - kind: lever
         label:
